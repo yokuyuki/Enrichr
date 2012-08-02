@@ -1,4 +1,4 @@
-package edu.mssm.pharm.maayanlab.List2Networks;
+package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -22,7 +22,7 @@ import edu.mssm.pharm.maayanlab.SimpleXMLWriter;
 
 public class List2Networks implements SettingsChanger {
 	
-	static Logger log = Logger.getLogger("maayanlab");
+	private static Logger log = Logger.getLogger("maayanlab");
 
 	// progress tracking
 	private SwingWorker<Void, Void> task = null;
@@ -31,20 +31,20 @@ public class List2Networks implements SettingsChanger {
 	private boolean isCancelled = false;
 	
 	// Paths to gmt files
-	private final static String BIOCARTA_LOC = "res/BioCarta_pathways.gmt";
-	private final static String CHROMOSOME_LOC = "res/Chromosome_location.gmt";
-	private final static String GENESIGDB_LOC = "res/GeneSigDB.gmt";
-	private final static String GO_BP_LOC = "res/GeneOntology_BP.gmt";
-	private final static String GO_CC_LOC = "res/GeneOntology_CC.gmt";
-	private final static String GO_MF_LOC = "res/GeneOntology_MF.gmt";
-	private final static String HMDB_METABOLITES_LOC = "res/HMDB_Metabolites.gmt";
-	private final static String KEGG_LOC = "res/KEGG_pathways.gmt";
-	private final static String MGI_MP_LOC = "res/MGI_MP_top4.gmt";
-	private final static String MICRORNA_LOC = "res/microRNA.gmt";
-	private final static String OMIM_DISEASE_LOC = "res/OMIM_disease_genes.gmt";
-	private final static String PFAM_INTERPRO_LOC = "res/Pfam-InterPro-domains.gmt";
-	private final static String REACTOME_LOC = "res/Reactome_pathways.gmt";
-	private final static String WIKIPATHWAYS_LOC = "res/WikiPathways_pathways.gmt";
+	private final static String BIOCARTA_LOC = "BioCarta_pathways.gmt";
+	private final static String CHROMOSOME_LOC = "Chromosome_location.gmt";
+	private final static String GENESIGDB_LOC = "GeneSigDB.gmt";
+	private final static String GO_BP_LOC = "GeneOntology_BP.gmt";
+	private final static String GO_CC_LOC = "GeneOntology_CC.gmt";
+	private final static String GO_MF_LOC = "GeneOntology_MF.gmt";
+	private final static String HMDB_METABOLITES_LOC = "HMDB_Metabolites.gmt";
+	private final static String KEGG_LOC = "KEGG_pathways.gmt";
+	private final static String MGI_MP_LOC = "MGI_MP_top4.gmt";
+	private final static String MICRORNA_LOC = "microRNA.gmt";
+	private final static String OMIM_DISEASE_LOC = "OMIM_disease_genes.gmt";
+	private final static String PFAM_INTERPRO_LOC = "Pfam-InterPro-domains.gmt";
+	private final static String REACTOME_LOC = "Reactome_pathways.gmt";
+	private final static String WIKIPATHWAYS_LOC = "WikiPathways_pathways.gmt";
 	
 	// Default settings
 	private final Settings settings = new Settings() {

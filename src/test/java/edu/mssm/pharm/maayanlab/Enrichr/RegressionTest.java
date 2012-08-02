@@ -1,4 +1,4 @@
-package edu.mssm.pharm.maayanlab.List2Networks;
+package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.util.Collection;
 import java.util.HashMap;

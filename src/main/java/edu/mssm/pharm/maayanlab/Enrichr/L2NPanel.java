@@ -1,4 +1,4 @@
-package edu.mssm.pharm.maayanlab.List2Networks;
+package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.awt.Desktop;
 import java.awt.Dimension;

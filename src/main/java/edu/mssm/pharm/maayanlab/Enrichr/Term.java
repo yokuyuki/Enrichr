@@ -1,4 +1,4 @@
-package edu.mssm.pharm.maayanlab.List2Networks;
+package edu.mssm.pharm.maayanlab.Enrichr;
 
 public class Term implements Comparable<Object> {
 
