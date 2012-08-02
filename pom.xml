@@ -8,14 +8,12 @@
 		<groupId>edu.mssm.pharm.maayanlab</groupId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<groupId>edu.mssm.pharm.maayanlab.List2Networks</groupId>
-	<artifactId>List2Networks</artifactId>
-	<version>1.1-SNAPSHOT</version>
-	<name>List2Networks</name>
-	<url>http://maven.apache.org</url>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+	<groupId>edu.mssm.pharm.maayanlab.Enrichr</groupId>
+	<artifactId>Enrichr</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>Enrichr</name>
+	<url>http://www.maayanlab.net</url>
 	<dependencies>
 		<!-- JUNIT DEPENDENCY FOR TESTING -->
 		<dependency>
@@ -24,7 +22,13 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
 		<!-- common methods -->
 		<dependency>
 			<groupId>edu.mssm.pharm.maayanlab</groupId>
@@ -32,14 +36,15 @@
 			<version>1.6-SNAPSHOT</version>
 			<optional>false</optional>
 		</dependency>
+		<dependency>
+			<groupId>edu.mssm.pharm.maayanlab</groupId>
+			<artifactId>common-web</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<optional>false</optional>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
-			<resource>
-				<targetPath>res</targetPath>
-				<filtering>false</filtering>
-				<directory>res</directory>
-			</resource>
 			<resource>
 				<filtering>false</filtering>
 				<directory>.</directory>
@@ -49,13 +54,7 @@
 			</resource>
 			<resource>
 				<filtering>false</filtering>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**</include>
-				</includes>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
+				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
 		<plugins>
@@ -80,6 +79,22 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<configuration>
+					<url>http://localhost:8080/manager/html</url>
+					<server>TomcatServer</server>
+					<path>/Enrichr</path>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>	
