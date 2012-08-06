@@ -43,22 +43,24 @@ public class Enrichment {
 	public static final String BIOCARTA = "Biocarta";
 	public static final String CHROMOSOME_LOCATION = "Chromosome_Location";
 	public static final String GENESIGDB = "GeneSigDB";
-	public static final String GO_BP = "GO_BP";
-	public static final String GO_CC = "GO_CC";
-	public static final String GO_MF = "GO_MF";
+	public static final String GO_BP = "Gene_Ontology_BP";
+	public static final String GO_CC = "Gene_Ontology_CC";
+	public static final String GO_MF = "Gene_Ontology_MF";
 	public static final String HMDB_METABOLITES = "HMDB_Metabolites";
 	public static final String KEGG = "KEGG";
-	public static final String MGI_MP = "MGI_MP";
+	public static final String MGI_MP = "MGI_Mammalian_Phenotype";
 	public static final String MICRORNA = "microRNA";
-	public static final String OMIM_DISEASE = "OMIM_DISEASE";
-	public static final String PFAM_INTERPRO = "Pfam_InterPro";
+	public static final String OMIM_DISEASE = "OMIM_Disease";
+	public static final String PFAM_INTERPRO = "Pfam_InterPro_Domains";
 	public static final String REACTOME = "Reactome";
 	public static final String WIKIPATHWAYS = "WikiPathways";
 	
-	public static void main(String[] args) {
-		Enrichment app = new Enrichment();
+	private Collection<String> geneList; 
+	
+	public static void main(String[] args) {		
 		try {
-			FileUtils.writeFile(args[2], "Term\tP-value\tGenes", app.enrich(args[0], FileUtils.readFile(args[1])));
+			Enrichment app = new Enrichment(FileUtils.readFile(args[1]));
+			FileUtils.writeFile(args[2], "Term\tP-value\tGenes", app.enrich(args[0]));
 		} catch (ParseException e) {
 			if (e.getErrorOffset() == -1)
 				System.err.println("Invalid input: Input list is empty.");
@@ -67,14 +69,17 @@ public class Enrichment {
 		}
 	}
 	
-	public LinkedList<Term> enrich(String backgroundType, Collection<String> geneList) throws ParseException {
-		return enrich(FileUtils.readResource(gmtLocations.get(backgroundType)), geneList);
-	}
-	
-	public LinkedList<Term> enrich(Collection<String> backgroundLines, Collection<String> geneList) throws ParseException {
+	public Enrichment(Collection<String> geneList) throws ParseException {
 		// Check if input list is valid
 		FileUtils.validateList(geneList);
-		
+		this.geneList = geneList;
+	}
+	
+	public LinkedList<Term> enrich(String backgroundType) {
+		return enrich(FileUtils.readResource(gmtLocations.get(backgroundType)));
+	}
+	
+	public LinkedList<Term> enrich(Collection<String> backgroundLines) {
 		// Linked list of results
 		LinkedList<Term> resultTerms = new LinkedList<Term>();
 		
