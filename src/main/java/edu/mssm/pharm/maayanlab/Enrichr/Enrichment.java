@@ -43,9 +43,9 @@ public class Enrichment {
 	public static final String BIOCARTA = "Biocarta";
 	public static final String CHROMOSOME_LOCATION = "Chromosome_Location";
 	public static final String GENESIGDB = "GeneSigDB";
-	public static final String GO_BP = "Gene_Ontology_BP";
-	public static final String GO_CC = "Gene_Ontology_CC";
-	public static final String GO_MF = "Gene_Ontology_MF";
+	public static final String GO_BP = "GO_Biological_Process";
+	public static final String GO_CC = "GO_Cellular_Component";
+	public static final String GO_MF = "GO_Molecular_Function";
 	public static final String HMDB_METABOLITES = "HMDB_Metabolites";
 	public static final String KEGG = "KEGG";
 	public static final String MGI_MP = "MGI_Mammalian_Phenotype";
