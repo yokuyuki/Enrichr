@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Enrichr</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css">
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="black-widow.css">
+	<link rel="stylesheet" type="text/css" href="black-widow-index.css">
+	<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="index.js"></script>
+</head>
+<body>
+	<div id="logo">En<span>rich</span>r</div>
+	<!--[if lt IE 9]>
+	<div class="beveled">
+		<table class="warning">
+			<tr>
+				<td id="header" colspan="2">Your browser is too old to support this site.<br/>Please get any of the browsers below to proceed:</td>
+			</tr>
+			<tr id="browsers">
+				<td>					
+					<a href="http://www.firefox.com">
+						<img src="images/firefox.png" width="128" height="128" alt="Download Firefox"/>
+					</a>
+					<div><a href="http://www.firefox.com">Firefox</a></div>
+				</td>
+				<td>
+					<a href="http://www.google.com/chrome">
+						<img src="images/chrome.png" width="128" height="128" alt="Download Chrome"/>
+					</a>
+					<div><a href="http://www.google.com/chrome">Chrome</a></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<![endif]-->
+	<!-- <div id="navbar">
+		<table>
+			<tr>
+				<td class="selected">
+					<span class="title">1. Input data</span>
+					<span class="arrow">&rarr;</span>
+				</td>
+				<td><span class="title">2. Basic settings</span></td>
+			</tr>
+		</table>
+	</div> -->
+	<form action="enrich" method="post" onsubmit="return validateInput();" enctype="multipart/form-data">
+		<div id="form" class="beveled">
+			<div id="step1" class="selected">
+				<div class="step">Input data</div>			
+				<table id="data-input">
+					<tr>
+						<td><p>Choose an input file to upload. Separate each gene symbol with a new line.</p>
+							<input type="file" name="file" id="file-chooser"/>
+						</td>
+						<td id="textbox"><p>Alternatively, paste in a list of gene symbols separated by a new line.</p>
+							<textarea name="list" rows="10" id="text-area" onkeyup="geneCount()" onchange="geneCount()"></textarea>
+							<div id="gene-count"><span id="gene-count">0</span> gene(s) entered</div>
+						</td>
+					</tr>
+				</table>
+				<div class="clear"></div>
+				<!-- <div class="next-step">
+					<a href="#" onclick="navigateTo(1); return false;">
+						<img src="images/navigate-right-icon.png" width="64" height="64" title="Next Step"/>
+					</a>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div id="step2" class="hidden">
+				<div class="step">Step 2. Basic Settings</div>
+				<div class="question">My data is from:<br/>
+					<input type="radio" name="species" value="human"/>
+						Human
+					<br/>
+					<input type="radio" name="species" value="mouse"/>
+						Mouse
+					<br/>
+					<input type="radio" name="species" value="both" checked/>
+					<span title="If you don't know the species, X2K will use both human and mouse TF-target gene databases to enrich.">
+						Don't know
+						<a href="#" onclick="return false;" class="help">[?]</a>
+					</span><br/>
+				</div>
+				<div class="question">For the TF-target gene database, I'd like to use:<br/>
+					<input type="radio" name="background" value="ChIP-X" checked/>
+					<span title="We manually reprocess published ChIP-X experiments to build our TF-target gene database.">
+						Processed ChIP-X experiments
+						<a href="#" onclick="return false;" class="help">[?]</a>
+					</span><br/>
+					<input type="radio" name="background" value="PWM-JT"/>
+						Position weight matrices computed from JASPAR and TRANSFAC
+					<br/>
+					<input type="radio" name="background" value="PWM-GB"/>
+						Position weight matrices derived from Genome Browser
+					<br/>
+				</div> -->
+				<div class="next-step">
+					<!-- <a href="#" onclick="navigateTo(0); return false;">
+						<img src="images/navigate-left-icon.png" width="64" height="64" title="Previous Step"/></a> -->
+					<input type="image" src="images/navigate-up-icon.png" width="64" height="64" title="Upload File"/>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>		
+	</form>	
+</body>
+</html>

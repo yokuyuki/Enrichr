@@ -1,0 +1,77 @@
+div.content {
+	margin-top: 1em;
+}
+
+div.downloadbox {
+	float: right;
+}
+
+div.downloadbox a {
+	color: #aaa;
+	text-decoration: none;
+	font-size: 0.6em;
+	margin-left: 0.6em;
+}
+
+div.downloadbox a:hover {
+	color: #000;
+}
+
+a.title {
+	font-size: 1.5em;
+	color: #D90000;
+	font-weight: bold;
+	text-decoration: none;	
+}
+
+/* Navbar */
+
+table.nav {	
+	font-size: 1em;
+	margin: 0.3em 0em 0em 0em;
+	float: right;
+	display: none;
+}
+
+.nav td {
+	padding-left: 1em;	
+}
+
+.nav td a {
+	font-weight: bold;
+	font-size: 1em;
+	padding: 0.1em;
+	color: #000;
+	text-decoration: none;
+}
+
+.nav td.selected a {
+	color: #fff;
+	background-color: #000 !important;
+}
+
+.nav td a:hover {
+	color: #fff;
+	background-color: #D90000;
+}
+
+/* Bar graph properties */
+
+div.graph span.method {
+	font-weight: bold;
+}
+
+/* Grid properties */
+div.grid table {
+	margin: 0 auto;
+}
+
+div.grid table td {
+	padding: 0.1em 1em;
+	text-align: center;
+}
+
+tr.grid-header {
+	font-weight: bold;
+	font-size: 0.8em;
+}

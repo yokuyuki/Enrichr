@@ -1,0 +1,67 @@
+div#form {
+	margin-top: 2em;
+}
+
+div.step {
+	font-size: 2.5em;
+	border-bottom: 2px solid #D90000;
+	margin-bottom: 0.5em;
+}
+
+div.next-step {
+	margin-top: 1em;
+	float: right;
+}
+
+a.help {
+	font-size: xx-small;
+	vertical-align: top;
+	text-decoration: none;
+	color: #F38630;
+}
+
+/* Navbar */
+
+div#navbar td span.title {
+	font-weight: bold;
+	color: #ccc;
+}
+
+div#navbar td span.arrow {
+	padding: 0em 1em;
+	font-size: 1.5em;
+	vertical-align: middle;
+}
+
+div#navbar td.selected span.title {
+	color: #000;
+}
+
+/* Questions Page 1 */
+
+table#data-input {
+	width: 100%;
+}
+
+table#data-input td {
+	padding: 0.5em;
+	vertical-align: top;
+}
+
+table#data-input td p {
+	margin-bottom: 1em;
+}
+
+textarea {	
+	width: 100%;
+}
+
+div#gene-count {
+	font-style: italic;	
+}
+
+/* Questions Page 2 */
+
+div.question {
+	margin-bottom: 1em;
+}
