@@ -6,6 +6,7 @@
 										"GO_Biological_Process",
 										"GO_Cellular_Component",
 										"GO_Molecular_Function",
+										"Histone_Modification",
 										"HMDB_Metabolites",
 										"KEGG",
 										"MGI_Mammalian_Phenotype",
@@ -15,12 +16,13 @@
 										"Reactome",
 										"WikiPathways"}; %>
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css">
-	<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/css/jquery.dataTables.css">		
-	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="black-widow.css">
-	<link rel="stylesheet" type="text/css" href="black-widow-results.css">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+	<meta name="author" content="Edward Y. Chen"/>
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css"/>
+	<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/css/jquery.dataTables.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'/>
+	<link rel="stylesheet" type="text/css" href="black-widow.css"/>
+	<link rel="stylesheet" type="text/css" href="black-widow-results.css"/>
 	<script type="text/javascript" src="http://d3js.org/d3.v2.min.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/jquery.dataTables.min.js"></script>
@@ -58,7 +60,7 @@
 					<div class="svg-container"></div>
 				</div>
 				<div class="hidden">
-					<table id="test" class="results_table"></table>
+					<table class="results_table"></table>
 					<div class="clear"></div>
 				</div>
 			</div>

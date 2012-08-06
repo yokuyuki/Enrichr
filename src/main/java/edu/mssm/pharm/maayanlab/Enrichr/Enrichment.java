@@ -29,6 +29,7 @@ public class Enrichment {
 		put(Enrichment.GO_BP, "GeneOntology_BP.gmt");
 		put(Enrichment.GO_CC, "GeneOntology_CC.gmt");
 		put(Enrichment.GO_MF, "GeneOntology_MF.gmt");
+		put(Enrichment.HM, "HM_roadmap.gmt");
 		put(Enrichment.HMDB_METABOLITES, "HMDB_Metabolites.gmt");
 		put(Enrichment.KEGG, "KEGG_pathways.gmt");
 		put(Enrichment.MGI_MP, "MGI_MP_top4.gmt");
@@ -46,6 +47,7 @@ public class Enrichment {
 	public static final String GO_BP = "GO_Biological_Process";
 	public static final String GO_CC = "GO_Cellular_Component";
 	public static final String GO_MF = "GO_Molecular_Function";
+	public static final String HM = "Histone_Modification";
 	public static final String HMDB_METABOLITES = "HMDB_Metabolites";
 	public static final String KEGG = "KEGG";
 	public static final String MGI_MP = "MGI_Mammalian_Phenotype";

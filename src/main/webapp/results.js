@@ -333,7 +333,7 @@ function createTable(dataArray, container) {
 		"fnDrawCallback": function ( oSettings ) {
 			var that = this;
 
-			if ( oSettings.bSorted && !$('#tf_table_filter input').val())
+			if ( oSettings.bSorted && !$('div.active div.dataTables_filter input').val())				
 			{
 				this.$('td:first-child', {"filter":"applied"}).each( function (i) {
 					that.fnUpdate( i+1, this.parentNode, 0, false, false );
@@ -375,7 +375,7 @@ function createTable(dataArray, container) {
 		"aoColumnDefs": [
 			{ "bSortable": false, "aTargets": [ 0 ] }
 		],
-		"aaSorting": [[4, "desc"]]
+		"aaSorting": [[2, "asc"]]
 	});
 }
 
@@ -600,37 +600,6 @@ function svgExport(container, filename, outputType) {
 	$.download('/Convertr/convert', 'filename=' + filename +'&outputType=' + outputType + '&data=' + b64);
 }
 
-// Executes on load to populate data
-function checkResult() {
-	var dataUrl = qs("q");
-	dataUrl = (dataUrl) ? dataUrl : "enrich";
-
-	$.getJSON(dataUrl, function(json) {
-		if (json.done) {
-			$('img#loader').css('display', 'none');
-			if (!json.tf_grid_view)
-				$('div#subnavbar table#tf td').eq(2).empty();
-
-			$('#subnavbar').fadeIn('slow');
-			createBarGraph(json.tf, "#tf");
-			createTable(json.tf, json.kinase);
-			createGraph(json.network[0], json.network[1]);
-			createBarGraph(json.kinase, "#kinase");
-			$('div.selected').fadeIn('slow');
-
-			if (json.tf_grid_view) {
-				highlights = new Array();
-				highlights[1] = json.tf.filter(function(d, i) { return i < 10; }).map(function(d) { return d[1]; });
-				highlights[0] = highlights[1].map(function(d) { return d.replace(/-\d+$/, ''); });
-				highlights[2] = json.kinase.filter(function(d, i) { return i < 10; }).map(function(d) { return d[1]; });
-			}
-		}
-		else {
-			setTimeout(checkResult, 5000);
-		}
-	});
-}
-
 // Animates the transition between different tabs
 function navigateTo(index, container) {	
 	$(container + ' div.content div.selected').fadeToggle('slow', function() {
@@ -642,17 +611,18 @@ function navigateTo(index, container) {
 }
 
 function getResult(id) {
+	var idTag = '#' + id;
 	toggleClose();
 	toggleOpen(id);
 
-	if(!$('#' + id + ' div.content').hasClass('done')) {
+	if(!$(idTag + ' div.content').hasClass('done')) {
 		var dataUrl = queryString('q');
 		dataUrl = (dataUrl) ? dataUrl : 'enrich';
 		$.getJSON(dataUrl, { backgroundType: id }, function(json) {
-			$('div.active div.content img.loader').remove();
-			$('div.active div.content').addClass('done');
-			createBarGraph(json[id], 'div.active div.bar-graph');
-			createTable(json[id], '.active .results_table');
+			$(idTag + ' div.content img.loader').remove();
+			$(idTag + ' div.content').addClass('done');
+			createBarGraph(json[id], idTag + ' div.bar-graph');
+			createTable(json[id], idTag + ' .results_table');
 		});
 	}
 }
