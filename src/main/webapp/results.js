@@ -612,8 +612,14 @@ function navigateTo(index, container) {
 
 function getResult(id) {
 	var idTag = '#' + id;
-	toggleClose();
-	toggleOpen(id);
+	if ($('div.active').attr('id') == id) {
+		toggleClose();
+		return;
+	}
+	else {
+		toggleClose();
+		toggleOpen(id);
+	}
 
 	if(!$(idTag + ' div.content').hasClass('done')) {
 		var dataUrl = queryString('q');
