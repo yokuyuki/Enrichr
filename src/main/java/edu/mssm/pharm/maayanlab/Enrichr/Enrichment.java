@@ -24,6 +24,8 @@ public class Enrichment {
 	@SuppressWarnings("serial")
 	private static HashMap<String, String> gmtLocations = new HashMap<String, String>() {{
 		put(Enrichment.BIOCARTA, "BioCarta_pathways.gmt");
+		put(Enrichment.HUMAN_CHEA, "Human_ChEA.gmt");
+		put(Enrichment.MOUSE_CHEA, "Mouse_ChEA.gmt");
 		put(Enrichment.CHROMOSOME_LOCATION, "Chromosome_location.gmt");
 		put(Enrichment.GENESIGDB, "GeneSigDB.gmt");
 		put(Enrichment.GO_BP, "GeneOntology_BP.gmt");
@@ -31,17 +33,21 @@ public class Enrichment {
 		put(Enrichment.GO_MF, "GeneOntology_MF.gmt");
 		put(Enrichment.HM, "HM_roadmap.gmt");
 		put(Enrichment.HMDB_METABOLITES, "HMDB_Metabolites.gmt");
+		put(Enrichment.KEA, "KEA.gmt");
 		put(Enrichment.KEGG, "KEGG_pathways.gmt");
 		put(Enrichment.MGI_MP, "MGI_MP_top4.gmt");
 		put(Enrichment.MICRORNA, "microRNA.gmt");
 		put(Enrichment.OMIM_DISEASE, "OMIM_disease_genes.gmt");
 		put(Enrichment.PFAM_INTERPRO, "Pfam-InterPro-domains.gmt");
 		put(Enrichment.REACTOME, "Reactome_pathways.gmt");
+		put(Enrichment.TFBS_ENCODE, "TFBS_ENCODE.gmt");
 		put(Enrichment.WIKIPATHWAYS, "WikiPathways_pathways.gmt");
 	}};
 	
 	// Constants
 	public static final String BIOCARTA = "Biocarta";
+	public static final String HUMAN_CHEA = "Human_ChEA";
+	public static final String MOUSE_CHEA = "Mouse_ChEA";
 	public static final String CHROMOSOME_LOCATION = "Chromosome_Location";
 	public static final String GENESIGDB = "GeneSigDB";
 	public static final String GO_BP = "GO_Biological_Process";
@@ -49,12 +55,14 @@ public class Enrichment {
 	public static final String GO_MF = "GO_Molecular_Function";
 	public static final String HM = "Histone_Modification";
 	public static final String HMDB_METABOLITES = "HMDB_Metabolites";
+	public static final String KEA = "KEA";
 	public static final String KEGG = "KEGG";
 	public static final String MGI_MP = "MGI_Mammalian_Phenotype";
 	public static final String MICRORNA = "microRNA";
 	public static final String OMIM_DISEASE = "OMIM_Disease";
 	public static final String PFAM_INTERPRO = "Pfam_InterPro_Domains";
 	public static final String REACTOME = "Reactome";
+	public static final String TFBS_ENCODE = "TFBS_ENCODE";
 	public static final String WIKIPATHWAYS = "WikiPathways";
 	
 	private Collection<String> geneList; 

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <%! private String[] enrichmentTypes = {"Biocarta",
+										"Human_ChEA",
+										"Mouse_ChEA",
 										"Chromosome_Location",
 										"GeneSigDB",
 										"GO_Biological_Process",
@@ -8,12 +10,14 @@
 										"GO_Molecular_Function",
 										"Histone_Modification",
 										"HMDB_Metabolites",
+										"KEA",
 										"KEGG",
 										"MGI_Mammalian_Phenotype",
 										"microRNA",
 										"OMIM_Disease",
 										"Pfam_InterPro_Domains",
 										"Reactome",
+										"TFBS_ENCODE",
 										"WikiPathways"}; %>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
