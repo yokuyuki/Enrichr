@@ -26,6 +26,20 @@ a.title {
 
 /* Navbar */
 
+#navbar {
+	margin-bottom: 1em;
+}
+
+#navbar td {
+	padding-left: 0em;
+	padding-right: 1em;
+}
+
+#navbar td.shown a {
+	color: #fff;
+	background-color: #000 !important;
+}
+
 table.nav {	
 	font-size: 1em;
 	margin: 0.3em 0em 0em 0em;

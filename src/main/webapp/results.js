@@ -600,6 +600,17 @@ function svgExport(container, filename, outputType) {
 	$.download('/Convertr/convert', 'filename=' + filename +'&outputType=' + outputType + '&data=' + b64);
 }
 
+// Shows the category
+function showCategory(index) {
+	toggleClose();
+	$('div.shown').fadeToggle('slow', function() {		
+		$('.shown').removeClass('shown');
+		$('div.category').eq(index).addClass('shown')
+		$('#navbar td').eq(index).addClass('shown');
+		$('div.shown').fadeToggle('slow');
+	});
+}
+
 // Animates the transition between different tabs
 function navigateTo(index, container) {	
 	$(container + ' div.content div.selected').fadeToggle('slow', function() {
