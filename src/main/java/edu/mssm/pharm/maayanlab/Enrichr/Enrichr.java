@@ -40,7 +40,7 @@ public class Enrichr extends HttpServlet {
 		
 		// Read file
 		Part fileChunk = request.getPart("file");
-		if (fileChunk.getSize() == 0)
+		if (fileChunk == null || fileChunk.getSize() == 0)
 			fileChunk = request.getPart("list");
 		ArrayList<String> inputList = PartReader.readLines(fileChunk);
 		
