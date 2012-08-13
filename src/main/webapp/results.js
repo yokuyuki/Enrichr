@@ -600,6 +600,10 @@ function svgExport(container, filename, outputType) {
 	$.download('/Convertr/convert', 'filename=' + filename +'&outputType=' + outputType + '&data=' + b64);
 }
 
+function csvExport(filename, backgroundType) {
+	$.download('enrich', 'filename=' + filename + '&backgroundType=' + backgroundType, 'get');
+}
+
 // Shows the category
 function showCategory(index) {
 	toggleClose();

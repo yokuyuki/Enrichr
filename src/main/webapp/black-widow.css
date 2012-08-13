@@ -11,6 +11,7 @@ body {
 
 a {
 	outline: 0;
+	text-decoration: none;
 }
 
 div.beveled {
@@ -66,7 +67,6 @@ table.warning tr#browsers td div a {
 	font-weight: bold;
 	font-size: 1em;
 	padding: 0.1em;
-	text-decoration: none;
 	color: #000;
 }
 

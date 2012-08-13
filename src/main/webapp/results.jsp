@@ -85,6 +85,7 @@
 						<div class="hidden">
 							<table class="results_table"></table>
 							<div class="clear"></div>
+							<div class="export-box"><a href="#" onclick="csvExport('<%=type%>_table', '<%=type%>')">Export to CSV</a></div>
 						</div>
 					</div>
 				</div>

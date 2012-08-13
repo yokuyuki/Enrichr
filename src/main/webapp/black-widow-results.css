@@ -8,7 +8,6 @@ div.downloadbox {
 
 div.downloadbox a {
 	color: #aaa;
-	text-decoration: none;
 	font-size: 0.6em;
 	margin-left: 0.6em;
 }
@@ -56,7 +55,6 @@ table.nav {
 	font-size: 1em;
 	padding: 0.1em;
 	color: #000;
-	text-decoration: none;
 }
 
 .nav td.selected a {
@@ -65,6 +63,22 @@ table.nav {
 }
 
 .nav td a:hover {
+	color: #fff;
+	background-color: #D90000;
+}
+
+/* Table properties */
+div.export-box {
+	margin-top: 0.5em;
+}
+
+div.export-box a {
+	font-weight: bold;
+	color: #000;
+}
+
+div.export-box a:hover {
+	border: 1px solid #D90000;
 	color: #fff;
 	background-color: #D90000;
 }

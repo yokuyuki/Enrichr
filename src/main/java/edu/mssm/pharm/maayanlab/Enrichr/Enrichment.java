@@ -67,12 +67,14 @@ public class Enrichment {
 	public static final String TFBS_ENCODE = "TFBS_ENCODE";
 	public static final String WIKIPATHWAYS = "WikiPathways";
 	
+	public static final String HEADER = "Term\tP-value\tGenes";
+	
 	private Collection<String> geneList; 
 	
 	public static void main(String[] args) {		
 		try {
 			Enrichment app = new Enrichment(FileUtils.readFile(args[1]));
-			FileUtils.writeFile(args[2], "Term\tP-value\tGenes", app.enrich(args[0]));
+			FileUtils.writeFile(args[2], HEADER, app.enrich(args[0]));
 		} catch (ParseException e) {
 			if (e.getErrorOffset() == -1)
 				System.err.println("Invalid input: Input list is empty.");
