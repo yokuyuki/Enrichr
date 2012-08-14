@@ -19,12 +19,13 @@
 												"Pfam_InterPro_Domains"	},
 											{	"Chromosome_Location",
 												"GeneSigDB",
-												"OMIM_Disease"	}}; %>
-<%! private String[] categories = {	"Transcriptional Regulation", 
+												"OMIM_Disease",
+												"VirusMINT"	}}; %>
+<%! private String[] categories = {	"Transcription", 
 									"Pathways", 
 									"Ontologies",
 									"Structure/Metabolites",
-									"Misc"}; %>
+									"Disease/Drugs"}; %>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 	<meta name="author" content="Edward Y. Chen"/>

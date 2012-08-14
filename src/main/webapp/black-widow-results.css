@@ -10,6 +10,10 @@ div.downloadbox a {
 	color: #aaa;
 	font-size: 0.6em;
 	margin-left: 0.6em;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	transition: all 0.3s ease;
 }
 
 div.downloadbox a:hover {

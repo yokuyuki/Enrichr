@@ -42,6 +42,7 @@ public class Enrichment {
 		put(Enrichment.PFAM_INTERPRO, "Pfam-InterPro-domains.gmt");
 		put(Enrichment.REACTOME, "Reactome_pathways.gmt");
 		put(Enrichment.TFBS_ENCODE, "TFBS_ENCODE.gmt");
+		put(Enrichment.VIRUSMINT, "VirusMINT.gmt");
 		put(Enrichment.WIKIPATHWAYS, "WikiPathways_pathways.gmt");
 	}};
 	
@@ -65,6 +66,7 @@ public class Enrichment {
 	public static final String PFAM_INTERPRO = "Pfam_InterPro_Domains";
 	public static final String REACTOME = "Reactome";
 	public static final String TFBS_ENCODE = "TFBS_ENCODE";
+	public static final String VIRUSMINT = "VirusMINT";
 	public static final String WIKIPATHWAYS = "WikiPathways";
 	
 	public static final String HEADER = "Term\tP-value\tGenes";
