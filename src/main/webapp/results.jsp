@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%! private String[][] enrichmentTypes = {	{	"Human_ChEA", 
-												"Mouse_ChEA", 
+<%! private String[][] enrichmentTypes = {	{	"ChEA", 
 												"Histone_Modifications_ChIP-seq",
 												"microRNA",
 												"ENCODE_TF_ChIP-seq"	},

@@ -25,8 +25,7 @@ public class Enrichment {
 	@SuppressWarnings("serial")
 	private static HashMap<String, String> gmtLocations = new HashMap<String, String>() {{
 		put(Enrichment.BIOCARTA, "BioCarta_pathways.gmt");
-		put(Enrichment.HUMAN_CHEA, "Human_ChEA.gmt");
-		put(Enrichment.MOUSE_CHEA, "Mouse_ChEA.gmt");
+		put(Enrichment.CHEA, "ChEA.gmt");
 		put(Enrichment.CHROMOSOME_LOCATION, "Chromosome_location.gmt");
 		put(Enrichment.UPREGULATED_CMAP, "Upregulated_CMAP.gmt");
 		put(Enrichment.DOWNREGULATED_CMAP, "Downregulated_CMAP.gmt");
@@ -52,8 +51,7 @@ public class Enrichment {
 	
 	// Constants
 	public static final String BIOCARTA = "Biocarta";
-	public static final String HUMAN_CHEA = "Human_ChEA";
-	public static final String MOUSE_CHEA = "Mouse_ChEA";
+	public static final String CHEA = "ChEA";
 	public static final String CHROMOSOME_LOCATION = "Chromosome_Location";
 	public static final String UPREGULATED_CMAP = "Up-regulated_CMAP";
 	public static final String DOWNREGULATED_CMAP = "Down-regulated_CMAP";
