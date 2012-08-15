@@ -20,6 +20,18 @@ div.downloadbox a:hover {
 	color: #000;
 }
 
+div#session-warning {
+	margin-bottom: 1em;
+}
+
+div#session-warning img {
+	vertical-align: text-bottom;
+}
+
+div#session-warning span {
+	margin-left: 0.2em;
+}
+
 a.title {
 	font-size: 1.5em;
 	color: #D90000;

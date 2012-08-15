@@ -56,6 +56,10 @@
 			</tr>
 		</table>
 	</div>
+	<div class="hidden" id="session-warning">
+		<img src="images/warning-icon.png" height="24px" width="24px"/>
+		<span>Your session has expired. Please re-submit your gene list to continue.</span>
+	</div>
 	<% for (int i = 0; i < categories.length; i++) { %>
 		<div class="<%=(i==0) ? "shown" : "hidden"%> category">
 			<% for (String type : enrichmentTypes[i]) { %>

@@ -59,30 +59,41 @@ public class Enrichr extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String backgroundType = request.getParameter("backgroundType");
-		Enrichment app = (Enrichment) session.getAttribute("process");
-		LinkedList<Term> results = app.enrich(backgroundType);
+		HttpSession session = request.getSession(false);
 		
-		String filename = request.getParameter("filename");
-		
-		if (filename == null) {
+		if (session == null) {
 			JSONify json = new JSONify();
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
 			
-			json.add(backgroundType, flattenResults(results));		
+			json.add("expired", true);
 			json.write(response.getWriter());
 		}
-		else {			
-			response.setHeader("Pragma", "public");
-			response.setHeader("Expires", "0");
-			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-			response.setContentType("application/octet-stream");
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + filename  + ".txt\"");		
-			response.setHeader("Content-Transfer-Encoding", "binary");
+		else {
+			String backgroundType = request.getParameter("backgroundType");
+			Enrichment app = (Enrichment) session.getAttribute("process");
+			LinkedList<Term> results = app.enrich(backgroundType);
 			
-			FileUtils.write(response.getWriter(), Enrichment.HEADER, results);
+			String filename = request.getParameter("filename");
+			
+			if (filename == null) {
+				JSONify json = new JSONify();
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				
+				json.add(backgroundType, flattenResults(results));		
+				json.write(response.getWriter());
+			}
+			else {			
+				response.setHeader("Pragma", "public");
+				response.setHeader("Expires", "0");
+				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+				response.setContentType("application/octet-stream");
+				response.setHeader("Content-Disposition", "attachment; filename=\"" + filename  + ".txt\"");		
+				response.setHeader("Content-Transfer-Encoding", "binary");
+				
+				FileUtils.write(response.getWriter(), Enrichment.HEADER, results);
+			}
 		}
 	}
 	

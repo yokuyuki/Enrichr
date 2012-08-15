@@ -640,10 +640,16 @@ function getResult(id) {
 		var dataUrl = queryString('q');
 		dataUrl = (dataUrl) ? dataUrl : 'enrich';
 		$.getJSON(dataUrl, { backgroundType: id }, function(json) {
-			$(idTag + ' div.content img.loader').remove();
-			$(idTag + ' div.content').addClass('done');
-			createBarGraph(json[id], idTag + ' div.bar-graph');
-			createTable(json[id], idTag + ' .results_table');
+			if (json.expired) {
+				toggleClose();
+				$('#session-warning').slideToggle('fast');
+			}
+			else {
+				$(idTag + ' div.content img.loader').remove();
+				$(idTag + ' div.content').addClass('done');
+				createBarGraph(json[id], idTag + ' div.bar-graph');
+				createTable(json[id], idTag + ' .results_table');
+			}
 		});
 	}
 }
