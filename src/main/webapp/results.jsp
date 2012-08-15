@@ -8,7 +8,7 @@
 												"WikiPathways",
 												"Reactome",
 												"Biocarta",
-												"Hub_Proteins",
+												"PPI_Hub_Proteins",
 												"KEA",	},
 											{	"GO_Biological_Process",
 												"GO_Cellular_Component",
