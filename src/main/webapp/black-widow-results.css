@@ -29,6 +29,7 @@ div#session-warning img {
 }
 
 div#session-warning span {
+	color: #000;
 	margin-left: 0.2em;
 }
 
