@@ -88,7 +88,7 @@
 						<div class="hidden">
 							<table class="results_table"></table>
 							<div class="clear"></div>
-							<div class="export-box"><a href="#" onclick="csvExport('<%=type%>_table', '<%=type%>')">Export to CSV</a></div>
+							<div class="export-box"><a href="#" onclick="tsvExport('<%=type%>_table', '<%=type%>')" title="Table contains additional details like associated genes">Export to Table</a></div>
 						</div>
 					</div>
 				</div>

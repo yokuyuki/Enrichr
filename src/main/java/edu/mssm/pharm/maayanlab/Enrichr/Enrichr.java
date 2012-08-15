@@ -79,7 +79,7 @@ public class Enrichr extends HttpServlet {
 			response.setHeader("Expires", "0");
 			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
 			response.setContentType("application/octet-stream");
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + filename  + ".csv\"");		
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + filename  + ".tsv\"");		
 			response.setHeader("Content-Transfer-Encoding", "binary");
 			
 			FileUtils.write(response.getWriter(), Enrichment.HEADER, results);

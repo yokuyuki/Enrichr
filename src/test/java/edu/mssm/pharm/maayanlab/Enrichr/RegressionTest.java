@@ -45,6 +45,6 @@ public class RegressionTest extends TestCase {
 		assertEquals(result.next(), app.HEADER);
 		
 		while (term.hasNext())
-			assertEquals(term.next().toString(), result.next());
+			assertEquals(result.next(), term.next().toString());
 	}
 }

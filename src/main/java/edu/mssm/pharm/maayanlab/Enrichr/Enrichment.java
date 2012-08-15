@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import pal.statistics.FisherExact;
 
@@ -47,6 +48,7 @@ public class Enrichment {
 		put(Enrichment.VIRUSMINT, "VirusMINT.gmt");
 		put(Enrichment.WIKIPATHWAYS, "WikiPathways_pathways.gmt");
 	}};
+	public static final Set<String> backgroundTypes = gmtLocations.keySet();
 	
 	// Constants
 	public static final String BIOCARTA = "Biocarta";
@@ -73,7 +75,7 @@ public class Enrichment {
 	public static final String VIRUSMINT = "VirusMINT";
 	public static final String WIKIPATHWAYS = "WikiPathways";
 	
-	public static final String HEADER = "Term,P-value,Genes";
+	public static final String HEADER = "Term\tP-value\tGenes";
 	
 	private Collection<String> geneList; 
 	
