@@ -22,6 +22,7 @@
 												"Down-regulated_CMAP",
 												"GeneSigDB",
 												"OMIM_Disease",
+												"OMIM_Expanded",
 												"VirusMINT"	}}; %>
 <%! private String[] categories = {	"Transcription", 
 									"Pathways", 

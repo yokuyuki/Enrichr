@@ -42,6 +42,7 @@ public class Enrichment {
 		put(Enrichment.MGI_MP, "MGI_MP_top4.gmt");
 		put(Enrichment.MICRORNA, "microRNA.gmt");
 		put(Enrichment.OMIM_DISEASE, "OMIM_disease_genes.gmt");
+		put(Enrichment.OMIM_EXPANDED, "OMIM_Expanded.gmt");
 		put(Enrichment.PFAM_INTERPRO, "Pfam-InterPro-domains.gmt");
 		put(Enrichment.PPI_HUB_PROTEINS, "PPI_Hub_Proteins.gmt");
 		put(Enrichment.REACTOME, "Reactome_pathways.gmt");		
@@ -69,6 +70,7 @@ public class Enrichment {
 	public static final String MGI_MP = "MGI_Mammalian_Phenotype";
 	public static final String MICRORNA = "microRNA";
 	public static final String OMIM_DISEASE = "OMIM_Disease";
+	public static final String OMIM_EXPANDED = "OMIM_Expanded";
 	public static final String PFAM_INTERPRO = "Pfam_InterPro_Domains";
 	public static final String PPI_HUB_PROTEINS = "PPI_Hub_Proteins";
 	public static final String REACTOME = "Reactome";	
