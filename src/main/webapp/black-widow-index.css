@@ -52,6 +52,10 @@ table#data-input td p {
 	margin-bottom: 1em;
 }
 
+a#example-input:hover {
+	text-decoration: underline;
+}
+
 textarea {	
 	width: 100%;
 }
