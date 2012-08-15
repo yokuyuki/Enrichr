@@ -27,11 +27,14 @@ public class Enrichment {
 		put(Enrichment.HUMAN_CHEA, "Human_ChEA.gmt");
 		put(Enrichment.MOUSE_CHEA, "Mouse_ChEA.gmt");
 		put(Enrichment.CHROMOSOME_LOCATION, "Chromosome_location.gmt");
+		put(Enrichment.UPREGULATED_CMAP, "Upregulated_CMAP.gmt");
+		put(Enrichment.DOWNREGULATED_CMAP, "Downregulated_CMAP.gmt");
+		put(Enrichment.ENCODE, "ENCODE_TF_ChIP-seq.gmt");
 		put(Enrichment.GENESIGDB, "GeneSigDB.gmt");
 		put(Enrichment.GO_BP, "GeneOntology_BP.gmt");
 		put(Enrichment.GO_CC, "GeneOntology_CC.gmt");
 		put(Enrichment.GO_MF, "GeneOntology_MF.gmt");
-		put(Enrichment.HM, "HM_roadmap.gmt");
+		put(Enrichment.HM, "Histone_Modifications_ChIP-seq.gmt");
 		put(Enrichment.HMDB_METABOLITES, "HMDB_Metabolites.gmt");
 		put(Enrichment.HUB_PROTEINS, "Hub_Proteins.gmt");
 		put(Enrichment.KEA, "KEA.gmt");
@@ -40,8 +43,7 @@ public class Enrichment {
 		put(Enrichment.MICRORNA, "microRNA.gmt");
 		put(Enrichment.OMIM_DISEASE, "OMIM_disease_genes.gmt");
 		put(Enrichment.PFAM_INTERPRO, "Pfam-InterPro-domains.gmt");
-		put(Enrichment.REACTOME, "Reactome_pathways.gmt");
-		put(Enrichment.TFBS_ENCODE, "TFBS_ENCODE.gmt");
+		put(Enrichment.REACTOME, "Reactome_pathways.gmt");		
 		put(Enrichment.VIRUSMINT, "VirusMINT.gmt");
 		put(Enrichment.WIKIPATHWAYS, "WikiPathways_pathways.gmt");
 	}};
@@ -51,11 +53,14 @@ public class Enrichment {
 	public static final String HUMAN_CHEA = "Human_ChEA";
 	public static final String MOUSE_CHEA = "Mouse_ChEA";
 	public static final String CHROMOSOME_LOCATION = "Chromosome_Location";
+	public static final String UPREGULATED_CMAP = "Up-regulated_CMAP";
+	public static final String DOWNREGULATED_CMAP = "Down-regulated_CMAP";
+	public static final String ENCODE = "ENCODE_TF_ChIP-seq";
 	public static final String GENESIGDB = "GeneSigDB";
 	public static final String GO_BP = "GO_Biological_Process";
 	public static final String GO_CC = "GO_Cellular_Component";
 	public static final String GO_MF = "GO_Molecular_Function";
-	public static final String HM = "Histone_Modification";
+	public static final String HM = "Histone_Modifications_ChIP-seq";
 	public static final String HMDB_METABOLITES = "HMDB_Metabolites";
 	public static final String HUB_PROTEINS = "Hub_Proteins";
 	public static final String KEA = "KEA";
@@ -64,12 +69,11 @@ public class Enrichment {
 	public static final String MICRORNA = "microRNA";
 	public static final String OMIM_DISEASE = "OMIM_Disease";
 	public static final String PFAM_INTERPRO = "Pfam_InterPro_Domains";
-	public static final String REACTOME = "Reactome";
-	public static final String TFBS_ENCODE = "TFBS_ENCODE";
+	public static final String REACTOME = "Reactome";	
 	public static final String VIRUSMINT = "VirusMINT";
 	public static final String WIKIPATHWAYS = "WikiPathways";
 	
-	public static final String HEADER = "Term\tP-value\tGenes";
+	public static final String HEADER = "Term,P-value,Genes";
 	
 	private Collection<String> geneList; 
 	
@@ -149,7 +153,7 @@ public class Enrichment {
 					if (targets.length() == 0)
 						targets.append(targetInputGene);
 					else
-						targets.append(",").append(targetInputGene);
+						targets.append(";").append(targetInputGene);
 				}
 				
 				resultTerms.add(new Term(key, pvalue, targets.toString()));
