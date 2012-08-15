@@ -31,6 +31,7 @@ public class Enrichment {
 		put(Enrichment.DOWNREGULATED_CMAP, "Downregulated_CMAP.gmt");
 		put(Enrichment.ENCODE, "ENCODE_TF_ChIP-seq.gmt");
 		put(Enrichment.GENESIGDB, "GeneSigDB.gmt");
+		put(Enrichment.GENOME_BROWSER_PWMS, "Genome_Browser_PWMs.gmt");
 		put(Enrichment.GO_BP, "GeneOntology_BP.gmt");
 		put(Enrichment.GO_CC, "GeneOntology_CC.gmt");
 		put(Enrichment.GO_MF, "GeneOntology_MF.gmt");
@@ -57,6 +58,7 @@ public class Enrichment {
 	public static final String DOWNREGULATED_CMAP = "Down-regulated_CMAP";
 	public static final String ENCODE = "ENCODE_TF_ChIP-seq";
 	public static final String GENESIGDB = "GeneSigDB";
+	public static final String GENOME_BROWSER_PWMS = "Genome_Browser_PWMs";
 	public static final String GO_BP = "GO_Biological_Process";
 	public static final String GO_CC = "GO_Cellular_Component";
 	public static final String GO_MF = "GO_Molecular_Function";
