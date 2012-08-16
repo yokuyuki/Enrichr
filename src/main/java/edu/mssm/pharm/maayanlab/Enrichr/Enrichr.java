@@ -59,9 +59,11 @@ public class Enrichr extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession(false);		
+		String backgroundType = request.getParameter("backgroundType");
+		Enrichment app = (Enrichment) session.getAttribute("process");
 		
-		if (session == null) {
+		if (app == null) {
 			JSONify json = new JSONify();
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
@@ -69,9 +71,7 @@ public class Enrichr extends HttpServlet {
 			json.add("expired", true);
 			json.write(response.getWriter());
 		}
-		else {
-			String backgroundType = request.getParameter("backgroundType");
-			Enrichment app = (Enrichment) session.getAttribute("process");
+		else {			
 			LinkedList<Term> results = app.enrich(backgroundType);
 			
 			String filename = request.getParameter("filename");

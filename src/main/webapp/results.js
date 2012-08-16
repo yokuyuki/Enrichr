@@ -640,9 +640,10 @@ function getResult(id) {
 		var dataUrl = queryString('q');
 		dataUrl = (dataUrl) ? dataUrl : 'enrich';
 		$.getJSON(dataUrl, { backgroundType: id }, function(json) {
-			if (json.expired) {
-				toggleClose();
-				$('#session-warning').slideToggle('fast');
+			if (json.expired) {				
+				$('#session-warning').slideDown('fast', function() {
+					toggleClose();
+				});
 			}
 			else {
 				$(idTag + ' div.content img.loader').remove();
