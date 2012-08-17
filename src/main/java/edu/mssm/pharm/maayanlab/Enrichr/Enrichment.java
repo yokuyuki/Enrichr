@@ -27,8 +27,8 @@ public class Enrichment {
 		put(Enrichment.BIOCARTA, "BioCarta_pathways.gmt");
 		put(Enrichment.CHEA, "ChEA.gmt");
 		put(Enrichment.CHROMOSOME_LOCATION, "Chromosome_location.gmt");
-		put(Enrichment.UPREGULATED_CMAP, "Upregulated_CMAP.gmt");
-		put(Enrichment.DOWNREGULATED_CMAP, "Downregulated_CMAP.gmt");
+		put(Enrichment.UPREGULATED_CMAP, "Up-regulated_CMAP_100.gmt");
+		put(Enrichment.DOWNREGULATED_CMAP, "Down-regulated_CMAP_100.gmt");
 		put(Enrichment.ENCODE, "ENCODE_TF_ChIP-seq.gmt");
 		put(Enrichment.GENESIGDB, "GeneSigDB.gmt");
 		put(Enrichment.GENOME_BROWSER_PWMS, "Genome_Browser_PWMs.gmt");
