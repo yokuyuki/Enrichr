@@ -45,7 +45,8 @@ public class Enrichment {
 		put(Enrichment.OMIM_EXPANDED, "OMIM_Expanded.gmt");
 		put(Enrichment.PFAM_INTERPRO, "Pfam-InterPro-domains.gmt");
 		put(Enrichment.PPI_HUB_PROTEINS, "PPI_Hub_Proteins.gmt");
-		put(Enrichment.REACTOME, "Reactome_pathways.gmt");		
+		put(Enrichment.REACTOME, "Reactome_pathways.gmt");
+		put(Enrichment.TRANSFAC_JASPAR, "TRANSFAC_JASPAR.gmt");
 		put(Enrichment.VIRUSMINT, "VirusMINT.gmt");
 		put(Enrichment.WIKIPATHWAYS, "WikiPathways_pathways.gmt");
 	}};
@@ -73,7 +74,8 @@ public class Enrichment {
 	public static final String OMIM_EXPANDED = "OMIM_Expanded";
 	public static final String PFAM_INTERPRO = "Pfam_InterPro_Domains";
 	public static final String PPI_HUB_PROTEINS = "PPI_Hub_Proteins";
-	public static final String REACTOME = "Reactome";	
+	public static final String REACTOME = "Reactome";
+	public static final String TRANSFAC_JASPAR = "TRANSFAC_and_JASPAR_PWMs";
 	public static final String VIRUSMINT = "VirusMINT";
 	public static final String WIKIPATHWAYS = "WikiPathways";
 	

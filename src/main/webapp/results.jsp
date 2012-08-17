@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <%! private String[][] enrichmentTypes = {	{	"ChEA",
+												"TRANSFAC_and_JASPAR_PWMs",
 												"Genome_Browser_PWMs",
 												"Histone_Modifications_ChIP-seq",
 												"microRNA",
