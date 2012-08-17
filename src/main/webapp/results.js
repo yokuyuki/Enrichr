@@ -606,12 +606,17 @@ function tsvExport(filename, backgroundType) {
 
 // Shows the category
 function showCategory(index) {
+	if (_changingCategory)
+		return;
+	else
+		_changingCategory = true;
 	toggleClose();
-	$('div.shown').fadeToggle('slow', function() {		
+	$('div.shown').fadeOut('slow', function() {		
 		$('.shown').removeClass('shown');
 		$('div.category').eq(index).addClass('shown')
 		$('#navbar td').eq(index).addClass('shown');
-		$('div.shown').fadeToggle('slow');
+		$('div.shown').fadeIn('slow');
+		_changingCategory = false;
 	});
 }
 
@@ -656,15 +661,15 @@ function getResult(id) {
 }
 
 function toggleClose() {
-	$('div.active div.content').slideToggle('fast');
-	$('div.active table.nav').fadeToggle('fast');
+	$('div.active div.content').slideUp();
+	$('div.active table.nav').fadeOut();
 	$('div.active').removeClass('active');
 }
 
 function toggleOpen(id) {
 	$('#' + id).addClass('active');
-	$('div.active div.content').slideToggle('fast');
-	$('div.active table.nav').fadeToggle('fast');
+	$('div.active div.content').slideDown();
+	$('div.active table.nav').fadeIn();
 }
 
 function queryString(search_for) {
@@ -680,5 +685,6 @@ function queryString(search_for) {
 }
 
 $(document).ready(function () {
-	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests	
+	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
+	_changingCategory = false;	// Prevent changing category too fast
 });
