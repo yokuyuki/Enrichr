@@ -681,15 +681,15 @@ function shareResult() {
 				var url = window.location.protocol + '//' + window.location.host + '/Enrichr/enrich?dataset=' + json.link_id;
 				$('#share-link input').val(url);
 				sharePopup();
-				$('#share-link input').select();
 			}
 		});
 	}
 }
 
-function sharePopup(){
+function sharePopup() {
 	var selector = '#share-link'
 	if ($(selector).css('display') == 'none') {
+		$(selector + ' input').select();
 		centerPopup(selector);
 		loadPopup(selector);
 	}
@@ -698,18 +698,18 @@ function sharePopup(){
 	}
 }
 
-function loadPopup(selector){
+function loadPopup(selector) {
 	$("#blanket").css({"opacity": "0.65"});
 	$("#blanket").fadeIn("slow");
 	$(selector).fadeIn("slow");
 }
 
-function disablePopup(selector){
+function disablePopup(selector) {
 	$("#blanket").fadeOut("slow");
 	$(selector).fadeOut("slow");
 }
 
-function centerPopup(selector){
+function centerPopup(selector) {
 	//request data for centering
 	var windowWidth = document.documentElement.clientWidth;
 	var windowHeight = document.documentElement.clientHeight;
