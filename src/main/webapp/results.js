@@ -688,10 +688,10 @@ function shareResult() {
 
 function sharePopup() {
 	var selector = '#share-link'
-	if ($(selector).css('display') == 'none') {
-		$(selector + ' input').select();
+	if ($(selector).css('display') == 'none') {		
 		centerPopup(selector);
 		loadPopup(selector);
+		$(selector + ' input').select();
 	}
 	else {
 		disablePopup(selector);
