@@ -120,3 +120,57 @@ tr.grid-header {
 	font-weight: bold;
 	font-size: 0.8em;
 }
+
+/* Share */
+
+#share {
+	margin-top: -0.2em;
+	float: right;
+}
+
+#share a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url('images/share.png') bottom;
+	text-indent: -99999px;
+}
+
+#share a:hover {
+	background-position: 0 0;
+}
+
+#blanket {
+	background-color: #111;
+	filter: alpha(opacity=65);
+	position: fixed;
+	z-index: 9001;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+
+div.popup {
+	background-color: #fff;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	z-index: 9002;
+	display: none;
+}
+
+div.popup div#advice {
+	font-size: 0.8em;
+}
+
+div.popup input {
+	width: 40em;
+	outline: none;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 0.4em;
+}

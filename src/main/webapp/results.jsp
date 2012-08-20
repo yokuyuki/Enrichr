@@ -47,15 +47,24 @@
 <body>
 	<div id="logo">En<span>rich</span>r</div>
 	<div class="nav" id="navbar">
+		<div id="share">
+			<!-- Per CC Attribution 3.0, the share icon is attributed to dAKirby309 from Windows 8 Metro Icons -->
+			<a href="#" onclick="shareResult(); return false;" title="Share this result">Share</a>
+		</div>
 		<table>
 			<tr>
 				<% for (int i = 0; i < categories.length; i++) { %>
 				<td <%=(i==0) ? "class=\"shown\"" : ""%>>
 					<a href="#" onclick="showCategory(<%=i%>); return false;"><%=categories[i]%></a>
-				</td>				
+				</td>
 				<% } %>
 			</tr>
 		</table>
+	</div>
+	<div id="blanket" onclick="sharePopup(); return false;"></div>
+	<div class="popup beveled" id="share-link">
+		<div id="advice">Use Ctrl+C or Option+C to copy the link below. Your link will last 30 days.</div>
+		<input type="text" />
 	</div>
 	<a href="index.html">
 		<div class="hidden" id="session-warning">

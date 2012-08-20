@@ -660,6 +660,68 @@ function getResult(id) {
 	}
 }
 
+/**
+ * Share results and display a popup with the link.
+ */
+
+function shareResult() {
+	if ($('#share-link input').val()) {
+		sharePopup();
+	}
+	else {
+		var dataUrl = queryString('q');
+		dataUrl = (dataUrl) ? dataUrl : 'enrich';
+		$.getJSON(dataUrl, { share: true }, function(json) {
+			if (json.expired) {
+				$('#session-warning').slideDown('fast', function() {
+					toggleClose();
+				});
+			}
+			else {
+				var url = window.location.protocol + '//' + window.location.host + '/Enrichr/enrich?dataset=' + json.link_id;
+				$('#share-link input').val(url);
+				sharePopup();
+				$('#share-link input').select();
+			}
+		});
+	}
+}
+
+function sharePopup(){
+	var selector = '#share-link'
+	if ($(selector).css('display') == 'none') {
+		centerPopup(selector);
+		loadPopup(selector);
+	}
+	else {
+		disablePopup(selector);
+	}
+}
+
+function loadPopup(selector){
+	$("#blanket").css({"opacity": "0.65"});
+	$("#blanket").fadeIn("slow");
+	$(selector).fadeIn("slow");
+}
+
+function disablePopup(selector){
+	$("#blanket").fadeOut("slow");
+	$(selector).fadeOut("slow");
+}
+
+function centerPopup(selector){
+	//request data for centering
+	var windowWidth = document.documentElement.clientWidth;
+	var windowHeight = document.documentElement.clientHeight;
+	var popupHeight = $(selector).height();
+	var popupWidth = $(selector).width();
+	//centering
+	$(selector).css({
+		"margin-top": -1*popupHeight/2,
+		"margin-left": -1*popupWidth/2		
+	});
+}
+
 function toggleClose() {
 	$('div.active div.content').slideUp();
 	$('div.active table.nav').fadeOut();

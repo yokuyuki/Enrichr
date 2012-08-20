@@ -45,11 +45,25 @@ public class Enrichr extends HttpServlet {
 			fileChunk = request.getPart("list");
 		ArrayList<String> inputList = PartReader.readLines(fileChunk);
 		
+		postResult(request, response, inputList);
+	}
+	
+	private void postResult(HttpServletRequest request, HttpServletResponse response, ArrayList<String> inputList) throws IOException {
 		try {
-			Enrichment app = new Enrichment(inputList);
-			request.getSession().setAttribute("process", app);
+			HttpSession session = request.getSession();
+			
+			Enrichment app = new Enrichment(inputList, true);
+			session.setAttribute("process", app);			
 			response.sendRedirect("results.jsp");
-		} catch (ParseException e) {
+			
+			if (session.getAttribute("filecount") == null) {
+				session.setAttribute("filecount", new Integer(0));
+			}
+			else {
+				int filecount = (Integer) session.getAttribute("filecount");
+				session.setAttribute("filecount", ++filecount);
+			}
+		}  catch (ParseException e) {
 			if (e.getErrorOffset() == -1)
 				response.getWriter().println("Invalid input: Input list is empty.");
 			else
@@ -59,42 +73,78 @@ public class Enrichr extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);		
-		String backgroundType = request.getParameter("backgroundType");
-		Enrichment app = (Enrichment) session.getAttribute("process");
+		// Redirect to post if reading from file
+		String dataset = request.getParameter("dataset");
+		if (dataset != null) {
+			postResult(request, response, FileUtils.readResource("/datasets/" + dataset + ".txt"));
+			return;
+		}
+		
+		Enrichment app = (Enrichment) request.getSession().getAttribute("process");
 		
 		if (app == null) {
-			JSONify json = new JSONify();
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			
-			json.add("expired", true);
-			json.write(response.getWriter());
+			getExpired(request, response);
 		}
-		else {			
-			LinkedList<Term> results = app.enrich(backgroundType);
-			
-			String filename = request.getParameter("filename");
-			
-			if (filename == null) {
-				JSONify json = new JSONify();
-				response.setContentType("application/json");
-				response.setCharacterEncoding("UTF-8");
-				
-				json.add(backgroundType, flattenResults(results));		
-				json.write(response.getWriter());
+		else {
+			if (request.getParameter("share") == null) {
+				if (request.getParameter("filename") == null)
+					getJSONResult(request, response, app);
+				else
+					getFileResult(request, response, app);
 			}
-			else {			
-				response.setHeader("Pragma", "public");
-				response.setHeader("Expires", "0");
-				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-				response.setContentType("application/octet-stream");
-				response.setHeader("Content-Disposition", "attachment; filename=\"" + filename  + ".txt\"");		
-				response.setHeader("Content-Transfer-Encoding", "binary");
-				
-				FileUtils.write(response.getWriter(), Enrichment.HEADER, results);
+			else {				
+				getShared(request, response, app);
 			}
 		}
+	}
+	
+	private void getExpired(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		JSONify json = new JSONify();
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		json.add("expired", true);
+		json.write(response.getWriter());
+	}
+	
+	private void getShared(HttpServletRequest request, HttpServletResponse response, Enrichment app) throws IOException {
+		JSONify json = new JSONify();
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		int filecount = (Integer) request.getSession().getAttribute("filecount");
+		String fileId = request.getSession().getId() + "-" + filecount;
+		FileUtils.writeFile("/datasets/" + fileId + ".txt", app.getInput());
+		
+		json.add("link_id", fileId);
+		json.write(response.getWriter());
+	}
+	
+	private void getJSONResult(HttpServletRequest request, HttpServletResponse response, Enrichment app) throws IOException {
+		String backgroundType = request.getParameter("backgroundType");
+		LinkedList<Term> results = app.enrich(backgroundType);
+		
+		JSONify json = new JSONify();
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		json.add(backgroundType, flattenResults(results));		
+		json.write(response.getWriter());
+	}
+	
+	private void getFileResult(HttpServletRequest request, HttpServletResponse response, Enrichment app) throws IOException {
+		String filename = request.getParameter("filename");
+		String backgroundType = request.getParameter("backgroundType");
+		LinkedList<Term> results = app.enrich(backgroundType);
+		
+		response.setHeader("Pragma", "public");
+		response.setHeader("Expires", "0");
+		response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + filename  + ".txt\"");		
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		
+		FileUtils.write(response.getWriter(), Enrichment.HEADER, results);
 	}
 	
 	private Object[][] flattenResults(LinkedList<Term> results) {

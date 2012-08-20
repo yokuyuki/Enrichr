@@ -85,7 +85,7 @@ public class Enrichment {
 	
 	public static void main(String[] args) {		
 		try {
-			Enrichment app = new Enrichment(FileUtils.readFile(args[1]));
+			Enrichment app = new Enrichment(FileUtils.readFile(args[1]), true);
 			FileUtils.writeFile(args[2], HEADER, app.enrich(args[0]));
 		} catch (ParseException e) {
 			if (e.getErrorOffset() == -1)
@@ -95,10 +95,18 @@ public class Enrichment {
 		}
 	}
 	
-	public Enrichment(Collection<String> geneList) throws ParseException {
-		// Check if input list is valid
-		FileUtils.validateList(geneList);
+	public Enrichment(Collection<String> geneList) {
 		this.geneList = geneList;
+	}
+	
+	public Enrichment(Collection<String> geneList, boolean validate) throws ParseException {
+		if (validate)	// Check if input list is valid
+			FileUtils.validateList(geneList);
+		this.geneList = geneList;
+	}
+	
+	public Collection<String> getInput() {
+		return geneList;
 	}
 	
 	public LinkedList<Term> enrich(String backgroundType) {
