@@ -16,20 +16,20 @@
 												"GO_Cellular_Component",
 												"GO_Molecular_Function",
 												"MGI_Mammalian_Phenotype"	},
-											{	"HMDB_Metabolites",
-												"Pfam_InterPro_Domains"	},
-											{	"Chromosome_Location",
-												"Up-regulated_CMAP",
+											{	"Up-regulated_CMAP",
 												"Down-regulated_CMAP",
 												"GeneSigDB",
 												"OMIM_Disease",
 												"OMIM_Expanded",
-												"VirusMINT"	}}; %>
+												"VirusMINT"	},
+											{	"Chromosome_Location",
+												"HMDB_Metabolites",
+												"Pfam_InterPro_Domains"	}}; %>
 <%! private String[] categories = {	"Transcription", 
 									"Pathways", 
 									"Ontologies",
-									"Structure/Metabolites",
-									"Disease/Drugs"}; %>
+									"Disease/Drugs",
+									"Misc" }; %>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 	<meta name="author" content="Edward Y. Chen"/>
@@ -45,7 +45,9 @@
 	<title>Enrichr</title>
 </head>
 <body>
-	<div id="logo">En<span>rich</span>r</div>
+	<div id="logo">
+		<a href="index.html"><span>En</span>rich<span>r</span></a>
+	</div>
 	<div class="nav" id="navbar">
 		<div id="share">
 			<!-- Per CC Attribution 3.0, the share icon is attributed to dAKirby309 from Windows 8 Metro Icons -->
