@@ -210,6 +210,8 @@ function createBarGraph(dataArray, container) {
 	// Create graph
 	var chart = d3.select(container + ' div.svg-container')
 		.append('svg:svg')
+		.attr('xmlns', "http://www.w3.org/2000/svg")
+		.attr('version', '1.1')
 		.attr('width', width)
 		.attr('height', height);
 
@@ -595,7 +597,6 @@ function distance(x1, y1, x2, y2, width) {
 }
 
 function svgExport(container, filename, outputType) {
-	$(container + ' svg').attr({ version: '1.1' , xmlns:"http://www.w3.org/2000/svg"});	
 	var b64 = encodeURIComponent(Base64.encode($(container + ' div.svg-container').html()));
 	$.download('/Convertr/convert', 'filename=' + filename +'&outputType=' + outputType + '&data=' + b64);
 }
