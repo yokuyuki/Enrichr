@@ -6,11 +6,16 @@ function geneCount() {
 }
 
 function navigateTo(index) {
+	if (_changingCategory)
+		return;
+	else
+		_changingCategory = true;
 	$('#content div.selected').fadeToggle('slow', function() {
 		$('.selected').removeClass('selected');
 		$('#navbar td').eq(index).addClass('selected');
 		$('#content > div').eq(index).addClass('selected');
 		$('#content div.selected').fadeToggle('slow');
+		_changingCategory = false;
 	});
 }
 
@@ -72,3 +77,7 @@ function createStats() {
 		});
 	}
 }
+
+$(document).ready(function () {
+	_changingCategory = false;	// Prevent changing category too fast
+});
