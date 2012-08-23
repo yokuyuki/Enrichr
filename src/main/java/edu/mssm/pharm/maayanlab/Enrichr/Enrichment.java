@@ -55,7 +55,7 @@ public class Enrichment {
 	public static final Set<String> backgroundTypes = gmtLocations.keySet();
 	
 	// Constants
-	public static final String BIOCARTA = "Biocarta";
+	public static final String BIOCARTA = "BioCarta";
 	public static final String CHEA = "ChEA";
 	public static final String CHROMOSOME_LOCATION = "Chromosome_Location";
 	public static final String UPREGULATED_CMAP = "Up-regulated_CMAP";
