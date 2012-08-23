@@ -26,7 +26,6 @@ function validateInput() {
 		return true;
 	else {
 		alert("Nothing to analyze. Please select a file to upload or paste in a list of genes.");
-		navigateTo(0);
 		return false;
 	}
 }
