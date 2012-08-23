@@ -9,7 +9,7 @@
 											{	"KEGG",
 												"WikiPathways",
 												"Reactome",
-												"Biocarta",
+												"BioCarta",
 												"PPI_Hub_Proteins",
 												"KEA",	},
 											{	"GO_Biological_Process",

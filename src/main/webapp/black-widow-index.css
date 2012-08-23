@@ -49,6 +49,6 @@ div#gene-count {
 
 /* Questions Page 2 */
 
-div.question {
-	margin-bottom: 1em;
+#stats td a:hover {
+	text-decoration: underline;
 }

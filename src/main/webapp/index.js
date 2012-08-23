@@ -48,7 +48,7 @@ function createStats() {
 					{ 
 						"sTitle": "Dataset",
 						"fnRender": function(oObj, sVal) {
-							return sVal.replace(/_/g, ' ');
+							return '<a href="' + oObj.aData[4] + '" target="_blank">' + sVal + '</a>';
 						}
 					},
 					{ 
@@ -68,6 +68,9 @@ function createStats() {
 						"fnRender": function(obj) {
 							return obj.aData[obj.iDataColumn].toFixed(4);
 						}
+					},
+					{
+						"bVisible": false
 					}
 				],
 				"aaSorting": [[1, "desc"]],
