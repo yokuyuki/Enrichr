@@ -4,11 +4,13 @@
 	<title>Enrichr</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta name="author" content="Edward Y. Chen"/>
-	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css">
-	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="black-widow.css">
-	<link rel="stylesheet" type="text/css" href="black-widow-index.css">
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'/>
+	<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/css/jquery.dataTables.css"/>
+	<link rel="stylesheet" type="text/css" href="black-widow.css"/>
+	<link rel="stylesheet" type="text/css" href="black-widow-index.css"/>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" defer="defer"></script>
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/jquery.dataTables.min.js" defer="defer"></script>
 	<script type="text/javascript" src="index.js" defer="defer"></script>
 </head>
 <body>
@@ -38,21 +40,22 @@
 		</table>
 	</div>
 	<![endif]-->
-	<!-- <div id="navbar">
+	<div id="navbar" class="nav">
 		<table>
 			<tr>
 				<td class="selected">
-					<span class="title">1. Input data</span>
-					<span class="arrow">&rarr;</span>
+					<a href="#" onclick="navigateTo(0); return false;">Analyze</a>
 				</td>
-				<td><span class="title">2. Basic settings</span></td>
+				<td>
+					<a href="#" onclick="navigateTo(1); createStats(); return false;">Dataset Statistics</a>
+				</td>
 			</tr>
 		</table>
-	</div> -->
-	<form action="enrich" method="post" onsubmit="return validateInput();" enctype="multipart/form-data">
-		<div id="form" class="beveled">
-			<div id="step1" class="selected">
-				<div class="step">Input data</div>			
+	</div>
+	<div id="content" class="beveled">
+		<div id="step1" class="selected">
+			<form action="enrich" method="post" onsubmit="return validateInput();" enctype="multipart/form-data">
+				<div class="title">Input data</div>			
 				<table id="data-input">
 					<tr>
 						<td>
@@ -67,49 +70,17 @@
 					</tr>
 				</table>
 				<div class="clear"></div>
-				<!-- <div class="next-step">
-					<a href="#" onclick="navigateTo(1); return false;">
-						<img src="images/navigate-right-icon.png" width="64" height="64" title="Next Step"/>
-					</a>
-				</div>
-				<div class="clear"></div>
-			</div>
-			<div id="step2" class="hidden">
-				<div class="step">Step 2. Basic Settings</div>
-				<div class="question">My data is from:<br/>
-					<input type="radio" name="species" value="human"/>
-						Human
-					<br/>
-					<input type="radio" name="species" value="mouse"/>
-						Mouse
-					<br/>
-					<input type="radio" name="species" value="both" checked/>
-					<span title="If you don't know the species, X2K will use both human and mouse TF-target gene databases to enrich.">
-						Don't know
-						<a href="#" onclick="return false;" class="help">[?]</a>
-					</span><br/>
-				</div>
-				<div class="question">For the TF-target gene database, I'd like to use:<br/>
-					<input type="radio" name="background" value="ChIP-X" checked/>
-					<span title="We manually reprocess published ChIP-X experiments to build our TF-target gene database.">
-						Processed ChIP-X experiments
-						<a href="#" onclick="return false;" class="help">[?]</a>
-					</span><br/>
-					<input type="radio" name="background" value="PWM-JT"/>
-						Position weight matrices computed from JASPAR and TRANSFAC
-					<br/>
-					<input type="radio" name="background" value="PWM-GB"/>
-						Position weight matrices derived from Genome Browser
-					<br/>
-				</div> -->
 				<div class="next-step">
-					<!-- <a href="#" onclick="navigateTo(0); return false;">
-						<img src="images/navigate-left-icon.png" width="64" height="64" title="Previous Step"/></a> -->
 					<input type="image" src="images/navigate-up-icon.png" width="64" height="64" title="Upload File"/>
 				</div>
 				<div class="clear"></div>
-			</div>
-		</div>		
-	</form>	
+			</form>
+		</div>
+		<div id="step2" class="hidden">
+			<div class="title">Dataset Statistics</div>
+			<table id="stats"></table>
+			<div class="clear"></div>
+		</div>
+	</div>		
 </body>
 </html>

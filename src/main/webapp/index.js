@@ -6,11 +6,11 @@ function geneCount() {
 }
 
 function navigateTo(index) {
-	$('div#form div.selected').fadeToggle('slow', function() {
+	$('#content div.selected').fadeToggle('slow', function() {
 		$('.selected').removeClass('selected');
-		$('div#navbar td').eq(index).addClass('selected');
-		$('#form > div').eq(index).addClass('selected');
-		$('div#form div.selected').fadeToggle('slow');
+		$('#navbar td').eq(index).addClass('selected');
+		$('#content > div').eq(index).addClass('selected');
+		$('#content div.selected').fadeToggle('slow');
 	});
 }
 
@@ -31,4 +31,44 @@ function insertExample() {
 		$('textarea#text-area').val(data);
 		geneCount();
 	});	
+}
+
+function createStats() {
+	if (!$('#stats').hasClass('done')) {
+		$.getJSON('dataset_statistics.json', function(json) {
+			$('#stats').addClass('done');
+			$('#stats').dataTable({
+				"aaData": json,
+				"aoColumns": [
+					{ 
+						"sTitle": "Dataset",
+						"fnRender": function(oObj, sVal) {
+							return sVal.replace(/_/g, ' ');
+						}
+					},
+					{ 
+						"sTitle": "Terms",
+						"sClass": "right",
+						"asSorting": ["desc", "asc"]
+					},
+					{ 
+						"sTitle": "Gene Coverage",
+						"sClass": "right",
+						"asSorting": ["desc", "asc"]
+					},
+					{ 
+						"sTitle": "Mean Genes per Term",
+						"sClass": "right",
+						"asSorting": ["desc", "asc"],
+						"fnRender": function(obj) {
+							return obj.aData[obj.iDataColumn].toFixed(4);
+						}
+					}
+				],
+				"aaSorting": [[1, "desc"]],
+				"bPaginate": false,
+				"sDom": '<t>'
+			});
+		});
+	}
 }
