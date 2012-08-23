@@ -22,6 +22,8 @@
 												"OMIM_Disease",
 												"OMIM_Expanded",
 												"VirusMINT"	},
+											{	"Human_Gene_Atlas",
+												"NCI-60_Cancer_Cell_Lines" },
 											{	"Chromosome_Location",
 												"HMDB_Metabolites",
 												"Pfam_InterPro_Domains"	}}; %>
@@ -29,6 +31,7 @@
 									"Pathways", 
 									"Ontologies",
 									"Disease/Drugs",
+									"Cell Types",
 									"Misc" }; %>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
