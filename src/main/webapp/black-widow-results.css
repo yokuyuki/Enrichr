@@ -42,15 +42,6 @@ a.title {
 
 /* Navbar */
 
-#navbar {
-	margin-bottom: 1em;
-}
-
-#navbar td {
-	padding-left: 0em;
-	padding-right: 1em;
-}
-
 #navbar td.shown a {
 	color: #fff;
 	background-color: #000 !important;
@@ -63,25 +54,8 @@ table.nav {
 	display: none;
 }
 
-.nav td {
+table.nav td {
 	padding-left: 1em;	
-}
-
-.nav td a {
-	font-weight: bold;
-	font-size: 1em;
-	padding: 0.1em;
-	color: #000;
-}
-
-.nav td.selected a {
-	color: #fff;
-	background-color: #000 !important;
-}
-
-.nav td a:hover {
-	color: #fff;
-	background-color: #D90000;
 }
 
 /* Table properties */
