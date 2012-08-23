@@ -24,6 +24,34 @@ div.beveled {
 	border-radius: 5px;
 }
 
+div.clear {
+	clear: both;
+}
+
+/* Global styling */
+
+.left {
+	text-align: left;
+}
+
+.center {
+	text-align: center;
+}
+
+.right {
+	text-align: right;
+}
+
+.hidden {
+	display: none;
+}
+
+svg {
+	overflow: hidden;
+}
+
+/* Logo */
+
 div#logo {
 	margin: 0.1em 0em 0.2em 0em;
 	letter-spacing: 0.1em;
@@ -33,18 +61,6 @@ div#logo {
 
 div#logo span {
 	color: #000;
-}
-
-div.clear {
-	clear: both;
-}
-
-.hidden {
-	display: none;
-}
-
-svg {
-	overflow: hidden;
 }
 
 /* Warning */
