@@ -23,6 +23,7 @@
 												"OMIM_Expanded",
 												"VirusMINT"	},
 											{	"Human_Gene_Atlas",
+												"Mouse_Gene_Atlas",
 												"NCI-60_Cancer_Cell_Lines" },
 											{	"Chromosome_Location",
 												"HMDB_Metabolites",

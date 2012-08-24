@@ -42,6 +42,7 @@ public class Enrichment {
 		put(Enrichment.KEGG, "KEGG_pathways.gmt");
 		put(Enrichment.MGI_MP, "MGI_MP_top4.gmt");
 		put(Enrichment.MICRORNA, "microRNA.gmt");
+		put(Enrichment.MOUSE_GENE_ATLAS, "Mouse_Gene_Atlas.gmt");
 		put(Enrichment.NCI60, "NCI60.gmt");
 		put(Enrichment.OMIM_DISEASE, "OMIM_disease_genes.gmt");
 		put(Enrichment.OMIM_EXPANDED, "OMIM_Expanded.gmt");
@@ -73,6 +74,7 @@ public class Enrichment {
 	public static final String KEGG = "KEGG";
 	public static final String MGI_MP = "MGI_Mammalian_Phenotype";
 	public static final String MICRORNA = "microRNA";
+	public static final String MOUSE_GENE_ATLAS = "Mouse_Gene_Atlas";
 	public static final String NCI60 = "NCI-60_Cancer_Cell_Lines";
 	public static final String OMIM_DISEASE = "OMIM_Disease";
 	public static final String OMIM_EXPANDED = "OMIM_Expanded";
