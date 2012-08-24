@@ -26,6 +26,7 @@ public class Enrichment {
 	private static HashMap<String, String> gmtLocations = new HashMap<String, String>() {{
 		put(Enrichment.BIOCARTA, "BioCarta_pathways.gmt");
 		put(Enrichment.CHEA, "ChEA.gmt");
+		put(Enrichment.CCLE, "Cancer_Cell_Line_Encyclopedia.gmt");
 		put(Enrichment.CHROMOSOME_LOCATION, "Chromosome_location.gmt");
 		put(Enrichment.UPREGULATED_CMAP, "Up-regulated_CMAP_100.gmt");
 		put(Enrichment.DOWNREGULATED_CMAP, "Down-regulated_CMAP_100.gmt");
@@ -57,6 +58,7 @@ public class Enrichment {
 	
 	// Constants
 	public static final String BIOCARTA = "BioCarta";
+	public static final String CCLE = "Cancer_Cell_Line_Encyclopedia";
 	public static final String CHEA = "ChEA";
 	public static final String CHROMOSOME_LOCATION = "Chromosome_Location";
 	public static final String UPREGULATED_CMAP = "Up-regulated_CMAP";

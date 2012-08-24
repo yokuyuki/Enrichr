@@ -3,6 +3,7 @@ import os
 
 gmt_lookup = dict()
 gmt_lookup['BioCarta_pathways.gmt'] = ('BioCarta', 'http://pid.nci.nih.gov/download.shtml')
+gmt_lookup['Cancer_Cell_Line_Encyclopedia.gmt'] = ('Cancer Cell Line Encyclopedia', 'http://www.broadinstitute.org/ccle/data/browseData')
 gmt_lookup['ChEA.gmt'] = ('ChEA', 'http://amp.pharm.mssm.edu/lib/cheadownload.jsp')
 gmt_lookup['Chromosome_location.gmt'] = ('Chromosome Location', 'http://hgdownload.cse.ucsc.edu/downloads.html')
 gmt_lookup['Down-regulated_CMAP_100.gmt'] = ('Down-regulated CMAP', 'http://www.broadinstitute.org/cmap/')
