@@ -81,5 +81,6 @@ function createStats() {
 }
 
 $(document).ready(function () {
+	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast
 });
