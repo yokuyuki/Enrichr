@@ -45,7 +45,7 @@ function createStats() {
 				"aaData": json,
 				"aoColumns": [
 					{ 
-						"sTitle": "Dataset",
+						"sTitle": "Gene-set Library",
 						"fnRender": function(oObj, sVal) {
 							return '<a href="' + oObj.aData[4] + '" target="_blank">' + sVal + '</a>';
 						}
