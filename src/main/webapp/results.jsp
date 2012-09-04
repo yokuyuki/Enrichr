@@ -28,6 +28,7 @@
 												"NCI-60_Cancer_Cell_Lines" },
 											{	"Chromosome_Location",
 												"HMDB_Metabolites",
+												"Human_Endogenous_Complexome",
 												"Pfam_InterPro_Domains"	}}; %>
 <%! private String[] categories = {	"Transcription", 
 									"Pathways", 

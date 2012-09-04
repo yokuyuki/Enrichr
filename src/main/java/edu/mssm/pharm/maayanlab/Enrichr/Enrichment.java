@@ -38,6 +38,7 @@ public class Enrichment {
 		put(Enrichment.GO_MF, "GeneOntology_MF.gmt");
 		put(Enrichment.HM, "Histone_Modifications_ChIP-seq.gmt");
 		put(Enrichment.HMDB_METABOLITES, "HMDB_Metabolites.gmt");
+		put(Enrichment.COMPLEXOME, "Human_Endogenous_Complexome.gmt");
 		put(Enrichment.HUMAN_GENE_ATLAS, "Human_Gene_Atlas.gmt");
 		put(Enrichment.KEA, "KEA.gmt");
 		put(Enrichment.KEGG, "KEGG_pathways.gmt");
@@ -72,6 +73,7 @@ public class Enrichment {
 	public static final String HM = "Histone_Modifications_ChIP-seq";
 	public static final String HMDB_METABOLITES = "HMDB_Metabolites";
 	public static final String HUMAN_GENE_ATLAS = "Human_Gene_Atlas";
+	public static final String COMPLEXOME = "Human_Endogenous_Complexome";
 	public static final String KEA = "KEA";
 	public static final String KEGG = "KEGG";
 	public static final String MGI_MP = "MGI_Mammalian_Phenotype";

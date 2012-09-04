@@ -13,6 +13,7 @@ gmt_lookup['GeneOntology_CC.gmt'] = ('GO Cellular Component', 'http://www.geneon
 gmt_lookup['GeneOntology_MF.gmt'] = ('GO Molecular Function', 'http://www.geneontology.org/GO.downloads.annotations.shtml')
 gmt_lookup['GeneSigDB.gmt'] = ('GeneSigDB', 'http://compbio.dfci.harvard.edu/genesigdb/downloadall.jsp')
 gmt_lookup['Genome_Browser_PWMs.gmt'] = ('Genome Browser PWMs', 'http://hgdownload.cse.ucsc.edu/goldenPath/hg18/database/')
+gmt_lookup['Human_Endogenous_Complexome.gmt'] = ('Human Endogenous Complexome', 'http://www.sciencedirect.com/science/article/pii/S0092867411005320')
 gmt_lookup['Histone_Modifications_ChIP-seq.gmt'] = ('Histone Modifications ChIP-seq', 'http://www.ncbi.nlm.nih.gov/geo/roadmap/epigenomics/')
 gmt_lookup['HMDB_Metabolites.gmt'] = ('HMDB Metabolites', 'http://www.hmdb.ca/downloads')
 gmt_lookup['Human_Gene_Atlas.gmt'] = ('Human Gene Atlas', 'http://biogps.org/downloads/')
