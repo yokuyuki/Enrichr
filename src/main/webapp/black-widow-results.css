@@ -75,28 +75,16 @@ div.export-box a:hover {
 }
 
 /* Bar graph properties */
-
 div.graph span.method {
 	font-weight: bold;
 }
 
 /* Grid properties */
-div.grid table {
-	margin: 0 auto;
-}
-
-div.grid table td {
-	padding: 0.1em 1em;
+div.grid div.svg-container {
 	text-align: center;
 }
 
-tr.grid-header {
-	font-weight: bold;
-	font-size: 0.8em;
-}
-
 /* Share */
-
 #share {
 	margin-top: -0.2em;
 	float: right;

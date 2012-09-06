@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<%@ page import="java.util.HashSet" %>
 <%! private String[][] enrichmentTypes = {	{	"ChEA",
 												"TRANSFAC_and_JASPAR_PWMs",
 												"Genome_Browser_PWMs",
@@ -28,14 +29,46 @@
 												"NCI-60_Cancer_Cell_Lines" },
 											{	"Chromosome_Location",
 												"HMDB_Metabolites",
-												"Human_Endogenous_Complexome",
-												"Pfam_InterPro_Domains"	}}; %>
+												"Human_Endogenous_Complexome"
+,												"Pfam_InterPro_Domains"	}}; %>
 <%! private String[] categories = {	"Transcription", 
 									"Pathways", 
 									"Ontologies",
 									"Disease/Drugs",
 									"Cell Types",
 									"Misc" }; %>
+<%! private HashSet<String> gridAvailable = new HashSet<String>() {{
+	add("BioCarta");
+	// add("Cancer_Cell_Line_Encyclopedia");
+	// add("ChEA");
+	// add("Chromosome_Location");
+	// add("Down-regulated_CMAP");
+	// add("ENCODE_TF_ChIP-seq");
+	// add("GeneSigDB");
+	add("Genome_Browser_PWMs");
+	add("GO_Biological_Process");
+	add("GO_Cellular_Component");
+	add("GO_Molecular_Function");
+	// add("Histone_Modifications_ChIP-seq");
+	// add("HMDB_Metabolites");
+	// add("Human_Endogenous_Complexome");
+	// add("Human_Gene_Atlas");
+	// add("KEA");
+	add("KEGG");
+	add("MGI_Mammalian_Phenotype");
+	add("microRNA");
+	// add("Mouse_Gene_Atlas");
+	// add("NCI-60_Cancer_Cell_Lines");
+	add("OMIM_Disease");
+	// add("OMIM_Expanded");
+	add("Pfam_InterPro_Domains"); 
+	add("PPI_Hub_Proteins");
+	add("Reactome");
+	// add("TRANSFAC_and_JASPAR_PWMs");
+	// add("Up-regulated_CMAP");
+	add("VirusMINT");
+	add("WikiPathways");
+}}; %>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 	<meta name="author" content="Edward Y. Chen"/>
@@ -95,9 +128,11 @@
 								<td>
 									<a href="#" onclick="navigateTo(1, '#<%=type%>'); return false;">Table View</a>
 								</td>
-								<!-- <td>
-									<a href="#" onclick="subNavigateTo(2, '#Biocarta'); return false;">Grid View</a>
-								</td> -->
+								<% if (gridAvailable.contains(type)) { %>
+									<td>
+										<a href="#" onclick="navigateTo(2, '#<%=type%>'); return false;">Grid View</a>
+									</td>
+								<% } %>
 							</tr>
 						</table>
 					</div>
@@ -115,6 +150,11 @@
 							<div class="clear"></div>
 							<div class="export-box"><a href="#" onclick="tsvExport('<%=type%>_table', '<%=type%>')" title="Table contains additional details like associated genes">Export to Table</a></div>
 						</div>
+						<% if (gridAvailable.contains(type)) { %>
+							<div class="grid hidden">
+								<div class="svg-container"></div>
+							</div>							
+						<% } %>
 					</div>
 				</div>
 			<% } %>

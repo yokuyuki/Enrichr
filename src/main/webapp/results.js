@@ -381,40 +381,24 @@ function createTable(dataArray, container) {
 	});
 }
 
-// Create grid for ChEA and KEA
-function createGrid(section) {
-	if(typeof cDict != 'undefined') {
-		if (!draw_tf && section === 'tf') {
-			visualizeIt(0);
-			fill(0, highlights[0]);
-			visualizeIt(1);
-			fill(1, highlights[1]);
-			draw_tf = true;
-		}
-		else if (!draw_kinase && section === 'kinase') {
-			visualizeIt(2);
-			fill(2, highlights[2]);
-			visualizeIt(3);
-			fill(3, highlights[2]);
-			draw_kinase = true;
-		}
-	}
-	else {
-		cDict = new Array();
-		container = new Array();
-		$.getJSON("grid.json", function(json) {
-			cDict[0] = json.ChEA_Direct;
-			cDict[1] = json.ChEA_Substrate;
-			cDict[2] = json.KK_Direct;
-			cDict[3] = json.KK_Substrate;
-			createGrid(section);
-		});		
-	}
+// Create grid
+function createGrid(results, id, container) {
+	// Don't create grid if nowhere to put it
+	if (d3.select(container).empty())
+		return;
 
-	function visualizeIt(svgIndex) {
+	container += ' div.svg-container';
+
+	$.getJSON("json/" + id + ".json", function(json) {
+		visualizeIt(json, container)
+		var highlights = results.filter(function(d, i) { return i < 10; }).map(function(d) { return d[1]; });
+		fill(highlights, container)
+	});	
+
+	function visualizeIt(data, container) {
 		// Track Canvas-Related Global Variables
-		weights = cDict[svgIndex]['weights'];
-		textArray = cDict[svgIndex]['texts'];
+		weights = data.weights;
+		textArray = data.texts;
 		
 		G_VAR = {	
 			checkHex: "",
@@ -457,9 +441,8 @@ function createGrid(section) {
 			G_VAR.nodes.push(node)
 		}
 		
-		createCanvas(svgIndex);	
-		weight_visualize();
-		container[svgIndex] = G_VAR;
+		createCanvas(container);	
+		weight_visualize();		
 	}
 
 	function circleMake(circles) {
@@ -494,31 +477,26 @@ function createGrid(section) {
 		circleMake(indicate.data(G_VAR.nodes).enter().append("svg:circle"));
 	}
 
-	function fill(svgIndex, elementList) {
+	function fill(elementList, container) {
 		var hexCode = "#FF0000";
-
-		G_VAR = container[svgIndex];
+		
 		for (i in G_VAR.nodes){			
-			if (elementList.indexOf(G_VAR.nodes[i].searchText) > -1){
+			if (elementList.indexOf(G_VAR.nodes[i].text) > -1){
 				G_VAR.nodes[i].indicator = hexCode;
 				G_VAR.nodes[i].indicatorOpacity = 1;
 			}
 		}
-		canvas = d3.select("svg#canvas"+svgIndex);
+		canvas = d3.select(container + ' svg');
 		canvas.selectAll("circle").data([]).exit().remove();
 		indicate = canvas.selectAll("circle");
 		circleMake(indicate.data(G_VAR.nodes).enter().append("svg:circle"));
 	}
 
-	function createCanvas(svgIndex) {
-		span = "#SVG" +svgIndex;
-		canvas = d3.select(span)
-					.append("svg:svg")
-					.attr("id","canvas"+svgIndex)
+	function createCanvas(container) {		
+		canvas = d3.select(container)
+					.append("svg:svg")					
 					.attr("width", G_VAR.canvas_size)
-					.attr("height", G_VAR.canvas_size);
-
-				
+					.attr("height", G_VAR.canvas_size);				
 
 		// Fill Canvas with Weights and Names
 		rect = canvas.selectAll("rect");
@@ -528,8 +506,7 @@ function createGrid(section) {
 	function NodeObj(index, weigh, text) {
 		this.index = index;
 		this.weight = weigh;
-		this.text = text;
-		this.searchText = text.toUpperCase();
+		this.text = text;		
 		
 		this.column = index%G_VAR.width;
 		this.row = Math.floor(index/G_VAR.width);
@@ -655,7 +632,8 @@ function getResult(id) {
 				$(idTag + ' div.content img.loader').remove();
 				$(idTag + ' div.content').addClass('done');
 				createBarGraph(json[id], idTag + ' div.bar-graph');
-				createTable(json[id], idTag + ' .results_table');
+				createTable(json[id], idTag + ' .results_table');				
+				createGrid(json[id], id, idTag + ' div.grid');
 			}
 		});
 	}
