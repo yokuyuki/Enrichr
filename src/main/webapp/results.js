@@ -390,123 +390,82 @@ function createGrid(results, id, container) {
 	// Grid actually goes in svg-container
 	container += ' div.svg-container';
 
-	// Grid object
-	G_VAR = {
-		checkHex: /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/,
-		
-		// Text Attributes		
-		textVisible: 0,
-		textColor: "#FFFFFF",
-		textSize: 10,
-
-		// SVG Canvas Attributes		
-		nodes: new Array(),		
-		canvasSize: 0,
-		canvas_size: 225,
-		DEFAULTPIXELS: 15,		
-		invertColor: 0,
-		canvasHex : "#00FFFF",
-		canvasRGB : [0,255,255],
-		color: d3.scale.pow().exponent(5)
+	// Grid attributes
+	var gridAttr = {
+		nodes: new Array(),
+		canvasSize: 225,
+		indicatorColor: '#FFFFFF',
+		maxColor: '#FF6666',
+		color: d3.scale.pow().exponent(5).interpolate(d3.interpolateRgb)
 	}
 
 	//$d3.json("json/" + id + ".json", function(json) {
-	$.getJSON("json/" + id + ".json", function(json) {
-		weights = json.weights;
-		var textArray = json.texts;
+	$.getJSON('json/' + id + '.json', function(json) {
+		var weights = json.weights;
+		var texts = json.texts;
 
-		G_VAR.width = Math.sqrt(weights.length),
-		G_VAR.pixels = 225 / G_VAR.width;
-		G_VAR.color.domain([0, d3.max(weights)])
-			.interpolate(d3.interpolateRgb)
-			.range(["#000000", "#FF6666"]);
+		gridAttr.width = Math.sqrt(weights.length),
+		gridAttr.pixels = 225 / gridAttr.width;
+		gridAttr.color.domain([0, d3.max(weights)])
+			.range(['#000000', gridAttr.maxColor]);
 
 		for (index in weights){
-			var node = new NodeObj(index, weights[index], textArray[index]);
-			G_VAR.nodes.push(node)
+			var node = new GridNode(index, texts[index], weights[index]);
+			gridAttr.nodes.push(node)
 		}
 
-		createCanvas(container);	
-		weight_visualize();
+		drawCanvas(container);	
 		var highlights = results.filter(function(d, i) { return i < 10; }).map(function(d) { return d[1]; });
 		fill(highlights, container)
 	});	
 
-	function circleMake(circles) {
-		pixels = G_VAR.pixels;
-		circles.attr("cx", function(d,i) {return (d.columnPixels) + pixels/2;})
-				.attr("cy", function(d,i) {return (d.rowPixels) + pixels/2;})
-				.attr("fill", function(d) { return d.indicator;})
-				.attr("fill-opacity", function(d) { return (d.indicatorOpacity);})
-				.transition()
-					.duration(2000)
-					.ease(Math.sqrt)
-					.attr("r", Math.floor(pixels/3));
+	function GridNode(index, label, weight) {
+		this.weight = weight;
+		this.label = label;		
 		
-		circles.append("title").text(function(d) { return d.text; })	
+		this.column = index % gridAttr.width;
+		this.row = Math.floor(index / gridAttr.width);
+		
+		this.columnPixels = index % gridAttr.width * gridAttr.pixels;
+		this.rowPixels = Math.floor(index / gridAttr.width) * gridAttr.pixels;
 	}
-		
-	function rectMake(rects) {
-		rects.attr("x", function(d,i) {return (d.columnPixels);})
-			.attr("y", function(d,i) {return (d.rowPixels);})
-			.attr("width", G_VAR.pixels)
-			.attr("height", G_VAR.pixels)
-			.attr("fill", function(d) { return G_VAR.color(d.weight);});
-		rects.append("title")
-			.text(function(d) { return d.text; })
-	}		
 
-	function weight_visualize() {
-		/* Create and recreate canvas */
-		canvas.selectAll("rect").data([]).exit().remove();
-		canvas.selectAll("circle").data([]).exit().remove();
-		rectMake(rect.data(G_VAR.nodes).enter().append("svg:rect"));
-		// circleMake(indicate.data(G_VAR.nodes).enter().append("svg:circle"));
+	function drawCanvas(container) {		
+		var canvas = d3.select(container)
+					.append("svg:svg")
+					.attr("width", gridAttr.canvasSize)
+					.attr("height", gridAttr.canvasSize);
+
+		canvas.selectAll("rect")
+			.data(gridAttr.nodes)
+			.enter()
+			.append("svg:rect")
+			.attr("x", function(d,i) { return (d.columnPixels); })
+			.attr("y", function(d,i) { return (d.rowPixels); })
+			.attr("width", gridAttr.pixels)
+			.attr("height", gridAttr.pixels)
+			.attr("fill", function(d) { return gridAttr.color(d.weight); })
+			.append("title")
+			.text(function(d) { return d.label; });
+
+		canvas.selectAll("circle")
+			.data(gridAttr.nodes)
+			.enter()
+			.append("svg:circle")
+			.attr("cx", function(d,i) { return (d.columnPixels) + gridAttr.pixels/2; })
+			.attr("cy", function(d,i) { return (d.rowPixels) + gridAttr.pixels/2; })
+			.attr("fill", gridAttr.indicatorColor)
+			.attr("fill-opacity", 0)
+			.attr("r", Math.floor(gridAttr.pixels/3))
+			.attr("title", function(d) { return d.label; })
+			.append('title')
+			.text(function(d) { return d.label; });
 	}
 
 	function fill(elementList, container) {
-		var hexCode = "#FFFFFF";
-		
-		for (i in G_VAR.nodes){			
-			if (elementList.indexOf(G_VAR.nodes[i].text) > -1){
-				G_VAR.nodes[i].indicator = hexCode;
-				G_VAR.nodes[i].indicatorOpacity = 1;
-			}
-		}
-		canvas = d3.select(container + ' svg');
-		canvas.selectAll("circle").data([]).exit().remove();
-		indicate = canvas.selectAll("circle");
-		circleMake(indicate.data(G_VAR.nodes).enter().append("svg:circle"));
-	}
-
-	function createCanvas(container) {		
-		canvas = d3.select(container)
-					.append("svg:svg")					
-					.attr("width", G_VAR.canvas_size)
-					.attr("height", G_VAR.canvas_size);				
-
-		// Fill Canvas with Weights and Names
-		rect = canvas.selectAll("rect");
-		indicate = canvas.selectAll("circle");
-	}
-
-	function NodeObj(index, weight, text) {
-		this.index = index;
-		this.weight = weight;
-		this.text = text;		
-		
-		this.column = index%G_VAR.width;
-		this.row = Math.floor(index/G_VAR.width);
-		
-		this.columnPixels = index%G_VAR.width * G_VAR.pixels;
-		this.rowPixels = Math.floor(index/G_VAR.width) * G_VAR.pixels;
-
-		this.indicator = 0;
-		this.indicatorOpacity = 0;
-		
-		this.canvasChange = function() {
-			this.columnPixels = this.column * G_VAR.pixels;
-			this.rowPixels = this.row * G_VAR.pixels;
+		for (i in elementList) {
+			d3.selectAll(container + ' circle[title="' + elementList[i] + '"]')
+				.attr('fill-opacity', 1)
 		}
 	}
 }
