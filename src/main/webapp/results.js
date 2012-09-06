@@ -396,7 +396,7 @@ function createGrid(results, id, container) {
 		canvasSize: 225,
 		highlightCount: 10,
 		highlightLabel: function(value) { return value[1]; },
-		highlightValue: function(value) { return value[1] + '&#10;' + value[2]; },
+		highlightValue: function(value) { return value[1] + '<br/>' + value[2]; },
 		indicatorColor: '#FFFFFF',
 		maxColor: '#FF6666',
 		color: d3.scale.pow().exponent(5).interpolate(d3.interpolateRgb)
