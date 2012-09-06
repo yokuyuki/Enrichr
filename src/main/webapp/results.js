@@ -387,63 +387,50 @@ function createGrid(results, id, container) {
 	if (d3.select(container).empty())
 		return;
 
+	// Grid actually goes in svg-container
 	container += ' div.svg-container';
 
+	// Grid object
+	G_VAR = {
+		checkHex: /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/,
+		
+		// Text Attributes		
+		textVisible: 0,
+		textColor: "#FFFFFF",
+		textSize: 10,
+
+		// SVG Canvas Attributes		
+		nodes: new Array(),		
+		canvasSize: 0,
+		canvas_size: 225,
+		DEFAULTPIXELS: 15,		
+		invertColor: 0,
+		canvasHex : "#00FFFF",
+		canvasRGB : [0,255,255],
+		color: d3.scale.pow().exponent(5)
+	}
+
+	//$d3.json("json/" + id + ".json", function(json) {
 	$.getJSON("json/" + id + ".json", function(json) {
-		visualizeIt(json, container)
-		var highlights = results.filter(function(d, i) { return i < 10; }).map(function(d) { return d[1]; });
-		fill(highlights, container)
-	});	
+		weights = json.weights;
+		var textArray = json.texts;
 
-	function visualizeIt(data, container) {
-		// Track Canvas-Related Global Variables
-		weights = data.weights;
-		textArray = data.texts;
-		
-		G_VAR = {	
-			checkHex: "",
-			// Text Attributes
-			
-			textVisible: 0,
-			textColor: "#FFFFFF",
-			textSize: 10,
-
-			// SVG Canvas Attributes
-			//nodes Display
-			
-			nodes: new Array(),
-			width: Math.sqrt(weights.length),
-			canvasSize: 0,
-			DEFAULTPIXELS: 15,
-			invertColor: 0,
-			scale: 1,
-			canvasHex : "#00FFFF",
-			canvasRGB : [0,255,255],
-		}
-		G_VAR.checkHex = /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/;
-		G_VAR.canvas_size = 225;
+		G_VAR.width = Math.sqrt(weights.length),
 		G_VAR.pixels = 225 / G_VAR.width;
-		
-		totalWeight = 0;
-		for (index in weights){
-			totalWeight += weights[index];
-		}
-		
-		avgWeight = totalWeight/weights.length;
-
-		if (avgWeight != 8.0){
-			G_VAR.scale = Math.log(0.2)/Math.log(avgWeight/8);
-		}
+		G_VAR.color.domain([0, d3.max(weights)])
+			.interpolate(d3.interpolateRgb)
+			.range(["#000000", "#FF6666"]);
 
 		for (index in weights){
 			var node = new NodeObj(index, weights[index], textArray[index]);
-			node.colorizer();
 			G_VAR.nodes.push(node)
 		}
-		
+
 		createCanvas(container);	
-		weight_visualize();		
-	}
+		weight_visualize();
+		var highlights = results.filter(function(d, i) { return i < 10; }).map(function(d) { return d[1]; });
+		fill(highlights, container)
+	});	
 
 	function circleMake(circles) {
 		pixels = G_VAR.pixels;
@@ -464,7 +451,7 @@ function createGrid(results, id, container) {
 			.attr("y", function(d,i) {return (d.rowPixels);})
 			.attr("width", G_VAR.pixels)
 			.attr("height", G_VAR.pixels)
-			.attr("fill", function(d) { return d.color;});
+			.attr("fill", function(d) { return G_VAR.color(d.weight);});
 		rects.append("title")
 			.text(function(d) { return d.text; })
 	}		
@@ -474,11 +461,11 @@ function createGrid(results, id, container) {
 		canvas.selectAll("rect").data([]).exit().remove();
 		canvas.selectAll("circle").data([]).exit().remove();
 		rectMake(rect.data(G_VAR.nodes).enter().append("svg:rect"));
-		circleMake(indicate.data(G_VAR.nodes).enter().append("svg:circle"));
+		// circleMake(indicate.data(G_VAR.nodes).enter().append("svg:circle"));
 	}
 
 	function fill(elementList, container) {
-		var hexCode = "#FF0000";
+		var hexCode = "#FFFFFF";
 		
 		for (i in G_VAR.nodes){			
 			if (elementList.indexOf(G_VAR.nodes[i].text) > -1){
@@ -503,9 +490,9 @@ function createGrid(results, id, container) {
 		indicate = canvas.selectAll("circle");
 	}
 
-	function NodeObj(index, weigh, text) {
+	function NodeObj(index, weight, text) {
 		this.index = index;
-		this.weight = weigh;
+		this.weight = weight;
 		this.text = text;		
 		
 		this.column = index%G_VAR.width;
@@ -514,31 +501,9 @@ function createGrid(results, id, container) {
 		this.columnPixels = index%G_VAR.width * G_VAR.pixels;
 		this.rowPixels = Math.floor(index/G_VAR.width) * G_VAR.pixels;
 
-
-		this.color = 0;
 		this.indicator = 0;
 		this.indicatorOpacity = 0;
 		
-		this.colorizer = function () {
-			var hexArray =["#"];
-			var canvasRGB = G_VAR.canvasRGB;
-			var scale = G_VAR.scale;
-				for (i=0; i<3; i++){
-					if (canvasRGB[i] === 0){
-						hexArray.push("00");
-					} else {
-						var oriNum = (G_VAR.invertColor === 0) ? Math.floor(canvasRGB[i]*Math.pow(this.weight, scale)/Math.pow(8, scale)) : Math.floor(canvasRGB[i]-canvasRGB[i]*Math.pow(this.weight, scale)/Math.pow(8, scale));
-						var hexNum = oriNum.toString(16);
-						if (hexNum.length === 1){
-							hexNum = '0' + hexNum;
-						}
-						hexArray.push(hexNum);
-					}
-				}
-			var hexCode = hexArray.join("");
-			this.color = hexCode;
-		}
-			
 		this.canvasChange = function() {
 			this.columnPixels = this.column * G_VAR.pixels;
 			this.rowPixels = this.row * G_VAR.pixels;
