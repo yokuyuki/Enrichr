@@ -432,32 +432,32 @@ function createGrid(results, id, container) {
 
 	function drawCanvas(container) {		
 		var canvas = d3.select(container)
-					.append("svg:svg")
-					.attr("width", gridAttr.canvasSize)
-					.attr("height", gridAttr.canvasSize);
+					.append('svg:svg')
+					.attr('width', gridAttr.canvasSize)
+					.attr('height', gridAttr.canvasSize);
 
-		canvas.selectAll("rect")
+		canvas.selectAll('rect')
 			.data(gridAttr.nodes)
 			.enter()
-			.append("svg:rect")
-			.attr("x", function(d,i) { return (d.columnPixels); })
-			.attr("y", function(d,i) { return (d.rowPixels); })
-			.attr("width", gridAttr.pixels)
-			.attr("height", gridAttr.pixels)
-			.attr("fill", function(d) { return gridAttr.color(d.weight); })
-			.append("title")
+			.append('svg:rect')
+			.attr('x', function(d,i) { return (d.columnPixels); })
+			.attr('y', function(d,i) { return (d.rowPixels); })
+			.attr('width', gridAttr.pixels)
+			.attr('height', gridAttr.pixels)
+			.attr('fill', function(d) { return gridAttr.color(d.weight); })
+			.append('title')
 			.text(function(d) { return d.label; });
 
-		canvas.selectAll("circle")
+		canvas.selectAll('circle')
 			.data(gridAttr.nodes)
 			.enter()
-			.append("svg:circle")
-			.attr("cx", function(d,i) { return (d.columnPixels) + gridAttr.pixels/2; })
-			.attr("cy", function(d,i) { return (d.rowPixels) + gridAttr.pixels/2; })
-			.attr("fill", gridAttr.indicatorColor)
-			.attr("fill-opacity", 0)
-			.attr("r", Math.floor(gridAttr.pixels/3))
-			.attr("title", function(d) { return d.label; })
+			.append('svg:circle')
+			.attr('cx', function(d,i) { return (d.columnPixels) + gridAttr.pixels/2; })
+			.attr('cy', function(d,i) { return (d.rowPixels) + gridAttr.pixels/2; })
+			.attr('fill', gridAttr.indicatorColor)
+			.attr('fill-opacity', 0)
+			.attr('r', Math.floor(gridAttr.pixels/3))
+			.attr('title', function(d) { return d.label; })
 			.append('title')
 			.text(function(d) { return d.label; });
 	}
