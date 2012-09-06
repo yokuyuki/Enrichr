@@ -72,14 +72,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 	<meta name="author" content="Edward Y. Chen"/>
-	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css"/>
-	<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/css/jquery.dataTables.css"/>
-	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'/>
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css"/>	
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'/>		
 	<link rel="stylesheet" type="text/css" href="black-widow.css"/>
 	<link rel="stylesheet" type="text/css" href="black-widow-results.css"/>
+	<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/css/jquery.dataTables.css"/>
+	<link rel="stylesheet" type="text/css" href="tipTip.css"/>
 	<script type="text/javascript" src="http://d3js.org/d3.v2.min.js" defer="defer"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" defer="defer"></script>
 	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/jquery.dataTables.min.js" defer="defer"></script>
+	<script type="text/javascript" src="jquery.tipTip.minified.js" defer="defer"></script>
 	<script type="text/javascript" src="results.js" defer="defer"></script>
 	<title>Enrichr</title>
 </head>
@@ -123,14 +125,14 @@
 						<table class="nav">
 							<tr>
 								<td class="selected">
-									<a href="#" onclick="navigateTo(0, '#<%=type%>'); return false;">Bar Graph View</a>
+									<a href="#" onclick="navigateTo(0, '#<%=type%>'); return false;">Bar Graph</a>
 								</td>
 								<td>
-									<a href="#" onclick="navigateTo(1, '#<%=type%>'); return false;">Table View</a>
+									<a href="#" onclick="navigateTo(1, '#<%=type%>'); return false;">Table</a>
 								</td>
 								<% if (gridAvailable.contains(type)) { %>
 									<td>
-										<a href="#" onclick="navigateTo(2, '#<%=type%>'); return false;">Grid View</a>
+										<a href="#" onclick="navigateTo(2, '#<%=type%>'); return false;">Grid</a>
 									</td>
 								<% } %>
 							</tr>

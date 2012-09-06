@@ -394,6 +394,9 @@ function createGrid(results, id, container) {
 	var gridAttr = {
 		nodes: new Array(),
 		canvasSize: 225,
+		highlightCount: 10,
+		highlightLabel: function(value) { return value[1]; },
+		highlightValue: function(value) { return value[1] + '&#10;' + value[2]; },
 		indicatorColor: '#FFFFFF',
 		maxColor: '#FF6666',
 		color: d3.scale.pow().exponent(5).interpolate(d3.interpolateRgb)
@@ -415,7 +418,7 @@ function createGrid(results, id, container) {
 		}
 
 		drawCanvas(container);	
-		var highlights = results.filter(function(d, i) { return i < 10; }).map(function(d) { return d[1]; });
+		var highlights = results.filter(function(d, i) { return i < gridAttr.highlightCount; });
 		fill(highlights, container)
 	});	
 
@@ -457,16 +460,20 @@ function createGrid(results, id, container) {
 			.attr('fill', gridAttr.indicatorColor)
 			.attr('fill-opacity', 0)
 			.attr('r', Math.floor(gridAttr.pixels/3))
-			.attr('title', function(d) { return d.label; })
+			.attr('label', function(d) { return d.label; })
 			.append('title')
 			.text(function(d) { return d.label; });
 	}
 
 	function fill(elementList, container) {
 		for (i in elementList) {
-			d3.selectAll(container + ' circle[title="' + elementList[i] + '"]')
+			d3.selectAll(container + ' circle[label="' + gridAttr.highlightLabel(elementList[i]) + '"]')
 				.attr('fill-opacity', 1)
+				.attr('class', 'highlight')
+				.attr('title', gridAttr.highlightValue(elementList[i]));
 		}
+		d3.selectAll(container + ' circle.highlight title').remove();
+		$(container + ' .highlight').tipTip({ defaultPosition: 'right', edgeOffset: 5});
 	}
 }
 
@@ -557,7 +564,7 @@ function getResult(id) {
 				$(idTag + ' div.content').addClass('done');
 				createBarGraph(json[id], idTag + ' div.bar-graph');
 				createTable(json[id], idTag + ' .results_table');				
-				createGrid(json[id], id, idTag + ' div.grid');
+				createGrid(json[id], id, idTag + ' div.grid');				
 			}
 		});
 	}
