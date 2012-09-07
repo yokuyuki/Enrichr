@@ -28,6 +28,7 @@ public class Enrichment {
 		put(Enrichment.CHEA, "ChEA.gmt");
 		put(Enrichment.CCLE, "Cancer_Cell_Line_Encyclopedia.gmt");
 		put(Enrichment.CHROMOSOME_LOCATION, "Chromosome_location.gmt");
+		put(Enrichment.CORUM, "CORUM.gmt");
 		put(Enrichment.UPREGULATED_CMAP, "Up-regulated_CMAP_100.gmt");
 		put(Enrichment.DOWNREGULATED_CMAP, "Down-regulated_CMAP_100.gmt");
 		put(Enrichment.ENCODE, "ENCODE_TF_ChIP-seq.gmt");
@@ -62,6 +63,7 @@ public class Enrichment {
 	public static final String CCLE = "Cancer_Cell_Line_Encyclopedia";
 	public static final String CHEA = "ChEA";
 	public static final String CHROMOSOME_LOCATION = "Chromosome_Location";
+	public static final String CORUM = "CORUM";
 	public static final String UPREGULATED_CMAP = "Up-regulated_CMAP";
 	public static final String DOWNREGULATED_CMAP = "Down-regulated_CMAP";
 	public static final String ENCODE = "ENCODE_TF_ChIP-seq";

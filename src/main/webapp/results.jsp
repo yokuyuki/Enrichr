@@ -12,7 +12,9 @@
 												"Reactome",
 												"BioCarta",
 												"PPI_Hub_Proteins",
-												"KEA",	},
+												"KEA",
+												"Human_Endogenous_Complexome",
+												"CORUM"	},
 											{	"GO_Biological_Process",
 												"GO_Cellular_Component",
 												"GO_Molecular_Function",
@@ -29,8 +31,7 @@
 												"NCI-60_Cancer_Cell_Lines" },
 											{	"Chromosome_Location",
 												"HMDB_Metabolites",
-												"Human_Endogenous_Complexome"
-,												"Pfam_InterPro_Domains"	}}; %>
+												"Pfam_InterPro_Domains"	}}; %>
 <%! private String[] categories = {	"Transcription", 
 									"Pathways", 
 									"Ontologies",
