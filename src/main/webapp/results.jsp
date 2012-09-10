@@ -110,6 +110,17 @@
 		<div id="advice">Use Ctrl+C or Option+C to copy the link below. Your link will last 30 days.</div>
 		<input type="text" />
 	</div>
+	<table id="description">
+		<tr>
+			<td id="red">Description</td>
+			<td id="black"><%
+				if (session.getAttribute("description") != null)
+					out.print(session.getAttribute("description"));
+				else
+					out.print("No description available");
+			%></td>
+		</tr>		
+	</table>
 	<a href="index.html">
 		<div class="hidden" id="session-warning">
 			<img src="images/warning-icon.png" height="24px" width="24px"/>

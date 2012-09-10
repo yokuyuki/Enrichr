@@ -34,6 +34,7 @@ function insertExample() {
 	$.get('example_list.txt', function(data) {
 		$('textarea#text-area').val(data);
 		geneCount();
+		$('#description input').val("Sample gene list");
 	});	
 }
 

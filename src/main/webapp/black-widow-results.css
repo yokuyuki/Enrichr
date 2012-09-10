@@ -2,6 +2,7 @@ div.content {
 	margin-top: 1em;
 }
 
+/* Download links */
 div.downloadbox {
 	float: right;
 }
@@ -20,6 +21,7 @@ div.downloadbox a:hover {
 	color: #000;
 }
 
+/* Session warning */
 div#session-warning {
 	margin-bottom: 1em;
 }
@@ -41,7 +43,6 @@ a.title {
 }
 
 /* Navbar */
-
 #navbar td.shown a {
 	color: #fff;
 	background-color: #000 !important;
@@ -73,6 +74,30 @@ div.export-box a:hover {
 	color: #fff;
 	background-color: #D90000;
 }
+
+/* Description */
+#description {
+	margin-bottom: 1em;
+}
+
+#description td {
+	padding: 0.1em 0.2em;
+	font-weight: bold;
+}
+
+#description td#red {
+	border: 1px solid #D90000;
+	background-color: #D90000;
+	color: #fff;
+	vertical-align: middle;
+}
+
+#description td#black {
+	border: 1px solid #000;
+	width: 100%;
+}
+
+#description
 
 /* Bar graph properties */
 div.graph span.method {

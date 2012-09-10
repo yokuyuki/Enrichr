@@ -45,6 +45,13 @@ public class Enrichr extends HttpServlet {
 			fileChunk = request.getPart("list");
 		ArrayList<String> inputList = PartReader.readLines(fileChunk);
 		
+		// Read description
+		String description = request.getParameter("description");
+		if (description.trim().length() != 0)
+			request.getSession().setAttribute("description", description);
+		else
+			request.getSession().removeAttribute("description");
+		
 		postResult(request, response, inputList);
 	}
 	
@@ -73,21 +80,28 @@ public class Enrichr extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		
 		// Redirect to post if reading from file
 		String dataset = request.getParameter("dataset");
 		if (dataset != null) {
-			postResult(request, response, FileUtils.readResource("/datasets/" + dataset + ".txt"));
+			ArrayList<String> input = FileUtils.readResource("/datasets/" + dataset + ".txt");
+			if (input.get(0).startsWith("#"))	// If input line starts with comment
+				session.setAttribute("description", input.remove(0).replaceFirst("#", ""));
+			else
+				session.removeAttribute("description");
+			postResult(request, response, input);
 			return;
 		}
 		
-		Enrichment app = (Enrichment) request.getSession().getAttribute("process");
+		Enrichment app = (Enrichment) session.getAttribute("process");
 		
 		if (app == null) {
 			getExpired(request, response);
 		}
 		else {
-			if (request.getParameter("share") == null) {
-				if (request.getParameter("filename") == null)
+			if (request.getParameter("share") == null) {	// If not sharing result
+				if (request.getParameter("filename") == null)	// If not exporting file
 					getJSONResult(request, response, app);
 				else
 					getFileResult(request, response, app);
@@ -112,9 +126,14 @@ public class Enrichr extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		
-		int filecount = (Integer) request.getSession().getAttribute("filecount");
-		String fileId = request.getSession().getId() + "-" + filecount;
-		FileUtils.writeFile("/datasets/" + fileId + ".txt", app.getInput());
+		HttpSession session = request.getSession();
+		
+		int filecount = (Integer) session.getAttribute("filecount");
+		String fileId = session.getId() + "-" + filecount;
+		if (session.getAttribute("description") != null)
+			FileUtils.writeFile("/datasets/" + fileId + ".txt", "#" + (String) session.getAttribute("description"), app.getInput());
+		else
+			FileUtils.writeFile("/datasets/" + fileId + ".txt", app.getInput());
 		
 		json.add("link_id", fileId);
 		json.write(response.getWriter());

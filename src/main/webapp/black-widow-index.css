@@ -9,7 +9,6 @@ div.title {
 }
 
 div.next-step {
-	margin-top: 1em;
 	float: right;
 }
 
@@ -20,7 +19,7 @@ a.help {
 	color: #F38630;
 }
 
-/* Questions Page 1 */
+/* Analyze Page */
 
 table#data-input {
 	width: 100%;
@@ -31,7 +30,7 @@ table#data-input td {
 	vertical-align: top;
 }
 
-table#data-input td p {
+table#data-input tr#genes p {
 	margin-bottom: 1em;
 }
 
@@ -47,7 +46,15 @@ div#gene-count {
 	font-style: italic;	
 }
 
-/* Questions Page 2 */
+tr#description td {
+	padding-top: 1em;
+}
+
+tr#description input {
+	width: 100%;
+}
+
+/* Statistics Page */
 
 #stats td a:hover {
 	text-decoration: underline;

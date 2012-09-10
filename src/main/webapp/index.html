@@ -57,7 +57,7 @@
 			<form action="enrich" method="post" onsubmit="return validateInput();" enctype="multipart/form-data">
 				<div class="title">Input data</div>			
 				<table id="data-input">
-					<tr>
+					<tr id="genes">
 						<td>
 							<p>Choose an input file to upload. Separate each gene symbol with a new line.</p>
 							<input type="file" name="file" id="file-chooser"/>
@@ -66,6 +66,12 @@
 							<p>Or paste in a list of gene symbols separated by a new line. <a href="#"	onclick="insertExample(); return false;" id="example-input">Try an example!</a></p>
 							<textarea name="list" rows="10" id="text-area" onkeyup="geneCount()" onchange="geneCount()"></textarea>
 							<div id="gene-count"><span id="gene-count">0</span> gene(s) entered</div>
+						</td>
+					</tr>
+					<tr id="description">
+						<td colspan="2">
+							<p>Enter a brief description for the list in case you want to share it. (Optional)</p>
+							<input type="text" name="description" />
 						</td>
 					</tr>
 				</table>
