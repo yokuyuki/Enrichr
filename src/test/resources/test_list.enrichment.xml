@@ -85,16 +85,16 @@
         <Term p-value="3.22E-2">NUDIX_hydrolase</Term>
     </Background>
     <Background name="HMDB Metabolites">
-        <Term p-value="7.04E-3">HMDB01423</Term>
-        <Term p-value="7.75E-3">HMDB01372</Term>
-        <Term p-value="1E-2">HMDB00902</Term>
-        <Term p-value="1.82E-2">HMDB01967</Term>
-        <Term p-value="1.86E-2">HMDB00131</Term>
-        <Term p-value="2.71E-2">HMDB01185</Term>
-        <Term p-value="3.2E-2">HMDB00063</Term>
-        <Term p-value="3.68E-2">HMDB06894</Term>
-        <Term p-value="3.68E-2">HMDB06242</Term>
-        <Term p-value="4.18E-2">HMDB03419</Term>
+        <Term p-value="7.04E-3">Coenzyme A (HMDB01423)</Term>
+        <Term p-value="7.75E-3">Thiamine pyrophosphate (HMDB01372)</Term>
+        <Term p-value="1E-2">NAD (HMDB00902)</Term>
+        <Term p-value="1.82E-2">Carbon dioxide (HMDB01967)</Term>
+        <Term p-value="1.86E-2">Glycerol (HMDB00131)</Term>
+        <Term p-value="2.71E-2">S-Adenosylmethionine (HMDB01185)</Term>
+        <Term p-value="3.2E-2">Cortisol (HMDB00063)</Term>
+        <Term p-value="3.68E-2">3,4-Dihydroxymandelaldehyde (HMDB06242)</Term>
+        <Term p-value="3.68E-2">C27H46O3 (HMDB06894)</Term>
+        <Term p-value="4.18E-2">Formyl-CoA (HMDB03419)</Term>
     </Background>
     <Background name="OMIM Disease">
         <Term p-value="1.16E-2">glycogen_storage_disease</Term>
@@ -109,16 +109,16 @@
         <Term p-value="2.03E-1">autism</Term>
     </Background>
     <Background name="BioCarta Pathways">
-        <Term p-value="7.96E-2">METHIONINEPATHWAY</Term>
-        <Term p-value="9.23E-2">GSPATHWAY</Term>
-        <Term p-value="1.05E-1">REELINPATHWAY</Term>
-        <Term p-value="1.17E-1">MALATEXPATHWAY</Term>
-        <Term p-value="1.17E-1">KREBPATHWAY</Term>
-        <Term p-value="1.17E-1">VOBESITYPATHWAY</Term>
-        <Term p-value="1.41E-1">LEPTINPATHWAY</Term>
-        <Term p-value="1.53E-1">VITCBPATHWAY</Term>
-        <Term p-value="1.53E-1">IL4PATHWAY</Term>
-        <Term p-value="1.65E-1">GABAPATHWAY</Term>
+        <Term p-value="7.96E-2">METHIONINE_PATHWAY</Term>
+        <Term p-value="9.23E-2">GS_PATHWAY</Term>
+        <Term p-value="1.05E-1">REELIN_PATHWAY</Term>
+        <Term p-value="1.17E-1">VOBESITY_PATHWAY</Term>
+        <Term p-value="1.17E-1">MALATEX_PATHWAY</Term>
+        <Term p-value="1.17E-1">KREB_PATHWAY</Term>
+        <Term p-value="1.41E-1">LEPTIN_PATHWAY</Term>
+        <Term p-value="1.53E-1">VITCB_PATHWAY</Term>
+        <Term p-value="1.53E-1">IL4_PATHWAY</Term>
+        <Term p-value="1.65E-1">GABA_PATHWAY</Term>
     </Background>
     <Background name="GO Cellular Component">
         <Term p-value="3.75E-5">mitochondrial part (GO:0044429)</Term>
