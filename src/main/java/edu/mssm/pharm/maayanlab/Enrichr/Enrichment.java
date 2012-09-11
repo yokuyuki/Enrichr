@@ -91,7 +91,7 @@ public class Enrichment {
 	public static final String VIRUSMINT = "VirusMINT";
 	public static final String WIKIPATHWAYS = "WikiPathways";
 	
-	public static final String HEADER = "Term\tP-value\tGenes";
+	public static final String HEADER = "Term\tOverlap\tP-value\tGenes";
 	
 	private Collection<String> geneList; 
 	
@@ -182,7 +182,7 @@ public class Enrichment {
 						targets.append(";").append(targetInputGene);
 				}
 				
-				resultTerms.add(new Term(key, pvalue, targets.toString()));
+				resultTerms.add(new Term(key, numOfTargetInputGenes, numOfTargetBgGenes, pvalue, targets.toString()));
 			}
 		}
 		

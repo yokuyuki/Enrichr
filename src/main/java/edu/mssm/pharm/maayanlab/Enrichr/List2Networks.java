@@ -99,7 +99,7 @@ public class List2Networks implements SettingsChanger {
 	private final DecimalFormat scientificNotation = new DecimalFormat("0.##E0");
 	
 	// Output header
-	protected final String HEADER = "Term\tP-value\tGenes"; 
+	public static final String HEADER = "Term\tOverlap\tP-value\tGenes"; 
 	
 	private HashMap<String, LinkedList<Term>> resultsMap = new HashMap<String, LinkedList<Term>>(18);
 	
@@ -361,7 +361,7 @@ public class List2Networks implements SettingsChanger {
 							targets.append(",").append(targetInputGene);
 					}
 					
-					resultTerms.add(new Term(key, pvalue, targets.toString()));
+					resultTerms.add(new Term(key, numOfTargetInputGenes, numOfTargetBgGenes, pvalue, targets.toString()));
 				}
 			}
 			
