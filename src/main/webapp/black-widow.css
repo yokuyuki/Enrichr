@@ -61,6 +61,7 @@ div#logo {
 	letter-spacing: 0.1em;
 	font-size: 3em;
 	font-weight: bold;
+	float: left;
 }
 
 div#logo span {

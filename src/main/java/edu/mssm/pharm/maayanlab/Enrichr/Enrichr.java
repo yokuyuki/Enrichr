@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -51,6 +52,9 @@ public class Enrichr extends HttpServlet {
 			request.getSession().setAttribute("description", description);
 		else
 			request.getSession().removeAttribute("description");
+		
+		// Increment count
+		((AtomicInteger) getServletContext().getAttribute("EnrichrCount")).incrementAndGet();
 		
 		postResult(request, response, inputList);
 	}

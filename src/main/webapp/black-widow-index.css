@@ -1,3 +1,15 @@
+div#count {
+	float: right;
+	padding-top: 3.2em;
+	padding-right: 0.5em;
+	font-size: 0.8em;
+	font-weight: bold;
+}
+
+div#count span {
+	color: #D90000;
+}
+
 div#content {
 	margin-top: 1em;
 }

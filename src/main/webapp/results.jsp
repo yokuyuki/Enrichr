@@ -90,6 +90,7 @@
 	<div id="logo">
 		<a href="index.html"><span>En</span>rich<span>r</span></a>
 	</div>
+	<div class="clear"></div>
 	<div class="nav" id="navbar">
 		<div id="share">
 			<!-- Per CC Attribution 3.0, the share icon is attributed to dAKirby309 from Windows 8 Metro Icons -->
