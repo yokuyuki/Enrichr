@@ -473,7 +473,7 @@ function createGrid(results, id, container) {
 				.attr('title', gridAttr.highlightValue(elementList[i]));
 		}
 		d3.selectAll(container + ' circle.highlight title').remove();
-		$(container + ' .highlight').tipTip({ defaultPosition: 'right', edgeOffset: 5});
+		$(container + ' .highlight').aToolTip({ fixed: true, xOffset: 4, yOffset: 1});
 	}
 }
 
