@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.mssm.pharm.maayanlab.FileUtils;
 
-@WebServlet(urlPatterns= {"/count"})
+@WebServlet(urlPatterns = {"/count"}, loadOnStartup=1)
 public class Counter extends HttpServlet {
 
 	/**
