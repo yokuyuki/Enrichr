@@ -86,6 +86,7 @@ $(document).ready(function () {
 	_changingCategory = false;	// Prevent changing category too fast
 	$.get('count', function(data) {
 		$('div#count span').text(data);
+		$('div#count').fadeIn('slow');
 	})
 	.error(function() { $('div#count').remove() });
 });
