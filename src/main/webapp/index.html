@@ -53,11 +53,17 @@
 				<td>
 					<a href="#" onclick="navigateTo(1); createStats(); return false;">Dataset Statistics</a>
 				</td>
+				<!-- <td>
+					<a href="#" onclick="navigateTo(2); return false;">About</a>
+				</td> -->
+				<td>
+					<a href="#" onclick="navigateTo(2); return false;">?</a>
+				</td>
 			</tr>
 		</table>
 	</div>
 	<div id="content" class="beveled">
-		<div id="step1" class="selected">
+		<div class="selected">
 			<form action="enrich" method="post" onsubmit="return validateInput();" enctype="multipart/form-data">
 				<div class="title">Input data</div>			
 				<table id="data-input">
@@ -86,10 +92,42 @@
 				<div class="clear"></div>
 			</form>
 		</div>
-		<div id="step2" class="hidden">
+		<div class="hidden">
 			<div class="title">Dataset Statistics</div>
 			<table id="stats"></table>
 			<div class="clear"></div>
+		</div>
+		<!-- <div class="hidden">
+			<div class="title">About</div>
+			<p>Developed by Ed Chen</p>
+		</div> -->
+		<div class="hidden">
+			<div class="title">Help</div>
+			<div class="question">How do I save my results?</div>
+			<div class="answer">
+				<p>After submitting a list, there's a share button on the top right corner of the results page. Clicking it will pop up a box that provides you a 30-day temporary link to share your results. It is encouraged to provide a brief description for your list on the starting page so that your collaborators know what the data is from. You can permanently save your results in <a href="http://amp.pharm.mssm.edu/lachmann/upload/login.php">List2Networks</a>. On the lists page, there is the option to use Enrichr as an action.</p>
+			</div>
+			<div class="question">Why is my browser not supported?</div>
+			<div class="answer">
+				<p>Part of the goal of this project is to improve the visualization of results using SVG powered by the <a href="http://d3js.org/" target="_blank">D3</a> JavaScript library. Any of the IE versions prior to version 9 do not render SVG properly. In addition, any versions of the stock Android browser prior to 3.0 (Honeycomb) do not support SVG either.</p>
+			</div>
+			<div class="question">How can I use this on my own site?</div>
+			<div class="answer">
+				<p>You can add this to your site with a combination of a hidden form and some simple JavaScript.</p>
+				<pre>
+&lt;form name="enrichr" action="enrich" method="post" enctype="multipart/form-data"&gt;
+  &lt;textarea id="genelist" name="list" style="display:none;"&gt;&lt;/textarea&gt;
+  &lt;input type="hidden" id="listdescription" name="description" /&gt;
+&lt;/form&gt;	</pre>
+				<p>Once you have the above hidden form in your HTML, you can use JavaScript to programmatically fill in the values for the <code>textarea</code> and <code>input</code> field.</p>
+				<pre>
+function enrich(list, description) {
+  document.getElementById("genelist").value = list;
+  document.getElementById("listdescription").value = description;
+  document.enrichr.submit()	// Submits form
+}				</pre>
+				<p>Make sure the lines in the list are separated by newlines.</p>
+			</div>
 		</div>
 	</div>		
 </body>

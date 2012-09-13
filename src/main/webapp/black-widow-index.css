@@ -32,7 +32,6 @@ a.help {
 }
 
 /* Analyze Page */
-
 table#data-input {
 	width: 100%;
 }
@@ -46,7 +45,7 @@ table#data-input tr#genes p {
 	margin-bottom: 1em;
 }
 
-a#example-input:hover {
+a#example-input:hover, div.answer a:hover {
 	text-decoration: underline;
 }
 
@@ -67,7 +66,25 @@ tr#description input {
 }
 
 /* Statistics Page */
-
 #stats td a:hover {
 	text-decoration: underline;
+}
+
+/* Help Page*/
+div.question, div.answer, div.answer p, div.answer pre {
+	margin-top: 1em;
+}
+
+div.question {
+	font-weight: bold;
+}
+
+div.answer pre {
+	padding: 1em;
+	background: #f8f8f8;
+}
+
+div.answer code {
+	font-size: 1.3em;
+	font-family: monospace;
 }
