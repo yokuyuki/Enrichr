@@ -109,24 +109,49 @@
 			</div>
 			<div class="question">Why is my browser not supported?</div>
 			<div class="answer">
-				<p>Part of the goal of this project is to improve the visualization of results using SVG powered by the <a href="http://d3js.org/" target="_blank">D3</a> JavaScript library. Any of the IE versions prior to version 9 do not render SVG properly. In addition, any versions of the stock Android browser prior to 3.0 (Honeycomb) do not support SVG either.</p>
+				<p>Part of the goal of this project is to improve the visualization of results using SVG powered by the <a href="http://d3js.org/" target="_blank">D3</a> JavaScript library. Any of the IE versions prior to IE 9 do not render SVG properly. In addition, any versions of the stock Android browser prior to 3.0 (Honeycomb) do not support SVG either.</p>
 			</div>
 			<div class="question">How can I use this on my own site?</div>
 			<div class="answer">
-				<p>You can add this to your site with a combination of a hidden form and some simple JavaScript.</p>
+				<p>You can call Enrichr on your site with some simple JavaScript:</p>
 				<pre>
-&lt;form name="enrichr" action="enrich" method="post" enctype="multipart/form-data"&gt;
-  &lt;textarea id="genelist" name="list" style="display:none;"&gt;&lt;/textarea&gt;
-  &lt;input type="hidden" id="listdescription" name="description" /&gt;
-&lt;/form&gt;	</pre>
-				<p>Once you have the above hidden form in your HTML, you can use JavaScript to programmatically fill in the values for the <code>textarea</code> and <code>input</code> field.</p>
-				<pre>
-function enrich(list, description) {
-  document.getElementById("genelist").value = list;
-  document.getElementById("listdescription").value = description;
-  document.enrichr.submit()	// Submits form
+function enrich(options) {
+  var defaultOptions = {
+    description: "",
+    popup: false
+  };
+
+  if (typeof options.description == 'undefined')
+    options.description = defaultOptions.description;
+  if (typeof options.popup == 'undefined')
+    options.popup = defaultOptions.popup;
+  if (typeof options.list == 'undefined')
+    alert('No genes defined.');
+
+  var form = document.createElement('form');
+  form.setAttribute('method', 'post');
+  form.setAttribute('action', 'http://amp.pharm.mssm.edu/Enrichr/enrich');
+  if (options.popup)
+    form.setAttribute('target', '_blank');
+  form.setAttribute('enctype', 'multipart/form-data');
+
+  var listField = document.createElement('input');
+  listField.setAttribute('type', 'hidden');
+  listField.setAttribute('name', 'list');
+  listField.setAttribute('value', options.genes);
+  form.appendChild(listField);
+
+  var descField = document.createElement('input');
+  descField.setAttribute('type', 'hidden');
+  descField.setAttribute('name', 'description');
+  descField.setAttribute('value', options.description);
+  form.appendChild(descField);
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
 }				</pre>
-				<p>Make sure the lines in the list are separated by newlines.</p>
+				<p>To use it, simply call <code>enrich({list: genes})</code> in your JavaScript and pass in <code>genes</code> as a list of Entrez Gene symbols separated by newlines. You can include a description for the list by using <code>enrich({list: genes, description: descString})</code>. To have the results pop up in a new window, use <code>enrich({list: genes, popup: true})</code>.</p>
 			</div>
 		</div>
 	</div>		
