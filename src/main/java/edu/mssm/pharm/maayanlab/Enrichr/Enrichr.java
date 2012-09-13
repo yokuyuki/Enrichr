@@ -48,7 +48,7 @@ public class Enrichr extends HttpServlet {
 		
 		// Read description
 		String description = request.getParameter("description");
-		if (description.trim().length() != 0)
+		if (description != null && description.trim().length() != 0)
 			request.getSession().setAttribute("description", description);
 		else
 			request.getSession().removeAttribute("description");
