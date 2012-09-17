@@ -140,8 +140,8 @@ public class Enrichment {
 			bgDatabase.put(splitLine[0], values);
 			
 			for (int i = 2; i < splitLine.length; i++) {
-				bgGenes.add(splitLine[i]);
-				values.add(splitLine[i]);
+				bgGenes.add(splitLine[i].toUpperCase());
+				values.add(splitLine[i].toUpperCase());
 			}
 		}
 		
