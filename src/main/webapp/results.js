@@ -381,102 +381,6 @@ function createTable(dataArray, container) {
 	});
 }
 
-// Create grid
-function createGrid(results, id, container) {
-	// Don't create grid if nowhere to put it
-	if (d3.select(container).empty())
-		return;
-
-	// Grid actually goes in svg-container
-	container += ' div.svg-container';
-
-	// Grid attributes
-	var gridAttr = {
-		nodes: new Array(),
-		canvasSize: 225,
-		highlightCount: 10,
-		highlightLabel: function(value) { return value[1]; },
-		highlightValue: function(value) { return value[1] + '<br/>' + value[2]; },
-		indicatorColor: '#FFFFFF',
-		maxColor: '#FF6666',
-		color: d3.scale.pow().exponent(5).interpolate(d3.interpolateRgb)
-	}
-
-	//$d3.json("json/" + id + ".json", function(json) {
-	$.getJSON('json/' + id + '.json', function(json) {
-		var weights = json.weights;
-		var texts = json.texts;
-
-		gridAttr.width = Math.sqrt(weights.length),
-		gridAttr.pixels = 225 / gridAttr.width;
-		gridAttr.color.domain([0, d3.max(weights)])
-			.range(['#000000', gridAttr.maxColor]);
-
-		for (index in weights){
-			var node = new GridNode(index, texts[index], weights[index]);
-			gridAttr.nodes.push(node)
-		}
-
-		drawCanvas(container);	
-		var highlights = results.filter(function(d, i) { return i < gridAttr.highlightCount; });
-		fill(highlights, container)
-	});	
-
-	function GridNode(index, label, weight) {
-		this.weight = weight;
-		this.label = label;		
-		
-		this.column = index % gridAttr.width;
-		this.row = Math.floor(index / gridAttr.width);
-		
-		this.columnPixels = index % gridAttr.width * gridAttr.pixels;
-		this.rowPixels = Math.floor(index / gridAttr.width) * gridAttr.pixels;
-	}
-
-	function drawCanvas(container) {		
-		var canvas = d3.select(container)
-					.append('svg:svg')
-					.attr('width', gridAttr.canvasSize)
-					.attr('height', gridAttr.canvasSize);
-
-		canvas.selectAll('rect')
-			.data(gridAttr.nodes)
-			.enter()
-			.append('svg:rect')
-			.attr('x', function(d,i) { return (d.columnPixels); })
-			.attr('y', function(d,i) { return (d.rowPixels); })
-			.attr('width', gridAttr.pixels)
-			.attr('height', gridAttr.pixels)
-			.attr('fill', function(d) { return gridAttr.color(d.weight); })
-			.append('title')
-			.text(function(d) { return d.label; });
-
-		canvas.selectAll('circle')
-			.data(gridAttr.nodes)
-			.enter()
-			.append('svg:circle')
-			.attr('cx', function(d,i) { return (d.columnPixels) + gridAttr.pixels/2; })
-			.attr('cy', function(d,i) { return (d.rowPixels) + gridAttr.pixels/2; })
-			.attr('fill', gridAttr.indicatorColor)
-			.attr('fill-opacity', 0)
-			.attr('r', Math.floor(gridAttr.pixels/3))
-			.attr('label', function(d) { return d.label; })
-			.append('title')
-			.text(function(d) { return d.label; });
-	}
-
-	function fill(elementList, container) {
-		for (i in elementList) {
-			d3.selectAll(container + ' circle[label="' + gridAttr.highlightLabel(elementList[i]) + '"]')
-				.attr('fill-opacity', 1)
-				.attr('class', 'highlight')
-				.attr('title', gridAttr.highlightValue(elementList[i]));
-		}
-		d3.selectAll(container + ' circle.highlight title').remove();
-		$(container + ' .highlight').aToolTip({ fixed: true, xOffset: 4, yOffset: 1});
-	}
-}
-
 function distance(x1, y1, x2, y2, width) {
 	// Correct x and y distances for torus
 	if (x1 > x2) {
@@ -563,8 +467,18 @@ function getResult(id) {
 				$(idTag + ' div.content img.loader').remove();
 				$(idTag + ' div.content').addClass('done');
 				createBarGraph(json[id], idTag + ' div.bar-graph');
-				createTable(json[id], idTag + ' .results_table');				
-				createGrid(json[id], id, idTag + ' div.grid');				
+				createTable(json[id], idTag + ' .results_table');
+				createGrid('json/' + id + '.json', json[id], 
+					idTag + ' div.grid', 
+					{
+						highlightValue: function(d) { return d[1]; },
+						highlightTooltip: function(c) {
+							d3.selectAll(c).attr('title', function(d) { return d[1] + '<br/>' + d[2]; })
+							.selectAll('title').remove();
+							$(c).aToolTip({ fixed: true, xOffset: 4, yOffset: 1} );
+						}
+					}
+				);
 			}
 		});
 	}

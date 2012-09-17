@@ -82,8 +82,9 @@
 	<script type="text/javascript" src="http://d3js.org/d3.v2.min.js" defer="defer"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" defer="defer"></script>
 	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/jquery.dataTables.min.js" defer="defer"></script>
-	<script type="text/javascript" src="jquery.atooltip.pack.js" defer="defer"></script>
+	<script type="text/javascript" src="jquery.atooltip.pack.js" defer="defer"></script>	
 	<script type="text/javascript" src="results.js" defer="defer"></script>
+	<script type="text/javascript" src="d3.grid.js" defer="defer"></script>
 	<title>Enrichr</title>
 </head>
 <body>
@@ -166,9 +167,7 @@
 							<div class="export-box"><a href="#" onclick="tsvExport('<%=type%>_table', '<%=type%>')" title="Table contains additional details like associated genes">Export to Table</a></div>
 						</div>
 						<% if (gridAvailable.contains(type)) { %>
-							<div class="grid hidden">
-								<div class="svg-container"></div>
-							</div>							
+							<div class="grid hidden"></div>	
 						<% } %>
 					</div>
 				</div>
