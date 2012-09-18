@@ -9,6 +9,8 @@
  *					highlightCount: 10,	// top x to highlight from results
  *					highlightValue: function(d) { return d[0]; },	// function used to select items from the results array to highlight
  					highlightTooltip: function(c) {},	// function performed on highlighted circles where c is the DOM path to them
+ 					highlightColor: #FFFFFF,	// Color of highlight circles
+ 					maxColor: #FF6666, 	// Grid ranges from black to this color using an exponential scale
  *				}
  * @author	Edward Y. Chen
  * @since	9/17/2012
@@ -35,6 +37,7 @@ function createGrid(jsonLocation, results, container, options) {
 		color: d3.scale.pow().exponent(5).interpolate(d3.interpolateRgb)
 	}
 
+	// Copy attributes from options to gridAttr
 	for (var key in options)
 		gridAttr[key] = options[key];
 
@@ -60,9 +63,6 @@ function createGrid(jsonLocation, results, container, options) {
 	function GridNode(index, label, weight) {
 		this.weight = weight;
 		this.label = label;		
-		
-		this.column = index % gridAttr.width;
-		this.row = Math.floor(index / gridAttr.width);
 		
 		this.columnPixels = index % gridAttr.width * gridAttr.pixels;
 		this.rowPixels = Math.floor(index / gridAttr.width) * gridAttr.pixels;
