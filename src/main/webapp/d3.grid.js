@@ -8,7 +8,7 @@
  *					canvasSize: 225,	// size of canvas in pixels
  *					highlightCount: 10,	// top x to highlight from results
  *					highlightValue: function(d) { return d[0]; },	// function used to select items from the results array to highlight
- 					highlightTooltip: function(c) {},	// function performed on highlighted circles where c is the DOM path to them
+ 					highlightFunction: function(c) {},	// function performed on highlighted circles where c is the DOM path to them
  					highlightColor: #FFFFFF,	// Color of highlight circles
  					maxColor: #FF6666, 	// Grid ranges from black to this color using an exponential scale
  					cache: true	// Controls whether grids are cached
@@ -93,8 +93,8 @@ function createGrid(jsonLocation, results, container, options) {
 				.classed('highlight', true);
 		}
 
-		if (typeof gridAttr.highlightTooltip != 'undefined') {
-			gridAttr.highlightTooltip(container + ' circle.highlight');
+		if (typeof gridAttr.highlightFunction != 'undefined') {
+			gridAttr.highlightFunction(container + ' circle.highlight');
 		}
 	}
 }

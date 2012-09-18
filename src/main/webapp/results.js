@@ -472,8 +472,15 @@ function getResult(id) {
 					idTag + ' div.grid', 
 					{
 						highlightValue: function(d) { return d[1]; },
-						highlightTooltip: function(c) {
-							d3.selectAll(c).attr('title', function(d) { return d[1] + '<br/>' + d[2]; })
+						highlightFunction: function(c) {
+							var highlightSelection = d3.selectAll(c)
+							var highlightColor = d3.scale.linear()
+							.domain([0, d3.max(highlightSelection.data().map(function(d) { return -Math.log(d[2]); }))])
+							.interpolate(d3.interpolateNumber)
+							.range([0.25,1]);
+
+							highlightSelection.attr('title', function(d) { return d[1] + '<br/>' + d[2]; })
+							.attr('fill-opacity', function(d) { return highlightColor(-Math.log(d[2])); })
 							.selectAll('title').remove();
 							$(c).aToolTip({ fixed: true, xOffset: 4, yOffset: 1} );
 						},
