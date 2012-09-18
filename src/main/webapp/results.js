@@ -381,7 +381,7 @@ function createTable(dataArray, container) {
 	});
 }
 
-function distance(x1, y1, x2, y2, width) {
+function manhattanDistance(x1, y1, x2, y2, width) {
 	// Correct x and y distances for torus
 	if (x1 > x2) {
 		if ((x2 + width - x1) < (x1 - x2)) {
@@ -405,7 +405,7 @@ function distance(x1, y1, x2, y2, width) {
 		}
 	}
 
-	return Math.sqrt(Math.pow(Math.abs(x1-x2),2) + Math.pow(Math.abs(y1-y2), 2));
+	return Math.abs(x1-x2),2) + Math.abs(y1-y2);
 }
 
 function svgExport(container, filename, outputType) {
