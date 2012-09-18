@@ -85,6 +85,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+					<warSourceExcludes>**/*.py</warSourceExcludes>
 				</configuration>
 			</plugin>
 			<plugin>
