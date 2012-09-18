@@ -476,7 +476,8 @@ function getResult(id) {
 							d3.selectAll(c).attr('title', function(d) { return d[1] + '<br/>' + d[2]; })
 							.selectAll('title').remove();
 							$(c).aToolTip({ fixed: true, xOffset: 4, yOffset: 1} );
-						}
+						},
+						cache: false
 					}
 				);
 			}

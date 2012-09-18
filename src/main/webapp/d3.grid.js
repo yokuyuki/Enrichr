@@ -11,6 +11,7 @@
  					highlightTooltip: function(c) {},	// function performed on highlighted circles where c is the DOM path to them
  					highlightColor: #FFFFFF,	// Color of highlight circles
  					maxColor: #FF6666, 	// Grid ranges from black to this color using an exponential scale
+ 					cache: true	// Controls whether grids are cached
  *				}
  * @author	Edward Y. Chen
  * @since	9/17/2012
@@ -28,82 +29,66 @@ function createGrid(jsonLocation, results, container, options) {
 
 	// Grid attributes
 	var gridAttr = {
-		nodes: new Array(),
 		canvasSize: 225,
 		highlightCount: 10,
 		highlightValue: function(d) { return d[0]; },
 		highlightColor: '#FFFFFF',
 		maxColor: '#FF6666',
-		color: d3.scale.pow().exponent(5).interpolate(d3.interpolateRgb)
+		color: d3.scale.pow().exponent(5).interpolate(d3.interpolateRgb),
+		cache: true
 	}
 
 	// Copy attributes from options to gridAttr
 	for (var key in options)
 		gridAttr[key] = options[key];
 
-	d3.json(jsonLocation, function(json) {
-		var weights = json.weights;
-		var texts = json.texts;
-
-		gridAttr.width = Math.sqrt(weights.length),
+	d3.json(jsonLocation + (gridAttr.cache ? '' : '?_=' + new Date().getTime()), function(json) {	// Control caching
+		gridAttr.width = Math.sqrt(json.length),
 		gridAttr.pixels = 225 / gridAttr.width;
-		gridAttr.color.domain([0, d3.max(weights)])
+		gridAttr.color.domain([0, d3.max(json.map(function(d) { return d[1]; }))])
 			.range(['#000000', gridAttr.maxColor]);
 
-		for (index in weights){
-			var node = new GridNode(index, texts[index], weights[index]);
-			gridAttr.nodes.push(node)
-		}
-
-		drawCanvas(container);	
+		drawCanvas(json, container);	
 		var highlights = results.filter(function(d, i) { return i < gridAttr.highlightCount; });
 		fill(highlights, container)
 	});	
 
-	function GridNode(index, label, weight) {
-		this.weight = weight;
-		this.label = label;		
-		
-		this.columnPixels = index % gridAttr.width * gridAttr.pixels;
-		this.rowPixels = Math.floor(index / gridAttr.width) * gridAttr.pixels;
-	}
-
-	function drawCanvas(container) {		
+	function drawCanvas(nodes, container) {		
 		var canvas = d3.select(container)
 					.append('svg:svg')
 					.attr('width', gridAttr.canvasSize)
 					.attr('height', gridAttr.canvasSize);
 
 		canvas.selectAll('rect')
-			.data(gridAttr.nodes)
+			.data(nodes)
 			.enter()
 			.append('svg:rect')
-			.attr('x', function(d,i) { return (d.columnPixels); })
-			.attr('y', function(d,i) { return (d.rowPixels); })
+			.attr('x', function(d, i) { return i % gridAttr.width * gridAttr.pixels; })
+			.attr('y', function(d, i) { return Math.floor(i / gridAttr.width) * gridAttr.pixels; })
 			.attr('width', gridAttr.pixels)
 			.attr('height', gridAttr.pixels)
-			.attr('fill', function(d) { return gridAttr.color(d.weight); })
+			.attr('fill', function(d) { return gridAttr.color(d[1]); })
 			.append('title')
-			.text(function(d) { return d.label; });
+			.text(function(d) { return d[0]; });
 
 		canvas.selectAll('circle')
-			.data(gridAttr.nodes)
+			.data(nodes)
 			.enter()
 			.append('svg:circle')
-			.attr('cx', function(d,i) { return (d.columnPixels) + gridAttr.pixels/2; })
-			.attr('cy', function(d,i) { return (d.rowPixels) + gridAttr.pixels/2; })
+			.attr('cx', function(d, i) { return i % gridAttr.width * gridAttr.pixels + gridAttr.pixels/2; })
+			.attr('cy', function(d, i) { return Math.floor(i / gridAttr.width) * gridAttr.pixels + gridAttr.pixels/2; })
 			.attr('fill', gridAttr.highlightColor)
 			.attr('fill-opacity', 0)
 			.attr('r', Math.floor(gridAttr.pixels/3))
-			.attr('label', function(d) { return d.label; })
+			.attr('label', function(d) { return d[0]; })
 			.append('title')
-			.text(function(d) { return d.label; });
+			.text(function(d) { return d[0]; });
 	}
 
 	function fill(elementList, container) {
 		for (e in elementList) {
 			d3.selectAll(container + ' circle[label="' + gridAttr.highlightValue(elementList[e]) + '"]')
-				.data(elementList, function(d) { return elementList[e]; })
+				.datum(function() { return elementList[e]; })
 				.attr('fill-opacity', 1)
 				.classed('highlight', true);
 		}
