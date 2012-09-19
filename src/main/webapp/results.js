@@ -381,33 +381,6 @@ function createTable(dataArray, container) {
 	});
 }
 
-function manhattanDistance(x1, y1, x2, y2, width) {
-	// Correct x and y distances for torus
-	if (x1 > x2) {
-		if ((x2 + width - x1) < (x1 - x2)) {
-			x2 += width;
-		}
-	}
-	else {
-		if ((x1 + width - x2) < (x2 - x1)) {
-			x1 += width;
-		}
-	}
-
-	if (y1 > y2) {
-		if ((y2 + width - y1) < (y1 - y2)) {
-			y2 += width;
-		}
-	}
-	else {
-		if ((y1 + width - y2) < (y2 - y1)) {
-			y1 += width;
-		}
-	}
-
-	return Math.abs(x1-x2),2) + Math.abs(y1-y2);
-}
-
 function svgExport(container, filename, outputType) {
 	var b64 = encodeURIComponent(Base64.encode($(container + ' div.svg-container').html()));
 	$.download('/Convertr/convert', 'filename=' + filename +'&outputType=' + outputType + '&data=' + b64);
@@ -483,6 +456,10 @@ function getResult(id) {
 							.attr('fill-opacity', function(d) { return highlightColor(-Math.log(d[2])); })
 							.selectAll('title').remove();
 							$(c).aToolTip({ fixed: true, xOffset: 4, yOffset: 1} );
+						},
+						clusterFunction: function(z) {
+							$(idTag + ' div.grid td.scores span.zscore').text(z.toPrecision(4));
+							$(idTag + ' div.grid td.scores span.pvalue').text((2*(1 - poz(z))).toPrecision(4));
 						},
 						cache: false
 					}

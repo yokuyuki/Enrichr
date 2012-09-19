@@ -10,6 +10,7 @@
  *					highlightValue: function(d) { return d[0]; },	// function used to select items from the results array to highlight
  					highlightFunction: function(c) {},	// function performed on highlighted circles where c is the DOM path to them
  					highlightColor: #FFFFFF,	// Color of highlight circles
+ 					clusterFunction: function(z) {},	// function performed on the z-score of the cluster function
  					maxColor: #FF6666, 	// Grid ranges from black to this color using an exponential scale
  					cache: true	// Controls whether grids are cached
  *				}
@@ -49,8 +50,9 @@ function createGrid(jsonLocation, results, container, options) {
 			.range(['#000000', gridAttr.maxColor]);
 
 		drawCanvas(json, container);	
-		var highlights = results.filter(function(d, i) { return i < gridAttr.highlightCount; });
-		fill(highlights, container)
+		fill(results.filter(function(d, i) { return i < gridAttr.highlightCount; }), container);
+		if (typeof gridAttr.clusterFunction != 'undefined')
+			calcClustering(container);
 	});	
 
 	function drawCanvas(nodes, container) {		
@@ -93,8 +95,35 @@ function createGrid(jsonLocation, results, container, options) {
 				.classed('highlight', true);
 		}
 
-		if (typeof gridAttr.highlightFunction != 'undefined') {
+		if (typeof gridAttr.highlightFunction != 'undefined')
 			gridAttr.highlightFunction(container + ' circle.highlight');
-		}
+	}
+
+	function calcClustering(container) {
+		var mean = 0.6291 * Math.pow(gridAttr.highlightCount / Math.pow(gridAttr.width, 2), -0.503301);
+		var std = 0.328498 * Math.pow(gridAttr.highlightCount, -1.00728) * Math.pow(gridAttr.width, 1.00939);
+
+		var getCoord = function(value) { return (value - gridAttr.pixels/2) / gridAttr.pixels; };
+		var circles = d3.selectAll(container + ' circle.highlight')[0];
+		var avg = d3.mean(circles, function(a) {
+			return d3.min(circles.map(function(b) {	// Find nearest neighbor
+				if (a != b) {
+					return manhattanDistance(getCoord(a.getAttribute('cx')),
+						getCoord(a.getAttribute('cy')),
+						getCoord(b.getAttribute('cx')),
+						getCoord(b.getAttribute('cy')));
+				}
+			}));
+		});
+
+		gridAttr.clusterFunction((avg - mean) / std);	// Z-score
+	}
+
+	function manhattanDistance(x1, y1, x2, y2) {
+		var dx = Math.abs(x1 - x2);
+		var dy = Math.abs(y1 - y2);
+
+		// Correct x and y distances for torus
+		return Math.min(dx, gridAttr.width - dx) + Math.min(dy, gridAttr.width - dy);
 	}
 }

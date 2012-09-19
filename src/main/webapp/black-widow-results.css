@@ -109,6 +109,15 @@ div.grid div.svg-container {
 	text-align: center;
 }
 
+div.grid td.scores {
+	padding-left: 2em;
+	font-weight: bold;
+}
+
+div.grid td.scores span {
+	color: #D90000;
+}
+
 /* Share */
 #share {
 	margin-top: -0.2em;
