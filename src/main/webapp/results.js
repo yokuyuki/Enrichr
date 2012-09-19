@@ -459,7 +459,7 @@ function getResult(id) {
 						},
 						clusterFunction: function(z) {
 							$(idTag + ' div.grid td.scores span.zscore').text(z.toPrecision(4));
-							$(idTag + ' div.grid td.scores span.pvalue').text((2*(1 - poz(z))).toPrecision(4));
+							$(idTag + ' div.grid td.scores span.pvalue').text((2 - 2*poz(Math.abs(z))).toPrecision(4));
 						},
 						cache: false
 					}
