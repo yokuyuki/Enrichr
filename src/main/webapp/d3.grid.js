@@ -106,14 +106,14 @@ function createGrid(jsonLocation, results, container, options) {
 		var getCoord = function(value) { return (value - gridAttr.pixels/2) / gridAttr.pixels; };
 		var circles = d3.selectAll(container + ' circle.highlight')[0];
 		var avg = d3.mean(circles, function(a) {
-			return d3.min(circles.map(function(b) {	// Find nearest neighbor
+			return d3.min(circles, function(b) {	// Find nearest neighbor
 				if (a != b) {
 					return manhattanDistance(getCoord(a.getAttribute('cx')),
 						getCoord(a.getAttribute('cy')),
 						getCoord(b.getAttribute('cx')),
 						getCoord(b.getAttribute('cy')));
 				}
-			}));
+			});
 		});
 
 		gridAttr.clusterFunction((avg - mean) / std);	// Z-score
