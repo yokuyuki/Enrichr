@@ -458,8 +458,14 @@ function getResult(id) {
 							$(c).aToolTip({ fixed: true, xOffset: 4, yOffset: 1} );
 						},
 						clusterFunction: function(z) {
-							$(idTag + ' div.grid td.scores span.zscore').text(z.toPrecision(4));
-							$(idTag + ' div.grid td.scores span.pvalue').text((2 - 2*poz(Math.abs(z))).toPrecision(4));
+							var container = idTag + ' div.grid td.scores';
+							$(container + ' span.zscore').text(z.toPrecision(4));
+							var pvalue = poz(-z).toPrecision(4);
+							$(container + ' span.pvalue').text(pvalue);
+							if (pvalue < 0.1) {
+								$(container + ' span').css('color', '#D90000');
+								$(container + ' span.pvalue').attr('title', 'Significant');
+							}							
 						},
 						cache: false
 					}

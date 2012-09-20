@@ -176,7 +176,7 @@
 										</td>
 										<td class="scores">
 											Z-score: <span class="zscore" title="Lower is better">0</span><br/>
-											P-value: <span class="pvalue" title="Two-tailed">0</span>
+											P-value: <span class="pvalue" title="Not significant">0</span>
 										</td>
 									</tr>
 								</table>
