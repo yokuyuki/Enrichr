@@ -460,7 +460,7 @@ function getResult(id) {
 						clusterFunction: function(z) {
 							var container = idTag + ' div.grid td.scores';
 							$(container + ' span.zscore').text(z.toPrecision(4));
-							var pvalue = poz(-z).toPrecision(4);
+							var pvalue = (1-poz(-z)).toPrecision(4);
 							$(container + ' span.pvalue').text(pvalue);
 							if (pvalue < 0.1) {
 								$(container + ' span').css('color', '#D90000');
