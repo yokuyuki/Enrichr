@@ -86,6 +86,7 @@
 	<script type="text/javascript" src="results.js" defer="defer"></script>
 	<script type="text/javascript" src="d3.grid.js" defer="defer"></script>
 	<script type="text/javascript" src="zCalc.js" defer="defer"></script>
+	<script type="text/javascript" src="ga.js" defer="defer"></script>
 	<title>Enrichr</title>
 </head>
 <body>
