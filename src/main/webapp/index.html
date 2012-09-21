@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" defer="defer"></script>
 	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/jquery.dataTables.min.js" defer="defer"></script>
 	<script type="text/javascript" src="index.js" defer="defer"></script>
+	<script type="text/javascript" src="ga.js" defer="defer"></script>
 </head>
 <body>
 	<div id="logo">
@@ -116,40 +117,40 @@
 				<p>You can call Enrichr on your site with some simple JavaScript:</p>
 				<pre>
 function enrich(options) {
-  var defaultOptions = {
-    description: "",
-    popup: false
-  };
+	var defaultOptions = {
+		description: "",
+		popup: false
+	};
 
-  if (typeof options.description == 'undefined')
-    options.description = defaultOptions.description;
-  if (typeof options.popup == 'undefined')
-    options.popup = defaultOptions.popup;
-  if (typeof options.list == 'undefined')
-    alert('No genes defined.');
+	if (typeof options.description == 'undefined')
+		options.description = defaultOptions.description;
+	if (typeof options.popup == 'undefined')
+		options.popup = defaultOptions.popup;
+	if (typeof options.list == 'undefined')
+		alert('No genes defined.');
 
-  var form = document.createElement('form');
-  form.setAttribute('method', 'post');
-  form.setAttribute('action', 'http://amp.pharm.mssm.edu/Enrichr/enrich');
-  if (options.popup)
-    form.setAttribute('target', '_blank');
-  form.setAttribute('enctype', 'multipart/form-data');
+	var form = document.createElement('form');
+	form.setAttribute('method', 'post');
+	form.setAttribute('action', 'http://amp.pharm.mssm.edu/Enrichr/enrich');
+	if (options.popup)
+		form.setAttribute('target', '_blank');
+	form.setAttribute('enctype', 'multipart/form-data');
 
-  var listField = document.createElement('input');
-  listField.setAttribute('type', 'hidden');
-  listField.setAttribute('name', 'list');
-  listField.setAttribute('value', options.genes);
-  form.appendChild(listField);
+	var listField = document.createElement('input');
+	listField.setAttribute('type', 'hidden');
+	listField.setAttribute('name', 'list');
+	listField.setAttribute('value', options.genes);
+	form.appendChild(listField);
 
-  var descField = document.createElement('input');
-  descField.setAttribute('type', 'hidden');
-  descField.setAttribute('name', 'description');
-  descField.setAttribute('value', options.description);
-  form.appendChild(descField);
+	var descField = document.createElement('input');
+	descField.setAttribute('type', 'hidden');
+	descField.setAttribute('name', 'description');
+	descField.setAttribute('value', options.description);
+	form.appendChild(descField);
 
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
+	document.body.appendChild(form);
+	form.submit();
+	document.body.removeChild(form);
 }				</pre>
 				<p>To use it, simply call <code>enrich({list: genes})</code> in your JavaScript and pass in <code>genes</code> as a list of Entrez Gene symbols separated by newlines. You can include a description for the list by using <code>enrich({list: genes, description: descString})</code>. To have the results pop up in a new window, use <code>enrich({list: genes, popup: true})</code>.</p>
 			</div>
