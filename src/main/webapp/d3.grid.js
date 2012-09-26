@@ -17,45 +17,45 @@
  * @author	Edward Y. Chen
  * @since	9/17/2012
  */
+d3.grid = {
+	createGrid: function(jsonLocation, results, container, options) {
+		// Don't create grid if nowhere to put it
+		if (d3.select(container).empty())
+			return;
 
-function createGrid(jsonLocation, results, container, options) {
-	// Don't create grid if nowhere to put it
-	if (d3.select(container).empty())
-		return;
+		// Grid actually goes in svg-container		
+		if (d3.select(container + ' div.svg-container').empty())
+			d3.select(container).append('div').classed('svg-container', true);
+		container += ' div.svg-container';
 
-	// Grid actually goes in svg-container		
-	if (d3.select(container + ' div.svg-container').empty())
-		d3.select(container).append('div').classed('svg-container', true);
-	container += ' div.svg-container';
+		// Grid attributes
+		var gridAttr = {
+			canvasSize: 225,
+			highlightCount: 10,
+			highlightValue: function(d) { return d[0]; },
+			highlightColor: '#FFFFFF',
+			maxColor: '#FF6666',
+			color: d3.scale.pow().exponent(5).interpolate(d3.interpolateRgb),
+			cache: true
+		};
 
-	// Grid attributes
-	var gridAttr = {
-		canvasSize: 225,
-		highlightCount: 10,
-		highlightValue: function(d) { return d[0]; },
-		highlightColor: '#FFFFFF',
-		maxColor: '#FF6666',
-		color: d3.scale.pow().exponent(5).interpolate(d3.interpolateRgb),
-		cache: true
-	}
+		// Copy attributes from options to gridAttr
+		for (var key in options)
+			gridAttr[key] = options[key];
 
-	// Copy attributes from options to gridAttr
-	for (var key in options)
-		gridAttr[key] = options[key];
+		d3.json(jsonLocation + (gridAttr.cache ? '' : '?_=' + new Date().getTime()), function(json) {	// Control caching
+			gridAttr.width = Math.sqrt(json.length),
+			gridAttr.pixels = 225 / gridAttr.width;
+			gridAttr.color.domain([0, d3.max(json.map(function(d) { return d[1]; }))])
+				.range(['#000000', gridAttr.maxColor]);
 
-	d3.json(jsonLocation + (gridAttr.cache ? '' : '?_=' + new Date().getTime()), function(json) {	// Control caching
-		gridAttr.width = Math.sqrt(json.length),
-		gridAttr.pixels = 225 / gridAttr.width;
-		gridAttr.color.domain([0, d3.max(json.map(function(d) { return d[1]; }))])
-			.range(['#000000', gridAttr.maxColor]);
-
-		drawCanvas(json, container);	
-		fill(results.filter(function(d, i) { return i < gridAttr.highlightCount; }), container);
-		if (typeof gridAttr.clusterFunction != 'undefined')
-			calcClustering(container);
-	});	
-
-	function drawCanvas(nodes, container) {		
+			d3.grid.drawCanvas(json, container, gridAttr);	
+			d3.grid.fill(results.filter(function(d, i) { return i < gridAttr.highlightCount; }), container, gridAttr);
+			if (typeof gridAttr.clusterFunction != 'undefined')
+				d3.grid.calcClustering(container, gridAttr);
+		});	
+	},
+	drawCanvas: function(nodes, container, gridAttr) {
 		var canvas = d3.select(container)
 					.append('svg:svg')
 					.attr('width', gridAttr.canvasSize)
@@ -85,9 +85,8 @@ function createGrid(jsonLocation, results, container, options) {
 			.attr('label', function(d) { return d[0]; })
 			.append('title')
 			.text(function(d) { return d[0]; });
-	}
-
-	function fill(elementList, container) {
+	},
+	fill: function(elementList, container, gridAttr) {
 		for (e in elementList) {
 			d3.selectAll(container + ' circle[label="' + gridAttr.highlightValue(elementList[e]) + '"]')
 				.datum(function() { return elementList[e]; })
@@ -97,9 +96,8 @@ function createGrid(jsonLocation, results, container, options) {
 
 		if (typeof gridAttr.highlightFunction != 'undefined')
 			gridAttr.highlightFunction(container + ' circle.highlight');
-	}
-
-	function calcClustering(container) {
+	},
+	calcClustering: function(container, gridAttr) {
 		var mean = 0.6291 * Math.pow(gridAttr.highlightCount / Math.pow(gridAttr.width, 2), -0.503301);
 		var std = 0.328498 * Math.pow(gridAttr.highlightCount, -1.00728) * Math.pow(gridAttr.width, 1.00939);
 
@@ -108,18 +106,18 @@ function createGrid(jsonLocation, results, container, options) {
 		var avg = d3.mean(circles, function(a) {
 			return d3.min(circles, function(b) {	// Find nearest neighbor
 				if (a != b) {
-					return manhattanDistance(getCoord(a.getAttribute('cx')),
+					return d3.grid.manhattanDistance(getCoord(a.getAttribute('cx')),
 						getCoord(a.getAttribute('cy')),
 						getCoord(b.getAttribute('cx')),
-						getCoord(b.getAttribute('cy')));
+						getCoord(b.getAttribute('cy')),
+						gridAttr);
 				}
 			});
 		});
 
 		gridAttr.clusterFunction((avg - mean) / std);	// Z-score
-	}
-
-	function manhattanDistance(x1, y1, x2, y2) {
+	},
+	manhattanDistance: function(x1, y1, x2, y2, gridAttr) {
 		var dx = Math.abs(x1 - x2);
 		var dy = Math.abs(y1 - y2);
 

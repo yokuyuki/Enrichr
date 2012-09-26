@@ -441,7 +441,7 @@ function getResult(id) {
 				$(idTag + ' div.content').addClass('done');
 				createBarGraph(json[id], idTag + ' div.bar-graph');
 				createTable(json[id], idTag + ' .results_table');
-				createGrid('json/' + id + '.json', json[id], 
+				d3.grid.createGrid('json/' + id + '.json', json[id], 
 					idTag + ' div.grid', 
 					{
 						highlightValue: function(d) { return d[1]; },
