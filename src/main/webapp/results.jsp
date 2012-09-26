@@ -67,7 +67,7 @@
 	add("Reactome");
 	add("TRANSFAC_and_JASPAR_PWMs");
 	// add("Up-regulated_CMAP");
-	// add("VirusMINT");
+	add("VirusMINT");
 	add("WikiPathways");
 }}; %>
 <head>
