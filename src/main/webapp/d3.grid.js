@@ -18,7 +18,7 @@
  * @since	9/17/2012
  */
 d3.grid = {
-	createGrid: function(jsonLocation, results, container, options) {
+	createGrid: function(jsonLocation, results, container, userOptions) {
 		// Don't create grid if nowhere to put it
 		if (d3.select(container).empty())
 			return;
@@ -29,7 +29,7 @@ d3.grid = {
 		container += ' div.svg-container';
 
 		// Grid attributes
-		var gridAttr = {
+		var options = {
 			canvasSize: 225,
 			highlightCount: 10,
 			highlightValue: function(d) { return d[0]; },
@@ -39,37 +39,37 @@ d3.grid = {
 			cache: true
 		};
 
-		// Copy attributes from options to gridAttr
-		for (var key in options)
-			gridAttr[key] = options[key];
+		// Copy attributes from userOptions to options
+		for (var key in userOptions)
+			options[key] = userOptions[key];
 
-		d3.json(jsonLocation + (gridAttr.cache ? '' : '?_=' + new Date().getTime()), function(json) {	// Control caching
-			gridAttr.width = Math.sqrt(json.length),
-			gridAttr.pixels = 225 / gridAttr.width;
-			gridAttr.color.domain([0, d3.max(json.map(function(d) { return d[1]; }))])
-				.range(['#000000', gridAttr.maxColor]);
+		d3.json(jsonLocation + (options.cache ? '' : '?_=' + new Date().getTime()), function(json) {	// Control caching
+			options.width = Math.sqrt(json.length),
+			options.pixels = 225 / options.width;
+			options.color.domain([0, d3.max(json.map(function(d) { return d[1]; }))])
+				.range(['#000000', options.maxColor]);
 
-			d3.grid.drawCanvas(json, container, gridAttr);	
-			d3.grid.fill(results.filter(function(d, i) { return i < gridAttr.highlightCount; }), container, gridAttr);
-			if (typeof gridAttr.clusterFunction != 'undefined')
-				d3.grid.calcClustering(container, gridAttr);
+			d3.grid.drawCanvas(json, container, options);	
+			d3.grid.fill(results.filter(function(d, i) { return i < options.highlightCount; }), container, options);
+			if (typeof options.clusterFunction != 'undefined')
+				d3.grid.calcClustering(container, options);
 		});	
 	},
-	drawCanvas: function(nodes, container, gridAttr) {
+	drawCanvas: function(nodes, container, options) {
 		var canvas = d3.select(container)
 					.append('svg:svg')
-					.attr('width', gridAttr.canvasSize)
-					.attr('height', gridAttr.canvasSize);
+					.attr('width', options.canvasSize)
+					.attr('height', options.canvasSize);
 
 		canvas.selectAll('rect')
 			.data(nodes)
 			.enter()
 			.append('svg:rect')
-			.attr('x', function(d, i) { return i % gridAttr.width * gridAttr.pixels; })
-			.attr('y', function(d, i) { return Math.floor(i / gridAttr.width) * gridAttr.pixels; })
-			.attr('width', gridAttr.pixels)
-			.attr('height', gridAttr.pixels)
-			.attr('fill', function(d) { return gridAttr.color(d[1]); })
+			.attr('x', function(d, i) { return i % options.width * options.pixels; })
+			.attr('y', function(d, i) { return Math.floor(i / options.width) * options.pixels; })
+			.attr('width', options.pixels)
+			.attr('height', options.pixels)
+			.attr('fill', function(d) { return options.color(d[1]); })
 			.append('title')
 			.text(function(d) { return d[0]; });
 
@@ -77,31 +77,31 @@ d3.grid = {
 			.data(nodes)
 			.enter()
 			.append('svg:circle')
-			.attr('cx', function(d, i) { return i % gridAttr.width * gridAttr.pixels + gridAttr.pixels/2; })
-			.attr('cy', function(d, i) { return Math.floor(i / gridAttr.width) * gridAttr.pixels + gridAttr.pixels/2; })
-			.attr('fill', gridAttr.highlightColor)
+			.attr('cx', function(d, i) { return i % options.width * options.pixels + options.pixels/2; })
+			.attr('cy', function(d, i) { return Math.floor(i / options.width) * options.pixels + options.pixels/2; })
+			.attr('fill', options.highlightColor)
 			.attr('fill-opacity', 0)
-			.attr('r', Math.floor(gridAttr.pixels/3))
+			.attr('r', Math.floor(options.pixels/3))
 			.attr('label', function(d) { return d[0]; })
 			.append('title')
 			.text(function(d) { return d[0]; });
 	},
-	fill: function(elementList, container, gridAttr) {
+	fill: function(elementList, container, options) {
 		for (e in elementList) {
-			d3.selectAll(container + ' circle[label="' + gridAttr.highlightValue(elementList[e]) + '"]')
+			d3.selectAll(container + ' circle[label="' + options.highlightValue(elementList[e]) + '"]')
 				.datum(function() { return elementList[e]; })
 				.attr('fill-opacity', 1)
 				.classed('highlight', true);
 		}
 
-		if (typeof gridAttr.highlightFunction != 'undefined')
-			gridAttr.highlightFunction(container + ' circle.highlight');
+		if (typeof options.highlightFunction != 'undefined')
+			options.highlightFunction(container + ' circle.highlight');
 	},
-	calcClustering: function(container, gridAttr) {
-		var mean = 0.6291 * Math.pow(gridAttr.highlightCount / Math.pow(gridAttr.width, 2), -0.503301);
-		var std = 0.328498 * Math.pow(gridAttr.highlightCount, -1.00728) * Math.pow(gridAttr.width, 1.00939);
+	calcClustering: function(container, options) {
+		var mean = 0.6291 * Math.pow(options.highlightCount / Math.pow(options.width, 2), -0.503301);
+		var std = 0.328498 * Math.pow(options.highlightCount, -1.00728) * Math.pow(options.width, 1.00939);
 
-		var getCoord = function(value) { return (value - gridAttr.pixels/2) / gridAttr.pixels; };
+		var getCoord = function(value) { return (value - options.pixels/2) / options.pixels; };
 		var circles = d3.selectAll(container + ' circle.highlight')[0];
 		var avg = d3.mean(circles, function(a) {
 			return d3.min(circles, function(b) {	// Find nearest neighbor
@@ -110,18 +110,18 @@ d3.grid = {
 						getCoord(a.getAttribute('cy')),
 						getCoord(b.getAttribute('cx')),
 						getCoord(b.getAttribute('cy')),
-						gridAttr);
+						options);
 				}
 			});
 		});
 
-		gridAttr.clusterFunction((avg - mean) / std);	// Z-score
+		options.clusterFunction((avg - mean) / std);	// Z-score
 	},
-	manhattanDistance: function(x1, y1, x2, y2, gridAttr) {
+	manhattanDistance: function(x1, y1, x2, y2, options) {
 		var dx = Math.abs(x1 - x2);
 		var dy = Math.abs(y1 - y2);
 
 		// Correct x and y distances for torus
-		return Math.min(dx, gridAttr.width - dx) + Math.min(dy, gridAttr.width - dy);
+		return Math.min(dx, options.width - dx) + Math.min(dy, options.width - dy);
 	}
 }
