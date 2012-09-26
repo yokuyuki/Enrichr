@@ -43,6 +43,7 @@
 	add("Cancer_Cell_Line_Encyclopedia");
 	// add("ChEA");
 	// add("Chromosome_Location");
+	// add("CORUM.gmt");
 	// add("Down-regulated_CMAP");
 	add("ENCODE_TF_ChIP-seq");
 	add("GeneSigDB");
