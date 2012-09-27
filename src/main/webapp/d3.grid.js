@@ -4,16 +4,16 @@
  * 			results: the array that contains the nodes that need to be highlighted the grid
  * 			container: the HTML element that will contain the grid
  *			options: configurable options for the grid, possible options include:
- *				{
- *					canvasSize: 225,	// size of canvas in pixels
- *					highlightCount: 10,	// top x to highlight from results
- *					highlightValue: function(d) { return d[0]; },	// function used to select items from the results array to highlight
- 					highlightFunction: function(c) {},	// function performed on highlighted circles where c is the DOM path to them
- 					highlightColor: #FFFFFF,	// Color of highlight circles
- 					clusterFunction: function(z) {},	// function performed on the z-score of the cluster function
- 					maxColor: #FF6666, 	// Grid ranges from black to this color using an exponential scale
- 					cache: true	// Controls whether grids are cached
- *				}
+ *			{
+ *				canvasSize: 225,	// size of canvas in pixels
+ *				highlightCount: 10,	// top x to highlight from results
+ *				highlightValue: function(d) { return d[0]; },	// function used to select items from the results array to highlight
+ *				highlightFunction: function(c) {},	// function performed on highlighted circles where c is the DOM path to them
+ *				highlightColor: #FFFFFF,	// Color of highlight circles
+ *				clusterFunction: function(z) {},	// function performed on the z-score of the cluster function
+ *				maxColor: #FF6666, 	// Grid ranges from black to this color using an exponential scale
+ *				cache: true	// Controls whether grids are cached
+ *			}
  * @author	Edward Y. Chen
  * @since	9/17/2012
  */
@@ -110,18 +110,18 @@ d3.grid = {
 						getCoord(a.getAttribute('cy')),
 						getCoord(b.getAttribute('cx')),
 						getCoord(b.getAttribute('cy')),
-						options);
+						options.width);
 				}
 			});
 		});
 
 		options.clusterFunction((avg - mean) / std);	// Z-score
 	},
-	manhattanDistance: function(x1, y1, x2, y2, options) {
+	manhattanDistance: function(x1, y1, x2, y2, width) {
 		var dx = Math.abs(x1 - x2);
 		var dy = Math.abs(y1 - y2);
 
 		// Correct x and y distances for torus
-		return Math.min(dx, options.width - dx) + Math.min(dy, options.width - dy);
+		return Math.min(dx, width - dx) + Math.min(dy, width - dy);
 	}
 }
