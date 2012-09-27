@@ -470,6 +470,12 @@ function getResult(id) {
 						cache: false
 					}
 				);
+				d3.gridNetwork.createGridNetwork('json/' + id + '.json', json[id], 
+					idTag + ' div.grid td.grid-network',
+					{
+						cache: false
+					}
+				);
 			}
 		});
 	}

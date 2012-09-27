@@ -86,6 +86,7 @@
 	<script type="text/javascript" src="jquery.atooltip.pack.js" defer="defer"></script>	
 	<script type="text/javascript" src="results.js" defer="defer"></script>
 	<script type="text/javascript" src="d3.grid.js" defer="defer"></script>
+	<script type="text/javascript" src="d3.gridNetwork.js" defer="defer"></script>
 	<script type="text/javascript" src="zCalc.js" defer="defer"></script>
 	<script type="text/javascript" src="ga.js" defer="defer"></script>
 	<title>Enrichr</title>
@@ -176,6 +177,7 @@
 										<td>
 											<div class="svg-container"></div>
 										</td>
+										<td class="grid-network"></td>
 										<td class="scores">
 											Z-score: <span class="zscore" title="Lower is better">0</span><br/>
 											P-value: <span class="pvalue" title="Not significant">0</span>
