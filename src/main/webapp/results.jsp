@@ -162,6 +162,7 @@
 							<div class="downloadbox" title="Export graph">
 								<a href="#" onclick="svgExport('#<%=type%> div.bar-graph', '<%=type%>_bar_graph', 'svg'); return false;">SVG</a>
 								<a href="#" onclick="svgExport('#<%=type%> div.bar-graph', '<%=type%>_bar_graph', 'png'); return false;">PNG</a>
+								<a href="#" onclick="svgExport('#<%=type%> div.bar-graph', '<%=type%>_bar_graph', 'jpg'); return false;">JPG</a>
 							</div>
 							<div class="svg-container"></div>
 						</div>
