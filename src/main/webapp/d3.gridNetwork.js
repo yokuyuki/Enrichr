@@ -64,7 +64,7 @@ d3.gridNetwork = {
 		}
 
 		// Push every unique edge to distanceArray and find nearest neighbor
-		for (var i = 0; i < selectedNodes.length; i++) {
+		for (var i in selectedNodes) {
 			var name1 = selectedNodes[i][0];
 			var x1 = selectedNodes[i][1];
 			var y1 = selectedNodes[i][2];
