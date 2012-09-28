@@ -107,6 +107,10 @@ table.warning tr#browsers td div a:hover {
 	padding-right: 1em;
 }
 
+.nav td {
+	white-space: nowrap;
+}
+
 .nav td.selected a {
 	color: #fff;
 	background-color: #000 !important;
