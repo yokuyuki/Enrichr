@@ -476,6 +476,7 @@ function getResult(id) {
 						cache: false
 					}
 				);
+				$(idTag + ' div.downloadbox').fadeIn('slow');
 			}
 		});
 	}
