@@ -71,9 +71,10 @@ tr#description input {
 }
 
 /* About Page */
-img#big-logo {
-	margin: 0 auto;
-	display: block;
+#about {
+	background: url('images/enrichr.png') no-repeat;
+	width: 708px;
+	height: 600px;
 }
 
 /* Help Page*/
