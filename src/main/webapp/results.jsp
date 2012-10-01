@@ -154,6 +154,9 @@
 									<td>
 										<a href="#" onclick="navigateTo(2, '#<%=type%>'); return false;">Grid</a>
 									</td>
+									<td>
+										<a href="#" onclick="navigateTo(3, '#<%=type%>'); return false;">Network</a>
+									</td>
 								<% } %>
 							</tr>
 						</table>
@@ -180,14 +183,20 @@
 										<td>
 											<div class="svg-container"></div>
 										</td>
-										<td class="grid-network"></td>
 										<td class="scores">
 											Z-score: <span class="zscore" title="Lower is better">0</span><br/>
 											P-value: <span class="pvalue" title="Not significant">0</span>
 										</td>
 									</tr>
 								</table>
-							</div>								
+							</div>
+							<div class="grid-network hidden">
+								<div class="hidden downloadbox" title="Export network">
+									<a href="#" onclick="svgExport('#<%=type%> div.grid-network', '<%=type%>_grid_network', 'svg'); return false;">SVG</a>
+									<a href="#" onclick="svgExport('#<%=type%> div.grid-network', '<%=type%>_grid_network', 'png'); return false;">PNG</a>
+									<a href="#" onclick="svgExport('#<%=type%> div.grid-network', '<%=type%>_grid_network', 'jpg'); return false;">JPG</a>
+								</div>
+							</div>
 						<% } %>
 					</div>
 				</div>

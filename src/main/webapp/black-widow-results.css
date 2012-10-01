@@ -118,6 +118,11 @@ div.grid td.scores span {
 	color: #ddd;
 }
 
+/* Grid-network properties */
+div.grid-network div.svg-container {
+	text-align: center;
+}
+
 /* Share */
 #share {
 	margin-top: -0.2em;

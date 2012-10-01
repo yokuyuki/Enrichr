@@ -471,7 +471,7 @@ function getResult(id) {
 					}
 				);
 				d3.gridNetwork.createGridNetwork('json/' + id + '.json', json[id], 
-					idTag + ' div.grid td.grid-network',
+					idTag + ' div.grid-network',
 					{
 						cache: false
 					}

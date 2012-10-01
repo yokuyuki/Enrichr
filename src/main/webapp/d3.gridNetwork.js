@@ -11,8 +11,8 @@ d3.gridNetwork = {
 
 		// GridNetwork attributes
 		var options = {
-			width: 225,
-			height: 225,
+			width: 708,
+			height: 300,
 			highlightCount: 10,
 			nodeColor: '#D90000',
 			nodeOutline: '#eee',
@@ -119,6 +119,8 @@ d3.gridNetwork = {
 					.on('tick', tick).start();
 
 		var svg = d3.select(container).append('svg:svg')
+					.attr('xmlns', "http://www.w3.org/2000/svg")
+					.attr('version', '1.1')
 					.attr('class', 'gridNetwork')
 					.attr('height', options.height)
 					.attr('width', options.width)
