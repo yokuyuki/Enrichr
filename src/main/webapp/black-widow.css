@@ -50,6 +50,10 @@ div.clear {
 	display: none;
 }
 
+.red {
+	color: #D90000 !important;
+}
+
 svg {
 	overflow: hidden;
 }
@@ -67,10 +71,6 @@ div#logo {
 div#logo span {
 	vertical-align: top;
 	color: #000;
-}
-
-div#logo span.red {
-	color: #D90000;
 }
 
 /* Warning */

@@ -72,9 +72,21 @@ tr#description input {
 
 /* About Page */
 #about {
+	position: relative;
 	background: url('images/enrichr.png') no-repeat;
 	width: 708px;
-	height: 600px;
+	height: 566px;
+}
+
+#about td {
+	font-size: 1.5em;
+	padding-right: 0.3em;
+}
+
+#affiliations {
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
 
 /* Help Page*/
