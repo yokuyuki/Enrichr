@@ -58,6 +58,8 @@ d3.grid = {
 	drawCanvas: function(nodes, container, options) {
 		var canvas = d3.select(container)
 					.append('svg:svg')
+					.attr('xmlns', "http://www.w3.org/2000/svg")
+					.attr('version', '1.1')
 					.attr('width', options.canvasSize)
 					.attr('height', options.canvasSize);
 
