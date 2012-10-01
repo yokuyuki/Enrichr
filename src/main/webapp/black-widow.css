@@ -60,7 +60,7 @@ div#logo {
 	margin: 0.1em 0em 0em 0em;
 	letter-spacing: 0.1em;
 	font-size: 3em;
-	font-weight: bold;
+	/*font-weight: bold;*/
 	float: left;
 }
 
