@@ -181,6 +181,15 @@
 								<table>
 									<tr>
 										<td>
+											<div class="hidden downloadbox" title="Export grid">
+												<a href="#" onclick="svgExport('#<%=type%> div.grid', '<%=type%>_grid', 'svg'); return false;">SVG</a>
+												<a href="#" onclick="svgExport('#<%=type%> div.grid', '<%=type%>_grid', 'png'); return false;">PNG</a>
+												<a href="#" onclick="svgExport('#<%=type%> div.grid', '<%=type%>_grid', 'jpg'); return false;">JPG</a>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td>
 											<div class="svg-container"></div>
 										</td>
 										<td class="scores">
