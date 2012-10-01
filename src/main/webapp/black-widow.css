@@ -57,7 +57,7 @@ svg {
 /* Logo */
 
 div#logo {
-	margin: 0.1em 0em 0.2em 0em;
+	margin: 0.1em 0em 0em 0em;
 	letter-spacing: 0.1em;
 	font-size: 3em;
 	font-weight: bold;
@@ -65,7 +65,12 @@ div#logo {
 }
 
 div#logo span {
+	vertical-align: top;
 	color: #000;
+}
+
+div#logo span.red {
+	color: #D90000;
 }
 
 /* Warning */
