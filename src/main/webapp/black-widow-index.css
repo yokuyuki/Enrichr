@@ -70,6 +70,12 @@ tr#description input {
 	text-decoration: underline;
 }
 
+/* About Page */
+img#big-logo {
+	margin: 0 auto;
+	display: block;
+}
+
 /* Help Page*/
 div.question, div.answer, div.answer p, div.answer pre {
 	margin-top: 1em;
