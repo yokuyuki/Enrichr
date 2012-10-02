@@ -100,13 +100,17 @@ $(document).ready(function () {
 		fingers: 1
 	});
 	$('body').swipe({
-		swipe: function(event, direction) {
-			if (direction == 'left')
-				var dest = ($('div.selected').index() - 1) % 3
-			else if (direction == 'right')
-				var dest = ($('div.selected').index() + 1) % 3
+		swipe: function(event, direction, distance, duration, fingerCount) {
+			if (fingerCount == 2) {
+				if (direction == 'left')
+					var dest = ($('div.selected').index() - 1) % 3
+				else if (direction == 'right')
+					var dest = ($('div.selected').index() + 1) % 3
+				if (dest == 1)
+					createStats();
 
-			navigateTo(dest);
+				navigateTo(dest);
+			}
 		},
 		fingers: 2
 	});
