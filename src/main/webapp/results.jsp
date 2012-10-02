@@ -41,7 +41,7 @@
 <%! private HashSet<String> gridAvailable = new HashSet<String>() {{
 	add("BioCarta");
 	add("Cancer_Cell_Line_Encyclopedia");
-	// add("ChEA");
+	add("ChEA");
 	// add("Chromosome_Location");
 	// add("CORUM.gmt");
 	// add("Down-regulated_CMAP");
@@ -55,7 +55,7 @@
 	// add("HMDB_Metabolites");
 	add("Human_Endogenous_Complexome");
 	add("Human_Gene_Atlas");
-	// add("KEA");
+	add("KEA");
 	add("KEGG");
 	add("MGI_Mammalian_Phenotype");
 	add("microRNA");
