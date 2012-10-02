@@ -103,9 +103,9 @@ $(document).ready(function () {
 		swipe: function(event, direction, distance, duration, fingerCount) {
 			if (fingerCount == 2) {
 				if (direction == 'left')
-					var dest = ($('div.selected').index() - 1) % 3
+					var dest = ($('div.selected').index() - 1) % 4
 				else if (direction == 'right')
-					var dest = ($('div.selected').index() + 1) % 3
+					var dest = ($('div.selected').index() + 1) % 4
 				if (dest == 1)
 					createStats();
 
