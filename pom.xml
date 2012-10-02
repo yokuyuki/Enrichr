@@ -135,8 +135,8 @@
 						</executions>
 						<configuration>
 							<excludes>
-								<exclude>**/*.pack.js</exclude>
-								<exclude>**/*.min.js</exclude>
+								<!-- <exclude>**/*.pack.js</exclude>
+								<exclude>**/*.min.js</exclude> -->
 							</excludes>
 							<nosuffix>true</nosuffix>
 							<jswarn>false</jswarn>
