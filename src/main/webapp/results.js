@@ -407,12 +407,17 @@ function showCategory(index) {
 }
 
 // Animates the transition between different tabs
-function navigateTo(index, container) {	
+function navigateTo(index, container) {
+	if (_changingTabs)
+		return;
+	else
+		_changingTabs = true;
 	$(container + ' div.content div.selected').fadeToggle('slow', function() {
 		$(container + ' .selected').removeClass('selected');
 		$(container + ' div.header table.nav td').eq(index).addClass('selected');
 		$(container + ' div.content > div').eq(index).addClass('selected');
 		$(container + ' div.selected').fadeToggle('slow');
+		_changingTabs = false;
 	});
 }
 
@@ -571,4 +576,5 @@ function queryString(search_for) {
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast
+	_changingTabs = false;	// Prevent changing tabs too fast
 });
