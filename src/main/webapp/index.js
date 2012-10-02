@@ -84,9 +84,30 @@ function createStats() {
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast
+	// Load counter
 	$.get('count', function(data) {
 		$('div#count span').text(data);
 		$('div#count').fadeIn('slow');
 	})
 	.error(function() { $('div#count').remove() });
+
+	// Touch gestures
+	$('#content div').eq(0).swipe({
+		swipeRight: function() {
+			if (validateInput())
+				document.forms['enrich'].submit();
+		},
+		fingers: 1
+	});
+	$('body').swipe({
+		swipe: function(event, direction) {
+			if (direction == 'left')
+				var dest = ($('div.selected').index() - 1) % 3
+			else if (direction == 'right')
+				var dest = ($('div.selected').index() + 1) % 3
+
+			navigateTo(dest);
+		},
+		fingers: 2
+	});
 });
