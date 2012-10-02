@@ -99,11 +99,7 @@
 		<a href="index.html"><img src="images/enrichr-icon.png"/><span>En</span><span class="red">rich</span><span>r</span></a>
 	</div>
 	<div class="clear"></div>
-	<div class="nav" id="navbar">
-		<div id="share">
-			<!-- Per CC Attribution 3.0, the share icon is attributed to dAKirby309 from Windows 8 Metro Icons -->
-			<a href="#" onclick="shareResult(); return false;" title="Share this result">Share</a>
-		</div>
+	<div class="nav" id="navbar">		
 		<table>
 			<tr>
 				<% for (int i = 0; i < categories.length; i++) { %>
@@ -130,6 +126,12 @@
 				if (session.getAttribute("length") != null)
 					out.print(" (" +  session.getAttribute("length") + " genes)");
 			%></td>
+			<td id="share">
+				<!-- Per CC Attribution 2.5, the share icon is attributed to Matt Brett from Share Icon Project -->
+				<a href="#" onclick="shareResult(); return false;" title="Share this result">
+					<img src="images/share.png"/>
+				</a>
+			</td>
 		</tr>		
 	</table>
 	<a href="index.html">

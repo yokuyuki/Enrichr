@@ -78,14 +78,11 @@ div.export-box a:hover {
 /* Description */
 #description {
 	margin-bottom: 1em;
-}
-
-#description td {
-	padding: 0.1em 0.2em;
 	font-weight: bold;
 }
 
 #description td#red {
+	padding: 0.1em 0.2em;
 	border: 1px solid #D90000;
 	background-color: #D90000;
 	color: #fff;
@@ -93,11 +90,11 @@ div.export-box a:hover {
 }
 
 #description td#black {
-	border: 1px solid #000;
+	padding: 0.1em 0.2em;
+	border-width: 1px;
+	border-style: solid none;
 	width: 100%;
 }
-
-#description
 
 /* Bar graph properties */
 div.graph span.method {
@@ -125,20 +122,17 @@ div.grid-network div.svg-container {
 
 /* Share */
 #share {
-	margin-top: -0.2em;
-	float: right;
+	background: #000;
+	border: 1px solid #000;
 }
 
-#share a {
-	display: block;
-	width: 24px;
-	height: 24px;
-	background: url('images/share.png') bottom;
-	text-indent: -99999px;
+#share:hover {
+	background: #D90000;
+	border: 1px solid #D90000;
 }
 
-#share a:hover {
-	background-position: 0 0;
+#share img {
+	vertical-align: middle;
 }
 
 #blanket {
