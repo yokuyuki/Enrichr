@@ -412,11 +412,11 @@ function navigateTo(index, container) {
 		return;
 	else
 		_changingTabs = true;
-	$(container + ' div.content div.selected').fadeToggle('slow', function() {
+	$(container + ' div.content div.selected').fadeOut(400, function() {
 		$(container + ' .selected').removeClass('selected');
 		$(container + ' div.header table.nav td').eq(index).addClass('selected');
 		$(container + ' div.content > div').eq(index).addClass('selected');
-		$(container + ' div.selected').fadeToggle('slow');
+		$(container + ' div.selected').fadeIn();
 		_changingTabs = false;
 	});
 }
@@ -490,7 +490,6 @@ function getResult(id) {
 /**
  * Share results and display a popup with the link.
  */
-
 function shareResult() {
 	if ($('#share-link input').val()) {
 		sharePopup();
@@ -549,6 +548,7 @@ function centerPopup(selector) {
 	});
 }
 
+/* Functions to open and close modules */
 function toggleClose() {
 	$('div.active div.content').slideUp();
 	$('div.active table.nav').fadeOut();
@@ -561,6 +561,7 @@ function toggleOpen(id) {
 	$('div.active table.nav').fadeIn();
 }
 
+/* Looks for the value of a query string in the URL */
 function queryString(search_for) {
 	var query = window.location.search.substring(1);
 	var parms = query.split('&');
@@ -573,6 +574,7 @@ function queryString(search_for) {
 	return "";
 }
 
+/* Results page setup */
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast

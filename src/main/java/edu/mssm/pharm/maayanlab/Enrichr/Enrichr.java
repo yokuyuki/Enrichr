@@ -63,6 +63,9 @@ public class Enrichr extends HttpServlet {
 		try {
 			HttpSession session = request.getSession();
 			
+			// Write gene count
+			session.setAttribute("length", Integer.toString(inputList.size()));
+			
 			Enrichment app = new Enrichment(inputList, true);
 			session.setAttribute("process", app);			
 			response.sendRedirect("results.jsp");

@@ -127,6 +127,8 @@
 					out.print(session.getAttribute("description"));
 				else
 					out.print("No description available");
+				if (session.getAttribute("length") != null)
+					out.print(" (" +  session.getAttribute("length") + " genes)");
 			%></td>
 		</tr>		
 	</table>
