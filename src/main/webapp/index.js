@@ -92,6 +92,7 @@ $(document).ready(function () {
 	.error(function() { $('div#count').remove() });
 
 	// Touch gestures
+	$.fn.swipe.defaults.fallbackToMouseEvents = false;
 	$('#content div').eq(0).swipe({
 		swipeRight: function() {
 			if (validateInput())
@@ -101,7 +102,7 @@ $(document).ready(function () {
 	});
 	$('body').swipe({
 		swipe: function(event, direction, distance, duration, fingerCount) {
-			if (fingerCount == 2) {
+			// if (fingerCount == 2) {
 				if (direction == 'left')
 					var dest = ($('div.selected').index() - 1) % 4
 				else if (direction == 'right')
@@ -110,7 +111,7 @@ $(document).ready(function () {
 					createStats();
 
 				navigateTo(dest);
-			}
+			// }
 		},
 		fingers: 2
 	});
