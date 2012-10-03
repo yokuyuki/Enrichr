@@ -581,9 +581,8 @@ $(document).ready(function () {
 	_changingTabs = false;	// Prevent changing tabs too fast
 
 	// Touch gestures
-	$.fn.swipe.defaults.fallbackToMouseEvents = false;
-	$('body').swipe({
-		swipeLeft: function() {
+	$.event.special.swipe.durationThreshold = 200;
+	$('body').swipeleft(function() {
 			if ($('div.active').length == 0) {
 				var dest = ($('#navbar td.shown').index() - 1) % 6;
 				showCategory(dest);
@@ -593,20 +592,22 @@ $(document).ready(function () {
 				var dest = ($(container + ' table.nav td.selected').index() - 1) % $(container + ' table.nav td').length;
 				navigateTo(dest, container);
 			}
-		},
-		swipeRight: function() {
+		}
+	);
+	$('body').swiperight(function() {
 			if ($('div.active').length == 0) {
 				var dest = ($('#navbar td.shown').index() + 1) % 6;
 				showCategory(dest);
 			}
 			else {
 				var container = '#' + $('div.active').attr('id');
-				var dest = ($(container + ' table.nav td.selected').index() - 1) % $(container + ' table.nav td').length;
+				var dest = ($(container + ' table.nav td.selected').index() + 1) % $(container + ' table.nav td').length;
 				navigateTo(dest, container);
 			}
-		},
-		swipeUp: function() {
+		}
+	);
+	$('body').swipeup(function() {
 			toggleClose();
 		}
-	});
+	);
 });
