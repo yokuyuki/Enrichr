@@ -135,9 +135,10 @@
 						</executions>
 						<configuration>
 							<excludes>
-								<!-- <exclude>**/*.pack.js</exclude>
-								<exclude>**/*.min.js</exclude> -->
+								<exclude>**/*.pack.js</exclude>
+								<exclude>**/*.min.js</exclude>
 							</excludes>
+							<webappDirectory>${project.build.directory}/min</webappDirectory>
 							<nosuffix>true</nosuffix>
 							<jswarn>false</jswarn>
 						</configuration>
@@ -146,8 +147,13 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-war-plugin</artifactId>
 						<configuration>
-							<warSourceExcludes>**/*.py,**/*.js,**/*.css</warSourceExcludes>
-						</configuration>
+							<warSourceExcludes>**/*.py</warSourceExcludes>
+							<webResources>
+								<resource>
+									<directory>${project.build.directory}/min</directory>
+								</resource>
+							</webResources>
+						</configuration>						
 					</plugin>
 				</plugins>
 			</build>
