@@ -579,4 +579,34 @@ $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast
 	_changingTabs = false;	// Prevent changing tabs too fast
+
+	// Touch gestures
+	$.fn.swipe.defaults.fallbackToMouseEvents = false;
+	$('body').swipe({
+		swipeLeft: function() {
+			if ($('div.active').length == 0) {
+				var dest = ($('#navbar td.shown').index() - 1) % 6;
+				showCategory(dest);
+			}
+			else {
+				var container = '#' + $('div.active').attr('id');
+				var dest = ($(container + ' table.nav td.selected').index() - 1) % $(container + ' table.nav td').length;
+				navigateTo(dest, container);
+			}
+		},
+		swipeRight: function() {
+			if ($('div.active').length == 0) {
+				var dest = ($('#navbar td.shown').index() + 1) % 6;
+				showCategory(dest);
+			}
+			else {
+				var container = '#' + $('div.active').attr('id');
+				var dest = ($(container + ' table.nav td.selected').index() - 1) % $(container + ' table.nav td').length;
+				navigateTo(dest, container);
+			}
+		},
+		swipeUp: function() {
+			toggleClose();
+		}
+	});
 });
