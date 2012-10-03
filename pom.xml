@@ -138,6 +138,16 @@
 								<exclude>**/*.pack.js</exclude>
 								<exclude>**/*.min.js</exclude>
 							</excludes>
+							<aggregations>
+								<aggregation>
+									<removeIncluded>true</removeIncluded>
+									<output>${project.build.directory}/min/index.js</output>
+									<includes>
+										<include>**/ga.js</include>
+										<include>**/index.js</include>
+									</includes>
+								</aggregation>
+							</aggregations>
 							<webappDirectory>${project.build.directory}/min</webappDirectory>
 							<nosuffix>true</nosuffix>
 							<jswarn>false</jswarn>
