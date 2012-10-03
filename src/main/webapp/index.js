@@ -81,6 +81,10 @@ function createStats() {
 	}
 }
 
+function ignoreSwipe(event) {
+
+}
+
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast
@@ -92,26 +96,19 @@ $(document).ready(function () {
 	.error(function() { $('div#count').remove() });
 
 	// Touch gestures
-	$.fn.swipe.defaults.fallbackToMouseEvents = false;
-	$('#content div').eq(0).swipe({
-		swipeRight: function() {
-			if (validateInput())
-				document.forms['enrich'].submit();
-		}
-	});
-	$('body').swipe({
-		swipeLeft: function() {
+	$.event.special.swipe.durationThreshold = 200;
+	$('body').swipeleft(function() {
 			var dest = ($('div.selected').index() - 1) % 4;
 			if (dest == 1)
 				createStats();
 			navigateTo(dest);
-		},
-		swipeRight: function() {
+		}
+	);
+	$('body').swiperight(function() {
 			var dest = ($('div.selected').index() + 1) % 4;
 			if (dest == 1)
 				createStats();
 			navigateTo(dest);
-		},
-		fingers: 2
-	});
+		}		
+	);
 });
