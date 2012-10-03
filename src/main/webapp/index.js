@@ -97,8 +97,7 @@ $(document).ready(function () {
 		swipeRight: function() {
 			if (validateInput())
 				document.forms['enrich'].submit();
-		},
-		fingers: 1
+		}
 	});
 	$('body').swipe({
 		swipeLeft: function() {
