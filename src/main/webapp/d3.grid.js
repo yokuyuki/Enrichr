@@ -58,6 +58,7 @@ d3.grid = {
 	drawCanvas: function(nodes, container, options) {
 		var canvas = d3.select(container)
 					.append('svg:svg')
+					.datum(options)
 					.attr('xmlns', "http://www.w3.org/2000/svg")
 					.attr('version', '1.1')
 					.attr('width', options.canvasSize)
@@ -98,6 +99,11 @@ d3.grid = {
 
 		if (typeof options.highlightFunction != 'undefined')
 			options.highlightFunction(container + ' circle.highlight');
+	},
+	recolor: function(container, newColor) {
+		var canvas = d3.select(container + ' div.svg-container svg');
+		var color = canvas.datum().color.range(['#000000', newColor]);
+		canvas.selectAll('rect').attr('fill', function(d) { return color(d[1]); });
 	},
 	calcClustering: function(container, options) {
 		var mean = 0.6291 * Math.pow(options.highlightCount / Math.pow(options.width, 2), -0.503301);
