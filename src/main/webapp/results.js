@@ -141,34 +141,6 @@ var Base64 = {
  
 }
 
-/*
- * --------------------------------------------------------------------
- * jQuery-Plugin - $.download - allows for simple get/post requests for files
- * by Scott Jehl, scott@filamentgroup.com
- * http://www.filamentgroup.com
- * reference article: http://www.filamentgroup.com/lab/jquery_plugin_for_requesting_ajax_like_file_downloads/
- * Copyright (c) 2008 Filament Group, Inc
- * Dual licensed under the MIT (filamentgroup.com/examples/mit-license.txt) and GPL (filamentgroup.com/examples/gpl-license.txt) licenses.
- * --------------------------------------------------------------------
- */
- 
-jQuery.download = function(url, data, method){
-	//url and data options required
-	if( url && data ){ 
-		//data can be string of parameters or array/object
-		data = typeof data == 'string' ? data : jQuery.param(data);
-		//split params into form inputs
-		var inputs = '';
-		jQuery.each(data.split('&'), function(){ 
-			var pair = this.split('=');
-			inputs+='<input type="hidden" name="'+ pair[0] +'" value="'+ pair[1] +'" />'; 
-		});
-		//send request
-		jQuery('<form action="'+ url +'" method="'+ (method||'post') +'">'+inputs+'</form>')
-		.appendTo('body').submit().remove();
-	};
-};
-
 // Extension to jquery to add a data-type that allows sorting of scientific notation
 jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 	"scientific-pre": function ( a ) {
@@ -381,13 +353,38 @@ function createTable(dataArray, container) {
 	});
 }
 
+/* 
+ * Creates a form to force downloads 
+ * download( url, data [, method] )
+ * data is an associative array
+ */
+function download(url, data, method) {
+	if (url && data) {
+		var form = document.createElement('form');
+		form.setAttribute('action', url);
+		form.setAttribute('method', method || 'post');
+
+		for (var key in data) {
+			var inputField = document.createElement('input');
+			inputField.setAttribute('type', 'hidden');
+			inputField.setAttribute('name', key);
+			inputField.setAttribute('value', data[key]);
+			form.appendChild(inputField);
+		}
+
+		document.body.appendChild(form);
+		form.submit();
+		document.body.removeChild(form);
+	}
+}
+
 function svgExport(container, filename, outputType) {
 	var b64 = encodeURIComponent(Base64.encode($(container + ' div.svg-container').html()));
-	$.download('/Convertr/convert', 'filename=' + filename +'&outputType=' + outputType + '&data=' + b64);
+	download('/Convertr/convert', {filename: filename, outputType: outputType, data: b64});
 }
 
 function tsvExport(filename, backgroundType) {
-	$.download('enrich', 'filename=' + filename + '&backgroundType=' + backgroundType, 'get');
+	download('enrich', {filename: filename, backgroundType: backgroundType}, 'get');
 }
 
 // Shows the category
