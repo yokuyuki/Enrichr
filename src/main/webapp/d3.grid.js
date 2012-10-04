@@ -14,7 +14,7 @@
  *				maxColor: #FF6666, 	// Grid ranges from black to this color using an exponential scale
  *				cache: true	// Controls whether grids are cached
  *			}
- * @author	Edward Y. Chen
+ * @author	Edward.Chen@mssm.edu (Edward Y. Chen)
  * @since	9/17/2012
  */
 d3.grid = {
@@ -23,7 +23,7 @@ d3.grid = {
 		if (d3.select(container).empty())
 			return;
 
-		// Grid actually goes in svg-container		
+		// Grid actually goes in svg-container
 		if (d3.select(container + ' div.svg-container').empty())
 			d3.select(container).append('div').classed('svg-container', true);
 		container += ' div.svg-container';
@@ -35,7 +35,6 @@ d3.grid = {
 			highlightValue: function(d) { return d[0]; },
 			highlightColor: '#FFFFFF',
 			maxColor: '#FF6666',
-			color: d3.scale.pow().exponent(5).interpolate(d3.interpolateRgb),
 			cache: true
 		};
 
@@ -46,7 +45,9 @@ d3.grid = {
 		d3.json(jsonLocation + (options.cache ? '' : '?_=' + new Date().getTime()), function(json) {	// Control caching
 			options.width = Math.sqrt(json.length),
 			options.pixels = 225 / options.width;
-			options.color.domain([0, d3.max(json.map(function(d) { return d[1]; }))])
+			options.color = d3.scale.pow().exponent(5)
+				.interpolate(d3.interpolateRgb)
+				.domain([0, d3.max(json.map(function(d) { return d[1]; }))])
 				.range(['#000000', options.maxColor]);
 
 			d3.grid.drawCanvas(json, container, options);	
