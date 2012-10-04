@@ -89,6 +89,7 @@
 	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/jquery.dataTables.min.js" defer="defer"></script>
 	<script type="text/javascript" src="jquery.atooltip.pack.js" defer="defer"></script>
 	<script type="text/javascript" src="results.js" defer="defer"></script>
+	<script type="text/javascript" src="d3.barGraph.js" defer="defer"></script>
 	<script type="text/javascript" src="d3.grid.js" defer="defer"></script>
 	<script type="text/javascript" src="d3.gridNetwork.js" defer="defer"></script>
 	<script type="text/javascript" src="zCalc.js" defer="defer"></script>
@@ -210,6 +211,9 @@
 									<a href="#" onclick="svgExport('#<%=type%> div.grid-network', '<%=type%>_grid_network', 'png'); return false;">PNG</a>
 									<a href="#" onclick="svgExport('#<%=type%> div.grid-network', '<%=type%>_grid_network', 'jpg'); return false;">JPG</a>
 								</div>
+							</div>
+							<div class="settings hidden">
+
 							</div>
 						<% } %>
 					</div>

@@ -1,8 +1,7 @@
 /**
-*
-*  Base64 encode / decode
-*  http://www.webtoolkit.info/
-**/ 
+ *  Base64 encode / decode
+ *  http://www.webtoolkit.info/
+ */ 
 var Base64 = { 
 	// private property
 	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
@@ -81,150 +80,6 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 		return ((a < b) ? 1 : ((a > b) ? -1 : 0));
 	}
 });
-
-// Generate bar graphs
-function createBarGraph(dataArray, container) {
-	var mode = 1, BARS = 10, sortId = container + ' span.method';
-
-	// Initial data
-	var filteredData = dataArray.filter(function(d, i) { return i < BARS; });
-
-	// Size
-	var width = 710,
-	height = 299;
-
-	// Interpolators
-	var x = d3.scale.linear()
-		.domain([0, d3.max(filteredData.map(function(d) { return displayValue(d); }))])
-		.range([0, width]),
-	y = d3.scale.ordinal()
-		.domain(d3.range(BARS))
-		.rangeBands([0, height], .2),
-	color = d3.scale.linear()
-		.domain([0, d3.max(filteredData.map(function(d) { return displayValue(d); }))])
-		.interpolate(d3.interpolateRgb)
-		.range(["#446688", "#88ddff"]);
-
-	// Create graph
-	var chart = d3.select(container + ' div.svg-container')
-		.append('svg:svg')
-		.attr('xmlns', "http://www.w3.org/2000/svg")
-		.attr('version', '1.1')
-		.attr('width', width)
-		.attr('height', height);
-
-	// Group that contains bar, shadow, and label
-	var barGroup = chart.selectAll('g.bar')
-		.data(filteredData)
-		.enter().append('svg:g')
-		.attr('class', 'bar')
-		.attr('transform', function(d, i) { return 'translate(0,' + y(i) + ')'; });
-
-	drawBar(barGroup);
-
-	// chart.on('click', function() {
-	// 	// Change mode
-	// 	mode = ++mode % 3;
-	// 	switch (mode) {
-	// 		case 0: $(sortId).text('combined score'); break;
-	// 		case 1: $(sortId).text('p-value'); break;
-	// 		case 2: $(sortId).text('rank'); break;
-	// 	}
-
-	// 	// Adjust data
-	// 	dataArray.sort(function(a, b) { return displayValue(b, mode) - displayValue(a, mode); });
-	// 	filteredData = dataArray.filter(function(d, i) { return i < BARS; });
-
-	// 	// Remap interpolators
-	// 	x.domain([0, d3.max(filteredData.map(function(d) { return displayValue(d); }))]);
-	// 	color.domain([0, d3.max(filteredData.map(function(d) { return displayValue(d); }))]);
-
-	// 	// Join with existing data and remove old data
-	// 	var newBars = chart.selectAll('g.bar').data(filteredData, function(d) { return d; });
-	// 	var newBarGroup = newBars.enter().append('svg:g')
-	// 						.attr('class', 'bar')
-	// 						.attr('transform', function(d, i) { return 'translate(0,' + height + ')'; });			
-	// 	drawBar(newBarGroup);
-	// 	newBars.exit().remove();
-
-	// 	// Sort bars
-	// 	chart.selectAll('g.bar')
-	// 		.sort(function(a, b) { return displayValue(b, mode) - displayValue(a, mode); })
-	// 		.transition()
-	// 		.duration(1000)
-	// 		.delay(500)
-	// 		.attr('transform', function(d, i) { return 'translate(0,' + y(i) + ')'; });
-
-	// 	// Adjust bar length
-	// 	chart.selectAll('rect.bar')					
-	// 		.transition()
-	// 		.duration(500)
-	// 		.attr("index", function(d, i) {return i})
-	// 		.attr('width', function(d) { return x(displayValue(d)); })
-	// 		.attr('fill', function(d) { return color(displayValue(d)); });
-
-	// 	// Adjust bar shadow
-	// 	chart.selectAll('rect.shadow')					
-	// 		.transition()
-	// 		.duration(500)
-	// 		.delay(1500)
-	// 		.attr('opacity', 0)
-	// 		.transition()
-	// 		.duration(0)
-	// 		.delay(2000)
-	// 		.attr('width', function(d) { return x(displayValue(d)); })
-	// 		.attr('fill', function(d) { return color(displayValue(d)); })
-	// 		.transition()
-	// 		.duration(0)
-	// 		.delay(2500)
-	// 		.attr('opacity', 0.3);
-
-	// 	// Adjust label
-	// 	chart.selectAll('text.label')
-	// 		.transition()
-	// 		.text(function(d) { return d[1]; });
-	// });
-
-	// Allow displaying of the different sorting method by correcting the value
-	function displayValue(value) {
-		switch(mode) {
-			case 0:
-				return value[4]; break;
-			case 1:
-				return -Math.log(value[2]); break;
-			case 2:
-				return -value[3]; break;
-		}
-	}
-
-	// Draws the bar group
-	function drawBar(selection) {
-		// Bar shadow
-		selection.append('svg:rect')
-			.attr('class', 'shadow')
-			.attr('fill', function(d) { return color(displayValue(d)); })
-			.attr('opacity', 0.3)
-			.attr('width', function(d) { return x(displayValue(d)); })
-			.attr('height', y.rangeBand());
-
-		// Bar
-		selection.append('svg:rect')
-			.attr('class', 'bar')
-			.attr('fill', function(d) { return color(displayValue(d)); })
-			.attr('width', function(d) { return x(displayValue(d)); })
-			.attr('height', y.rangeBand());
-
-		// Labels
-		selection.append('svg:text')
-			.attr('class', 'label')
-			.text(function (d, i) { return d[1]; })
-			.attr('width', function(d) { return displayValue(d); })
-			.attr('x', 3)
-			.attr('y', y.rangeBand() / 2)
-			.attr("dy", "0.35em")
-			.attr('fill', 'black');
-	}
-}
 
 // Create tables
 function createTable(dataArray, container) {
@@ -367,7 +222,12 @@ function getResult(id) {
 			else {
 				$(idTag + ' div.content img.loader').remove();
 				$(idTag + ' div.content').addClass('done');
-				createBarGraph(json[id], idTag + ' div.bar-graph');
+				d3.barGraph.createBarGraph(json[id], idTag + ' div.bar-graph', 
+					{
+						minColor: '#a14040',
+						maxColor: '#ff6666'
+					}
+				);
 				createTable(json[id], idTag + ' .results_table');
 				d3.grid.createGrid('json/' + id + '.json', json[id], 
 					idTag + ' div.grid', 
