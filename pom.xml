@@ -140,11 +140,19 @@
 							</excludes>
 							<aggregations>
 								<aggregation>
-									<removeIncluded>true</removeIncluded>
-									<output>${project.build.directory}/min/index.js</output>
+									<removeIncluded>false</removeIncluded>
+									<output>${project.build.directory}/aggregate/index.js</output>
 									<includes>
-										<include>**/ga.js</include>
-										<include>**/index.js</include>
+										<include>${project.build.directory}/min/ga.js</include>
+										<include>${project.build.directory}/min/index.js</include>
+									</includes>
+								</aggregation>
+								<aggregation>
+									<removeIncluded>true</removeIncluded>
+									<output>${project.build.directory}/aggregate/results.js</output>
+									<includes>
+										<include>${project.build.directory}/min/ga.js</include>
+										<include>${project.build.directory}/min/results.js</include>
 									</includes>
 								</aggregation>
 							</aggregations>
@@ -157,11 +165,14 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-war-plugin</artifactId>
 						<configuration>
-							<warSourceExcludes>**/*.py</warSourceExcludes>
+							<warSourceExcludes>**/*.py,**/ga.js</warSourceExcludes>
 							<webResources>
 								<resource>
-									<directory>${project.build.directory}/min</directory>
+									<directory>${project.build.directory}/aggregate</directory>
 								</resource>
+								<resource>
+									<directory>${project.build.directory}/min</directory>
+								</resource>								
 							</webResources>
 						</configuration>						
 					</plugin>
