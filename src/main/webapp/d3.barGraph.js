@@ -50,6 +50,7 @@ d3.barGraph = {
 		// Create graph
 		var chart = d3.select(container)
 			.append('svg:svg')
+			.datum(options)
 			.attr('xmlns', "http://www.w3.org/2000/svg")
 			.attr('version', '1.1')
 			.attr('width', options.width)
@@ -152,6 +153,72 @@ d3.barGraph = {
 			.attr('y', options.y.rangeBand() / 2)
 			.attr("dy", "0.35em")
 			.attr('fill', 'black');
+	},
+	recolor: function(container, newColor) {
+		var canvas = d3.select(container + ' div.svg-container svg');
+		var color = canvas.datum().color.range(['#', newColor]);
+		canvas.selectAll('rect.bar').attr('fill', function(d) { return color(d3.barGraph.displayValue(d)) });
+		canvas.selectAll('rect.shadow').attr('fill', function(d) { return color(d3.barGraph.displayValue(d)) });
+	},
+	hexToRgb: function(hexString) {
+		var hex = parseInt(hexString.substring(1), 16);
+		var r = (hex & 0xff0000) >> 16;
+		var g = (hex & 0x00ff00) >> 8;
+		var b = hex & 0x0000ff;
+		return [r, g, b];
+	},
+	rgbToHex: function(rgb) {
+		return "#" + ((1 << 24) + (rgb[0] << 16) + (rgb[1] << 8) + rgb[2]).toString(16).slice(1);
+	},
+	rgbToHsl: function(rgb) {
+		rgb = rgb.map(function(d) { return d / 255; });
+		var minRgb = d3.min(rgb);
+		var maxRgb = d3.max(rgb);
+		var deltaRgb = maxRgb - minRgb;
+
+		var h = 0, s = 0, l = (minRgb + maxRgb) / 2;
+
+		if (deltaRgb != 0) {
+			if (l < 0.5) s = deltaRgb / (maxRgb + minRgb);
+			else s = deltaRgb / (2 - maxRgb - minRgb);
+
+			deltaR = ((maxRgb - rgb[0]) / 6 + deltaRgb / 2) / deltaRgb;
+			deltaG = ((maxRgb - rgb[1]) / 6 + deltaRgb / 2) / deltaRgb;
+			deltaB = ((maxRgb - rgb[2]) / 6 + deltaRgb / 2) / deltaRgb;
+
+			if (rgb[0] == maxRgb) h = deltaB - deltaG;
+			else if (rgb[1] == maxRgb) h = 1/3 + deltaR - deltaB;
+			else if (rgb[2] == maxRgb) h = 2/3 + deltaG - deltaR;
+
+			if (h < 0) h++;
+			if (h > 1) h--;
+		}
+
+		return [h, s, l];
+	},
+	hslToRgb: function(hsl) {
+		var r = g = b = hsl[2] * 255;
+
+		if (hsl[1] != 0) {
+			if (hsl[2] < 0.5) var v2 = hsl[2] * (1 + hsl[1]);
+			else var v2 = hsl[2] + hsl[1] - hsl[1] * hsl[2];
+
+			var v1 = 2 * hsl[2] - v2;
+
+			r = 255 * d3.barGraph.hueToRgb(v1, v2, hsl[0] + 1/3);
+			g = 255 * d3.barGraph.hueToRgb(v1, v2, hsl[0]);
+			b = 255 * d3.barGraph.hueToRgb(v1, v2, hsl[0] - 1/3);
+		}
+
+		return [r, g, b].map(function(d) { return Math.round(d); });
+	},
+	hueToRgb: function(v1, v2, vH) {
+		if (vH < 0) vH += 1;
+		if (vH > 1) vH -= 1;
+		if ((6 * vH) < 1) return v1 + (v2 - v1) * 6 * vH;
+		if ((2 * vH) < 1) return v2;
+		if ((3 * vH) < 2) return v1 + (v2 - v1) * (2/3 - vH) * 6;
+		return v1;
 	},
 	// Allow displaying of the different sorting method by correcting the value
 	displayValue: function(value) {
