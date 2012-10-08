@@ -156,9 +156,15 @@ d3.barGraph = {
 	},
 	recolor: function(container, newColor) {
 		var canvas = d3.select(container + ' div.svg-container svg');
-		var color = canvas.datum().color.range(['#', newColor]);
+		var color = canvas.datum().color.range([d3.barGraph.scaleColor(newColor), newColor]);
 		canvas.selectAll('rect.bar').attr('fill', function(d) { return color(d3.barGraph.displayValue(d)) });
 		canvas.selectAll('rect.shadow').attr('fill', function(d) { return color(d3.barGraph.displayValue(d)) });
+	},
+	scaleColor: function(hexColor) {
+		var hsl = d3.barGraph.rgbToHsl(d3.barGraph.hexToRgb(hexColor));
+		hsl[1] -= 2/3;
+		hsl[2] -= 11/30;
+		return d3.barGraph.rgbToHex(d3.barGraph.hslToRgb(hsl));
 	},
 	hexToRgb: function(hexString) {
 		var hex = parseInt(hexString.substring(1), 16);
