@@ -182,5 +182,8 @@ d3.gridNetwork = {
 		function redraw() {
 			svg.attr('transform','translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
 		}
+	},
+	recolor: function(container, newColor) {
+		d3.selectAll(container + ' circle').style('fill', newColor);
 	}
 };
