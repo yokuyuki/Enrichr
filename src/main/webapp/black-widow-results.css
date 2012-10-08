@@ -1,5 +1,6 @@
 div.content {
 	margin-top: 1em;
+	position: relative;
 }
 
 /* Download links */
@@ -168,4 +169,15 @@ div.popup input {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	padding: 0.4em;
+}
+
+/* Color settings */
+div.settings {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+td.settings a:hover {
+	background: none;
 }

@@ -134,6 +134,51 @@ function createTable(dataArray, container) {
 	});
 }
 
+// Creates the color wheel for changing the color of the bar graph, grid, and network
+function createColorWheel(pixels, container, startingColor) {
+	var sqrt3 = Math.sqrt(3);
+	var rows = [['#00ffff','#33ccff','#3399ff','#6699ff'],['#66ffcc','#66ffff','#66ccff','#99ccff','#9999ff'],['#66ff99','#99ffcc','#ccffff','#ccccff','#cc99ff','#cc66ff'],['#66ff66','#99ff99','#ccffcc','#ffffff','#ffccff','#ff99ff','#ff66ff'],['#99ff66','#ccff99','#ffffcc','#ffcccc','#ff99cc','#ff66cc'],['#ccff66','#ffff99','#ffcc99','#ff9999','#ff6699'],['#ffff66','#ffcc66','#ff9966','#ff6666']];
+
+	var svg = d3.select(container + ' div.settings').append('svg:svg')
+		.attr('height', 7 * pixels * sqrt3)
+		.attr('width', 7 * pixels * sqrt3);
+	var mid = Math.floor(rows.length/2);
+
+	for (var r = 0; r < rows.length; r++) {
+		var shift = Math.abs(mid - r);
+		for (var hex = 0; hex < rows[r].length; hex++) {
+			var columnOrigin = sqrt3 * shift / 2 * pixels + hex * sqrt3 * pixels
+			var rowOrigin = pixels / 2 + ((r+1) * 1.5 * pixels);
+			var up = pixels / 2;
+			var right = sqrt3 * pixels / 2;
+			var path = ["M", columnOrigin, rowOrigin, 
+						"l", right, up, 
+						"l",  right, -up, 
+						"l", 0, -pixels,  
+						"l", -right, -up,  
+						"l", -right, up, "Z"].join(" ");
+
+			svg.append('svg:path').attr('d', path)
+				.style('fill', rows[r][hex])
+				.style('stroke', '#000000')
+				.style('stroke-width', function(d) { return (rows[r][hex] === startingColor) ? '1px' : '0px'; } )
+				.on('click', function() {
+					d3.selectAll(container + ' div.settings svg path').style('stroke-width', '0px');
+					this.style.strokeWidth = '1px';
+					d3.barGraph.recolor(container + ' div.bar-graph', this.style.fill);
+					d3.grid.recolor(container + ' div.grid', this.style.fill);
+					d3.gridNetwork.recolor(container + ' div.grid-network', this.style.fill);
+					toggleSettings(container);
+				}
+			);
+		}
+	}
+}
+
+function toggleSettings(container) {
+	$(container + ' div.settings').fadeToggle();
+}
+
 /* 
  * Creates a form to force downloads 
  * download( url, data [, method] )
@@ -224,7 +269,7 @@ function getResult(id) {
 				$(idTag + ' div.content').addClass('done');
 				d3.barGraph.createBarGraph(json[id], idTag + ' div.bar-graph', 
 					{
-						minColor: '#a14040',
+						minColor: '#713939',
 						maxColor: '#ff6666'
 					}
 				);
@@ -261,10 +306,12 @@ function getResult(id) {
 				d3.gridNetwork.createGridNetwork('json/' + id + '.json', json[id], 
 					idTag + ' div.grid-network',
 					{
+						nodeColor: '#ff6666',
 						cache: false
 					}
 				);
 				$(idTag + ' div.downloadbox').fadeIn('slow');
+				createColorWheel(10, idTag, '#ff6666');
 			}
 		});
 	}
@@ -372,7 +419,8 @@ $(document).ready(function () {
 			}
 			else {
 				var container = '#' + $('div.active').attr('id');
-				var dest = ($(container + ' table.nav td.selected').index() - 1) % $(container + ' table.nav td').length;
+				var tabCount = $(container + ' table.nav td:not(td.settings)').length;
+				var dest = ($(container + ' table.nav td.selected').index() - 1 + tabCount) % tabCount;
 				navigateTo(dest, container);
 			}
 		}
@@ -384,7 +432,7 @@ $(document).ready(function () {
 			}
 			else {
 				var container = '#' + $('div.active').attr('id');
-				var dest = ($(container + ' table.nav td.selected').index() + 1) % $(container + ' table.nav td').length;
+				var dest = ($(container + ' table.nav td.selected').index() + 1) % $(container + ' table.nav td:not(td.settings)').length;
 				navigateTo(dest, container);
 			}
 		}

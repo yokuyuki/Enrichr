@@ -164,6 +164,12 @@
 										<a href="#" onclick="navigateTo(3, '#<%=type%>'); return false;">Network</a>
 									</td>
 								<% } %>
+								<td class="settings">
+									<a href="#" onclick="toggleSettings('#<%=type%>'); return false;">
+										<!-- Per CC Attribution Share Alike, the cog icon is attributed to P.J. Onori from the Iconic icon pack. -->
+										<img src="images/cog.png" width="16" height="16"/>
+									</a>
+								</td>
 							</tr>
 						</table>
 					</div>
@@ -212,8 +218,7 @@
 									<a href="#" onclick="svgExport('#<%=type%> div.grid-network', '<%=type%>_grid_network', 'jpg'); return false;">JPG</a>
 								</div>
 							</div>
-							<div class="settings hidden">
-
+							<div class="settings hidden" title="Change the color scheme">
 							</div>
 						<% } %>
 					</div>
