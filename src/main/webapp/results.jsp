@@ -43,8 +43,8 @@
 	add("Cancer_Cell_Line_Encyclopedia");
 	add("ChEA");
 	// add("Chromosome_Location");
-	// add("CORUM.gmt");
-	// add("Down-regulated_CMAP");
+	add("CORUM");
+	add("Down-regulated_CMAP");
 	add("ENCODE_TF_ChIP-seq");
 	add("GeneSigDB");
 	add("Genome_Browser_PWMs");
@@ -67,7 +67,7 @@
 	add("PPI_Hub_Proteins");
 	add("Reactome");
 	add("TRANSFAC_and_JASPAR_PWMs");
-	// add("Up-regulated_CMAP");
+	add("Up-regulated_CMAP");
 	add("VirusMINT");
 	add("WikiPathways");
 }}; %>
