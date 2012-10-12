@@ -15,6 +15,10 @@ a {
 	text-decoration: none;
 }
 
+input, textarea {
+	font-size: 1em;
+}
+
 textarea:focus, input:focus {
 	outline-color: #D90000;	
 }
