@@ -437,8 +437,4 @@ $(document).ready(function () {
 			}
 		}
 	);
-	$('body').swipeup(function() {
-			toggleClose();
-		}
-	);
 });
