@@ -91,14 +91,6 @@ $(document).ready(function () {
 	})
 	.error(function() { $('div#count').remove() });
 
-	// Disable focus zoom for iOS
-	var enabledZoom = $('meta[name=viewport]').attr('content');	
-	var disabledZoom = enabledZoom + ",maximum-scale=1, user-scalable=no";
-	var enable = function() { $('meta[name=viewport]').attr('content', enabledZoom); };
-	var disable = function() { $('meta[name=viewport]').attr('content', disabledZoom); }
-	$('input[type=text],textarea').focus(disable);
-	$('input[type=text],textarea').blur(enable);
-
 	// Touch gestures
 	$.event.special.swipe.durationThreshold = 200;
 	$('body').swipeleft(function() {
