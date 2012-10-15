@@ -52,7 +52,7 @@
 	add("GO_Cellular_Component");
 	add("GO_Molecular_Function");
 	// add("Histone_Modifications_ChIP-seq");
-	// add("HMDB_Metabolites");
+	add("HMDB_Metabolites");
 	add("Human_Endogenous_Complexome");
 	add("Human_Gene_Atlas");
 	add("KEA");
