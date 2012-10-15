@@ -84,12 +84,10 @@ function createStats() {
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast
-	// Load counter
-	$.get('count', function(data) {
-		$('div#count span').text(data);
-		$('div#count').fadeIn('slow');
-	})
-	.error(function() { $('div#count').remove() });
+
+	// Disable user scaling in UIWebView
+	if (/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent))
+		$('meta[name=viewport]').attr('content', $('meta[name=viewport]').attr('content') + ', user-scalable=no');
 
 	// Touch gestures
 	$.event.special.swipe.durationThreshold = 200;
@@ -107,4 +105,11 @@ $(document).ready(function () {
 			navigateTo(dest);
 		}		
 	);
+
+	// Load counter
+	$.get('count', function(data) {
+		$('div#count span').text(data);
+		$('div#count').fadeIn('slow');
+	})
+	.error(function() { $('div#count').remove() });	
 });
