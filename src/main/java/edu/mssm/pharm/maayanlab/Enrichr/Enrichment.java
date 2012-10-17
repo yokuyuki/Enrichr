@@ -10,12 +10,11 @@ package edu.mssm.pharm.maayanlab.Enrichr;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 import pal.statistics.FisherExact;
-
 import edu.mssm.pharm.maayanlab.FileUtils;
 
 public class Enrichment {
@@ -119,29 +118,31 @@ public class Enrichment {
 		return geneList;
 	}
 	
-	public LinkedList<Term> enrich(String backgroundType) {
-		return enrich(FileUtils.readResource(backgroundType + ".gmt"));
-	}
-	
-	public LinkedList<Term> enrich(Collection<String> backgroundLines) {
-		// Linked list of results
-		LinkedList<Term> resultTerms = new LinkedList<Term>();
+	public LinkedList<Term> enrich(String backgroundType) {		
+		// Read background list and ranks
+		Collection<String> backgroundLines = FileUtils.readResource(backgroundType + ".gmt");
+		Collection<String> rankLines = FileUtils.readResource(backgroundType + "_ranks.txt");
 		
-		// Background database consisting of key and genes associated with that key
-		HashMap<String, HashSet<String>> bgDatabase = new HashMap<String, HashSet<String>>();
+		// HashMap of background terms
+		LinkedList<Term> termList = new LinkedList<Term>();
+		
 		// Unique genes in the database
 		HashSet<String> bgGenes = new HashSet<String>();
 		for (String line : backgroundLines) {	// Read background into hashmap
 			// In gmt file, 1st column is key, 2nd column is irrelevant, and the rest are the values
 			String[] splitLine = line.split("\t");
-			HashSet<String> values = new HashSet<String>();
-			bgDatabase.put(splitLine[0], values);
+			HashSet<String> targets = new HashSet<String>();
 			
 			for (int i = 2; i < splitLine.length; i++) {
 				bgGenes.add(splitLine[i].toUpperCase());
-				values.add(splitLine[i].toUpperCase());
+				targets.add(splitLine[i].toUpperCase());
 			}
+			
+			Term term = new Term(splitLine[0], targets);
+			termList.add(term);
 		}
+		
+		// Rank database
 		
 		// Filter genes from input list that are not in the background
 		HashSet<String> inputGenes = new HashSet<String>();
@@ -149,19 +150,19 @@ public class Enrichment {
 			gene = gene.toUpperCase();
 			if (bgGenes.contains(gene))
 				inputGenes.add(gene);
-		}
+		}		
 		
-		for (String key : bgDatabase.keySet()) {
-			// Background genes associated with the key
-			HashSet<String> targetBgGenes = bgDatabase.get(key);
+		for (ListIterator<Term> termIterator = termList.listIterator(); termIterator.hasNext(); ) {
+			Term currentTerm = termIterator.next();
+			
 			// Input genes associated with the key
 			HashSet<String> targetInputGenes = new HashSet<String>();
 			
 			// Target input genes is the intersection of target background genes and input genes
-			targetInputGenes.addAll(targetBgGenes);
+			targetInputGenes.addAll(currentTerm.getTargets());	// Background genes associated with the term
 			targetInputGenes.retainAll(inputGenes);
 			
-			int numOfTargetBgGenes = targetBgGenes.size();
+			int numOfTargetBgGenes = currentTerm.getNumOfTargetBgGenes();
 			int numOfBgGenes = bgGenes.size();
 			int numOfInputGenes = inputGenes.size();
 			int numOfTargetInputGenes = targetInputGenes.size();
@@ -180,13 +181,17 @@ public class Enrichment {
 						targets.append(";").append(targetInputGene);
 				}
 				
-				resultTerms.add(new Term(key, numOfTargetInputGenes, numOfTargetBgGenes, pvalue, targets.toString()));
+				currentTerm.setEnrichedTargets(targetInputGenes);
+				currentTerm.setPValue(pvalue);
+			}
+			else {
+				termIterator.remove();
 			}
 		}
 		
 		// Sort by p-value
-		Collections.sort(resultTerms);
+		Collections.sort(termList);
 		
-		return resultTerms;
+		return termList;
 	}
 }

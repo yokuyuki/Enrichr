@@ -31,20 +31,20 @@ public class List2Networks implements SettingsChanger {
 	private boolean isCancelled = false;
 	
 	// Paths to gmt files
-	private final static String BIOCARTA_LOC = "BioCarta.gmt";
-	private final static String CHROMOSOME_LOC = "Chromosome_Location.gmt";
-	private final static String GENESIGDB_LOC = "GeneSigDB.gmt";
-	private final static String GO_BP_LOC = "GO_Biological_Process.gmt";
-	private final static String GO_CC_LOC = "GO_Cellular_Component.gmt";
-	private final static String GO_MF_LOC = "GO_Molecular_Function.gmt";
-	private final static String HMDB_METABOLITES_LOC = "HMDB_Metabolites.gmt";
-	private final static String KEGG_LOC = "KEGG.gmt";
-	private final static String MGI_MP_LOC = "MGI_Mammalian_Phenotype.gmt";
-	private final static String MICRORNA_LOC = "microRNA.gmt";
-	private final static String OMIM_DISEASE_LOC = "OMIM_Disease.gmt";
-	private final static String PFAM_INTERPRO_LOC = "Pfam_InterPro_Domains.gmt";
-	private final static String REACTOME_LOC = "Reactome.gmt";
-	private final static String WIKIPATHWAYS_LOC = "WikiPathways.gmt";
+	private final static String BIOCARTA = "BioCarta";
+	private final static String CHROMOSOME_LOC = "Chromosome_Location";
+	private final static String GENESIGDB = "GeneSigDB";
+	private final static String GO_BP = "GO_Biological_Process";
+	private final static String GO_CC = "GO_Cellular_Component";
+	private final static String GO_MF = "GO_Molecular_Function";
+	private final static String HMDB_METABOLITES = "HMDB_Metabolites";
+	private final static String KEGG = "KEGG";
+	private final static String MGI_MP = "MGI_Mammalian_Phenotype";
+	private final static String MICRORNA = "microRNA";
+	private final static String OMIM_DISEASE = "OMIM_Disease";
+	private final static String PFAM_INTERPRO = "Pfam_InterPro_Domains";
+	private final static String REACTOME = "Reactome";
+	private final static String WIKIPATHWAYS = "WikiPathways";
 	
 	// Default settings
 	private final Settings settings = new Settings() {
@@ -210,25 +210,25 @@ public class List2Networks implements SettingsChanger {
 	
 	// Run from cli with custom database
 	public void run(String geneList, String[] backgroundFiles) {
-		log.info("Running with custom database");
-		ArrayList<String> inputList = FileUtils.readFile(geneList);
-		
-		try {
-			if (FileUtils.validateList(inputList)) {
-				HashMap<String, String> bgList = new HashMap<String, String>();
-				for (String backgroundFile : backgroundFiles)
-					bgList.put((new File(backgroundFile)).getName().replaceFirst("\\.\\w+$", ""), backgroundFile);
-				computeEnrichment(bgList, inputList);
-			}
-		} catch (ParseException e) {
-			if (e.getErrorOffset() == -1)
-				log.warning("Invalid input: Input list is empty.");
-			else
-				log.warning("Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
-			System.exit(-1);	
-		} catch (InterruptedException e) {
-			log.severe("CLI should never throw this error due to lack of progress bar");
-		}
+//		log.info("Running with custom database");
+//		ArrayList<String> inputList = FileUtils.readFile(geneList);
+//		
+//		try {
+//			if (FileUtils.validateList(inputList)) {
+//				HashMap<String, String> bgList = new HashMap<String, String>();
+//				for (String backgroundFile : backgroundFiles)
+//					bgList.put((new File(backgroundFile)).getName().replaceFirst("\\.\\w+$", ""), backgroundFile);
+//				computeEnrichment(bgList, inputList);
+//			}
+//		} catch (ParseException e) {
+//			if (e.getErrorOffset() == -1)
+//				log.warning("Invalid input: Input list is empty.");
+//			else
+//				log.warning("Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
+//			System.exit(-1);	
+//		} catch (InterruptedException e) {
+//			log.severe("CLI should never throw this error due to lack of progress bar");
+//		}
 	}
 	
 	// Run for file names
@@ -249,37 +249,36 @@ public class List2Networks implements SettingsChanger {
 	
 	// Run for calling from other methods and pass in collection
 	public void run(Collection<String> geneList) {
-		// Initial capacity 18 * 0.75 load factor = 13.5
-		HashMap<String, String> bgList = new HashMap<String, String>(18);
+		LinkedList<String> bgList = new LinkedList<String>();
 		
 		if (settings.getBoolean(ENABLE_BIOCARTA))
-			bgList.put("BioCarta Pathways", BIOCARTA_LOC);
+			bgList.add(BIOCARTA);
 		if (settings.getBoolean(ENABLE_CHROMOSOME))
-			bgList.put("Chromosome Location", CHROMOSOME_LOC);
+			bgList.add(CHROMOSOME_LOC);
 		if (settings.getBoolean(ENABLE_GENESIGDB))
-			bgList.put("GeneSigDB", GENESIGDB_LOC);
+			bgList.add(GENESIGDB);
 		if (settings.getBoolean(ENABLE_GO_BP))
-			bgList.put("GO Biological Process", GO_BP_LOC);
+			bgList.add(GO_BP);
 		if (settings.getBoolean(ENABLE_GO_CC))
-			bgList.put("GO Cellular Component", GO_CC_LOC);
+			bgList.add(GO_CC);
 		if (settings.getBoolean(ENABLE_GO_MF))
-			bgList.put("GO Molecular Function", GO_MF_LOC);
+			bgList.add(GO_MF);
 		if (settings.getBoolean(ENABLE_HMDB_METABOLITES))
-			bgList.put("HMDB Metabolites", HMDB_METABOLITES_LOC);
+			bgList.add(HMDB_METABOLITES);
 		if (settings.getBoolean(ENABLE_KEGG))
-			bgList.put("KEGG Pathways", KEGG_LOC);
+			bgList.add(KEGG);
 		if (settings.getBoolean(ENABLE_MGI_MP))
-			bgList.put("MGI Mammalian Phenotype", MGI_MP_LOC);
+			bgList.add(MGI_MP);
 		if (settings.getBoolean(ENABLE_MICRORNA))
-			bgList.put("microRNA", MICRORNA_LOC);
+			bgList.add(MICRORNA);
 		if (settings.getBoolean(ENABLE_OMIM_DISEASE))
-			bgList.put("OMIM Disease", OMIM_DISEASE_LOC);
+			bgList.add(OMIM_DISEASE);
 		if (settings.getBoolean(ENABLE_PFAM_INTERPRO))
-			bgList.put("PFAM InterPro Domains", PFAM_INTERPRO_LOC);
+			bgList.add(PFAM_INTERPRO);
 		if (settings.getBoolean(ENABLE_REACTOME))
-			bgList.put("Reactome Pathways", REACTOME_LOC);
+			bgList.add(REACTOME);
 		if (settings.getBoolean(ENABLE_WIKIPATHWAYS))
-			bgList.put("WikiPathways Pathways", WIKIPATHWAYS_LOC);
+			bgList.add(WIKIPATHWAYS);
 		
 		try {
 			setProgress(0, "Enriching terms...");
@@ -291,11 +290,13 @@ public class List2Networks implements SettingsChanger {
 		}
 	}
 
-	public void computeEnrichment(HashMap<String, String> backgroundList, Collection<String> geneList) throws InterruptedException {
+	public void computeEnrichment(LinkedList<String> backgroundList, Collection<String> geneList) throws InterruptedException {
 		int iteration = 0;
-		int increment = 80 / backgroundList.keySet().size();
+		int increment = 80 / backgroundList.size();
 		
-		for (String bgType : backgroundList.keySet()) {
+		Enrichment app = new Enrichment(geneList);
+		
+		for (String bgType : backgroundList) {
 			try {
 				setProgress(5+increment*iteration, bgType + " enrichment...");
 				iteration++;
@@ -303,70 +304,7 @@ public class List2Networks implements SettingsChanger {
 				throw new InterruptedException(e.getMessage());
 			}
 			
-			// Read background file into an array of lines
-			ArrayList<String> bgFile = FileUtils.readResource(backgroundList.get(bgType));
-			// Linked List of results
-			LinkedList<Term> resultTerms = new LinkedList<Term>();
-			
-			// Background database consisting of key and genes associated with that key
-			HashMap<String, HashSet<String>> bgDatabase = new HashMap<String, HashSet<String>>();
-			// Unique genes in the database
-			HashSet<String> bgGenes = new HashSet<String>();
-			for (String line : bgFile) {	// Read background into hashmap
-				// In gmt file, 1st column is key, 2nd column is irrelevant, and the rest are the values
-				String[] splitLine = line.split("\t");
-				HashSet<String> values = new HashSet<String>();
-				bgDatabase.put(splitLine[0], values);
-				
-				for (int i = 2; i < splitLine.length; i++) {
-					bgGenes.add(splitLine[i]);
-					values.add(splitLine[i]);
-				}
-			}
-			
-			// Filter genes from input list that are not in the background
-			HashSet<String> inputGenes = new HashSet<String>();
-			for (String gene : geneList) {
-				gene = gene.toUpperCase();
-				if (bgGenes.contains(gene))
-					inputGenes.add(gene);
-			}
-			
-			for (String key : bgDatabase.keySet()) {
-				// Background genes associated with the key
-				HashSet<String> targetBgGenes = bgDatabase.get(key);
-				// Input genes associated with the key
-				HashSet<String> targetInputGenes = new HashSet<String>();
-				
-				// Target input genes is the intersection of target background genes and input genes
-				targetInputGenes.addAll(targetBgGenes);
-				targetInputGenes.retainAll(inputGenes);
-				
-				int numOfTargetBgGenes = targetBgGenes.size();
-				int numOfBgGenes = bgGenes.size();
-				int numOfInputGenes = inputGenes.size();
-				int numOfTargetInputGenes = targetInputGenes.size();
-				
-				// Don't bother if there are no target input genes
-				if (numOfTargetInputGenes > 0) {
-					FisherExact fisherTest = new FisherExact(numOfInputGenes + numOfBgGenes);
-					
-					double pvalue = fisherTest.getRightTailedP(numOfTargetInputGenes, numOfInputGenes - numOfTargetInputGenes, numOfTargetBgGenes, numOfBgGenes - numOfTargetBgGenes);
-					
-					StringBuilder targets = new StringBuilder();
-					for (String targetInputGene: targetInputGenes) {
-						if (targets.length() == 0)
-							targets.append(targetInputGene);
-						else
-							targets.append(",").append(targetInputGene);
-					}
-					
-					resultTerms.add(new Term(key, numOfTargetInputGenes, numOfTargetBgGenes, pvalue, targets.toString()));
-				}
-			}
-			
-			// Sort by p-value
-			Collections.sort(resultTerms);
+			LinkedList<Term> resultTerms = app.enrich(bgType); 
 			
 			// Only add to results if there are actual results
 			if (!resultTerms.isEmpty())
