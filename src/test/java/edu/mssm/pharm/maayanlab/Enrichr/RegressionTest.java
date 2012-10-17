@@ -42,7 +42,7 @@ public class RegressionTest extends TestCase {
 		Iterator<String> result = testResults.iterator();
 		
 		assertEquals(testResults.size(), terms.size()+1);
-		assertEquals(result.next(), app.HEADER);
+		assertEquals(result.next(), List2Networks.HEADER);
 		
 		while (term.hasNext())
 			assertEquals(result.next(), term.next().toString());
