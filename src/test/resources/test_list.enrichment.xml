@@ -5,25 +5,13 @@
         <Term p-value="7.63E-9">18362358-Table5</Term>
         <Term p-value="5.54E-8">17676974-TableS5</Term>
         <Term p-value="2.38E-7">15735024-SuppTable2</Term>
-        <Term p-value="6.55E-7">metabolic process (GO:0008152)</Term>
+        <Term p-value="6.59E-7">metabolic process (GO:0008152)</Term>
         <Term p-value="4.76E-6">18081427-TableS8</Term>
         <Term p-value="8.78E-6">17975224-TableS6</Term>
         <Term p-value="2.87E-5">MP0000609_abnormal_liver_physiology_</Term>
         <Term p-value="3.2E-5">18614019-TableS4a</Term>
-        <Term p-value="3.75E-5">mitochondrial part (GO:0044429)</Term>
+        <Term p-value="3.76E-5">mitochondrial part (GO:0044429)</Term>
     </Summary>
-    <Background name="Chromosome Location">
-        <Term p-value="3.74E-3">chr5q15</Term>
-        <Term p-value="2.09E-2">chr9p21</Term>
-        <Term p-value="2.18E-2">chr2q31</Term>
-        <Term p-value="2.25E-2">chr13q22</Term>
-        <Term p-value="2.38E-2">chrxp</Term>
-        <Term p-value="3.05E-2">chr11q13</Term>
-        <Term p-value="3.16E-2">chr19q11</Term>
-        <Term p-value="3.38E-2">chr12p12</Term>
-        <Term p-value="3.71E-2">chr2p12</Term>
-        <Term p-value="3.89E-2">chr5q22</Term>
-    </Background>
     <Background name="GeneSigDB">
         <Term p-value="1.18E-9">19341462-SuppTable2</Term>
         <Term p-value="7.63E-9">18362358-Table5</Term>
@@ -36,67 +24,7 @@
         <Term p-value="7.99E-5">18440302-SuppTable1</Term>
         <Term p-value="8.14E-5">20003503-SuppTable1</Term>
     </Background>
-    <Background name="GO Molecular Function">
-        <Term p-value="9E-4">ligase activity (GO:0016874)</Term>
-        <Term p-value="1.2E-3">acid-amino acid ligase activity (GO:0016881)</Term>
-        <Term p-value="1.99E-3">ubiquitin-protein ligase activity (GO:0004842)</Term>
-        <Term p-value="3.7E-3">small conjugating protein ligase activity (GO:0019787)</Term>
-        <Term p-value="6.78E-3">transferase activity (GO:0016740)</Term>
-        <Term p-value="8.22E-3">oxidoreductase activity (GO:0016491)</Term>
-        <Term p-value="1.71E-2">hydrogen ion transmembrane transporter activity (GO:0015078)</Term>
-        <Term p-value="1.97E-2">solute:solute antiporter activity (GO:0015300)</Term>
-        <Term p-value="1.97E-2">arylsulfatase activity (GO:0004065)</Term>
-        <Term p-value="2.85E-2">peroxidase activity (GO:0004601)</Term>
-    </Background>
-    <Background name="Reactome Pathways">
-        <Term p-value="8.77E-4">Metabolism of amino acids</Term>
-        <Term p-value="3.07E-2">Breakdown of hydrogen peroxide to water and molecular oxygen</Term>
-        <Term p-value="4.09E-2">Metabolism of vitamins and cofactors</Term>
-        <Term p-value="6.42E-2">APC/C:Cdh1-mediated degradation of Skp2</Term>
-        <Term p-value="7.49E-2">Propionyl-CoA catabolism</Term>
-        <Term p-value="7.78E-2">Cdc20:Phospho-APC/C mediated degradation of Cyclin A</Term>
-        <Term p-value="8.15E-2">Cell Cycle Checkpoints</Term>
-        <Term p-value="1.16E-1">Axon guidance</Term>
-        <Term p-value="1.44E-1">Metabolism of porphyrins</Term>
-        <Term p-value="1.47E-1">Regulation of activated PAK-2p34 by proteasome mediated degradation</Term>
-    </Background>
-    <Background name="WikiPathways Pathways">
-        <Term p-value="6.84E-4">Hs_Mitochondrial_Gene_Expression_WP391_29742</Term>
-        <Term p-value="6.84E-4">Hs_Mitochondrial_Gene_Expression_WP391_21504</Term>
-        <Term p-value="2.59E-2">Hs_Mitochondrial_LC-Fatty_Acid_Beta-Oxidation_WP368_21451</Term>
-        <Term p-value="5.87E-2">Hs_One_Carbon_Metabolism_WP241_21183</Term>
-        <Term p-value="6.63E-2">Hs_Folic_Acid_Network_WP176_21049</Term>
-        <Term p-value="6.63E-2">Hs_Folic_Acid_Network_WP176_30153</Term>
-        <Term p-value="7.03E-2">Hs_selenium_WP15_29615</Term>
-        <Term p-value="7.03E-2">Hs_selenium_WP15_28780</Term>
-        <Term p-value="9.11E-2">Hs_Glycogen_Metabolism_WP500_21730</Term>
-        <Term p-value="1.04E-1">Hs_Tryptophan_metabolism_WP465_21658</Term>
-    </Background>
-    <Background name="PFAM InterPro Domains">
-        <Term p-value="1.21E-3">F-box</Term>
-        <Term p-value="2.76E-3">AAA_ATPase_core</Term>
-        <Term p-value="9.14E-3">Frizzled</Term>
-        <Term p-value="1.5E-2">Pkinase_C</Term>
-        <Term p-value="2.32E-2">Sulfatase</Term>
-        <Term p-value="2.75E-2">ATP_bd_ATPase</Term>
-        <Term p-value="3.22E-2">GCN5acetyl_trans</Term>
-        <Term p-value="3.22E-2">Znf_CCHC</Term>
-        <Term p-value="3.22E-2">Fz_domain</Term>
-        <Term p-value="3.22E-2">NUDIX_hydrolase</Term>
-    </Background>
-    <Background name="HMDB Metabolites">
-        <Term p-value="7.04E-3">Coenzyme A (HMDB01423)</Term>
-        <Term p-value="7.75E-3">Thiamine pyrophosphate (HMDB01372)</Term>
-        <Term p-value="1E-2">NAD (HMDB00902)</Term>
-        <Term p-value="1.82E-2">Carbon dioxide (HMDB01967)</Term>
-        <Term p-value="1.86E-2">Glycerol (HMDB00131)</Term>
-        <Term p-value="2.71E-2">S-Adenosylmethionine (HMDB01185)</Term>
-        <Term p-value="3.2E-2">Cortisol (HMDB00063)</Term>
-        <Term p-value="3.68E-2">3,4-Dihydroxymandelaldehyde (HMDB06242)</Term>
-        <Term p-value="3.68E-2">C27H46O3 (HMDB06894)</Term>
-        <Term p-value="4.18E-2">Formyl-CoA (HMDB03419)</Term>
-    </Background>
-    <Background name="OMIM Disease">
+    <Background name="OMIM_Disease">
         <Term p-value="1.16E-2">glycogen_storage_disease</Term>
         <Term p-value="1.31E-2">leigh_syndrome</Term>
         <Term p-value="1.83E-2">cardiomyopathy,_hypertrophic</Term>
@@ -108,31 +36,43 @@
         <Term p-value="1.94E-1">dystonia</Term>
         <Term p-value="2.03E-1">autism</Term>
     </Background>
-    <Background name="BioCarta Pathways">
+    <Background name="GO_Cellular_Component">
+        <Term p-value="3.76E-5">mitochondrial part (GO:0044429)</Term>
+        <Term p-value="1.94E-4">mitochondrion (GO:0005739)</Term>
+        <Term p-value="2.8E-3">mitochondrial matrix (GO:0005759)</Term>
+        <Term p-value="7.04E-3">intracellular membrane-bounded organelle (GO:0043231)</Term>
+        <Term p-value="1.14E-2">ubiquitin ligase complex (GO:0000151)</Term>
+        <Term p-value="1.35E-2">mitochondrial nucleoid (GO:0042645)</Term>
+        <Term p-value="1.46E-2">mitochondrial ribosome (GO:0005761)</Term>
+        <Term p-value="1.71E-2">lysosomal membrane (GO:0005765)</Term>
+        <Term p-value="2.18E-2">intracellular organelle (GO:0043229)</Term>
+        <Term p-value="2.86E-2">vacuolar membrane (GO:0005774)</Term>
+    </Background>
+    <Background name="BioCarta">
         <Term p-value="7.96E-2">METHIONINE_PATHWAY</Term>
         <Term p-value="9.23E-2">GS_PATHWAY</Term>
         <Term p-value="1.05E-1">REELIN_PATHWAY</Term>
+        <Term p-value="1.17E-1">KREB_PATHWAY</Term>
         <Term p-value="1.17E-1">VOBESITY_PATHWAY</Term>
         <Term p-value="1.17E-1">MALATEX_PATHWAY</Term>
-        <Term p-value="1.17E-1">KREB_PATHWAY</Term>
         <Term p-value="1.41E-1">LEPTIN_PATHWAY</Term>
         <Term p-value="1.53E-1">VITCB_PATHWAY</Term>
         <Term p-value="1.53E-1">IL4_PATHWAY</Term>
         <Term p-value="1.65E-1">GABA_PATHWAY</Term>
     </Background>
-    <Background name="GO Cellular Component">
-        <Term p-value="3.75E-5">mitochondrial part (GO:0044429)</Term>
-        <Term p-value="1.94E-4">mitochondrion (GO:0005739)</Term>
-        <Term p-value="2.79E-3">mitochondrial matrix (GO:0005759)</Term>
-        <Term p-value="7.02E-3">intracellular membrane-bounded organelle (GO:0043231)</Term>
-        <Term p-value="1.14E-2">ubiquitin ligase complex (GO:0000151)</Term>
-        <Term p-value="1.35E-2">mitochondrial nucleoid (GO:0042645)</Term>
-        <Term p-value="1.46E-2">mitochondrial ribosome (GO:0005761)</Term>
-        <Term p-value="1.71E-2">lysosomal membrane (GO:0005765)</Term>
-        <Term p-value="2.17E-2">intracellular organelle (GO:0043229)</Term>
-        <Term p-value="2.86E-2">vacuolar membrane (GO:0005774)</Term>
+    <Background name="Chromosome_Location">
+        <Term p-value="3.74E-3">chr5q15</Term>
+        <Term p-value="2.09E-2">chr9p21</Term>
+        <Term p-value="2.18E-2">chr2q31</Term>
+        <Term p-value="2.25E-2">chr13q22</Term>
+        <Term p-value="2.38E-2">chrxp</Term>
+        <Term p-value="3.05E-2">chr11q13</Term>
+        <Term p-value="3.16E-2">chr19q11</Term>
+        <Term p-value="3.38E-2">chr12p12</Term>
+        <Term p-value="3.71E-2">chr2p12</Term>
+        <Term p-value="3.89E-2">chr5q22</Term>
     </Background>
-    <Background name="MGI Mammalian Phenotype">
+    <Background name="MGI_Mammalian_Phenotype">
         <Term p-value="2.87E-5">MP0000609_abnormal_liver_physiology_</Term>
         <Term p-value="1.92E-4">MP0006036_abnormal_mitochondrial_physio_</Term>
         <Term p-value="4.72E-4">MP0002080_prenatal_lethality_</Term>
@@ -144,31 +84,31 @@
         <Term p-value="1.53E-3">MP0009765_abnormal_xenobiotic_induced_</Term>
         <Term p-value="3.64E-3">MP0002082_postnatal_lethality_</Term>
     </Background>
-    <Background name="GO Biological Process">
-        <Term p-value="6.55E-7">metabolic process (GO:0008152)</Term>
-        <Term p-value="4.25E-4">cellular amino acid and derivative metabolic process (GO:0006519)</Term>
-        <Term p-value="5.93E-4">cellular amino acid metabolic process (GO:0006520)</Term>
-        <Term p-value="6.45E-4">vitamin metabolic process (GO:0006766)</Term>
-        <Term p-value="1.9E-3">cofactor metabolic process (GO:0051186)</Term>
-        <Term p-value="3.07E-3">generation of precursor metabolites and energy (GO:0006091)</Term>
-        <Term p-value="4.41E-3">cellular amine metabolic process (GO:0009308)</Term>
-        <Term p-value="5.06E-3">nucleobase, nucleoside, nucleotide and nucleic acid metabolic process (GO:0006139)</Term>
-        <Term p-value="1.27E-2">protein targeting (GO:0006605)</Term>
-        <Term p-value="1.44E-2">NAD metabolic process (GO:0019674)</Term>
+    <Background name="HMDB_Metabolites">
+        <Term p-value="7.05E-3">Coenzyme A (HMDB01423)</Term>
+        <Term p-value="7.75E-3">Thiamine pyrophosphate (HMDB01372)</Term>
+        <Term p-value="1.01E-2">NAD (HMDB00902)</Term>
+        <Term p-value="1.83E-2">Carbon dioxide (HMDB01967)</Term>
+        <Term p-value="1.86E-2">Glycerol (HMDB00131)</Term>
+        <Term p-value="2.71E-2">S-Adenosylmethionine (HMDB01185)</Term>
+        <Term p-value="3.2E-2">Cortisol (HMDB00063)</Term>
+        <Term p-value="3.68E-2">3,4-Dihydroxymandelaldehyde (HMDB06242)</Term>
+        <Term p-value="3.68E-2">C27H46O3 (HMDB06894)</Term>
+        <Term p-value="4.18E-2">Formyl-CoA (HMDB03419)</Term>
     </Background>
-    <Background name="microRNA">
-        <Term p-value="5.71E-2">AGTCTAG,MIR-151</Term>
-        <Term p-value="7.66E-2">TGCTGCT,MIR-15A,MIR-16,MIR-15B,MIR-195,MIR-424,MIR-497</Term>
-        <Term p-value="8.83E-2">AAGCACA,MIR-218</Term>
-        <Term p-value="8.89E-2">TCCAGAT,MIR-516-5P</Term>
-        <Term p-value="8.89E-2">CTGTTAC,MIR-194</Term>
-        <Term p-value="9.28E-2">GTTAAAG,MIR-302B</Term>
-        <Term p-value="1.03E-1">CAGTGTT,MIR-141,MIR-200A</Term>
-        <Term p-value="1.11E-1">AAGGGAT,MIR-188</Term>
-        <Term p-value="1.3E-1">CTCTATG,MIR-368</Term>
-        <Term p-value="1.32E-1">AAAGGGA,MIR-204,MIR-211</Term>
+    <Background name="WikiPathways">
+        <Term p-value="6.84E-4">Hs_Mitochondrial_Gene_Expression_WP391_21504</Term>
+        <Term p-value="6.84E-4">Hs_Mitochondrial_Gene_Expression_WP391_29742</Term>
+        <Term p-value="2.59E-2">Hs_Mitochondrial_LC-Fatty_Acid_Beta-Oxidation_WP368_21451</Term>
+        <Term p-value="5.87E-2">Hs_One_Carbon_Metabolism_WP241_21183</Term>
+        <Term p-value="6.63E-2">Hs_Folic_Acid_Network_WP176_21049</Term>
+        <Term p-value="6.63E-2">Hs_Folic_Acid_Network_WP176_30153</Term>
+        <Term p-value="7.03E-2">Hs_selenium_WP15_28780</Term>
+        <Term p-value="7.03E-2">Hs_selenium_WP15_29615</Term>
+        <Term p-value="9.11E-2">Hs_Glycogen_Metabolism_WP500_21730</Term>
+        <Term p-value="1.04E-1">Hs_Tryptophan_metabolism_WP465_21658</Term>
     </Background>
-    <Background name="KEGG Pathways">
+    <Background name="KEGG">
         <Term p-value="3.03E-4">HSA00630_GLYOXYLATE_AND_DICARBOXYLATE_METABOLISM</Term>
         <Term p-value="3.44E-3">HSA00643_STYRENE_DEGRADATION</Term>
         <Term p-value="4.4E-3">HSA00641_3_CHLOROACRYLIC_ACID_DEGRADATION</Term>
@@ -179,5 +119,65 @@
         <Term p-value="1.25E-2">HSA00280_VALINE_LEUCINE_AND_ISOLEUCINE_DEGRADATION</Term>
         <Term p-value="1.46E-2">HSA00730_THIAMINE_METABOLISM</Term>
         <Term p-value="1.54E-2">HSA00071_FATTY_ACID_METABOLISM</Term>
+    </Background>
+    <Background name="GO_Biological_Process">
+        <Term p-value="6.59E-7">metabolic process (GO:0008152)</Term>
+        <Term p-value="4.26E-4">cellular amino acid and derivative metabolic process (GO:0006519)</Term>
+        <Term p-value="5.93E-4">cellular amino acid metabolic process (GO:0006520)</Term>
+        <Term p-value="6.46E-4">vitamin metabolic process (GO:0006766)</Term>
+        <Term p-value="1.9E-3">cofactor metabolic process (GO:0051186)</Term>
+        <Term p-value="3.08E-3">generation of precursor metabolites and energy (GO:0006091)</Term>
+        <Term p-value="4.42E-3">cellular amine metabolic process (GO:0009308)</Term>
+        <Term p-value="5.06E-3">nucleobase, nucleoside, nucleotide and nucleic acid metabolic process (GO:0006139)</Term>
+        <Term p-value="1.27E-2">protein targeting (GO:0006605)</Term>
+        <Term p-value="1.44E-2">NAD metabolic process (GO:0019674)</Term>
+    </Background>
+    <Background name="Reactome">
+        <Term p-value="8.79E-4">Metabolism of amino acids</Term>
+        <Term p-value="3.07E-2">Breakdown of hydrogen peroxide to water and molecular oxygen</Term>
+        <Term p-value="4.1E-2">Metabolism of vitamins and cofactors</Term>
+        <Term p-value="6.43E-2">APC/C:Cdh1-mediated degradation of Skp2</Term>
+        <Term p-value="7.5E-2">Propionyl-CoA catabolism</Term>
+        <Term p-value="7.78E-2">Cdc20:Phospho-APC/C mediated degradation of Cyclin A</Term>
+        <Term p-value="7.94E-2">Cell Cycle Checkpoints</Term>
+        <Term p-value="1.11E-1">Axon guidance</Term>
+        <Term p-value="1.44E-1">Metabolism of porphyrins</Term>
+        <Term p-value="1.47E-1">Regulation of activated PAK-2p34 by proteasome mediated degradation</Term>
+    </Background>
+    <Background name="microRNA">
+        <Term p-value="5.71E-2">AGTCTAG,MIR-151</Term>
+        <Term p-value="7.66E-2">TGCTGCT,MIR-15A,MIR-16,MIR-15B,MIR-195,MIR-424,MIR-497</Term>
+        <Term p-value="8.83E-2">AAGCACA,MIR-218</Term>
+        <Term p-value="8.89E-2">CTGTTAC,MIR-194</Term>
+        <Term p-value="8.89E-2">TCCAGAT,MIR-516-5P</Term>
+        <Term p-value="9.28E-2">GTTAAAG,MIR-302B</Term>
+        <Term p-value="1.03E-1">CAGTGTT,MIR-141,MIR-200A</Term>
+        <Term p-value="1.11E-1">AAGGGAT,MIR-188</Term>
+        <Term p-value="1.3E-1">CTCTATG,MIR-368</Term>
+        <Term p-value="1.32E-1">AAAGGGA,MIR-204,MIR-211</Term>
+    </Background>
+    <Background name="Pfam_InterPro_Domains">
+        <Term p-value="1.21E-3">F-box</Term>
+        <Term p-value="2.76E-3">AAA_ATPase_core</Term>
+        <Term p-value="9.14E-3">Frizzled</Term>
+        <Term p-value="1.5E-2">Pkinase_C</Term>
+        <Term p-value="2.32E-2">Sulfatase</Term>
+        <Term p-value="2.75E-2">ATP_bd_ATPase</Term>
+        <Term p-value="3.22E-2">Fz_domain</Term>
+        <Term p-value="3.22E-2">NUDIX_hydrolase</Term>
+        <Term p-value="3.22E-2">GCN5acetyl_trans</Term>
+        <Term p-value="3.22E-2">Znf_CCHC</Term>
+    </Background>
+    <Background name="GO_Molecular_Function">
+        <Term p-value="9E-4">ligase activity (GO:0016874)</Term>
+        <Term p-value="1.2E-3">acid-amino acid ligase activity (GO:0016881)</Term>
+        <Term p-value="1.99E-3">ubiquitin-protein ligase activity (GO:0004842)</Term>
+        <Term p-value="3.7E-3">small conjugating protein ligase activity (GO:0019787)</Term>
+        <Term p-value="6.78E-3">transferase activity (GO:0016740)</Term>
+        <Term p-value="8.22E-3">oxidoreductase activity (GO:0016491)</Term>
+        <Term p-value="1.71E-2">hydrogen ion transmembrane transporter activity (GO:0015078)</Term>
+        <Term p-value="1.97E-2">solute:solute antiporter activity (GO:0015300)</Term>
+        <Term p-value="1.97E-2">arylsulfatase activity (GO:0004065)</Term>
+        <Term p-value="2.85E-2">peroxidase activity (GO:0004601)</Term>
     </Background>
 </Enrichment>
