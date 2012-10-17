@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
 import pal.statistics.FisherExact;
 
@@ -22,41 +21,40 @@ import edu.mssm.pharm.maayanlab.FileUtils;
 public class Enrichment {
 	
 	// Paths to gmt files
-	@SuppressWarnings("serial")
-	private static HashMap<String, String> gmtLocations = new HashMap<String, String>() {{
-		put(Enrichment.BIOCARTA, "BioCarta_pathways.gmt");
-		put(Enrichment.CHEA, "ChEA.gmt");
-		put(Enrichment.CCLE, "Cancer_Cell_Line_Encyclopedia.gmt");
-		put(Enrichment.CHROMOSOME_LOCATION, "Chromosome_location.gmt");
-		put(Enrichment.CORUM, "CORUM.gmt");
-		put(Enrichment.UPREGULATED_CMAP, "Up-regulated_CMAP_100.gmt");
-		put(Enrichment.DOWNREGULATED_CMAP, "Down-regulated_CMAP_100.gmt");
-		put(Enrichment.ENCODE, "ENCODE_TF_ChIP-seq.gmt");
-		put(Enrichment.GENESIGDB, "GeneSigDB.gmt");
-		put(Enrichment.GENOME_BROWSER_PWMS, "Genome_Browser_PWMs.gmt");
-		put(Enrichment.GO_BP, "GeneOntology_BP.gmt");
-		put(Enrichment.GO_CC, "GeneOntology_CC.gmt");
-		put(Enrichment.GO_MF, "GeneOntology_MF.gmt");
-		put(Enrichment.HM, "Histone_Modifications_ChIP-seq.gmt");
-		put(Enrichment.HMDB_METABOLITES, "HMDB_Metabolites.gmt");
-		put(Enrichment.COMPLEXOME, "Human_Endogenous_Complexome.gmt");
-		put(Enrichment.HUMAN_GENE_ATLAS, "Human_Gene_Atlas.gmt");
-		put(Enrichment.KEA, "KEA.gmt");
-		put(Enrichment.KEGG, "KEGG_pathways.gmt");
-		put(Enrichment.MGI_MP, "MGI_MP_top4.gmt");
-		put(Enrichment.MICRORNA, "microRNA.gmt");
-		put(Enrichment.MOUSE_GENE_ATLAS, "Mouse_Gene_Atlas.gmt");
-		put(Enrichment.NCI60, "NCI60.gmt");
-		put(Enrichment.OMIM_DISEASE, "OMIM_disease_genes.gmt");
-		put(Enrichment.OMIM_EXPANDED, "OMIM_Expanded.gmt");
-		put(Enrichment.PFAM_INTERPRO, "Pfam-InterPro-domains.gmt");
-		put(Enrichment.PPI_HUB_PROTEINS, "PPI_Hub_Proteins.gmt");
-		put(Enrichment.REACTOME, "Reactome_pathways.gmt");
-		put(Enrichment.TRANSFAC_JASPAR, "TRANSFAC_JASPAR.gmt");
-		put(Enrichment.VIRUSMINT, "VirusMINT.gmt");
-		put(Enrichment.WIKIPATHWAYS, "WikiPathways_pathways.gmt");
-	}};
-	public static final Set<String> backgroundTypes = gmtLocations.keySet();
+	@SuppressWarnings("serial")	
+	public static final HashSet<String> backgroundTypes = new HashSet<String>() {{
+		add(Enrichment.BIOCARTA);
+		add(Enrichment.CHEA);
+		add(Enrichment.CCLE);
+		add(Enrichment.CHROMOSOME_LOCATION);
+		add(Enrichment.CORUM);
+		add(Enrichment.UPREGULATED_CMAP);
+		add(Enrichment.DOWNREGULATED_CMAP);
+		add(Enrichment.ENCODE);
+		add(Enrichment.GENESIGDB);
+		add(Enrichment.GENOME_BROWSER_PWMS);
+		add(Enrichment.GO_BP);
+		add(Enrichment.GO_CC);
+		add(Enrichment.GO_MF);
+		add(Enrichment.HM);
+		add(Enrichment.HMDB_METABOLITES);
+		add(Enrichment.COMPLEXOME);
+		add(Enrichment.HUMAN_GENE_ATLAS);
+		add(Enrichment.KEA);
+		add(Enrichment.KEGG);
+		add(Enrichment.MGI_MP);
+		add(Enrichment.MICRORNA);
+		add(Enrichment.MOUSE_GENE_ATLAS);
+		add(Enrichment.NCI60);
+		add(Enrichment.OMIM_DISEASE);
+		add(Enrichment.OMIM_EXPANDED);
+		add(Enrichment.PFAM_INTERPRO);
+		add(Enrichment.PPI_HUB_PROTEINS);
+		add(Enrichment.REACTOME);
+		add(Enrichment.TRANSFAC_JASPAR);
+		add(Enrichment.VIRUSMINT);
+		add(Enrichment.WIKIPATHWAYS);
+	}};	
 	
 	// Constants
 	public static final String BIOCARTA = "BioCarta";
@@ -122,7 +120,7 @@ public class Enrichment {
 	}
 	
 	public LinkedList<Term> enrich(String backgroundType) {
-		return enrich(FileUtils.readResource(gmtLocations.get(backgroundType)));
+		return enrich(FileUtils.readResource(backgroundType + ".gmt"));
 	}
 	
 	public LinkedList<Term> enrich(Collection<String> backgroundLines) {

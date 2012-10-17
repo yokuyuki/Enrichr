@@ -31,20 +31,20 @@ public class List2Networks implements SettingsChanger {
 	private boolean isCancelled = false;
 	
 	// Paths to gmt files
-	private final static String BIOCARTA_LOC = "BioCarta_pathways.gmt";
-	private final static String CHROMOSOME_LOC = "Chromosome_location.gmt";
+	private final static String BIOCARTA_LOC = "BioCarta.gmt";
+	private final static String CHROMOSOME_LOC = "Chromosome_Location.gmt";
 	private final static String GENESIGDB_LOC = "GeneSigDB.gmt";
-	private final static String GO_BP_LOC = "GeneOntology_BP.gmt";
-	private final static String GO_CC_LOC = "GeneOntology_CC.gmt";
-	private final static String GO_MF_LOC = "GeneOntology_MF.gmt";
+	private final static String GO_BP_LOC = "GO_Biological_Process.gmt";
+	private final static String GO_CC_LOC = "GO_Cellular_Component.gmt";
+	private final static String GO_MF_LOC = "GO_Molecular_Function.gmt";
 	private final static String HMDB_METABOLITES_LOC = "HMDB_Metabolites.gmt";
-	private final static String KEGG_LOC = "KEGG_pathways.gmt";
-	private final static String MGI_MP_LOC = "MGI_MP_top4.gmt";
+	private final static String KEGG_LOC = "KEGG.gmt";
+	private final static String MGI_MP_LOC = "MGI_Mammalian_Phenotype.gmt";
 	private final static String MICRORNA_LOC = "microRNA.gmt";
-	private final static String OMIM_DISEASE_LOC = "OMIM_disease_genes.gmt";
-	private final static String PFAM_INTERPRO_LOC = "Pfam-InterPro-domains.gmt";
-	private final static String REACTOME_LOC = "Reactome_pathways.gmt";
-	private final static String WIKIPATHWAYS_LOC = "WikiPathways_pathways.gmt";
+	private final static String OMIM_DISEASE_LOC = "OMIM_Disease.gmt";
+	private final static String PFAM_INTERPRO_LOC = "Pfam_InterPro_Domains.gmt";
+	private final static String REACTOME_LOC = "Reactome.gmt";
+	private final static String WIKIPATHWAYS_LOC = "WikiPathways.gmt";
 	
 	// Default settings
 	private final Settings settings = new Settings() {
