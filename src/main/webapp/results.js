@@ -107,30 +107,30 @@ function createTable(dataArray, container) {
 				"fnRender": function(obj) {
 					return obj.aData[obj.iDataColumn].toPrecision(4);
 				}
-			// },
-			// { 
-			// 	"sTitle": "Z-score", 
-			// 	"sClass": "right",
-			// 	"sWidth": "15%",
-			// 	"asSorting": ["asc"],
-			// 	"fnRender": function(obj) {
-			// 		return obj.aData[obj.iDataColumn].toFixed(2);
-			// 	}
-			// },
-			// { 
-			// 	"sTitle": "Combined Score", 
-			// 	"sClass": "right",
-			// 	"sWidth": "25%",
-			// 	"asSorting": ["desc"],
-			// 	"fnRender": function(obj) {
-			// 		return obj.aData[obj.iDataColumn].toFixed(2);
-			// 	}
+			},
+			{ 
+				"sTitle": "Z-score", 
+				"sClass": "right",
+				"sWidth": "15%",
+				"asSorting": ["asc"],
+				"fnRender": function(obj) {
+					return obj.aData[obj.iDataColumn].toFixed(2);
+				}
+			},
+			{ 
+				"sTitle": "Combined Score", 
+				"sClass": "right",
+				"sWidth": "15%",
+				"asSorting": ["desc"],
+				"fnRender": function(obj) {
+					return obj.aData[obj.iDataColumn].toFixed(2);
+				}
 			}
 		],
 		"aoColumnDefs": [
 			{ "bSortable": false, "aTargets": [ 0 ] }
 		],
-		"aaSorting": [[2, "asc"]]
+		"aaSorting": [[4, "desc"]]
 	});
 }
 
