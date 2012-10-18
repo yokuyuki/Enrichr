@@ -1,20 +1,17 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
-import java.io.File;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.SwingWorker;
 
-import pal.statistics.FisherExact;
 import edu.mssm.pharm.maayanlab.FileUtils;
 import edu.mssm.pharm.maayanlab.Settings;
 import edu.mssm.pharm.maayanlab.SettingsChanger;

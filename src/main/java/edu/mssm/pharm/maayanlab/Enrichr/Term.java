@@ -75,8 +75,8 @@ public class Term implements Comparable<Term> {
 		outputString.append(name).append("\t");
 		outputString.append(numOfTargetInputGenes).append("/").append(numOfTargetBgGenes).append("\t");
 		outputString.append(pvalue).append("\t");
-//		outputString.append(zscore).append("\t");
-//		outputString.append(combinedScore).append("\t");
+		outputString.append(zscore).append("\t");
+		outputString.append(combinedScore).append("\t");
 		
 		boolean firstTarget = true;
 		for (String target : targets) {

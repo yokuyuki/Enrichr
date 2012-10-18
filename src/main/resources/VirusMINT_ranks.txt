@@ -1,0 +1,85 @@
+Murine polyomavirus (strain 3)	2.0	0.6666666666666666
+Poliovirus type 1 (strain Sabin)	1.3125	0.582961190818051
+Human T-cell leukemia virus type I (isolate Caribbea)	1.8	0.4000000000000001
+Human immunodeficiency virus type 2 (isolate BEN)	1.0909090909090908	0.28747978728803447
+Influenza A virus (strain A/Turkey/Oregon/71 H7N3)	1.0	0.0
+Human adenovirus B serotype 3	3.076923076923077	1.9791815892720936
+Vaccinia virus (strain Western Reserve / WR)	3.4634146341463414	2.8076338529923675
+Human SARS coronavirus	1.608695652173913	0.8203461853962267
+Rous sarcoma virus - Schmidt-Ruppin D	2.0714285714285716	0.9609731462195507
+Human papillomavirus type 45	1.0	0.0
+JC polyomavirus	1.5384615384615385	0.7457969011409736
+Simian virus 40	4.879310344827586	3.3647646134144478
+Human papillomavirus type 6b	4.969387755102041	3.230764367865039
+Fowl adenovirus 1 (strain CELO / Phelps)	1.1428571428571428	0.34992710611188266
+Sendai virus (strain Fushimi)	1.2	0.4
+Saimiriine herpesvirus 2 (strain 11)	1.2	0.4
+Human immunodeficiency virus type 1 (isolate NDK)	1.0	0.0
+Cercopithecine herpesvirus 12	1.8125	1.184205957593526
+Human immunodeficiency virus type 1 (isolate Lai)	3.4347826086956523	0.9243605054551868
+Human papillomavirus type 1a	3.275	2.3343896418550183
+Cottontail rabbit papillomavirus (strain Kansas)	3.6785714285714284	1.415565798757601
+Rous sarcoma virus (strain Schmidt-Ruppin A)	1.125	0.33071891388307384
+Human adenovirus 12	4.009803921568627	2.8162521961183598
+Human immunodeficiency virus type 1 (isolate ELI)	1.9230769230769231	0.8284868934053083
+Epstein-Barr virus (strain GD1)	4.8069883527454245	3.5489471731957183
+Human adenovirus E	2.1818181818181817	1.3360853142453697
+Hepatitis delta virus (isolate American)	1.0	0.0
+Simian virus 5 (strain W3)	1.4666666666666666	0.7180219742846006
+Human papillomavirus type 31	4.955223880597015	2.984701469213502
+Vaccinia virus	1.75	0.6614378277661477
+Hepatitis C virus	3.8031496062992125	2.506807644828206
+Human herpesvirus 1 (strain Patton)	1.0	0.0
+Murine adenovirus 1	1.4	0.4898979485566356
+Bovine papillomavirus type 2	1.2	0.4
+Bovine papillomavirus type 1	4.966666666666667	3.319805884552757
+Human adenovirus 7	2.4	0.4898979485566356
+Human adenovirus 9	1.1428571428571428	0.3499271061118826
+Human adenovirus 5	5.004016064257028	3.4003283469706025
+Hepatitis C virus subtype 1a	2.4285714285714284	0.9547589359887344
+Human papillomavirus type 18	5.882352941176471	3.651653797821329
+Human adenovirus 2	4.049019607843137	3.0369536173812954
+Hepatitis C virus subtype 1b	1.3333333333333333	0.4714045207910317
+Human herpesvirus 8	2.1944444444444446	1.2871036486892327
+Human papillomavirus type 16	5.411111111111111	3.292734238506366
+Hepatitis C virus genotype 1b (isolate Con1)	2.0	0.816496580927726
+Hepatitis delta virus (isolate D380)	2.0	0.0
+Rous sarcoma virus (strain Prague C)	1.1	0.3
+Vaccinia virus (strain Copenhagen)	2.5142857142857142	2.2087026388671642
+Human T-lymphotropic virus 1	3.264705882352941	2.3677840661857332
+Human herpesvirus 3	1.5	0.7637626158259734
+Avian sarcoma virus (strain PR2257)	1.3888888888888888	0.6781419786518722
+Cottontail rabbit papillomavirus	2.2142857142857144	0.5578749768504754
+Human herpesvirus 6	1.0	0.0
+Human herpesvirus 1	1.7222222222222223	1.3252067157640628
+Human papillomavirus type 58	1.2	0.4000000000000001
+Human herpesvirus 2	1.1	0.3
+Ebola virus (strain Zaire Mayinga)	2.1	0.3
+Human cytomegalovirus	1.0	0.0
+Bacteriophage PBS2	1.4545454545454546	0.8907235428302467
+Homo sapiens	4.586956521739131	3.395923090382172
+Human immunodeficiency virus 1	4.963655244029076	3.486471098430043
+Hepatitis E virus (strain Mexico)	1.6666666666666667	0.9428090415820634
+Human cytomegalovirus (strain AD169)	1.0	0.0
+Hepatitis C virus genotype 1b (isolate Taiwan)	1.1111111111111112	0.3142696805273545
+Hepatitis B virus	2.3076923076923075	1.6354070481130232
+Bacteriophage lambda	1.0	0.0
+Human immunodeficiency virus type 1 (isolate HXB3)	1.5	0.7071067811865476
+Human herpesvirus 1 (strain 17)	4.1716171617161715	3.195022896972841
+Influenza A virus (strain A/Puerto Rico/8/34 H1N1)	3.061224489795918	2.0344799592786296
+Hepatitis C virus genotype 1a (isolate H)	2.206896551724138	1.517241379310345
+Influenza A virus (strain A/Aichi/2/1968 H3N2)	1.0	0.0
+Human adenovirus 31	1.25	0.4330127018922193
+Hepatitis C virus genotype 1b (isolate BK)	3.3333333333333335	1.1055415967851334
+Hepatitis C virus genotype 1a (isolate 1)	2.206896551724138	1.2697898372084118
+Human papillomavirus type 8	4.389830508474576	2.6997611266117874
+Hepatitis E virus (strain Burma)	2.076923076923077	1.1409536133993328
+Human cytomegalovirus (strain Towne)	2.0	0.0
+Vaccinia virus (strain L-IVP)	2.3255813953488373	1.8264329224252893
+Autographa californica nuclear polyhedrosis virus	1.6666666666666667	0.74535599249993
+Human immunodeficiency virus type 1 (isolate 12)	3.7333333333333334	3.127417583365028
+Human papillomavirus type 11	6.515151515151516	3.8490813186064505
+Human papillomavirus type 3	2.619047619047619	1.3265131692556302
+Human immunodeficiency virus type 1 (isolate ARV2/SF2)	4.608695652173913	1.052497255383496
+Epstein-Barr virus (strain B95-8)	2.877862595419847	2.037896313775588
+Saimiriine herpesvirus 2 (strain 488)	2.0	1.1832159566199232

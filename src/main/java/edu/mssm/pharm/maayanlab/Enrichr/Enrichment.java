@@ -10,6 +10,8 @@ package edu.mssm.pharm.maayanlab.Enrichr;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -88,7 +90,7 @@ public class Enrichment {
 	public static final String VIRUSMINT = "VirusMINT";
 	public static final String WIKIPATHWAYS = "WikiPathways";
 	
-	public static final String HEADER = "Term\tOverlap\tP-value\tGenes";
+	public static final String HEADER = "Term\tOverlap\tP-value\tZ-score\tCombined Score\tGenes";
 	
 	private Collection<String> geneList; 
 	
@@ -123,14 +125,22 @@ public class Enrichment {
 		Collection<String> backgroundLines = FileUtils.readResource(backgroundType + ".gmt");
 		Collection<String> rankLines = FileUtils.readResource(backgroundType + "_ranks.txt");
 		
-		// HashMap of background terms
+		// List of background terms
 		LinkedList<Term> termList = new LinkedList<Term>();
+		
+		// Rank database
+		HashMap<String, String> rankMap = new HashMap<String, String>((int) Math.ceil(rankLines.size() / 0.75));
+		for (String line : rankLines) {
+			String[] splitLine = line.split("\\t", 2);
+			rankMap.put(splitLine[0], splitLine[1]);
+		}
 		
 		// Unique genes in the database
 		HashSet<String> bgGenes = new HashSet<String>();
 		for (String line : backgroundLines) {	// Read background into hashmap
 			// In gmt file, 1st column is key, 2nd column is irrelevant, and the rest are the values
 			String[] splitLine = line.split("\t");
+			String termName = splitLine[0];
 			HashSet<String> targets = new HashSet<String>();
 			
 			for (int i = 2; i < splitLine.length; i++) {
@@ -138,11 +148,15 @@ public class Enrichment {
 				targets.add(splitLine[i].toUpperCase());
 			}
 			
-			Term term = new Term(splitLine[0], targets);
+			Term term = new Term(termName, targets);
 			termList.add(term);
+			
+			// Add rank data
+			if (rankMap.containsKey(termName)) {
+				String[] splitRank = rankMap.get(termName).split("\\t");
+				term.setRankStats(Double.parseDouble(splitRank[0]), Double.parseDouble(splitRank[1]));
+			}
 		}
-		
-		// Rank database
 		
 		// Filter genes from input list that are not in the background
 		HashSet<String> inputGenes = new HashSet<String>();
@@ -191,6 +205,23 @@ public class Enrichment {
 		
 		// Sort by p-value
 		Collections.sort(termList);
+		
+		// Count current rank and compute z-score
+		int counter = 1;
+		for (Term term : termList)
+			term.computeScore(counter++);
+		
+		Collections.sort(termList, new Comparator<Term>() {
+			@Override
+			public int compare(Term o1, Term o2) {
+				if (o1.getCombinedScore() < o2.getCombinedScore())				
+					return 1;
+				else if (o1.getCombinedScore() > o2.getCombinedScore())
+					return -1;
+				else
+					return 0;
+			}
+		});
 		
 		return termList;
 	}
