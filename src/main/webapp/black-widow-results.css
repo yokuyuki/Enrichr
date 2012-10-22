@@ -98,7 +98,11 @@ div.export-box a:hover {
 }
 
 /* Bar graph properties */
-div.graph span.method {
+div.bar-graph div.method {
+	float: left;
+}
+
+div.bar-graph div.method span {
 	font-weight: bold;
 }
 

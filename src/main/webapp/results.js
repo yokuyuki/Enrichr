@@ -267,13 +267,28 @@ function getResult(id) {
 			else {
 				$(idTag + ' div.content img.loader').remove();
 				$(idTag + ' div.content').addClass('done');
+
 				d3.barGraph.createBarGraph(json[id], idTag + ' div.bar-graph', 
 					{
 						minColor: '#713939',
-						maxColor: '#ff6666'
+						maxColor: '#ff6666',
+						modes: [function(d) { return d[4]; },
+								function(d) { return -Math.log(d[2]); },
+								function(d) { return -d[3]; }],
+						modeFunction: function(options) {
+							var mode = options.modeDisplays.shift();
+							options.modeDisplays.push(mode);
+							mode = options.modeDisplays[0];
+
+							$(idTag + ' div.bar-graph div.method span').text(mode);
+						},
+						modeDisplays: ['combined score', 'p-value', 'rank']
 					}
 				);
+				$(idTag + ' div.bar-graph div.method').fadeIn('slow');
+
 				createTable(json[id], idTag + ' .results_table');
+
 				d3.grid.createGrid('json/' + id + '.json', json[id], 
 					idTag + ' div.grid', 
 					{
@@ -303,6 +318,7 @@ function getResult(id) {
 						cache: false
 					}
 				);
+
 				d3.gridNetwork.createGridNetwork('json/' + id + '.json', json[id], 
 					idTag + ' div.grid-network',
 					{
@@ -310,6 +326,7 @@ function getResult(id) {
 						cache: false
 					}
 				);
+
 				$(idTag + ' div.downloadbox').fadeIn('slow');
 				createColorWheel(10, idTag, '#ff6666');
 			}

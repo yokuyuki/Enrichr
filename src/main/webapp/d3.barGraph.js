@@ -1,6 +1,17 @@
 /**
  * @desc 	Visualizes bar graphs and grids. Depends on d3.
- * @params
+ * @params	results: the array of results
+ * 			container: the HTML element that will contain the grid
+ *			userOptions: configurable options fo rthe bar graph, possible options include:
+ *			{
+ *				width: 708,	// width of bar graph in pixels
+ *				height: 299,	// height  of bar graph in pixels
+ *				bars: 10,	// number of bars to show
+ *				minColor: '#446688',	// starting minimum color
+ *				maxColor: '#88ddff',	// starting maximum color
+ *				modes: [function(d) { return -Math.log(d[2]); }],	// array of functions to apply on results for different modes
+ *				modeFunction: function(options) {}	// function performed when mode is changed
+ *			}
  * @author	Edward.Chen@mssm.edu (Edward Y. Chen)
  * @since	10/04/2012
  */
@@ -21,14 +32,16 @@ d3.barGraph = {
 			height: 299,
 			bars: 10,
 			minColor: '#446688',
-			maxColor: '#88ddff'
+			maxColor: '#88ddff',
+			modes: [function(d) { return -Math.log(d[2]); }],
+			modeFunction: null
 		};
 
 		// Copy attributes from userOptions to options
 		for (var key in userOptions)
 			options[key] = userOptions[key];
 
-		var mode = 1, sortId = container + ' span.method';
+		var sortId = container + ' span.method';
 
 		// Initial data
 		var filteredData = results.filter(function(d, i) { return i < options.bars; });
@@ -36,14 +49,14 @@ d3.barGraph = {
 		// Interpolators
 		options.x = d3.scale.linear()
 			.domain([0, d3.max(filteredData.map(function(d) { 
-				return d3.barGraph.displayValue(d); 
+				return options.modes[0](d);
 			}))])
 			.range([0, options.width]);
 		options.y = d3.scale.ordinal()
 			.domain(d3.range(options.bars))
 			.rangeBands([0, options.height], .2),
 		options.color = d3.scale.linear()
-			.domain([0, d3.max(filteredData.map(function(d) { return d3.barGraph.displayValue(d); }))])
+			.domain([0, d3.max(filteredData.map(function(d) { return options.modes[0](d); }))])
 			.interpolate(d3.interpolateRgb)
 			.range([options.minColor, options.maxColor]);
 
@@ -65,90 +78,93 @@ d3.barGraph = {
 
 		d3.barGraph.drawBar(barGroup, options);
 
-		// chart.on('click', function() {
-		// 	// Change mode
-		// 	mode = ++mode % 3;
-		// 	switch (mode) {
-		// 		case 0: $(sortId).text('combined score'); break;
-		// 		case 1: $(sortId).text('p-value'); break;
-		// 		case 2: $(sortId).text('rank'); break;
-		// 	}
+		if (options.modes.length < 2) { return; }	// Don't bind click if < 2 modes
+		chart.on('click', function() {
+			// Change mode
+			var mode = options.modes.shift()
+			options.modes.push(mode);
+			mode = options.modes[0];
 
-		// 	// Adjust data
-		// 	results.sort(function(a, b) { return d3.barGraph.displayValue(b, mode) - d3.barGraph.displayValue(a, mode); });
-		// 	filteredData = results.filter(function(d, i) { return i < options.bars; });
+			if (options.modeFunction)
+				options.modeFunction(options)
 
-		// 	// Remap interpolators
-		// 	x.domain([0, d3.max(filteredData.map(function(d) { return d3.barGraph.displayValue(d); }))]);
-		// 	color.domain([0, d3.max(filteredData.map(function(d) { return d3.barGraph.displayValue(d); }))]);
+			// Adjust data
+			results.sort(function(a, b) { return mode(b) - mode(a); });
+			filteredData = results.filter(function(d, i) { return i < options.bars; });
 
-		// 	// Join with existing data and remove old data
-		// 	var newBars = chart.selectAll('g.bar').data(filteredData, function(d) { return d; });
-		// 	var newBarGroup = newBars.enter().append('svg:g')
-		// 						.attr('class', 'bar')
-		// 						.attr('transform', function(d, i) { return 'translate(0,' + height + ')'; });			
-		// 	d3.barGraph.drawBar(newBarGroup, options);
-		// 	newBars.exit().remove();
+			// Remap interpolators
+			options.x.domain([0, d3.max(filteredData.map(function(d) { return mode(d); }))]);
+			options.color.domain([0, d3.max(filteredData.map(function(d) { return mode(d); }))]);
 
-		// 	// Sort bars
-		// 	chart.selectAll('g.bar')
-		// 		.sort(function(a, b) { return d3.barGraph.displayValue(b, mode) - d3.barGraph.displayValue(a, mode); })
-		// 		.transition()
-		// 		.duration(1000)
-		// 		.delay(500)
-		// 		.attr('transform', function(d, i) { return 'translate(0,' + options.y(i) + ')'; });
+			// Join with existing data and remove old data
+			var newBars = chart.selectAll('g.bar').data(filteredData, function(d) { return d; });
+			var newBarGroup = newBars.enter().append('svg:g')
+								.attr('class', 'bar')
+								.attr('transform', function(d, i) { return 'translate(0,' + options.height + ')'; });
+			d3.barGraph.drawBar(newBarGroup, options);
+			newBars.exit().remove();
 
-		// 	// Adjust bar length
-		// 	chart.selectAll('rect.bar')					
-		// 		.transition()
-		// 		.duration(500)
-		// 		.attr("index", function(d, i) {return i})
-		// 		.attr('width', function(d) { return options.x(d3.barGraph.displayValue(d)); })
-		// 		.attr('fill', function(d) { return options.color(d3.barGraph.displayValue(d)); });
+			// Sort bars
+			chart.selectAll('g.bar')
+				.sort(function(a, b) { return mode(b) - mode(a); })
+				.transition()
+				.duration(1000)
+				.delay(500)
+				.attr('transform', function(d, i) { return 'translate(0,' + options.y(i) + ')'; });
 
-		// 	// Adjust bar shadow
-		// 	chart.selectAll('rect.shadow')					
-		// 		.transition()
-		// 		.duration(500)
-		// 		.delay(1500)
-		// 		.attr('opacity', 0)
-		// 		.transition()
-		// 		.duration(0)
-		// 		.delay(2000)
-		// 		.attr('width', function(d) { return options.x(d3.barGraph.displayValue(d)); })
-		// 		.attr('fill', function(d) { return options.color(d3.barGraph.displayValue(d)); })
-		// 		.transition()
-		// 		.duration(0)
-		// 		.delay(2500)
-		// 		.attr('opacity', 0.3);
+			// Adjust bar length
+			chart.selectAll('rect.bar')
+				.transition()
+				.duration(500)
+				.attr('index', function(d, i) { return i; })
+				.attr('width', function(d) { return options.x(mode(d)); })
+				.attr('fill', function(d) { return options.color(mode(d)); });
 
-		// 	// Adjust label
-		// 	chart.selectAll('text.label')
-		// 		.transition()
-		// 		.text(function(d) { return d[1]; });
-		// });		
+			// Adjust bar shadow
+			chart.selectAll('rect.shadow')
+				.transition()
+				.duration(500)
+				.delay(1500)
+				.attr('opacity', 0)
+				.transition()
+				.duration(0)
+				.delay(2000)
+				.attr('width', function(d) { return options.x(mode(d)); })
+				.attr('fill', function(d) { return options.color(mode(d)); })
+				.transition()
+				.duration(0)
+				.delay(2500)
+				.attr('opacity', 0.3);
+
+			// Adjust label
+			chart.selectAll('text.label')
+				.transition()
+				.text(function(d) { return d[1]; });
+		});
 	},
 	drawBar: function(selection, options) {
+		var mode = options.modes[0];
+
 		// Bar shadow
 		selection.append('svg:rect')
 			.attr('class', 'shadow')
-			.attr('fill', function(d) { return options.color(d3.barGraph.displayValue(d)); })
+			.attr('fill', function(d) { return options.color(mode(d)); })
 			.attr('opacity', 0.3)
-			.attr('width', function(d) { return options.x(d3.barGraph.displayValue(d)); })
+			.attr('width', function(d) { return options.x(mode(d)); })
 			.attr('height', options.y.rangeBand());
 
 		// Bar
 		selection.append('svg:rect')
 			.attr('class', 'bar')
-			.attr('fill', function(d) { return options.color(d3.barGraph.displayValue(d)); })
-			.attr('width', function(d) { return options.x(d3.barGraph.displayValue(d)); })
+			.attr('fill', function(d) { return options.color(mode(d)); })
+			.attr('width', function(d) { return options.x(mode(d)); })
 			.attr('height', options.y.rangeBand());
 
 		// Labels
 		selection.append('svg:text')
 			.attr('class', 'label')
 			.text(function (d, i) { return d[1]; })
-			.attr('width', function(d) { return d3.barGraph.displayValue(d); })
+			.attr('width', function(d) { return mode(d); })
 			.attr('x', 3)
 			.attr('y', options.y.rangeBand() / 2)
 			.attr("dy", "0.35em")
@@ -157,8 +173,9 @@ d3.barGraph = {
 	recolor: function(container, newColor) {
 		var canvas = d3.select(container + ' div.svg-container svg');
 		var color = canvas.datum().color.range([d3.barGraph.scaleColor(newColor), newColor]);
-		canvas.selectAll('rect.bar').attr('fill', function(d) { return color(d3.barGraph.displayValue(d)) });
-		canvas.selectAll('rect.shadow').attr('fill', function(d) { return color(d3.barGraph.displayValue(d)) });
+		var mode = canvas.datum().modes[0];
+		canvas.selectAll('rect.bar').attr('fill', function(d) { return color(mode(d)); });
+		canvas.selectAll('rect.shadow').attr('fill', function(d) { return color(mode(d)); });
 	},
 	scaleColor: function(hexColor) {
 		var hsl = d3.barGraph.rgbToHsl(d3.barGraph.hexToRgb(hexColor));
@@ -225,17 +242,5 @@ d3.barGraph = {
 		if ((2 * vH) < 1) return v2;
 		if ((3 * vH) < 2) return v1 + (v2 - v1) * (2/3 - vH) * 6;
 		return v1;
-	},
-	// Allow displaying of the different sorting method by correcting the value
-	displayValue: function(value) {
-		switch(1) {
-		// switch(mode) {
-			case 0:
-				return value[4]; break;
-			case 1:
-				return -Math.log(value[2]); break;
-			case 2:
-				return -value[3]; break;
-		}
 	}
 }
