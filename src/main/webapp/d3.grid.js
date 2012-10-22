@@ -33,7 +33,9 @@ d3.grid = {
 			canvasSize: 225,
 			highlightCount: 10,
 			highlightValue: function(d) { return d[0]; },
+			highlightFunction: null,
 			highlightColor: '#FFFFFF',
+			clusterFunction: null,
 			maxColor: '#FF6666',
 			cache: true
 		};
@@ -52,7 +54,7 @@ d3.grid = {
 
 			d3.grid.drawCanvas(json, container, options);	
 			d3.grid.fill(results.filter(function(d, i) { return i < options.highlightCount; }), container, options);
-			if (typeof options.clusterFunction != 'undefined')
+			if (options.clusterFunction)
 				d3.grid.calcClustering(container, options);
 		});	
 	},
@@ -98,7 +100,7 @@ d3.grid = {
 				.classed('highlight', true);
 		}
 
-		if (typeof options.highlightFunction != 'undefined')
+		if (options.highlightFunction)
 			options.highlightFunction(container + ' circle.highlight');
 	},
 	recolor: function(container, newColor) {
