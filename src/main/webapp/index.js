@@ -5,18 +5,24 @@ function geneCount() {
     	$('span#gene-count').text(0);
 }
 
-function navigateTo(index) {
+function navigateTo(index, speed) {
 	if (_changingCategory)
 		return;
 	else
 		_changingCategory = true;
-	$('#content div.selected').fadeToggle('slow', function() {
+	if (index == 1) { createStats(); }
+	speed = (typeof speed === 'undefined') ? 'slow' : speed;
+	$('#content div.selected').fadeToggle(speed, function() {
 		$('.selected').removeClass('selected');
 		$('#navbar td').eq(index).addClass('selected');
 		$('#content > div').eq(index).addClass('selected');
-		$('#content div.selected').fadeToggle('slow');
+		$('#content div.selected').fadeToggle(speed);
 		_changingCategory = false;
 	});
+}
+
+function getTab(name) {
+	window.location.hash = name;
 }
 
 function validateInput() {
@@ -84,6 +90,17 @@ function createStats() {
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast
+	tabList = ['', 'stats', 'about', 'help'];
+
+	var name = window.location.hash.substring(1);
+	var index = tabList.indexOf(name);
+	if (name != '' && index >= 0) {
+		navigateTo(index, 0);
+	}
+	window.onhashchange = function() {
+		var name = window.location.hash.substring(1);
+		navigateTo(tabList.indexOf(name));
+	};
 
 	// Disable user scaling in UIWebView
 	if (/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent))
@@ -92,17 +109,13 @@ $(document).ready(function () {
 	// Touch gestures
 	$.event.special.swipe.durationThreshold = 200;
 	$('body').swipeleft(function() {
-			var dest = ($('div.selected').index() - 1) % 4;
-			if (dest == 1)
-				createStats();
-			navigateTo(dest);
+			var dest = ($('div.selected').index() - 1 + 4) % 4;
+			getTab(tabList[dest]);
 		}
 	);
 	$('body').swiperight(function() {
 			var dest = ($('div.selected').index() + 1) % 4;
-			if (dest == 1)
-				createStats();
-			navigateTo(dest);
+			getTab(tabList[dest]);
 		}		
 	);
 
@@ -111,5 +124,5 @@ $(document).ready(function () {
 		$('div#count span').text(data);
 		$('div#count').fadeIn('slow');
 	})
-	.error(function() { $('div#count').remove() });	
+	.error(function() { $('div#count').remove(); });
 });

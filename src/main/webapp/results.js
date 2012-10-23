@@ -431,7 +431,7 @@ $(document).ready(function () {
 	$.event.special.swipe.durationThreshold = 200;
 	$('body').swipeleft(function() {
 			if ($('div.active').length == 0) {
-				var dest = ($('#navbar td.shown').index() - 1) % 6;
+				var dest = ($('#navbar td.shown').index() - 1 + 6) % 6;
 				showCategory(dest);
 			}
 			else {
