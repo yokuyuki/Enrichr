@@ -176,7 +176,7 @@
 					<div class="hidden content">
 						<img src="images/loader.gif" class="loader"/>
 						<div class="selected bar-graph">
-							<div class="hidden method">Click to sort. Now sorting by <span>combined score</span>.</div>
+							<div class="hidden method">Click the bars to sort. Now sorted by <span>combined score</span>.</div>
 							<div class="hidden downloadbox" title="Export graph">
 								<a href="#" onclick="svgExport('#<%=type%> div.bar-graph', '<%=type%>_bar_graph', 'svg'); return false;">SVG</a>
 								<a href="#" onclick="svgExport('#<%=type%> div.bar-graph', '<%=type%>_bar_graph', 'png'); return false;">PNG</a>
