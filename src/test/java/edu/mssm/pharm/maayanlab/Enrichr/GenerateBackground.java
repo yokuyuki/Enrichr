@@ -13,6 +13,7 @@ import edu.mssm.pharm.maayanlab.Statistics;
 public class GenerateBackground {
 	
 	private final static String approvedSymbols = "src/test/resources/approved_symbols.txt";
+	private final static ArrayList<String> genes = FileUtils.readFile(approvedSymbols);
 	
 	private final static int REPS = 1000;
 	private final static int LENGTH = 300;
@@ -20,7 +21,9 @@ public class GenerateBackground {
 	private final static Random rng = new Random();
 	
 	public static void main(String[] args) {
-		generateBackground();
+//		generateBackgrounds();
+		generateBackground(Enrichment.ENCODE);
+		generateBackground(Enrichment.HM);
 	}
 	
 	private static Collection<String> generateRandomSample(ArrayList<String> list, int samples) {
@@ -41,38 +44,39 @@ public class GenerateBackground {
 		return output;
 	}
 	
-	private static void generateBackground() {
+	private static void generateBackgrounds() {
 		long startTime = System.currentTimeMillis();
 		
-		ArrayList<String> genes = FileUtils.readFile(approvedSymbols);
-		HashMap<String, HashMap<String, ArrayList<Integer>>> rankMap = new HashMap<String, HashMap<String, ArrayList<Integer>>>();
-		for (String backgroundType : Enrichment.backgroundTypes)
-			rankMap.put(backgroundType, new HashMap<String, ArrayList<Integer>>());
-		
-		for (int i = 0; i < REPS; i++) {
-			Enrichment app = new Enrichment(generateRandomSample(genes, LENGTH));
-			
-			for (String backgroundType: Enrichment.backgroundTypes) {
-				LinkedList<Term> terms = app.enrich(backgroundType);
-//				app.setSetting(ChEA.SORT_BY, ChEA.PVALUE);8
-				
-				int counter = 1;
-				for (Term term : terms) {
-					if (!rankMap.get(backgroundType).containsKey(term.getName()))
-						rankMap.get(backgroundType).put(term.getName(), new ArrayList<Integer>());
-					rankMap.get(backgroundType).get(term.getName()).add(counter);
-					counter++;
-				}
-
-				System.out.println(backgroundType + " Run: " + i + " (" + (counter-1) + ")");
-			}
-		}
-		
 		for (String backgroundType: Enrichment.backgroundTypes)
-			FileUtils.writeFile(backgroundType + "_ranks.txt", generateOutputRanks(rankMap.get(backgroundType)));		
+			generateBackground(backgroundType);
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("Elapsed time: " + (endTime - startTime)/1000.0 + " seconds");
 	}
 	
+	private static void generateBackground(String backgroundType) {
+		long startTime = System.currentTimeMillis();
+		
+		HashMap<String, ArrayList<Integer>> ranks = new HashMap<String, ArrayList<Integer>>();
+		for (int i = 0; i < REPS; i++) {
+			Enrichment app = new Enrichment(generateRandomSample(genes, LENGTH));
+			app.setSetting(Enrichment.SORT_BY, Enrichment.PVALUE);
+			LinkedList<Term> terms = app.enrich(backgroundType);
+			
+			int counter = 1;
+			for (Term term : terms) {
+				if (!ranks.containsKey(term.getName()))
+					ranks.put(term.getName(), new ArrayList<Integer>());
+				ranks.get(term.getName()).add(counter);
+				counter++;
+			}
+			
+			System.out.println(backgroundType + " Run: " + i + " (" + (counter-1) + ")");
+		}
+		
+		FileUtils.writeFile(backgroundType + "_ranks.txt", generateOutputRanks(ranks));
+		
+		long endTime = System.currentTimeMillis();
+		System.out.println(backgroundType + " Elapsed time: " + (endTime - startTime)/1000.0 + " seconds");
+	}
 }

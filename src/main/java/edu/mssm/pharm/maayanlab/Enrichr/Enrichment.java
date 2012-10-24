@@ -18,8 +18,10 @@ import java.util.ListIterator;
 
 import pal.statistics.FisherExact;
 import edu.mssm.pharm.maayanlab.FileUtils;
+import edu.mssm.pharm.maayanlab.Settings;
+import edu.mssm.pharm.maayanlab.SettingsChanger;
 
-public class Enrichment {
+public class Enrichment implements SettingsChanger {
 	
 	// Paths to gmt files
 	@SuppressWarnings("serial")	
@@ -90,6 +92,19 @@ public class Enrichment {
 	public static final String VIRUSMINT = "VirusMINT";
 	public static final String WIKIPATHWAYS = "WikiPathways";
 	
+	// Default settings
+	private final Settings settings = new Settings() {
+		{
+			// String: rank the Enrichment by the Fisher Exact test's p-value, rank against the background of random genes, or combined score of the two. [combined score/p-value/rank]
+			set(Enrichment.SORT_BY, Enrichment.COMBINED_SCORE);
+		}
+	};
+	// Settings variables
+	public final static String SORT_BY = "sort enrichment by";
+	public final static String COMBINED_SCORE = "combined score";
+	public final static String PVALUE = "p-value";
+	public final static String RANK = "rank";
+	
 	public static final String HEADER = "Term\tOverlap\tP-value\tZ-score\tCombined Score\tGenes";
 	
 	private Collection<String> geneList; 
@@ -114,6 +129,11 @@ public class Enrichment {
 		if (validate)	// Check if input list is valid
 			FileUtils.validateList(geneList);
 		this.geneList = geneList;
+	}
+	
+	@Override
+	public void setSetting(String key, String value) {
+		settings.set(key, value);
 	}
 	
 	public Collection<String> getInput() {
@@ -211,17 +231,19 @@ public class Enrichment {
 		for (Term term : termList)
 			term.computeScore(counter++);
 		
-		Collections.sort(termList, new Comparator<Term>() {
-			@Override
-			public int compare(Term o1, Term o2) {
-				if (o1.getCombinedScore() < o2.getCombinedScore())				
-					return 1;
-				else if (o1.getCombinedScore() > o2.getCombinedScore())
-					return -1;
-				else
-					return 0;
-			}
-		});
+		if (settings.get(SORT_BY).equals(COMBINED_SCORE)) {
+			Collections.sort(termList, new Comparator<Term>() {
+				@Override
+				public int compare(Term o1, Term o2) {
+					if (o1.getCombinedScore() < o2.getCombinedScore())				
+						return 1;
+					else if (o1.getCombinedScore() > o2.getCombinedScore())
+						return -1;
+					else
+						return 0;
+				}
+			});
+		}
 		
 		return termList;
 	}

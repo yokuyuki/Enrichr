@@ -45,7 +45,7 @@
 	// add("Chromosome_Location");
 	add("CORUM");
 	add("Down-regulated_CMAP");
-	add("ENCODE_TF_ChIP-seq");
+	// add("ENCODE_TF_ChIP-seq");
 	add("GeneSigDB");
 	add("Genome_Browser_PWMs");
 	add("GO_Biological_Process");
