@@ -177,11 +177,17 @@ d3.barGraph = {
 		canvas.selectAll('rect.bar').attr('fill', function(d) { return color(mode(d)); });
 		canvas.selectAll('rect.shadow').attr('fill', function(d) { return color(mode(d)); });
 	},
-	scaleColor: function(hexColor) {
-		var hsl = d3.barGraph.rgbToHsl(d3.barGraph.hexToRgb(hexColor));
+	scaleColor: function(webColor) {
+		var hsl = d3.barGraph.rgbToHsl(d3.barGraph.webColorToRgb(webColor));
 		hsl[1] -= 2/3;
 		hsl[2] -= 11/30;
 		return d3.barGraph.rgbToHex(d3.barGraph.hslToRgb(hsl));
+	},
+	webColorToRgb: function(webColor) {
+		if (webColor[0] == '#')
+			return d3.barGraph.hexToRgb(webColor);
+		else
+			return webColor.substring(3).replace(/[\)\(\s]/g, '').split(',').map(function(d) { return parseInt(d); });
 	},
 	hexToRgb: function(hexString) {
 		var hex = parseInt(hexString.substring(1), 16);
