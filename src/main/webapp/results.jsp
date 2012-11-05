@@ -219,9 +219,8 @@
 									<a href="#" onclick="svgExport('#<%=type%> div.grid-network', '<%=type%>_grid_network', 'jpg'); return false;">JPG</a>
 								</div>
 							</div>
-							<div class="settings hidden" title="Change the color scheme">
-							</div>
 						<% } %>
+						<div class="settings hidden" title="Change the color scheme"></div>
 					</div>
 				</div>
 			<% } %>
