@@ -22,7 +22,7 @@ gmt_lookup['KEA.gmt'] = ('KEA', 'http://amp.pharm.mssm.edu/lib/keacommandline.js
 gmt_lookup['KEGG_pathways.gmt'] = ('KEGG', 'http://www.kegg.jp/kegg/download/')
 gmt_lookup['MGI_MP_top3.gmt'] = ('MGI Mammalian Phenotype Top 3', 'ftp://ftp.informatics.jax.org/pub/reports/index.html#pheno')
 gmt_lookup['MGI_MP_top4.gmt'] = ('MGI Mammalian Phenotype Top 4', 'ftp://ftp.informatics.jax.org/pub/reports/index.html#pheno')
-gmt_lookup['microRNA.gmt'] = ('microRNA', 'http://www.microrna.org/microrna/getDownloads.do')
+gmt_lookup['microRNA.gmt'] = ('microRNA', 'http://www.targetscan.org/cgi-bin/targetscan/data_download.cgi?db=vert_61')
 gmt_lookup['Mouse_Gene_Atlas.gmt'] = ('Mouse Gene Atlas', 'http://biogps.org/downloads/')
 gmt_lookup['NCI60.gmt'] = ('NCI-60 Cancer Cell Lines', 'http://biogps.org/downloads/')
 gmt_lookup['OMIM_disease_genes.gmt'] = ('OMIM Disease', 'http://www.omim.org/downloads')
