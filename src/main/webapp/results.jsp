@@ -45,13 +45,13 @@
 	// add("Chromosome_Location");
 	add("CORUM");
 	add("Down-regulated_CMAP");
-	// add("ENCODE_TF_ChIP-seq");
+	add("ENCODE_TF_ChIP-seq");
 	add("GeneSigDB");
 	add("Genome_Browser_PWMs");
 	add("GO_Biological_Process");
 	add("GO_Cellular_Component");
 	add("GO_Molecular_Function");
-	// add("Histone_Modifications_ChIP-seq");
+	add("Histone_Modifications_ChIP-seq");
 	add("HMDB_Metabolites");
 	add("Human_Endogenous_Complexome");
 	add("Human_Gene_Atlas");
