@@ -48,6 +48,8 @@ public class Term implements Comparable<Term> {
 	}
 	
 	public void setPValue(double pvalue) {
+		if (pvalue == 0)
+			pvalue = Double.MIN_VALUE;
 		this.pvalue = pvalue;
 	}	
 	
