@@ -7,6 +7,6 @@
 		<name>AJAX crawling</name>
 		<note>Used to correct !# from googlebot.</note>
 		<from>^/(?:index.html)?\?_escaped_fragment_=(.*)$</from>
-		<to type="forward">%{context-path}/genemap?$1</to>
+		<to type="forward">/genemap?$1</to>
 	</rule>
 </urlrewrite>
