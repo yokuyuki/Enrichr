@@ -87,10 +87,14 @@ function createStats() {
 	}
 }
 
+function queryGene(gene) {
+	$('#gene-info').load('genemap?gene=ESRRB');
+}
+
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast
-	tabList = ['', 'stats', 'about', 'help'];
+	tabList = ['', 'stats', 'gene', 'about', 'help'];
 
 	var name = window.location.hash.substring(1);
 	var index = tabList.indexOf(name);

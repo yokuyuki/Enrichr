@@ -70,6 +70,15 @@ tr#description input {
 	text-decoration: underline;
 }
 
+/* Find A Gene Page */
+#gene-info span {
+	font-weight: bold;
+}
+
+#gene-info span.term {
+	color: #D90000;
+}
+
 /* About Page */
 #about {
 	position: relative;
