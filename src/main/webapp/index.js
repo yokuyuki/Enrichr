@@ -110,7 +110,7 @@ function queryGene(gene) {
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast
-	tabList = ['', 'stats', 'gene', 'about', 'help'];
+	tabList = ['', 'stats', 'find', 'about', 'help'];
 
 	var name = window.location.hash.substring(1);
 	var index = tabList.indexOf(name);

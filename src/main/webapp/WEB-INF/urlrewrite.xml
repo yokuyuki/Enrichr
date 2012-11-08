@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite
+	PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+	"http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite use-query-string="true">
+	<rule>
+		<name>AJAX crawling</name>
+		<note>Used to correct !# from googlebot.</note>
+		<from>^/(?:index.html)?\?_escaped_fragment_=(.*)$</from>
+		<to type="forward">%{context-path}/genemap?$1</to>
+	</rule>
+</urlrewrite>
