@@ -11,6 +11,7 @@ function navigateTo(index, speed) {
 	else
 		_changingCategory = true;
 	if (index == 1) { createStats(); }
+	if (index == 2) { createAutocomplete(); }
 	speed = (typeof speed === 'undefined') ? 'slow' : speed;
 	$('#content div.selected').fadeToggle(speed, function() {
 		$('.selected').removeClass('selected');
@@ -46,7 +47,7 @@ function insertExample() {
 
 function createStats() {
 	if (!$('#stats').hasClass('done')) {
-		$.getJSON('dataset_statistics.json', function(json) {
+		$.getJSON('json/dataset_statistics.json', function(json) {
 			$('#stats').addClass('done');
 			$('#stats').dataTable({
 				"aaData": json,
@@ -87,8 +88,23 @@ function createStats() {
 	}
 }
 
+function createAutocomplete() {
+	if (!$('#query-gene').hasClass('done')) {
+		$.getJSON('json/genemap.json', function(json) {
+			$('#query-gene').addClass('done');
+			$('#query-gene').autocomplete({
+				source: json,
+				minLength: 3,
+				delay: 500,
+				autoFocus: true
+			});
+		});
+	}
+}
+
 function queryGene(gene) {
-	$('#gene-info').load('genemap?gene=ESRRB');
+	$('#gene-info').load('genemap?gene=' +  gene);
+	$('#gene-info').fadeIn();
 }
 
 $(document).ready(function () {
@@ -129,4 +145,9 @@ $(document).ready(function () {
 		$('div#count').fadeIn('slow');
 	})
 	.error(function() { $('div#count').remove(); });
+
+	// Bind query-gene button to javascript
+	$('#submit-gene').click(function() {
+		queryGene($('#query-gene').val());
+	});
 });
