@@ -5,19 +5,19 @@ function geneCount() {
     	$('span#gene-count').text(0);
 }
 
-function navigateTo(index, speed) {
-	if (_changingCategory)
+function navigateTo(index, transitionSpeed) {
+	if (_changingCategory || $('div.selected').index() == index)
 		return;
 	else
 		_changingCategory = true;
 	if (index == 1) { createStats(); }
 	if (index == 2) { createAutocomplete(); }
-	speed = (typeof speed === 'undefined') ? 'slow' : speed;
-	$('#content div.selected').fadeToggle(speed, function() {
+	transitionSpeed = (typeof transitionSpeed === 'undefined') ? 'slow' : transitionSpeed;
+	$('#content div.selected').fadeToggle(transitionSpeed, function() {
 		$('.selected').removeClass('selected');
 		$('#navbar td').eq(index).addClass('selected');
 		$('#content > div').eq(index).addClass('selected');
-		$('#content div.selected').fadeToggle(speed);
+		$('#content div.selected').fadeToggle(transitionSpeed);
 		_changingCategory = false;
 	});
 }
@@ -107,20 +107,39 @@ function queryGene(gene) {
 	$('#gene-info').fadeIn();
 }
 
+function hashcheck(onload) {
+	var transitionSpeed = (typeof onload !== 'boolean') ? 'slow' : 0;
+
+	var hash = window.location.hash.substring(1);
+	if (hash[0] == '!') {
+		// Not on find tab
+		if (tabList[$('div.selected').index()] != 'find') {
+			navigateTo(tabList.indexOf('find'), transitionSpeed);
+			if (!onload)
+				return;
+		}
+
+		// Query gene
+		hash = hash.substring(1);
+		var parms = hash.split('=');
+		if (parms[0] == 'gene')
+			queryGene(parms[1]);
+	}
+	else {
+		navigateTo(tabList.indexOf(hash), transitionSpeed);
+	}
+}
+
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	_changingCategory = false;	// Prevent changing category too fast
 	tabList = ['', 'stats', 'find', 'about', 'help'];
 
-	var name = window.location.hash.substring(1);
-	var index = tabList.indexOf(name);
-	if (name != '' && index >= 0) {
-		navigateTo(index, 0);
-	}
-	window.onhashchange = function() {
-		var name = window.location.hash.substring(1);
-		navigateTo(tabList.indexOf(name));
-	};
+	// Onload hash check
+	hashcheck(true);
+
+	// When swipe changes the hash
+	window.onhashchange = hashcheck;
 
 	// Disable user scaling in UIWebView
 	if (/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent))
@@ -129,14 +148,14 @@ $(document).ready(function () {
 	// Touch gestures
 	$.event.special.swipe.durationThreshold = 200;
 	$('body').swipeleft(function() {
-			var dest = ($('div.selected').index() - 1 + 4) % 4;
+			var dest = ($('div.selected').index() - 1 + tabList.length) % tabList.length;
 			getTab(tabList[dest]);
 		}
 	);
 	$('body').swiperight(function() {
-			var dest = ($('div.selected').index() + 1) % 4;
+			var dest = ($('div.selected').index() + 1) % tabList.length;
 			getTab(tabList[dest]);
-		}		
+		}
 	);
 
 	// Load counter
@@ -147,7 +166,9 @@ $(document).ready(function () {
 	.error(function() { $('div#count').remove(); });
 
 	// Bind query-gene button to javascript
-	$('#submit-gene').click(function() {
-		queryGene($('#query-gene').val());
+	$('#find-gene').submit(function() {
+		var gene = $('#query-gene').val()
+		window.location.hash = '!gene=' + gene;
+		return false;
 	});
 });
