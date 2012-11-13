@@ -111,13 +111,18 @@ public class GeneMap extends HttpServlet {
 		
 		HashMap<String, ArrayList<String>> backgrounds = geneMap.get(gene);
 		
-		for (String backgroundType : geneMap.get(gene).keySet()) {
-			String format = backgroundTypes.get(backgroundType);
-			
-			for (String termName : backgrounds.get(backgroundType)) {
-				String ans = String.format(format, "<span class=\"gene\">" + gene + "</span>", "<span class=\"term\">" + termName + "</span>");
-				out.print(ans);
-				out.println("<br>");
+		if (backgrounds == null) {
+			out.println("No terms found for gene " + gene + ".");
+		}
+		else {
+			for (String backgroundType : geneMap.get(gene).keySet()) {
+				String format = backgroundTypes.get(backgroundType);
+				
+				for (String termName : backgrounds.get(backgroundType)) {
+					String ans = String.format(format, "<span class=\"gene\">" + gene + "</span>", "<span class=\"term\">" + termName + "</span>");
+					out.print(ans);
+					out.println("<br>");
+				}
 			}
 		}
 	}
