@@ -292,16 +292,12 @@ function getResult(id) {
 				d3.grid.createGrid('json/' + id + '.json', json[id], 
 					idTag + ' div.grid', 
 					{
-						highlightValue: function(d) { return d[1]; },
+						highlightName: function(d) { return d[1]; },
+						highlightValue: function(d) { return d[4]; },
 						highlightFunction: function(c) {
-							var highlightSelection = d3.selectAll(c)
-							var highlightColor = d3.scale.linear()
-							.domain([0, d3.max(highlightSelection.data().map(function(d) { return -Math.log(d[2]); }))])
-							.interpolate(d3.interpolateNumber)
-							.range([0.25,1]);
+							var highlightSelection = d3.selectAll(c);
 
-							highlightSelection.attr('title', function(d) { return d[1] + '<br/>' + d[2]; })
-							.attr('fill-opacity', function(d) { return highlightColor(-Math.log(d[2])); })
+							highlightSelection.attr('title', function(d) { return d[1] + '<br/>' + d[4]; })
 							.selectAll('title').remove();
 							$(c).aToolTip({ fixed: true, xOffset: 4, yOffset: 1} );
 						},

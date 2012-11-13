@@ -7,7 +7,8 @@
  *			{
  *				canvasSize: 225,	// size of canvas in pixels
  *				highlightCount: 10,	// top x to highlight from results
- *				highlightValue: function(d) { return d[0]; },	// function used to select items from the results array to highlight
+ *				highlightName: function(d) { return d[0]; },	// function used to select the name of the highlight items from the results array
+ *				highlightValue: function(d) {},	// function used to select the value of the highlighted items from the results array
  *				highlightFunction: function(c) {},	// function performed on highlighted circles where c is the DOM path to them
  *				highlightColor: #FFFFFF,	// Color of highlight circles
  *				clusterFunction: function(z) {},	// function performed on the z-score of the cluster function
@@ -32,7 +33,8 @@ d3.grid = {
 		var options = {
 			canvasSize: 225,
 			highlightCount: 10,
-			highlightValue: function(d) { return d[0]; },
+			highlightName: function(d) { return d[0]; },
+			highlightValue: null,
 			highlightFunction: null,
 			highlightColor: '#FFFFFF',
 			clusterFunction: null,
@@ -52,10 +54,20 @@ d3.grid = {
 				.domain([0, d3.max(json.map(function(d) { return d[1]; }))])
 				.range(['#000000', options.maxColor]);
 
-			d3.grid.drawCanvas(json, container, options);	
-			d3.grid.fill(results.filter(function(d, i) { return i < options.highlightCount; }), container, options);
+			d3.grid.drawCanvas(json, container, options);
+			d3.grid.drawHighlights(results.filter(function(d, i) { return i < options.highlightCount; }), container, options);
 			if (options.clusterFunction)
 				d3.grid.calcClustering(container, options);
+
+			// Toggle between differen views of grid
+			d3.select(container + ' svg').on('click', function() {
+				var circles = d3.select(container + ' svg g.circle');
+				circles.transition()
+					.attr('opacity', (parseInt(circles.attr('opacity'))) ^ 1)
+					.each('end', function() {
+						d3.grid.recolor(container, options.maxColor);
+					});
+			});
 		});	
 	},
 	drawCanvas: function(nodes, container, options) {
@@ -67,7 +79,8 @@ d3.grid = {
 					.attr('width', options.canvasSize)
 					.attr('height', options.canvasSize);
 
-		canvas.selectAll('rect')
+		canvas.append('svg:g').classed('rect', true)
+			.selectAll('rect')
 			.data(nodes)
 			.enter()
 			.append('svg:rect')
@@ -79,7 +92,8 @@ d3.grid = {
 			.append('title')
 			.text(function(d) { return d[0]; });
 
-		canvas.selectAll('circle')
+		canvas.append('svg:g').classed('circle', true).attr('opacity', 1)
+			.selectAll('circle')
 			.data(nodes)
 			.enter()
 			.append('svg:circle')
@@ -92,22 +106,54 @@ d3.grid = {
 			.append('title')
 			.text(function(d) { return d[0]; });
 	},
-	fill: function(elementList, container, options) {
+	drawHighlights: function(elementList, container, options) {
+		if (options.highlightValue) {
+			var maxValue = d3.max(elementList.map(function(d) { return options.highlightValue(d); }))
+			options.highlightColor = d3.scale.linear()
+				.domain([0, maxValue])
+				.interpolate(d3.interpolateNumber)
+				.range([0.25, 1]);
+			options.altColor = d3.scale.linear()
+				.domain([0, maxValue])
+				.interpolate(d3.interpolateRgb)
+				.range(['#000000', options.maxColor]);
+		}
+
 		for (e in elementList) {
-			d3.selectAll(container + ' circle[label="' + options.highlightValue(elementList[e]) + '"]')
+			d3.selectAll(container + ' circle[label="' + options.highlightName(elementList[e]) + '"]')
 				.datum(function() { return elementList[e]; })
-				.attr('fill-opacity', 1)
+				.attr('fill-opacity', function(d) {
+					return (options.highlightColor) ? options.highlightColor(options.highlightValue(d)) : 1;
+				})
 				.classed('highlight', true);
 		}
 
 		if (options.highlightFunction)
 			options.highlightFunction(container + ' circle.highlight');
 	},
-	recolor: function(container, newColor) {
-		var canvas = d3.select(container + ' div.svg-container svg');
-		var color = canvas.datum().color.range(['#000000', newColor]);
-		canvas.selectAll('rect').attr('fill', function(d) { return color(d[1]); });
+	drawAltHighlights: function(container) {
+		var canvas = d3.select(container +  ' svg');
+		var options = canvas.datum();
+
+		canvas.selectAll('rect').transition().duration(500).attr('fill', function(d, i) {
+			var circle = d3.select(container + ' svg g.circle > :nth-child(' + (i+1) + ')');
+			if (circle.classed('highlight'))
+				return (options.highlightValue) ? options.altColor(options.highlightValue(circle.datum())) : options.maxColor;
+			else
+				return '#000000';
+		});
 	},
+	recolor: function(container, newColor) {
+		var canvas = d3.select(container + ' svg');
+		canvas.datum().maxColor = newColor;
+		var color = canvas.datum().color.range(['#000000', newColor]);
+		canvas.datum().altColor.range(['#000000', newColor]);
+
+		if (canvas.select('g.circle').attr('opacity') == 0)
+			d3.grid.drawAltHighlights(container);
+		else
+			canvas.selectAll('rect').transition().duration(500).attr('fill', function(d) { return color(d[1]); });
+	},	
 	calcClustering: function(container, options) {
 		var mean = 0.6291 * Math.pow(options.highlightCount / Math.pow(options.width, 2), -0.503301);
 		var std = 0.328498 * Math.pow(options.highlightCount, -1.00728) * Math.pow(options.width, 1.00939);
