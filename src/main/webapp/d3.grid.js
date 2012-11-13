@@ -89,6 +89,7 @@ d3.grid = {
 			.attr('width', options.pixels)
 			.attr('height', options.pixels)
 			.attr('fill', function(d) { return options.color(d[1]); })
+			.attr('label', function(d) { return d[0]; })
 			.append('title')
 			.text(function(d) { return d[0]; });
 
@@ -126,6 +127,8 @@ d3.grid = {
 					return (options.highlightColor) ? options.highlightColor(options.highlightValue(d)) : 1;
 				})
 				.classed('highlight', true);
+			d3.selectAll(container + ' rect[label="' + options.highlightName(elementList[e]) + '"]')
+				.classed('highlight', true);
 		}
 
 		if (options.highlightFunction)
@@ -136,9 +139,10 @@ d3.grid = {
 		var options = canvas.datum();
 
 		canvas.selectAll('rect').transition().duration(500).attr('fill', function(d, i) {
-			var circle = d3.select(container + ' svg g.circle > :nth-child(' + (i+1) + ')');
-			if (circle.classed('highlight'))
-				return (options.highlightValue) ? options.altColor(options.highlightValue(circle.datum())) : options.maxColor;
+			if (d3.select(this).classed('highlight')) {
+				var value = options.highlightValue(d3.select(container + ' svg g.circle > :nth-child(' + (i+1) + ')').datum());
+				return (options.highlightValue) ? options.altColor(value) : options.maxColor;
+			}
 			else
 				return '#000000';
 		});
