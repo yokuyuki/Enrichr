@@ -36,9 +36,9 @@ gmt_lookup['VirusMINT.gmt'] = ('VirusMINT', 'http://mint.bio.uniroma2.it/virusmi
 gmt_lookup['WikiPathways_pathways.gmt'] = ('WikiPathways', 'http://www.wikipathways.org/index.php/Download_Pathways')
 
 datasets = []
-for file in os.listdir('src/main/resources'):
+for file in os.listdir('../src/main/resources'):
 	if file.endswith('.gmt'):
-		with open('src/main/resources/' + file) as sig_file:
+		with open('../src/main/resources/' + file) as sig_file:
 			terms = 0
 			average_genes = 0
 			unique_genes = set()
