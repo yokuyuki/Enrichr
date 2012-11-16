@@ -244,22 +244,25 @@ function navigateTo(index, container) {
 	});
 }
 
-function getResult(id) {
-	var idTag = '#' + id;
+function openResult(id) {
 	if ($('div.active').attr('id') == id) {
 		toggleClose();
-		return;
 	}
 	else {
 		toggleClose();
 		toggleOpen(id);
+		getResult(id);
 	}
+}
+
+function getResult(id) {
+	var idTag = '#' + id;	
 
 	if(!$(idTag + ' div.content').hasClass('done')) {
 		var dataUrl = queryString('q');
 		dataUrl = (dataUrl) ? dataUrl : 'enrich';
 		$.getJSON(dataUrl, { backgroundType: id }, function(json) {
-			if (json.expired) {				
+			if (json.expired) {
 				$('#session-warning').slideDown('fast', function() {
 					toggleClose();
 				});

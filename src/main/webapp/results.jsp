@@ -147,7 +147,7 @@
 				<% String name = type.replaceAll("_", " "); %>
 				<div class="beveled" id="<%=type%>">
 					<div class="header">
-						<a href="#" onclick="getResult('<%=type%>'); return false;" class="title"><%=name%></a>
+						<a href="#" onclick="openResult('<%=type%>'); return false;" class="title"><%=name%></a>
 						<table class="nav">
 							<tr>
 								<td class="selected">
