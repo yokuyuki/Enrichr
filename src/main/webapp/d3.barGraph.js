@@ -44,19 +44,22 @@ d3.barGraph = {
 		var sortId = container + ' span.method';
 
 		// Initial data
-		var filteredData = results.filter(function(d, i) { return i < options.bars; });
+		var filteredData = results.filter(function(d, i) { 
+			return i < options.bars; 
+		});
+		var dataValues = filteredData.map(function(d) { 
+			return options.modes[0](d); 
+		});
 
 		// Interpolators
 		options.x = d3.scale.linear()
-			.domain([0, d3.max(filteredData.map(function(d) { 
-				return options.modes[0](d);
-			}))])
+			.domain([d3.min(dataValues), d3.max(dataValues)])
 			.range([0, options.width]);
 		options.y = d3.scale.ordinal()
 			.domain(d3.range(options.bars))
 			.rangeBands([0, options.height], .2),
 		options.color = d3.scale.linear()
-			.domain([0, d3.max(filteredData.map(function(d) { return options.modes[0](d); }))])
+			.domain([d3.min(dataValues), d3.max(dataValues)])
 			.interpolate(d3.interpolateRgb)
 			.range([options.minColor, options.maxColor]);
 
@@ -90,11 +93,16 @@ d3.barGraph = {
 
 			// Adjust data
 			results.sort(function(a, b) { return mode(b) - mode(a); });
-			filteredData = results.filter(function(d, i) { return i < options.bars; });
+			filteredData = results.filter(function(d, i) { 
+				return i < options.bars; 
+			});
+			dataValues = filteredData.map(function(d) { 
+				return options.modes[0](d); 
+			});
 
 			// Remap interpolators
-			options.x.domain([0, d3.max(filteredData.map(function(d) { return mode(d); }))]);
-			options.color.domain([0, d3.max(filteredData.map(function(d) { return mode(d); }))]);
+			options.x.domain([d3.min(dataValues), d3.max(dataValues)]);
+			options.color.domain([d3.min(dataValues), d3.max(dataValues)]);
 
 			// Join with existing data and remove old data
 			var newBars = chart.selectAll('g.bar').data(filteredData, function(d) { return d; });
