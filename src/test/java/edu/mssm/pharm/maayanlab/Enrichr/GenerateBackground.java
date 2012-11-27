@@ -15,15 +15,14 @@ public class GenerateBackground {
 	private final static String approvedSymbols = "src/test/resources/approved_symbols.txt";
 	private final static ArrayList<String> genes = FileUtils.readFile(approvedSymbols);
 	
-	private final static int REPS = 1000;
+	private final static int REPS = 5000;
 	private final static int LENGTH = 300;
 	
 	private final static Random rng = new Random();
 	
 	public static void main(String[] args) {
 //		generateBackgrounds();
-		generateBackground(Enrichment.ENCODE);
-		generateBackground(Enrichment.HM);
+		generateBackground(Enrichment.CORUM);
 	}
 	
 	private static Collection<String> generateRandomSample(ArrayList<String> list, int samples) {
