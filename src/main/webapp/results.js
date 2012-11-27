@@ -165,14 +165,18 @@ function createColorWheel(pixels, container, startingColor) {
 				.on('click', function() {
 					d3.selectAll(container + ' div.settings svg path').style('stroke-width', '0px');
 					this.style.strokeWidth = '1px';
-					d3.barGraph.recolor(container + ' div.bar-graph', this.style.fill);
-					d3.grid.recolor(container + ' div.grid', this.style.fill);
-					d3.gridNetwork.recolor(container + ' div.grid-network', this.style.fill);
+					recolor(container, this.style.fill);
 					toggleSettings(container);
 				}
 			);
 		}
 	}
+}
+
+function recolor(container, color) {
+	d3.barGraph.recolor(container + ' div.bar-graph', color);
+	d3.grid.recolor(container + ' div.grid', color);
+	d3.gridNetwork.recolor(container + ' div.grid-network', color);
 }
 
 function toggleSettings(container) {
@@ -213,6 +217,51 @@ function tsvExport(filename, backgroundType) {
 	download('enrich', {filename: filename, backgroundType: backgroundType}, 'get');
 }
 
+function batchExport(modules, colors, visualizations, fileType) {
+	exportQueue = []
+
+	for (var i = 0; i < modules.length; i++) {
+		getResult(modules[i]);
+		exportQueue.push([modules[i], colors[i], visualizations, fileType]);
+	}
+}
+
+function startExport(speed) {
+	function delayExport(container, visualization, fileType) {
+		return function() {
+			if (visualization == 'bar-graph')
+				svgExport(container + ' div.bar-graph', container.substring(1) + '_bar_graph', fileType);
+			else if (visualization == 'grid')
+				svgExport(container + ' div.grid', container.substring(1) + '_grid', fileType);
+			else if (visualization == 'alt-grid') {
+				d3.select(container + ' div.grid svg').on('click')();
+				setTimeout(function() {
+					svgExport(container + ' div.grid', container.substring(1) + '_alt_grid', fileType);
+				}, speed);
+			}
+			else if (visualization == 'grid-network')
+				svgExport(container + ' div.grid', container.substring(1) + '_grid_network', fileType);
+		};
+	}
+
+	var delay = 0;
+
+	for (var i = 0; i < exportQueue.length; i++) {
+		var container = '#' + exportQueue[i][0];
+		var color = exportQueue[i][1]
+		var visualizations = exportQueue[i][2]
+		var fileType = exportQueue[i][3]
+
+		recolor(container, color);
+		
+		for (var j = 0; j < visualizations.length; j++) {
+			setTimeout(delayExport(container, visualizations[j], (typeof fileType === 'undefined') ? 'png' : fileType), delay);
+			delay += speed;
+		}
+		
+	}
+}
+
 // Shows the category
 function showCategory(index) {
 	if (_changingCategory)
@@ -242,6 +291,19 @@ function navigateTo(index, container) {
 		$(container + ' div.selected').fadeIn();
 		_changingTabs = false;
 	});
+}
+
+/* Functions to open and close modules */
+function toggleClose() {
+	$('div.active div.content').slideUp();
+	$('div.active table.nav').fadeOut();
+	$('div.active').removeClass('active');
+}
+
+function toggleOpen(id) {
+	$('#' + id).addClass('active');
+	$('div.active div.content').slideDown();
+	$('div.active table.nav').fadeIn();
 }
 
 function openResult(id) {
@@ -295,6 +357,7 @@ function getResult(id) {
 				d3.grid.createGrid('json/' + id + '.json', json[id], 
 					idTag + ' div.grid', 
 					{
+						highlightCount: 10,
 						highlightName: function(d) { return d[1]; },
 						highlightValue: function(d) { return d[4]; },
 						highlightFunction: function(c) {
@@ -312,7 +375,7 @@ function getResult(id) {
 							if (pvalue < 0.1) {
 								$(container + ' span').css('color', '#D90000');
 								$(container + ' span.pvalue').attr('title', 'Significant');
-							}							
+							}
 						},
 						cache: false
 					}
@@ -392,19 +455,6 @@ function centerPopup(selector) {
 		"margin-top": -1*popupHeight/2,
 		"margin-left": -1*popupWidth/2		
 	});
-}
-
-/* Functions to open and close modules */
-function toggleClose() {
-	$('div.active div.content').slideUp();
-	$('div.active table.nav').fadeOut();
-	$('div.active').removeClass('active');
-}
-
-function toggleOpen(id) {
-	$('#' + id).addClass('active');
-	$('div.active div.content').slideDown();
-	$('div.active table.nav').fadeIn();
 }
 
 /* Looks for the value of a query string in the URL */
