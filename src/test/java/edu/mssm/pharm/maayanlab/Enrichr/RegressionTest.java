@@ -1,9 +1,7 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -12,12 +10,12 @@ import edu.mssm.pharm.maayanlab.FileUtils;
 
 public class RegressionTest extends TestCase {
 
-	private List2Networks app;
+	private Enrichment app;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		app = new List2Networks();
+		app = new Enrichment(FileUtils.readResource("test_list.txt"));
 	}
 	
 	/**
@@ -29,11 +27,8 @@ public class RegressionTest extends TestCase {
 	}
 
 	public void testAll() {
-		app.run(FileUtils.readResource("test_list.txt"));
-		
-		HashMap<String, LinkedList<Term>> resultsMap = app.getEnrichmentResults(); 
-		for (String bgType : resultsMap.keySet())			
-			assertEquivalentOutput(resultsMap.get(bgType), "test_list.enrichment_" + bgType.replaceAll(" ", "_") + ".tsv");
+		for (String bgType : Enrichment.backgroundTypes)			
+			assertEquivalentOutput(app.enrich(bgType), "test_list." + bgType + "_table.txt");
 	}
 	
 	private void assertEquivalentOutput(Collection<Term> terms, String expectedFile) {
@@ -42,7 +37,7 @@ public class RegressionTest extends TestCase {
 		Iterator<String> result = testResults.iterator();
 		
 		assertEquals(testResults.size(), terms.size()+1);
-		assertEquals(result.next(), List2Networks.HEADER);
+		assertEquals(result.next(), Enrichment.HEADER);
 		
 		while (term.hasNext())
 			assertEquals(result.next(), term.next().toString());
