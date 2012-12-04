@@ -140,19 +140,26 @@ public class Enrichment implements SettingsChanger {
 		return geneList;
 	}
 	
-	public LinkedList<Term> enrich(String backgroundType) {		
+	public LinkedList<Term> enrich(String backgroundType) {
 		// Read background list and ranks
 		Collection<String> backgroundLines = FileUtils.readResource(backgroundType + ".gmt");
 		Collection<String> rankLines = FileUtils.readResource(backgroundType + "_ranks.txt");
 		
+		return enrich(backgroundLines, rankLines);
+	}
+	
+	public LinkedList<Term> enrich(Collection<String> backgroundLines, Collection<String> rankLines) {
 		// List of background terms
 		LinkedList<Term> termList = new LinkedList<Term>();
 		
 		// Rank database
-		HashMap<String, String> rankMap = new HashMap<String, String>((int) Math.ceil(rankLines.size() / 0.75));
-		for (String line : rankLines) {
-			String[] splitLine = line.split("\\t", 2);
-			rankMap.put(splitLine[0], splitLine[1]);
+		HashMap<String, String> rankMap = null;
+		if (rankLines != null) {
+			rankMap = new HashMap<String, String>((int) Math.ceil(rankLines.size() / 0.75));
+			for (String line : rankLines) {
+				String[] splitLine = line.split("\\t", 2);
+				rankMap.put(splitLine[0], splitLine[1]);
+			}
 		}
 		
 		// Unique genes in the database
@@ -172,7 +179,7 @@ public class Enrichment implements SettingsChanger {
 			termList.add(term);
 			
 			// Add rank data
-			if (rankMap.containsKey(termName)) {
+			if (rankLines != null && rankMap.containsKey(termName)) {
 				String[] splitRank = rankMap.get(termName).split("\\t");
 				term.setRankStats(Double.parseDouble(splitRank[0]), Double.parseDouble(splitRank[1]));
 			}
@@ -226,23 +233,25 @@ public class Enrichment implements SettingsChanger {
 		// Sort by p-value
 		Collections.sort(termList);
 		
-		// Count current rank and compute z-score
-		int counter = 1;
-		for (Term term : termList)
-			term.computeScore(counter++);
-		
-		if (settings.get(SORT_BY).equals(COMBINED_SCORE)) {
-			Collections.sort(termList, new Comparator<Term>() {
-				@Override
-				public int compare(Term o1, Term o2) {
-					if (o1.getCombinedScore() < o2.getCombinedScore())				
-						return 1;
-					else if (o1.getCombinedScore() > o2.getCombinedScore())
-						return -1;
-					else
-						return 0;
-				}
-			});
+		if (rankLines != null) {
+			// Count current rank and compute z-score
+			int counter = 1;
+			for (Term term : termList)
+				term.computeScore(counter++);
+			
+			if (settings.get(SORT_BY).equals(COMBINED_SCORE)) {
+				Collections.sort(termList, new Comparator<Term>() {
+					@Override
+					public int compare(Term o1, Term o2) {
+						if (o1.getCombinedScore() < o2.getCombinedScore())				
+							return 1;
+						else if (o1.getCombinedScore() > o2.getCombinedScore())
+							return -1;
+						else
+							return 0;
+					}
+				});
+			}
 		}
 		
 		return termList;
