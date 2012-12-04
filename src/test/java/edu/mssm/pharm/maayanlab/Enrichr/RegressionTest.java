@@ -27,8 +27,10 @@ public class RegressionTest extends TestCase {
 	}
 
 	public void testAll() {
-		for (String bgType : Enrichment.backgroundTypes)			
-			assertEquivalentOutput(app.enrich(bgType), "test_list." + bgType + "_table.txt");
+		for (int i = 0; i < Enrichment.categories.length; i++)
+			for (String bgType : Enrichment.categorizedEnrichmentTypes[i])
+				assertEquivalentOutput(app.enrich(bgType), "test_list." + bgType + "_table.txt");
+		
 	}
 	
 	private void assertEquivalentOutput(Collection<Term> terms, String expectedFile) {

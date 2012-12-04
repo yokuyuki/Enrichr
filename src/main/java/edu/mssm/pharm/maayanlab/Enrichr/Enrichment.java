@@ -23,42 +23,6 @@ import edu.mssm.pharm.maayanlab.SettingsChanger;
 
 public class Enrichment implements SettingsChanger {
 	
-	// Paths to gmt files
-	@SuppressWarnings("serial")	
-	public static final HashSet<String> backgroundTypes = new HashSet<String>() {{
-		add(Enrichment.BIOCARTA);
-		add(Enrichment.CHEA);
-		add(Enrichment.CCLE);
-		add(Enrichment.CHROMOSOME_LOCATION);
-		add(Enrichment.CORUM);
-		add(Enrichment.UPREGULATED_CMAP);
-		add(Enrichment.DOWNREGULATED_CMAP);
-		add(Enrichment.ENCODE);
-		add(Enrichment.GENESIGDB);
-		add(Enrichment.GENOME_BROWSER_PWMS);
-		add(Enrichment.GO_BP);
-		add(Enrichment.GO_CC);
-		add(Enrichment.GO_MF);
-		add(Enrichment.HM);
-		add(Enrichment.HMDB_METABOLITES);
-		add(Enrichment.COMPLEXOME);
-		add(Enrichment.HUMAN_GENE_ATLAS);
-		add(Enrichment.KEA);
-		add(Enrichment.KEGG);
-		add(Enrichment.MGI_MP);
-		add(Enrichment.MICRORNA);
-		add(Enrichment.MOUSE_GENE_ATLAS);
-		add(Enrichment.NCI60);
-		add(Enrichment.OMIM_DISEASE);
-		add(Enrichment.OMIM_EXPANDED);
-		add(Enrichment.PFAM_INTERPRO);
-		add(Enrichment.PPI_HUB_PROTEINS);
-		add(Enrichment.REACTOME);
-		add(Enrichment.TRANSFAC_JASPAR);
-		add(Enrichment.VIRUSMINT);
-		add(Enrichment.WIKIPATHWAYS);
-	}};	
-	
 	// Constants
 	public static final String BIOCARTA = "BioCarta";
 	public static final String CCLE = "Cancer_Cell_Line_Encyclopedia";
@@ -73,10 +37,10 @@ public class Enrichment implements SettingsChanger {
 	public static final String GO_BP = "GO_Biological_Process";
 	public static final String GO_CC = "GO_Cellular_Component";
 	public static final String GO_MF = "GO_Molecular_Function";
-	public static final String HM = "Histone_Modifications_ChIP-seq";
+	public static final String HISTONE_MODIFICATIONS = "Histone_Modifications_ChIP-seq";
 	public static final String HMDB_METABOLITES = "HMDB_Metabolites";
 	public static final String HUMAN_GENE_ATLAS = "Human_Gene_Atlas";
-	public static final String COMPLEXOME = "Human_Endogenous_Complexome";
+	public static final String HUMAN_ENDOGENOUS_COMPLEXOME = "Human_Endogenous_Complexome";
 	public static final String KEA = "KEA";
 	public static final String KEGG = "KEGG";
 	public static final String MGI_MP = "MGI_Mammalian_Phenotype";
@@ -88,9 +52,64 @@ public class Enrichment implements SettingsChanger {
 	public static final String PFAM_INTERPRO = "Pfam_InterPro_Domains";
 	public static final String PPI_HUB_PROTEINS = "PPI_Hub_Proteins";
 	public static final String REACTOME = "Reactome";
-	public static final String TRANSFAC_JASPAR = "TRANSFAC_and_JASPAR_PWMs";
+	public static final String TRANSFAC_AND_JASPAR_PWMS = "TRANSFAC_and_JASPAR_PWMs";
 	public static final String VIRUSMINT = "VirusMINT";
 	public static final String WIKIPATHWAYS = "WikiPathways";
+	
+	public static final String[] categories = {	
+		"Transcription", 
+		"Pathways", 
+		"Ontologies",
+		"Disease/Drugs",
+		"Cell Types",
+		"Misc" 
+	};
+	
+	public static final String[][] categorizedEnrichmentTypes = {
+		{	
+			Enrichment.CHEA,
+			Enrichment.TRANSFAC_AND_JASPAR_PWMS,
+			Enrichment.GENOME_BROWSER_PWMS,
+			Enrichment.HISTONE_MODIFICATIONS,
+			Enrichment.MICRORNA,
+			Enrichment.ENCODE	
+		},
+		{	
+			Enrichment.KEGG,
+			Enrichment.WIKIPATHWAYS,
+			Enrichment.REACTOME,
+			Enrichment.BIOCARTA,
+			Enrichment.PPI_HUB_PROTEINS,
+			Enrichment.KEA,
+			Enrichment.HUMAN_ENDOGENOUS_COMPLEXOME,
+			Enrichment.CORUM	
+		},
+		{	
+			Enrichment.GO_BP,
+			Enrichment.GO_CC,
+			Enrichment.GO_MF,
+			Enrichment.MGI_MP	
+		},
+		{	
+			Enrichment.UPREGULATED_CMAP,
+			Enrichment.DOWNREGULATED_CMAP,
+			Enrichment.GENESIGDB,
+			Enrichment.OMIM_DISEASE,
+			Enrichment.OMIM_EXPANDED,
+			Enrichment.VIRUSMINT	
+		},
+		{	
+			Enrichment.HUMAN_GENE_ATLAS,
+			Enrichment.MOUSE_GENE_ATLAS,
+			Enrichment.CCLE,
+			Enrichment.NCI60 
+		},
+		{	
+			Enrichment.CHROMOSOME_LOCATION,
+			Enrichment.HMDB_METABOLITES,
+			Enrichment.PFAM_INTERPRO	
+		}
+	};
 	
 	// Default settings
 	private final Settings settings = new Settings() {

@@ -1,43 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <%@ page import="java.util.HashSet" %>
-<%! private String[][] enrichmentTypes = {	{	"ChEA",
-												"TRANSFAC_and_JASPAR_PWMs",
-												"Genome_Browser_PWMs",
-												"Histone_Modifications_ChIP-seq",
-												"microRNA",
-												"ENCODE_TF_ChIP-seq"	},
-											{	"KEGG",
-												"WikiPathways",
-												"Reactome",
-												"BioCarta",
-												"PPI_Hub_Proteins",
-												"KEA",
-												"Human_Endogenous_Complexome",
-												"CORUM"	},
-											{	"GO_Biological_Process",
-												"GO_Cellular_Component",
-												"GO_Molecular_Function",
-												"MGI_Mammalian_Phenotype"	},
-											{	"Up-regulated_CMAP",
-												"Down-regulated_CMAP",
-												"GeneSigDB",
-												"OMIM_Disease",
-												"OMIM_Expanded",
-												"VirusMINT"	},
-											{	"Human_Gene_Atlas",
-												"Mouse_Gene_Atlas",
-												"Cancer_Cell_Line_Encyclopedia",
-												"NCI-60_Cancer_Cell_Lines" },
-											{	"Chromosome_Location",
-												"HMDB_Metabolites",
-												"Pfam_InterPro_Domains"	}}; %>
-<%! private String[] categories = {	"Transcription", 
-									"Pathways", 
-									"Ontologies",
-									"Disease/Drugs",
-									"Cell Types",
-									"Misc" }; %>
+<%@ page import="edu.mssm.pharm.maayanlab.Enrichr.Enrichment" %>
+<%! private String[][] enrichmentTypes = Enrichment.categorizedEnrichmentTypes; %>
+<%! private String[] categories = Enrichment.categories; %>
 <%! private HashSet<String> gridAvailable = new HashSet<String>() {{
 	add("BioCarta");
 	add("Cancer_Cell_Line_Encyclopedia");

@@ -46,8 +46,9 @@ public class GenerateBackground {
 	private static void generateBackgrounds() {
 		long startTime = System.currentTimeMillis();
 		
-		for (String backgroundType: Enrichment.backgroundTypes)
-			generateBackground(backgroundType);
+		for (int i = 0; i < Enrichment.categories.length; i++)
+			for (String bgType : Enrichment.categorizedEnrichmentTypes[i])
+			generateBackground(bgType);
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("Elapsed time: " + (endTime - startTime)/1000.0 + " seconds");
