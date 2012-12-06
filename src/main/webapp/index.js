@@ -1,10 +1,23 @@
+/* Format string */
+String.prototype.format = function() {
+	var args = arguments;
+	return this.replace(/{(\d+)}/g, function(match, number) { 
+		return typeof args[number] != 'undefined'
+			? args[number]
+			: match
+		;
+	});
+};
+
+/* Counter for how many analysis has been done */
 function geneCount() {
 	if ($('textarea#text-area').val())
-    	$('span#gene-count').text($('textarea#text-area').val().trim().split(/\r?\n/g).length);
-    else
-    	$('span#gene-count').text(0);
+		$('span#gene-count').text($('textarea#text-area').val().trim().split(/\r?\n/g).length);
+	else
+		$('span#gene-count').text(0);
 }
 
+/* Navigation */
 function navigateTo(index, transitionSpeed) {
 	if (_changingCategory || $('div.selected').index() == index)
 		return;
@@ -26,6 +39,7 @@ function getTab(name) {
 	window.location.hash = name;
 }
 
+/* Form data handling */
 function validateInput() {
 	if ($('input#file-chooser').val())
 		return true;
@@ -45,6 +59,7 @@ function insertExample() {
 	});	
 }
 
+/* Data Statistics Page */
 function createStats() {
 	if (!$('#stats').hasClass('done')) {
 		$.getJSON('json/dataset_statistics.json', function(json) {
@@ -88,6 +103,7 @@ function createStats() {
 	}
 }
 
+/* Find A Gene Page */
 function createAutocomplete() {
 	if (!$('#query-gene').hasClass('done')) {
 		$.getJSON('json/genemap.json', function(json) {
@@ -103,8 +119,95 @@ function createAutocomplete() {
 }
 
 function queryGene(gene) {
-	$('#gene-info').load('genemap?gene=' +  gene);
-	$('#gene-info').fadeIn();
+	// Clear container first
+	$('#gene-info').empty();
+
+	var getParams = { gene: gene, json: true }
+	if (typeof globals.categories === 'undefined')
+		getParams.setup = true
+
+	$.getJSON('genemap', getParams, function(json) {
+		if (typeof globals.categories === 'undefined') {
+			globals.categories = json.categories
+			globals.backgroundTypes = json.backgroundTypes
+			globals.formats = json.formats
+		}
+
+		if (json.gene == null) {
+			$('#gene-info').html('No terms found for gene <span class="failed">' + gene + '</span>.');
+			$('#gene-info').fadeIn();
+			return;
+		}
+
+		var mainDiv = document.getElementById("gene-info");
+		var toggleFunc = function(id) { return function() { toggleSection(id); }; };
+
+		for (var i = 0; i < globals.categories.length; i++) {
+			var category = globals.categories[i];
+
+			// Pulled in front to edit category to be id friendly
+			var categoryText = document.createTextNode(category);
+			category = category.replace(/[ //]/g, '-');
+
+			var categoryDiv = document.createElement('div');
+			categoryDiv.className = 'category';
+			categoryDiv.id = category;
+			
+			var categoryToggleDiv = document.createElement('div');
+			categoryToggleDiv.className = 'toggleIcon';
+			categoryToggleDiv.onclick = toggleFunc(category);
+			categoryDiv.appendChild(categoryToggleDiv);
+			
+			categoryDiv.appendChild(categoryText);
+
+			var backgroundTypesDiv = document.createElement('div');
+			backgroundTypesDiv.className = 'background-types hidden';
+			categoryDiv.appendChild(backgroundTypesDiv);
+
+			mainDiv.appendChild(categoryDiv);
+
+			for (var j = 0; j < globals.backgroundTypes[i].length; j++) {
+				var backgroundType = globals.backgroundTypes[i][j]
+
+				if (!(backgroundType in json.gene))
+					continue;
+
+				var typeDiv = document.createElement('div');
+				typeDiv.className = 'background-type';
+				typeDiv.id = backgroundType;
+
+				var typeToggleDiv = document.createElement('div');
+				typeToggleDiv.className = 'toggleIcon';
+				typeToggleDiv.onclick = toggleFunc(backgroundType);
+				typeDiv.appendChild(typeToggleDiv);
+
+				var typeText = document.createTextNode(globals.backgroundTypes[i][j].replace(/_/g, ' '));
+				typeDiv.appendChild(typeText);
+
+				var resultsDiv = document.createElement('div');
+				resultsDiv.className = 'results hidden';
+				typeDiv.appendChild(resultsDiv);
+
+				backgroundTypesDiv.appendChild(typeDiv);
+
+				var terms = json.gene[backgroundType];
+				var formatString = globals.formats[backgroundType]
+				var formattedTerms = [];
+				for (var k in terms) {
+					formattedTerms.push(formatString.format('<span class="gene">' + gene + '</span>', '<span class="term">' + terms[k] + '</span>'));
+				}
+				resultsDiv.innerHTML = formattedTerms.join('<br/>');
+			}
+		}
+
+		$('#gene-info').fadeIn();
+	});
+}
+
+function toggleSection(id) {
+	$('#' + id + ' > div.toggleIcon').toggleClass('open');
+	$('#' + id + ' > div.background-types').slideToggle();
+	$('#' + id + ' > div.results').slideToggle();
 }
 
 function hashcheck(onload) {
@@ -132,6 +235,7 @@ function hashcheck(onload) {
 
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
+	globals = {};	// Stores global vars
 	_changingCategory = false;	// Prevent changing category too fast
 	tabList = ['', 'stats', 'find', 'about', 'help'];
 

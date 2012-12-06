@@ -93,12 +93,45 @@ label[for="query-gene"] {
 	margin-top: 1em;
 }
 
-#gene-info span {
+#gene-info div.toggleIcon {
+	background: url('images/expandcontract.png') no-repeat left top;
+	display: inline-block;
+	vertical-align: text-top;
+	margin-top: 1px;
+	margin-right: 0.1em;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+}
+
+#gene-info div.open {
+	background-position: right top;
+}
+
+#gene-info div.category {
 	font-weight: bold;
 }
 
-#gene-info span.term {
+#gene-info div.background-types {
+	margin-left: 1em;
+}
+
+#gene-info div.results {
+	margin-left: 2em;
+	font-weight: normal;
+}
+
+#gene-info div.results span {
+	font-weight: bold;
+}
+
+#gene-info div.results span.term {
 	color: #D90000;
+}
+
+#gene-info span.failed {
+	color: #D90000;
+	font-weight: bold;
 }
 
 /* About Page */
