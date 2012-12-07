@@ -156,7 +156,7 @@ d3.grid = {
 		if (canvas.select('g.circle').attr('opacity') == 0)
 			d3.grid.drawAltHighlights(container);
 		else
-			canvas.selectAll('rect').transition().duration(500).attr('fill', function(d) { return color(d[1]); });
+			canvas.selectAll('rect').transition().duration(400).attr('fill', function(d) { return color(d[1]); });
 	},	
 	calcClustering: function(container, options) {
 		var mean = 0.6291 * Math.pow(options.highlightCount / Math.pow(options.width, 2), -0.503301);

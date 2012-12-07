@@ -182,7 +182,7 @@ d3.barGraph = {
 		var canvas = d3.select(container + ' div.svg-container svg');
 		var color = canvas.datum().color.range([d3.barGraph.scaleColor(newColor), newColor]);
 		var mode = canvas.datum().modes[0];
-		canvas.selectAll('rect.bar').attr('fill', function(d) { return color(mode(d)); });
+		canvas.selectAll('rect.bar').transition().duration(400).attr('fill', function(d) { return color(mode(d)); });
 		canvas.selectAll('rect.shadow').attr('fill', function(d) { return color(mode(d)); });
 	},
 	scaleColor: function(webColor) {
