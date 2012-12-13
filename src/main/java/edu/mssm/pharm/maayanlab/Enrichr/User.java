@@ -30,30 +30,27 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1893085998342363733L;
 	
 	private Integer userid;
-	private String username;
+	private String email;
 	private String salt;
 	private String password;
 	private String first;
 	private String last;
-	private String email;
 	private String institute;
 	private Date accessed;
 	
 	public User() {
 	}
 
-	public User(String username, String password) {
-		this.username = username;
+	public User(String email, String password) {
+		this.setEmail(email);
 		this.setPassword(password);
 	}
 
-	public User(String username, String password, String first, String last,
-			String email, String institute) {
-		this.username = username;
+	public User(String email, String password, String first, String last, String institute) {
+		this.setEmail(email);
 		this.setPassword(password);
 		this.setFirst(first);
 		this.setLast(last);
-		this.setEmail(email);
 		this.setInstitute(institute);
 	}
 
@@ -67,15 +64,15 @@ public class User implements Serializable {
 	// Shouldn't be used because auto-incremented by db
 	public void setUserid(Integer userid) {
 		this.userid = userid;
+	}	
+	
+	@Column(name = "email", unique = true, nullable = false, length = 100)
+	public String getEmail() {		
+		return this.email;
 	}
 
-	@Column(name = "username", nullable = false, length = 50)
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	@Column(name = "salt", nullable = false, length = 16)
@@ -140,16 +137,6 @@ public class User implements Serializable {
 	public void setLast(String last) {
 		if (!last.isEmpty())
 			this.last = last;
-	}
-
-	@Column(name = "email", length = 100)
-	public String getEmail() {		
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		if (!email.isEmpty())
-			this.email = email;
 	}
 
 	@Column(name = "institute", length = 200)
