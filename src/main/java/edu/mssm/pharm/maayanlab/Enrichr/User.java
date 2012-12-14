@@ -98,19 +98,19 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.setSalt(generateSalt());
-		this.password = hashPassword(this.salt + password);
+		this.password = hash(this.salt + password);
 	}
 	
 	public boolean checkPassword(String password) {
-		return this.password.equals(hashPassword(this.salt + password)); 
+		return this.password.equals(hash(this.salt + password)); 
 	}
 	
-	private String hashPassword(String password) {
+	private String hash(String saltedPassword) {
 		String hash = null;
 		
 		try {
 			MessageDigest digest = MessageDigest.getInstance("MD5");
-			digest.update(password.getBytes());
+			digest.update(saltedPassword.getBytes());
 			hash = new BigInteger(1, digest.digest()).toString(16);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
