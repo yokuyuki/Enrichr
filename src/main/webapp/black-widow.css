@@ -16,7 +16,7 @@ a {
 }
 
 textarea:focus, input:focus {
-	outline-color: #D90000;	
+	outline-color: #D90000;
 }
 
 div.beveled {
@@ -33,6 +33,10 @@ div.clear {
 }
 
 /* Global styling */
+
+strong {
+	font-weight: bold;
+}
 
 .left {
 	text-align: left;
@@ -71,6 +75,18 @@ div#logo {
 div#logo span {
 	vertical-align: top;
 	color: #000;
+}
+
+/* Title */
+div#content {
+	margin-top: 1em;
+	position: relative;
+}
+
+div.title {
+	font-size: 2.5em;
+	border-bottom: 2px solid #D90000;
+	margin-bottom: 0.5em;
 }
 
 /* Warning */

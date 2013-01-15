@@ -10,16 +10,6 @@ div#count span {
 	color: #D90000;
 }
 
-div#content {
-	margin-top: 1em;
-}
-
-div.title {
-	font-size: 2.5em;
-	border-bottom: 2px solid #D90000;
-	margin-bottom: 0.5em;
-}
-
 div.next-step {
 	float: right;
 }
