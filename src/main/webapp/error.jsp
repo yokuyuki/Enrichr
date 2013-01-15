@@ -34,7 +34,14 @@
 	</div>
 	<div id="content" class="beveled">
 		<div class="title">Error</div>
-		<div><%=request.getAttribute("error")%></div>
+		<div>
+			<% String error = (String) request.getAttribute("error"); %>
+			<% if (error != null) { %>
+				<%= error %>
+			<% } else { %>
+				<% response.sendRedirect("login.html"); %>
+			<% } %>
+		</div>
 	</div>
 </body>
 </html>
