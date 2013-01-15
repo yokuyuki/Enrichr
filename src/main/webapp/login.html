@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Enrichr</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta name="author" content="Edward Y. Chen"/>
+	<meta name="viewport" content="width=750">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+	<link rel="icon" type="image/ico" href="favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'/>
+	<link rel="stylesheet" type="text/css" href="black-widow.css"/>
+	<link rel="stylesheet" type="text/css" href="black-widow-login.css"/>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" defer="defer"></script>
+	<script type="text/javascript" src="jquery.mobile.touch.min.js" defer="defer"></script>
+	<script type="text/javascript" src="login.js" defer="defer"></script>
+</head>
+<body>
+	<div id="logo">
+		<a href="index.html"><img src="images/enrichr-icon.png"/><span>En</span><span class="red">rich</span><span>r</span></a>
+	</div>
+	<div class="clear"></div>
+	<div id="navbar" class="nav">
+		<table>
+			<tr>
+				<td class="selected">
+					<a href="#" onclick="getTab(''); return false;">Login</a>
+				</td>
+				<td>
+					<a href="#" onclick="getTab('register'); return false;">Register</a>
+				</td>
+				<td>
+					<a href="#" onclick="getTab('forgot'); return false;">Forgot Your Password?</a>
+				</td>				
+			</tr>
+		</table>
+	</div>
+	<div id="content" class="beveled">
+		<div class="selected">
+			<div class="title">Login</div>
+			<form id="login" action="account" method="post" onsubmit="return validateInput();">
+				<fieldset>
+					<legend>
+						<strong>Email</strong>
+					</legend>
+					<label id="email">
+						<input class="required has-placeholder" type="text" name="email" />
+						<span class="placeholder-text">name@domain.com</span>
+						<div class="errormsg">You can't leave this empty.</div>
+					</label>					
+				</fieldset>
+				<fieldset>
+					<legend>
+						<strong>Password</strong>
+					</legend>
+					<label id="password">
+						<input type="password" name="password" />
+					</label>
+				</fieldset>
+				<div class="clear"></div>
+				<div class="next-step">
+					<input type="image" src="images/navigate-right-icon.png" width="64" height="64" title="Register"/>
+				</div>
+				<div class="clear"></div>
+			</form>
+		</div>
+		<div class="hidden">			
+			<div class="title">Register</div>
+			<form id="register" action="account" method="post" onsubmit="return validateRegister();">
+				<fieldset>
+					<legend>
+						<strong>Email</strong>
+					</legend>
+					<label id="email">
+						<input class="required has-placeholder" type="text" name="email" />
+						<span class="placeholder-text">name@domain.com</span>
+						<div class="errormsg">You can't leave this empty.</div>
+					</label>
+				</fieldset>
+				<fieldset>
+					<legend>
+						<strong>Create a password</strong>
+					</legend>
+					<label id="password">
+						<input type="password" name="password" />
+					</label>
+				</fieldset>
+				<fieldset>
+					<legend>
+						<strong>Name</strong>
+					</legend>
+					<label id="firstname" class="doublefield">
+						<input class="has-placeholder" type="text" name="firstname" />
+						<span class="placeholder-text">First</span>
+					</label>
+					<label id="lastname" class="doublefield">
+						<input class="has-placeholder" type="text" name="lastname" />
+						<span class="placeholder-text">Last</span>
+					</label>
+				</fieldset>
+				<fieldset>
+					<legend>
+						<strong>Confirm your password</strong>
+					</legend>
+					<label id="confirm">
+						<input type="password" name="confirm" />
+						<div class="errormsg">These passwords don't match.</div>
+					</label>
+				</fieldset>				
+				<fieldset>
+					<legend>
+						<strong>Institution</strong>
+					</legend>
+					<label id="institution">
+						<input class="has-placeholder" type="text" name="institution" />
+						<span class="placeholder-text">University, company, etc.</span>
+					</label>
+				</fieldset>
+				<div class="clear"></div>
+				<div class="next-step">
+					<input type="image" src="images/navigate-right-icon.png" width="64" height="64" title="Register"/>
+				</div>
+				<div class="clear"></div>
+			</form>
+		</div>
+		<div class="hidden">
+		</div>
+</body>
+</html>
