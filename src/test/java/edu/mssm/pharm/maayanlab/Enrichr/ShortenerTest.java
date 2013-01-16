@@ -18,23 +18,22 @@ public class ShortenerTest extends TestCase {
 	
 	public void testEquivalency() {
 		Random rng = new Random();
-		long number = rng.nextLong();
-		number >>>= 1;	// Shifts a 0 into the leftmost position making it always positive
+		int number = rng.nextInt(Integer.MAX_VALUE);
 		
-		long result = Shortener.decode(Shortener.encode(number));
+		int result = Shortener.decode(Shortener.encode(number));
 		assertEquals(number, result);
 	}
 	
 	public void testEncode() {
-		assertEquals("1", Shortener.encode(0L));
-		assertEquals("2", Shortener.encode(1L));
-		assertEquals("npL6MjP8Qfc", Shortener.encode(9223372036854775807L));
+		assertEquals("1", Shortener.encode(0));
+		assertEquals("2", Shortener.encode(1));
+		assertEquals("4gLq58", Shortener.encode(2147483647));
 	}
 	
 	public void testDecode() {
 		assertEquals(0L, Shortener.decode("1"));
 		assertEquals(1L, Shortener.decode("2"));
-		assertEquals(9223372036854775807L, Shortener.decode("npL6MjP8Qfc"));
+		assertEquals(2147483647, Shortener.decode("4gLq58"));
 	}
 	
 }
