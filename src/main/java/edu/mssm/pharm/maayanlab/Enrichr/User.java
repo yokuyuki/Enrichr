@@ -42,18 +42,18 @@ public class User implements Serializable {
 	}
 
 	public User(String email, String password) {
-		this.setEmail(email);
-		this.setPassword(password);
+		this(email, password, null, null, null);
 	}
 
 	public User(String email, String password, String first, String last, String institute) {
 		this.setEmail(email);
-		this.setPassword(password);
+		this.setSalt(generateSalt());
+		this.setPassword(hash(this.salt + password));
 		this.setFirst(first);
 		this.setLast(last);
 		this.setInstitute(institute);
 	}
-
+	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "userid", unique = true, nullable = false)
@@ -97,8 +97,7 @@ public class User implements Serializable {
 	}
 
 	public void setPassword(String password) {
-		this.setSalt(generateSalt());
-		this.password = hash(this.salt + password);
+		this.password = password;
 	}
 	
 	public boolean checkPassword(String password) {
@@ -124,8 +123,8 @@ public class User implements Serializable {
 		return this.first;
 	}
 
-	public void setFirst(String first) {
-		if (!first.isEmpty())
+	public void setFirst(String first) {		
+		if (first !=null && !first.isEmpty())
 			this.first = first;
 	}
 
@@ -135,7 +134,7 @@ public class User implements Serializable {
 	}
 
 	public void setLast(String last) {
-		if (!last.isEmpty())
+		if (last != null && !last.isEmpty())
 			this.last = last;
 	}
 
@@ -145,7 +144,7 @@ public class User implements Serializable {
 	}
 
 	public void setInstitute(String institute) {
-		if (!institute.isEmpty())
+		if (institute != null && !institute.isEmpty())
 			this.institute = institute;
 	}
 
@@ -163,5 +162,25 @@ public class User implements Serializable {
 	// Use this to update timestamp
 	public void updateAccessed() {
 		this.accessed = null;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder();
+		output.append("userid: ").append(userid).append(", ")
+			  .append("email: ").append(email).append(", ")
+			  .append("salt: ").append(salt).append(", ")
+			  .append("password: ").append(password);
+			  
+		if (first != null)
+			output.append(",").append("first: ").append(first);
+		if (last != null)
+			output.append(", ").append("last: ").append(last);
+		if (institute != null)
+			output.append(", ").append("institute: ").append(institute);
+		
+		output.append(", ").append("accessed: ").append(accessed);
+		
+		return output.toString();
 	}
 }
