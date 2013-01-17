@@ -22,7 +22,8 @@ public class Counter extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -682732829814620653L;
 
-	private AtomicInteger count = new AtomicInteger(0);	// Default initial value
+	private AtomicInteger count = new AtomicInteger(0);
+	private AtomicInteger share = new AtomicInteger(0);
 
 	@Override
 	public void init() throws ServletException {
@@ -31,6 +32,10 @@ public class Counter extends HttpServlet {
 		try {
 			bufferedReader = new BufferedReader(new FileReader("/datasets/count"));
 			count.set(Integer.parseInt(bufferedReader.readLine()));
+			bufferedReader.close();
+			
+			bufferedReader = new BufferedReader(new FileReader("/datasets/share"));
+			share.set(Integer.parseInt(bufferedReader.readLine()));
 		}
 		catch (FileNotFoundException ignored) { }  // no saved state
 		catch (IOException ignored) { }            // problem during read
@@ -45,6 +50,7 @@ public class Counter extends HttpServlet {
 		}
 		
 		getServletContext().setAttribute("EnrichrCount", count);
+		getServletContext().setAttribute("ShareCount", share);
 	}
 
 	@Override
@@ -59,6 +65,7 @@ public class Counter extends HttpServlet {
 
 		// Try to save the accumulated count
 		FileUtils.writeString("/datasets/count", count.toString());
+		FileUtils.writeString("/datasets/share", share.toString());
 	}                                                                  
 
 }

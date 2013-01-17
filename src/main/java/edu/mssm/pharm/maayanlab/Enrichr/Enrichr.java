@@ -7,6 +7,7 @@
 
 package edu.mssm.pharm.maayanlab.Enrichr;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class Enrichr extends HttpServlet {
 		String dataset = request.getParameter("dataset");
 		if (dataset != null) {
 			String resourceUrl = "/datasets/" + dataset + ".txt";
-			if (FileUtils.resourceExists(resourceUrl)) {
+			if ((new File(resourceUrl)).isFile()) {
 				ArrayList<String> input = FileUtils.readResource(resourceUrl);
 				if (input.get(0).startsWith("#"))	// If input line starts with comment
 					session.setAttribute("description", input.remove(0).replaceFirst("#", ""));
@@ -142,8 +143,9 @@ public class Enrichr extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		int filecount = (Integer) session.getAttribute("filecount");
-		String fileId = session.getId() + "-" + filecount;
+		int listNumber = ((AtomicInteger) getServletContext().getAttribute("ShareCount")).getAndIncrement();		
+		String fileId = Shortener.encode(listNumber);
+		
 		if (session.getAttribute("description") != null)
 			FileUtils.writeFile("/datasets/" + fileId + ".txt", "#" + (String) session.getAttribute("description"), app.getInput());
 		else
