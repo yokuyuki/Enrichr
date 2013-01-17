@@ -60,7 +60,7 @@ public class Enrichr extends HttpServlet {
 		postResult(request, response, inputList);
 	}
 	
-	private void postResult(HttpServletRequest request, HttpServletResponse response, ArrayList<String> inputList) throws IOException {
+	private void postResult(HttpServletRequest request, HttpServletResponse response, ArrayList<String> inputList) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
 			
@@ -69,7 +69,7 @@ public class Enrichr extends HttpServlet {
 			
 			Enrichment app = new Enrichment(inputList, true);
 			session.setAttribute("process", app);			
-			response.sendRedirect("results.jsp");
+			request.getRequestDispatcher("results.jsp").forward(request, response);
 			
 			if (session.getAttribute("filecount") == null) {
 				session.setAttribute("filecount", new Integer(0));
