@@ -15,4 +15,12 @@
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
+	<mime-mapping>
+		<extension>diff</extension>
+		<mime-type>application/octet-stream</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>py</extension>
+		<mime-type>application/octet-stream</mime-type>
+	</mime-mapping>
 </web-app>
