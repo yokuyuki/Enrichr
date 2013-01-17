@@ -92,12 +92,19 @@ public class Enrichr extends HttpServlet {
 		// Redirect to post if reading from file
 		String dataset = request.getParameter("dataset");
 		if (dataset != null) {
-			ArrayList<String> input = FileUtils.readResource("/datasets/" + dataset + ".txt");
-			if (input.get(0).startsWith("#"))	// If input line starts with comment
-				session.setAttribute("description", input.remove(0).replaceFirst("#", ""));
-			else
-				session.removeAttribute("description");
-			postResult(request, response, input);
+			String resourceUrl = "/datasets/" + dataset + ".txt";
+			if (FileUtils.resourceExists(resourceUrl)) {
+				ArrayList<String> input = FileUtils.readResource(resourceUrl);
+				if (input.get(0).startsWith("#"))	// If input line starts with comment
+					session.setAttribute("description", input.remove(0).replaceFirst("#", ""));
+				else
+					session.removeAttribute("description");
+				postResult(request, response, input);
+			}
+			else {
+				//TODO: Add error message
+			}
+			
 			return;
 		}
 		
