@@ -70,14 +70,6 @@ public class Enrichr extends HttpServlet {
 			Enrichment app = new Enrichment(inputList, true);
 			session.setAttribute("process", app);			
 			request.getRequestDispatcher("results.jsp").forward(request, response);
-			
-			if (session.getAttribute("filecount") == null) {
-				session.setAttribute("filecount", new Integer(0));
-			}
-			else {
-				int filecount = (Integer) session.getAttribute("filecount");
-				session.setAttribute("filecount", ++filecount);
-			}
 		}  catch (ParseException e) {
 			if (e.getErrorOffset() == -1)
 				response.getWriter().println("Invalid input: Input list is empty.");
