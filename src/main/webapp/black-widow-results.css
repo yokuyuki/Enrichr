@@ -1,3 +1,8 @@
+div.content {
+	margin-top: 1em;
+	position: relative;
+}
+
 /* Download links */
 div.downloadbox {
 	float: right;
