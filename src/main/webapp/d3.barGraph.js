@@ -5,6 +5,7 @@
  *			userOptions: configurable options fo rthe bar graph, possible options include:
  *			{
  *				width: 708,	// width of bar graph in pixels
+ *				minWidth: 10,	// minimum width of the bar graph in pixels
  *				height: 299,	// height  of bar graph in pixels
  *				bars: 10,	// number of bars to show
  *				minColor: '#446688',	// starting minimum color
@@ -29,6 +30,7 @@ d3.barGraph = {
 		// Bar graph attributes
 		var options = {
 			width: 708,
+			minWidth: 70,
 			height: 299,
 			bars: 10,
 			minColor: '#446688',
@@ -54,7 +56,7 @@ d3.barGraph = {
 		// Interpolators
 		options.x = d3.scale.linear()
 			.domain([d3.min(dataValues), d3.max(dataValues)])
-			.range([0, options.width]);
+			.range([options.minWidth, options.width]);
 		options.y = d3.scale.ordinal()
 			.domain(d3.range(options.bars))
 			.rangeBands([0, options.height], .2),
