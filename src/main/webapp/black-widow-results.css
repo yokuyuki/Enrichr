@@ -76,6 +76,12 @@ div.export-box a:hover {
 	background-color: #D90000;
 }
 
+div.gene-overlap {
+	max-width: 400px;
+	font-size: 0.7em;
+	text-align: justify;
+}
+
 /* Description */
 #description {
 	margin-bottom: 1em;

@@ -94,6 +94,11 @@ function createTable(dataArray, container) {
 					that.fnUpdate( i+1, this.parentNode, 0, false, false );
 				} );
 			}
+
+			$(container + " tr[title]").aToolTip({toolTipClass: 'defaultTheme gene-overlap'});
+		},
+		"fnCreatedRow": function( nRow, aData, iDataIndex ) {
+			$(nRow).attr('title', aData[5].join(', '));
 		},
 		"aoColumns": [
 			{ "sTitle" : "Index", "sClass": "center", "sWidth": "5%"},
@@ -131,7 +136,7 @@ function createTable(dataArray, container) {
 			{ "bSortable": false, "aTargets": [ 0 ] }
 		],
 		"aaSorting": [[4, "desc"]]
-	});
+	});	
 }
 
 // Creates the color wheel for changing the color of the bar graph, grid, and network
