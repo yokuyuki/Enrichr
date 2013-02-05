@@ -12,6 +12,7 @@ public class Term implements Comparable<Term> {
 	private double standardDeviation;
 	
 	private double pvalue;
+	private double adjustedpvalue;
 	private double zscore;
 	private double combinedScore;
 	
@@ -29,7 +30,11 @@ public class Term implements Comparable<Term> {
 	
 	public double getPValue() {
 		return this.pvalue;
-	}	
+	}
+	
+	public double getAdjustedPValue() {
+		return this.adjustedpvalue;
+	}
 	
 	public double getZScore() {
 		return this.zscore;
@@ -51,7 +56,11 @@ public class Term implements Comparable<Term> {
 		if (pvalue == 0)
 			pvalue = Double.MIN_VALUE;
 		this.pvalue = pvalue;
-	}	
+	}
+	
+	public void setAdjustedPValue(int rank, int comparisons) {
+		this.adjustedpvalue = this.pvalue * comparisons / rank;
+	}
 	
 	public void setEnrichedTargets(HashSet<String> enrichedTargets) {
 		this.targets = enrichedTargets;
@@ -68,7 +77,7 @@ public class Term implements Comparable<Term> {
 			zscore = 0;
 		else
 			zscore = (currentRank - mean)/standardDeviation;
-		combinedScore = Math.log(pvalue)*zscore;
+		combinedScore = Math.log(adjustedpvalue)*zscore;
 	}
 	
 	@Override
@@ -77,6 +86,7 @@ public class Term implements Comparable<Term> {
 		outputString.append(name).append("\t");
 		outputString.append(numOfTargetInputGenes).append("/").append(numOfTargetBgGenes).append("\t");
 		outputString.append(pvalue).append("\t");
+		outputString.append(adjustedpvalue).append("\t");
 		outputString.append(zscore).append("\t");
 		outputString.append(combinedScore).append("\t");
 		

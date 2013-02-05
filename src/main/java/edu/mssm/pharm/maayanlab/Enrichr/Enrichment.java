@@ -124,7 +124,7 @@ public class Enrichment implements SettingsChanger {
 	public final static String PVALUE = "p-value";
 	public final static String RANK = "rank";
 	
-	public static final String HEADER = "Term\tOverlap\tP-value\tZ-score\tCombined Score\tGenes";
+	public static final String HEADER = "Term\tOverlap\tP-value\tAdjusted P-value\tZ-score\tCombined Score\tGenes";
 	
 	private Collection<String> geneList; 
 	
@@ -251,6 +251,11 @@ public class Enrichment implements SettingsChanger {
 		
 		// Sort by p-value
 		Collections.sort(termList);
+		
+		// Calculate adjusted p-value
+		int i = 1;
+		for (Term term : termList)
+			term.setAdjustedPValue(i++, termList.size());
 		
 		if (rankLines != null) {
 			// Count current rank and compute z-score

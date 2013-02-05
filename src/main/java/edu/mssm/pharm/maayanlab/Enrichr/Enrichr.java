@@ -175,15 +175,16 @@ public class Enrichr extends HttpServlet {
 	}
 	
 	private Object[][] flattenResults(LinkedList<Term> results) {
-		Object[][] resultsMatrix = new Object[results.size()][5];
+		Object[][] resultsMatrix = new Object[results.size()][6];
 		
 		int i = 0;
 		for (Term term : results) {
 			resultsMatrix[i][0] = i+1;
 			resultsMatrix[i][1] = term.getName();
-			resultsMatrix[i][2] = term.getPValue();
+			resultsMatrix[i][2] = term.getAdjustedPValue();
 			resultsMatrix[i][3] = term.getZScore();
 			resultsMatrix[i][4] = term.getCombinedScore();
+			resultsMatrix[i][5] = term.getTargets();
 			i++;
 		}
 		
