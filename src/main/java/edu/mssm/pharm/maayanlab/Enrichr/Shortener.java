@@ -2,8 +2,8 @@ package edu.mssm.pharm.maayanlab.Enrichr;
 
 public class Shortener {
 
-	private static final String alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
-	private static final int base = 58;
+	private static final String alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
+	private static final int base = 36;
 	
 	public static String encode(int number) {
 		StringBuilder linkId = new StringBuilder();

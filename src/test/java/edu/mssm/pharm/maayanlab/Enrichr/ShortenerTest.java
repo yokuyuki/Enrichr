@@ -25,15 +25,15 @@ public class ShortenerTest extends TestCase {
 	}
 	
 	public void testEncode() {
-		assertEquals("1", Shortener.encode(0));
-		assertEquals("2", Shortener.encode(1));
-		assertEquals("4gLq58", Shortener.encode(2147483647));
+		assertEquals("0", Shortener.encode(0));
+		assertEquals("1", Shortener.encode(1));
+		assertEquals("zik0zj", Shortener.encode(2147483647));
 	}
 	
 	public void testDecode() {
-		assertEquals(0L, Shortener.decode("1"));
-		assertEquals(1L, Shortener.decode("2"));
-		assertEquals(2147483647, Shortener.decode("4gLq58"));
+		assertEquals(0, Shortener.decode("0"));
+		assertEquals(1, Shortener.decode("1"));
+		assertEquals(2147483647, Shortener.decode("zik0zj"));
 	}
 	
 }
