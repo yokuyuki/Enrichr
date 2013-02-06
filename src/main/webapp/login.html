@@ -124,6 +124,25 @@
 			</form>
 		</div>
 		<div class="hidden">
+			<div class="title">Password Reset</div>
+			<form id="forgot" action="forgot" method="post">
+				<fieldset>
+					<legend>
+						<strong>Email</strong>
+					</legend>
+					<label id="email">
+						<input class="required has-placeholder" type="text" name="email" disabled/>
+						<span class="placeholder-text">name@domain.com</span>
+						<div class="errormsg">You can't leave this empty.</div>
+					</label>
+				</fieldset>
+				<div class="clear"></div>
+				<div class="next-step">
+					<input type="image" src="images/navigate-right-icon.png" width="64" height="64" title="Reset" disabled/>
+				</div>
+				<div class="clear"></div>
+			</form>
 		</div>
+	</div>
 </body>
 </html>
