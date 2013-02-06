@@ -262,6 +262,16 @@ $(document).ready(function () {
 		}
 	);
 
+	$.getJSON('status', function(json) {
+		if (json.user == '') {
+			$('div#login-prompt').fadeIn('slow');
+		}
+		else {
+			$('a#account-name').text(json.user)
+			$('div#account-status').fadeIn('slow');
+		}
+	});
+
 	// Load counter
 	$.get('count', function(data) {
 		$('div#count span').text(data);

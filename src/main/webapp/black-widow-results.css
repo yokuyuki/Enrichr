@@ -61,6 +61,10 @@ table.nav td {
 }
 
 /* Table properties */
+div.table div.method {
+	margin-bottom: 0.5em;
+}
+
 div.export-box {
 	margin-top: 0.5em;
 }

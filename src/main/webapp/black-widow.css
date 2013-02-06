@@ -62,19 +62,31 @@ svg {
 	overflow: hidden;
 }
 
-/* Logo */
+/* Header */
+
+div#header {
+	position: relative;
+}
 
 div#logo {
 	margin: 0.1em 0em 0em 0em;
 	letter-spacing: 0.1em;
 	font-size: 3em;
 	/*font-weight: bold;*/
-	float: left;
 }
 
 div#logo span {
 	vertical-align: top;
 	color: #000;
+}
+
+div.account {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 0.8em;
+	font-weight: bold;
+	padding-right: 0.5em;
 }
 
 /* Title */
