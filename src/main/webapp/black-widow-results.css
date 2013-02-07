@@ -136,17 +136,17 @@ div.grid-network div.svg-container {
 }
 
 /* Share */
-#share {
+#share, #save {
 	background: #000;
 	border: 1px solid #000;
 }
 
-#share:hover {
+#share:hover, #save:hover {
 	background: #D90000;
 	border: 1px solid #D90000;
 }
 
-#share img {
+#share img, #save img {
 	vertical-align: middle;
 }
 
