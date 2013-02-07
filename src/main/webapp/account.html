@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Enrichr</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta name="author" content="Edward Y. Chen"/>
+	<meta name="viewport" content="width=750">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+	<link rel="icon" type="image/ico" href="favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'/>
+	<link rel="stylesheet" type="text/css" href="black-widow.css"/>
+	<link rel="stylesheet" type="text/css" href="black-widow-login.css"/>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" defer="defer"></script>
+	<script type="text/javascript" src="jquery.mobile.touch.min.js" defer="defer"></script>
+	<script type="text/javascript" src="login.js" defer="defer"></script>
+</head>
+<body>
+	<div id="header">
+		<div id="logo">
+			<a href="index.html"><img src="images/enrichr-icon.png"/><span>En</span><span class="red">rich</span><span>r</span></a>
+		</div>
+		<div id="login-status" class="account hidden">
+			Hi, <a href="account.html" id="account-name">blank</a>! | <a href="logout">Logout</a>
+		</div>
+	</div>
+	<div id="account-status">
+		<a>Login</a> | Logout
+	</div>	
+	<div class="clear"></div>
+	<div id="navbar" class="nav">
+		<table>
+			<tr>
+				<td class="selected">
+					<a href="#" onclick="getTab(''); return false;">Lists</a>
+				</td>
+				<td>
+					<a href="#" onclick="getTab('register'); return false;">Account Settings</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="content" class="beveled">
+		<div class="selected">
+			<div class="title">Lists</div>
+		</div>
+		<div class="hidden">			
+			<div class="title">Account Settings</div>
+		</div>
+	</div>
+</body>
+</html>
