@@ -62,8 +62,16 @@
 	<title>Enrichr</title>
 </head>
 <body>
-	<div id="logo">
-		<a href="index.html"><img src="images/enrichr-icon.png"/><span>En</span><span class="red">rich</span><span>r</span></a>
+	<div id="header">
+		<div id="logo">
+			<a href="index.html"><img src="images/enrichr-icon.png"/><span>En</span><span class="red">rich</span><span>r</span></a>
+		</div>
+		<div id="login-prompt" class="account hidden">
+			<a href="login.html">Login</a> | <a href="login.html#register">Register</a>
+		</div>
+		<div id="login-status" class="account hidden">
+			Hi, <a href="account.html" id="account-name">blank</a>! | <a href="logout">Logout</a>
+		</div>
 	</div>
 	<div class="clear"></div>
 	<div class="nav" id="navbar">		
