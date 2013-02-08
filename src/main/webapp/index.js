@@ -268,7 +268,7 @@ $(document).ready(function () {
 		}
 		else {
 			$('a#account-name').text(json.user)
-			$('div#account-status').fadeIn('slow');
+			$('div#login-status').fadeIn('slow');
 		}
 	});
 

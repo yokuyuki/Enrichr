@@ -2,6 +2,7 @@
 <html lang="en">
 <%@ page import="java.util.HashSet" %>
 <%@ page import="edu.mssm.pharm.maayanlab.Enrichr.Enrichment" %>
+<%@ page import="edu.mssm.pharm.maayanlab.Enrichr.User" %>
 <%! private String[][] enrichmentTypes = Enrichment.categorizedEnrichmentTypes; %>
 <%! private String[] categories = Enrichment.categories; %>
 <%! private HashSet<String> gridAvailable = new HashSet<String>() {{
@@ -65,13 +66,18 @@
 	<div id="header">
 		<div id="logo">
 			<a href="index.html"><img src="images/enrichr-icon.png"/><span>En</span><span class="red">rich</span><span>r</span></a>
-		</div>
-		<div id="login-prompt" class="account hidden">
-			<a href="login.html">Login</a> | <a href="login.html#register">Register</a>
-		</div>
-		<div id="login-status" class="account hidden">
-			Hi, <a href="account.html" id="account-name">blank</a>! | <a href="logout">Logout</a>
-		</div>
+		</div>		
+		<% User user = (User) session.getAttribute("user"); %>
+		<% if (user != null) { %>
+			<div id="login-status" class="account">
+				Hi, <a href="account.html" id="account-name"><%=(user.getFirst() != null) ? user.getFirst() : user.getEmail() %></a>! | <a href="logout">Logout</a>
+			</div>
+		<% } %>
+		<% else { %>
+			<div id="login-prompt" class="account">
+				<a href="login.html">Login</a> | <a href="login.html#register">Register</a>
+			</div>
+		<% } %>
 	</div>
 	<div class="clear"></div>
 	<div class="nav" id="navbar">		
@@ -101,6 +107,14 @@
 				if (session.getAttribute("length") != null)
 					out.print(" (" +  session.getAttribute("length") + " genes)");
 			%></td>
+			<% if (user != null) { %>
+				<td id="save">
+					<!-- WPZOOM Developer Icon Set by WPZOOM is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. -->
+					<a href='#' onclick="saveResult(); return false;" title="Save this result">
+						<img src="images/save.png"/>
+					</a>
+				</td>
+			<% } %>
 			<td id="share">
 				<!-- Per CC Attribution 2.5, the share icon is attributed to Matt Brett from Share Icon Project -->
 				<a href="#" onclick="shareResult(); return false;" title="Share this result">

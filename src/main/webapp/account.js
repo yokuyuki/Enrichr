@@ -87,6 +87,16 @@ $(document).ready(function () {
 		}
 	);
 
+	$.getJSON('status', function(json) {
+		if (json.user == '') {
+			window.location.replace("/Enrichr");
+		}
+		else {
+			$('a#account-name').text(json.user)
+			$('div#login-status').fadeIn('slow');
+		}
+	});
+
 	// Enable placeholders and error messages for required fields
 	$('input.has-placeholder:text[value=""]').next('span.placeholder-text').show();
 	$('input.has-placeholder').focus(function() {
