@@ -82,7 +82,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 });
 
 // Create tables
-function createTable(dataArray, container) {
+function createTable(id, dataArray, container) {
 	$(container).dataTable({
 		"aaData": dataArray,
 		"fnDrawCallback": function ( oSettings ) {
@@ -102,7 +102,23 @@ function createTable(dataArray, container) {
 		},
 		"aoColumns": [
 			{ "sTitle" : "Index", "sClass": "center", "sWidth": "5%"},
-			{ "sTitle": "Name", "sClass": "left" },
+			{ 
+				"sTitle": "Name", 
+				"sClass": "left",
+				"fnRender": function(oObj, sVal) {
+					if (id in globals.linkMap) {
+						var linkArray = globals.linkMap[id];
+						var match = (new RegExp(linkArray[0])).exec(sVal);
+						var termId = match[linkArray[1]].toLowerCase();						
+
+						if (sVal) {
+							return '<a href="' + linkArray[2] + termId + '" target="_blank">' + sVal + '</a>';
+						}
+					}
+					
+					return sVal;					
+				}
+			},
 			{ 
 				"sTitle": "P-value",
 				"sClass": "right",
@@ -269,32 +285,32 @@ function startExport(speed) {
 
 // Shows the category
 function showCategory(index) {
-	if (_changingCategory)
+	if (globals.changingCategory)
 		return;
 	else
-		_changingCategory = true;
+		globals.changingCategory = true;
 	toggleClose();
 	$('div.shown').fadeOut('slow', function() {		
 		$('.shown').removeClass('shown');
 		$('div.category').eq(index).addClass('shown')
 		$('#navbar td').eq(index).addClass('shown');
 		$('div.shown').fadeIn('slow');
-		_changingCategory = false;
+		globals.changingCategory = false;
 	});
 }
 
 // Animates the transition between different tabs
 function navigateTo(index, container) {
-	if (_changingTabs)
+	if (globals.changingTabs)
 		return;
 	else
-		_changingTabs = true;
+		globals.changingTabs = true;
 	$(container + ' div.content div.selected').fadeOut(400, function() {
 		$(container + ' .selected').removeClass('selected');
 		$(container + ' div.header table.nav td').eq(index).addClass('selected');
 		$(container + ' div.content > div').eq(index).addClass('selected');
 		$(container + ' div.selected').fadeIn();
-		_changingTabs = false;
+		globals.changingTabs = false;
 	});
 }
 
@@ -357,7 +373,7 @@ function getResult(id) {
 				);
 				$(idTag + ' div.bar-graph div.method').fadeIn('slow');
 
-				createTable(json[id], idTag + ' .results_table');
+				createTable(id, json[id], idTag + ' .results_table');
 
 				d3.grid.createGrid('json/' + id + '.json', json[id], 
 					idTag + ' div.grid', 
@@ -478,8 +494,9 @@ function queryString(search_for) {
 /* Results page setup */
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
-	_changingCategory = false;	// Prevent changing category too fast
-	_changingTabs = false;	// Prevent changing tabs too fast
+	globals = {};	// Stores global vars
+	globals.changingCategory = false;	// Prevent changing category too fast
+	globals.changingTabs = false;	// Prevent changing tabs too fast
 
 	// Touch gestures
 	$.event.special.swipe.durationThreshold = 200;
@@ -508,4 +525,8 @@ $(document).ready(function () {
 			}
 		}
 	);
+
+	$.getJSON('json/linkmap.json', function(json) {
+		globals.linkMap = json;
+	});
 });

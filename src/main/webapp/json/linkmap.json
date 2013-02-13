@@ -1,0 +1,3 @@
+{
+	"KEGG": ["(HSA\\d+)", 1, "http://www.genome.jp/kegg-bin/show_pathway?"]
+}
