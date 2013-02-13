@@ -55,6 +55,7 @@ public class GeneMap extends HttpServlet {
 		formats.put(Enrichment.PFAM_INTERPRO, "{0} has a {1} protein domain.");
 		formats.put(Enrichment.PPI_HUB_PROTEINS, "{0} directly interacts with the hub protein {1}.");
 		formats.put(Enrichment.REACTOME, "{0} is a member of the {1} pathway.");
+		formats.put(Enrichment.SILAC, "{0} is phosphorylated in the {1} condition.");
 		formats.put(Enrichment.TRANSFAC_AND_JASPAR_PWMS, "{1} has a binding site at the promoter of {0}.");
 		formats.put(Enrichment.VIRUSMINT, "{0} interacts with a viral protein from {1}.");
 		formats.put(Enrichment.WIKIPATHWAYS, "{0} is a member of the {1} pathway.");

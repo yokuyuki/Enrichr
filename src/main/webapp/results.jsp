@@ -33,6 +33,7 @@
 	add("Pfam_InterPro_Domains"); 
 	add("PPI_Hub_Proteins");
 	add("Reactome");
+	// add("SILAC_Phosphoproteomics");
 	add("TRANSFAC_and_JASPAR_PWMs");
 	add("Up-regulated_CMAP");
 	add("VirusMINT");
@@ -72,8 +73,7 @@
 			<div id="login-status" class="account">
 				Hi, <a href="account.html" id="account-name"><%=(user.getFirst() != null) ? user.getFirst() : user.getEmail() %></a>! | <a href="logout">Logout</a>
 			</div>
-		<% } %>
-		<% else { %>
+		<% } else { %>
 			<div id="login-prompt" class="account">
 				<a href="login.html">Login</a> | <a href="login.html#register">Register</a>
 			</div>

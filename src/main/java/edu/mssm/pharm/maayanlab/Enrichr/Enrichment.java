@@ -52,6 +52,7 @@ public class Enrichment implements SettingsChanger {
 	public static final String PFAM_INTERPRO = "Pfam_InterPro_Domains";
 	public static final String PPI_HUB_PROTEINS = "PPI_Hub_Proteins";
 	public static final String REACTOME = "Reactome";
+	public static final String SILAC = "SILAC_Phosphoproteomics";
 	public static final String TRANSFAC_AND_JASPAR_PWMS = "TRANSFAC_and_JASPAR_PWMs";
 	public static final String VIRUSMINT = "VirusMINT";
 	public static final String WIKIPATHWAYS = "WikiPathways";
@@ -66,7 +67,7 @@ public class Enrichment implements SettingsChanger {
 	};
 	
 	public static final String[][] categorizedEnrichmentTypes = {
-		{	
+		{	// Transcription
 			Enrichment.CHEA,
 			Enrichment.TRANSFAC_AND_JASPAR_PWMS,
 			Enrichment.GENOME_BROWSER_PWMS,
@@ -74,7 +75,7 @@ public class Enrichment implements SettingsChanger {
 			Enrichment.MICRORNA,
 			Enrichment.ENCODE	
 		},
-		{	
+		{	// Pathways
 			Enrichment.KEGG,
 			Enrichment.WIKIPATHWAYS,
 			Enrichment.REACTOME,
@@ -82,15 +83,16 @@ public class Enrichment implements SettingsChanger {
 			Enrichment.PPI_HUB_PROTEINS,
 			Enrichment.KEA,
 			Enrichment.HUMAN_ENDOGENOUS_COMPLEXOME,
-			Enrichment.CORUM	
+			Enrichment.CORUM,
+			Enrichment.SILAC
 		},
-		{	
+		{	// Ontologies
 			Enrichment.GO_BP,
 			Enrichment.GO_CC,
 			Enrichment.GO_MF,
 			Enrichment.MGI_MP	
 		},
-		{	
+		{	// Disease/Drugs
 			Enrichment.UPREGULATED_CMAP,
 			Enrichment.DOWNREGULATED_CMAP,
 			Enrichment.GENESIGDB,
@@ -98,13 +100,13 @@ public class Enrichment implements SettingsChanger {
 			Enrichment.OMIM_EXPANDED,
 			Enrichment.VIRUSMINT	
 		},
-		{	
+		{	// Cell Types
 			Enrichment.HUMAN_GENE_ATLAS,
 			Enrichment.MOUSE_GENE_ATLAS,
 			Enrichment.CCLE,
 			Enrichment.NCI60 
 		},
-		{	
+		{	// Misc
 			Enrichment.CHROMOSOME_LOCATION,
 			Enrichment.HMDB_METABOLITES,
 			Enrichment.PFAM_INTERPRO	

@@ -30,6 +30,7 @@ gmt_lookup['OMIM_Expanded.gmt'] = ('OMIM Expanded', 'http://www.omim.org/downloa
 gmt_lookup['Pfam_InterPro_Domains.gmt'] = ('Pfam InterPro Domains', 'ftp://ftp.ebi.ac.uk/pub/databases/interpro/')
 gmt_lookup['PPI_Hub_Proteins.gmt'] = ('PPI Hub Proteins', 'http://amp.pharm.mssm.edu/genes2networks/')
 gmt_lookup['Reactome.gmt'] = ('Reactome', 'http://www.reactome.org/download/index.html')
+gmt_lookup['SILAC_Phosphoproteomics.gmt'] = ('SILAC Phosphoproteomics', 'http://amp.pharm.mssm.edu/lib/keacommandline.jsp')
 gmt_lookup['TRANSFAC_and_JASPAR_PWMs.gmt'] = ('TRANSFAC/JASPAR PWMs', 'http://jaspar.genereg.net/html/DOWNLOAD/')
 gmt_lookup['Up-regulated_CMAP.gmt'] = ('Up-regulated CMAP', 'http://www.broadinstitute.org/cmap/')
 gmt_lookup['VirusMINT.gmt'] = ('VirusMINT', 'http://mint.bio.uniroma2.it/virusmint/download.do')
