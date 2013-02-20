@@ -33,7 +33,7 @@
 	add("Pfam_InterPro_Domains"); 
 	add("PPI_Hub_Proteins");
 	add("Reactome");
-	// add("SILAC_Phosphoproteomics");
+	add("SILAC_Phosphoproteomics");
 	add("TRANSFAC_and_JASPAR_PWMs");
 	add("Up-regulated_CMAP");
 	add("VirusMINT");
