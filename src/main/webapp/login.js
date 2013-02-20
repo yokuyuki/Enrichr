@@ -20,8 +20,12 @@ function getTab(name) {
 
 /* Form data handling */
 function validateLogin() {
-	if ($('form#register input[name=email]').val().trim() == '')
+	if ($('form#login input[name=email]').val().trim() == '') {
 		alert('You must specify an email address.');
+		return false;
+	}
+	
+	return true;
 }
 
 function validateRegister() {
