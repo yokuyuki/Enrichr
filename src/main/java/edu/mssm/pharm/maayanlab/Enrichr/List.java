@@ -26,6 +26,10 @@ public class List implements java.io.Serializable {
 		this.listid = listid;
 	}
 
+	public List(int listid, User user, String description) {
+		this(listid, user, description, null);
+	}
+	
 	public List(int listid, User user, String description, String key) {
 		this.listid = listid;
 		this.user = user;
