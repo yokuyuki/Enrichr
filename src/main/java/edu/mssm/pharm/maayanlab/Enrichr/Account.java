@@ -17,7 +17,7 @@ import org.hibernate.criterion.Restrictions;
 import edu.mssm.pharm.maayanlab.HibernateUtil;
 import edu.mssm.pharm.maayanlab.JSONify;
 
-@WebServlet(urlPatterns = {"/account", "/login", "/register", "/status", "/logout"})
+@WebServlet(urlPatterns = {"/account", "/login", "/register", "/status", "/lists", "/logout"})
 public class Account extends HttpServlet {
 	
 	private static final long serialVersionUID = 19776535963654466L;
@@ -41,8 +41,10 @@ public class Account extends HttpServlet {
 			json.add("user", "");
 		}
 		else {
-			if (request.getServletPath().equals("/status")) {
-				json.add("user", (user.getFirst() != null) ? user.getFirst() : user.getEmail());
+			json.add("user", (user.getFirst() != null) ? user.getFirst() : user.getEmail());
+			
+			if (request.getServletPath().equals("/lists")) {
+				
 			}
 		}
 		
@@ -68,7 +70,7 @@ public class Account extends HttpServlet {
 		if (success)
 			response.sendRedirect("account.html");
 		else
-			request.getRequestDispatcher("error.jsp").forward(request, response);
+			request.getRequestDispatcher("account-error.jsp").forward(request, response);
 	}
 	
 	private boolean register(Session session, HttpServletRequest request, HttpServletResponse response) {
