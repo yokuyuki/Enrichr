@@ -10,14 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
+import com.google.gson.GsonBuilder;
+
 import edu.mssm.pharm.maayanlab.HibernateUtil;
 import edu.mssm.pharm.maayanlab.JSONify;
 
-@WebServlet(urlPatterns = {"/account", "/login", "/register", "/status", "/lists", "/logout"})
+@WebServlet(urlPatterns = {"/account", "/login", "/register", "/status", "/logout"})
 public class Account extends HttpServlet {
 	
 	private static final long serialVersionUID = 19776535963654466L;
@@ -25,7 +28,7 @@ public class Account extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
-		JSONify json = new JSONify();
+		JSONify json = new JSONify(new GsonBuilder().registerTypeAdapter(List.class, new ListAdapter()).create());
 		
 		HttpSession httpSession = request.getSession();
 		
@@ -41,10 +44,24 @@ public class Account extends HttpServlet {
 			json.add("user", "");
 		}
 		else {
-			json.add("user", (user.getFirst() != null) ? user.getFirst() : user.getEmail());
+			json.add("user", (user.getFirst() != null) ? user.getFirst() : user.getEmail());	// Display name
 			
-			if (request.getServletPath().equals("/lists")) {
+			// Get user lists
+			if (request.getServletPath().equals("/account")) {
+				SessionFactory sf = HibernateUtil.getSessionFactory();
+				Session session = null;
+				try {
+					session = sf.getCurrentSession();
+				} catch (HibernateException he) {
+					session = sf.openSession();
+				}
+				session.beginTransaction();
 				
+				session.update(user);
+				json.add("lists", user.getLists());
+				
+				session.getTransaction().commit();
+				session.close();
 			}
 		}
 		
@@ -78,7 +95,7 @@ public class Account extends HttpServlet {
 		
 		// Check for existing email
 		Criteria criteria = session.createCriteria(User.class)
-				.add(Restrictions.eq("email", email));
+				.add(Restrictions.eq("email", email).ignoreCase());
 		User user = (User) criteria.uniqueResult();
 		
 		if (user != null) {	// If exists, throw error
@@ -102,7 +119,7 @@ public class Account extends HttpServlet {
 		String password = request.getParameter("password");
 		
 		Criteria criteria = session.createCriteria(User.class)
-				.add(Restrictions.eq("email", email));
+				.add(Restrictions.eq("email", email).ignoreCase());
 		User user = (User) criteria.uniqueResult();
 		
 		if (user == null) {
@@ -121,5 +138,20 @@ public class Account extends HttpServlet {
 				return false;
 			}
 		}
+	}
+	
+	// Static function to commit new lists to the db so Enrichr class doesn't make any db calls
+	static void addList(List list) {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = null;
+		try {
+			session = sf.getCurrentSession();
+		} catch (HibernateException he) {
+			session = sf.openSession();
+		}
+		session.beginTransaction();
+		session.save(list);
+		session.getTransaction().commit();
+		session.close();
 	}
 }
