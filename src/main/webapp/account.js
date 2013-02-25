@@ -35,6 +35,28 @@ function validateRegister() {
 	return false;
 }
 
+// Create tables
+function createTable(dataArray, container) {
+	$(container).dataTable({
+		"aaData": dataArray,
+		"aoColumns": [
+			{	"mData": "list_id"	},
+			{
+				"mData": "description",
+				"sTitle": "Description",
+				"sClass": "left",
+				"mRender": function(data, type, full) {
+					return '<a href="' + 'enrich?dataset=' + full["list_id"] + '">' + data + '</a>';
+				}
+			}			
+		],
+		"aoColumnDefs": [
+			{ "bSearchable": false, "bVisible": false, "aTargets": [0]}
+		],
+		"aaSorting": [[0, "desc"]]
+	});	
+}
+
 function hashcheck(onload) {
 	var transitionSpeed = (typeof onload !== 'boolean') ? 'slow' : 0;
 
@@ -87,13 +109,15 @@ $(document).ready(function () {
 		}
 	);
 
-	$.getJSON('status', function(json) {
+	$.getJSON('account', function(json) {
 		if (json.user == '') {
 			window.location.replace("/Enrichr");
 		}
 		else {
 			$('a#account-name').text(json.user)
 			$('div#login-status').fadeIn('slow');
+			$('img.loader').remove();
+			createTable(json.lists, '#list_table');
 		}
 	});
 

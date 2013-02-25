@@ -11,7 +11,9 @@
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'/>
 	<link rel="stylesheet" type="text/css" href="black-widow.css"/>
 	<link rel="stylesheet" type="text/css" href="black-widow-login.css"/>
+	<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"/>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" defer="defer"></script>
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js" defer="defer"></script>
 	<script type="text/javascript" src="jquery.mobile.touch.min.js" defer="defer"></script>
 	<script type="text/javascript" src="account.js" defer="defer"></script>
 </head>
@@ -32,7 +34,7 @@
 					<a href="#" onclick="getTab(''); return false;">Lists</a>
 				</td>
 				<td>
-					<a href="#" onclick="getTab('register'); return false;">Account Settings</a>
+					<a href="#" onclick="getTab('settings'); return false;">Account Settings</a>
 				</td>
 			</tr>
 		</table>
@@ -40,6 +42,9 @@
 	<div id="content" class="beveled">
 		<div class="selected">
 			<div class="title">My Lists</div>
+			<img src="images/loader.gif" class="loader"/>
+			<table id="list_table"></table>
+			<div class="clear"></div>
 		</div>
 		<div class="hidden">			
 			<div class="title">Account Settings</div>
