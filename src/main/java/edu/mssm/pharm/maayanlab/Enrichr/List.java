@@ -1,5 +1,7 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,14 +12,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "lists", catalog = "enrichr")
-public class List implements java.io.Serializable {
+public class List implements Serializable {
 
 	private static final long serialVersionUID = -1387864947273228907L;
 	
 	private int listid;
 	private User user;
 	private String description;
-	private String key;
+	private String passkey;
 
 	public List() {
 	}
@@ -30,11 +32,11 @@ public class List implements java.io.Serializable {
 		this(listid, user, description, null);
 	}
 	
-	public List(int listid, User user, String description, String key) {
+	public List(int listid, User user, String description, String passkey) {
 		this.listid = listid;
 		this.user = user;
 		this.description = description;
-		this.key = key;
+		this.passkey = passkey;
 	}
 
 	@Id
@@ -66,13 +68,13 @@ public class List implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@Column(name = "key", length = 16)
-	public String getKey() {
-		return this.key;
+	@Column(name = "passkey", length = 16)
+	public String getPasskey() {
+		return this.passkey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setPasskey(String passkey) {
+		this.passkey = passkey;
 	}
 
 }
