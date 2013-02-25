@@ -235,7 +235,7 @@ function svgExport(container, filename, outputType) {
 }
 
 function tsvExport(filename, backgroundType) {
-	download('enrich', {filename: filename, backgroundType: backgroundType}, 'get');
+	download('export', {filename: filename, backgroundType: backgroundType}, 'get');
 }
 
 function batchExport(modules, colors, visualizations, fileType) {
@@ -420,25 +420,31 @@ function getResult(id) {
 /**
  * Share results and display a popup with the link.
  */
+function saveResult() {
+	var dataUrl = queryString('q');
+	dataUrl = (dataUrl) ? dataUrl : 'share';
+	$.getJSON(dataUrl, function(json) {
+		if (json.expired) {
+			$('#session-warning').slideDown('fast', function() {
+				toggleClose();				
+			});
+			return false;
+		}
+		else {
+			var url = window.location.protocol + '//' + window.location.host + '/Enrichr/enrich?dataset=' + json.link_id;
+			$('#share-link input').val(url);
+			return true;
+		}
+	});
+}
+
+
 function shareResult() {
 	if ($('#share-link input').val()) {
 		sharePopup();
 	}
-	else {
-		var dataUrl = queryString('q');
-		dataUrl = (dataUrl) ? dataUrl : 'enrich';
-		$.getJSON(dataUrl, { share: true }, function(json) {
-			if (json.expired) {
-				$('#session-warning').slideDown('fast', function() {
-					toggleClose();
-				});
-			}
-			else {
-				var url = window.location.protocol + '//' + window.location.host + '/Enrichr/enrich?dataset=' + json.link_id;
-				$('#share-link input').val(url);
-				sharePopup();
-			}
-		});
+	else if (saveResult) {
+		sharePopup();
 	}
 }
 
