@@ -27,7 +27,7 @@ import edu.mssm.pharm.maayanlab.FileUtils;
 import edu.mssm.pharm.maayanlab.JSONify;
 import edu.mssm.pharm.maayanlab.PartReader;
 
-@WebServlet(urlPatterns= {"/enrich"})
+@WebServlet(urlPatterns= {"/enrich", "/share", "/export"})
 @MultipartConfig
 public class Enrichr extends HttpServlet {
 
@@ -102,11 +102,13 @@ public class Enrichr extends HttpServlet {
 		}
 		
 		Enrichment app = (Enrichment) session.getAttribute("process");
-		
-		if (app == null) {
+		if (app == null) {	// If session is expired
 			getExpired(request, response);
+			return;
 		}
-		else {
+		
+		if (request.getServletPath().equals("/enrich")) {	// Support legacy paths
+			// TODO: remove legacy
 			if (request.getParameter("share") == null) {	// If not sharing result
 				if (request.getParameter("filename") == null)	// If not exporting file
 					getJSONResult(request, response, app);
@@ -116,6 +118,18 @@ public class Enrichr extends HttpServlet {
 			else {				
 				getShared(request, response, app);
 			}
+			// End of legacy
+		}
+		else {
+			if (request.getServletPath().equals("/share")) {
+				getShared(request, response, app);
+				return;
+			}
+			
+			if (request.getServletPath().equals("/export")) {
+				getFileResult(request, response, app);
+				return;
+			}			
 		}
 	}
 	
@@ -138,10 +152,17 @@ public class Enrichr extends HttpServlet {
 		int listNumber = ((AtomicInteger) getServletContext().getAttribute("ShareCount")).getAndIncrement();		
 		String fileId = Shortener.encode(listNumber);
 		
-		if (session.getAttribute("description") != null)
-			FileUtils.writeFile("/datasets/" + fileId + ".txt", "#" + (String) session.getAttribute("description"), app.getInput());
+		String description = (String) session.getAttribute("description");
+		
+		if (description != null)
+			FileUtils.writeFile("/datasets/" + fileId + ".txt", "#" + description, app.getInput());
 		else
 			FileUtils.writeFile("/datasets/" + fileId + ".txt", app.getInput());
+		
+		User user = (User) session.getAttribute("user");
+		if (user != null) {
+			Account.addList(new List(listNumber, user, description));
+		}
 		
 		json.add("link_id", fileId);
 		json.write(response.getWriter());
@@ -155,7 +176,7 @@ public class Enrichr extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		
-		json.add(backgroundType, flattenResults(results));		
+		json.add(backgroundType, flattenResults(results));
 		json.write(response.getWriter());
 	}
 	
