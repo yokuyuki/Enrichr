@@ -420,7 +420,7 @@ function getResult(id) {
 /**
  * Share results and display a popup with the link.
  */
-function saveResult() {
+function saveResult(popup) {
 	var dataUrl = queryString('q');
 	dataUrl = (dataUrl) ? dataUrl : 'share';
 	$.getJSON(dataUrl, function(json) {
@@ -428,23 +428,23 @@ function saveResult() {
 			$('#session-warning').slideDown('fast', function() {
 				toggleClose();				
 			});
-			return false;
 		}
 		else {
 			var url = window.location.protocol + '//' + window.location.host + '/Enrichr/enrich?dataset=' + json.link_id;
 			$('#share-link input').val(url);
-			return true;
+			if (popup) {
+				sharePopup();
+			}
 		}
 	});
 }
-
 
 function shareResult() {
 	if ($('#share-link input').val()) {
 		sharePopup();
 	}
-	else if (saveResult) {
-		sharePopup();
+	else {
+		saveResult(true);
 	}
 }
 
