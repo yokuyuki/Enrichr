@@ -1,6 +1,7 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "lists", catalog = "enrichr")
@@ -20,6 +23,7 @@ public class List implements Serializable {
 	private User user;
 	private String description;
 	private String passkey;
+	private Date created;
 
 	public List() {
 	}
@@ -77,4 +81,14 @@ public class List implements Serializable {
 		this.passkey = passkey;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created", nullable = false, length = 19)
+	public Date getCreated() {
+		return this.created;
+	}
+
+	// Shouldn't be used because it uses default timestamp by db
+	public void setCreated(Date created) {
+		this.created = created;
+	}
 }
