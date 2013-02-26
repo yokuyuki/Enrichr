@@ -161,7 +161,8 @@ public class Enrichr extends HttpServlet {
 		
 		User user = (User) session.getAttribute("user");
 		if (user != null) {
-			Account.addList(new List(listNumber, user, description));
+			user.getLists().add(new List(listNumber, user, description));
+			Account.updateUser(user);
 		}
 		
 		json.add("link_id", fileId);

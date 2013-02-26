@@ -140,8 +140,8 @@ public class Account extends HttpServlet {
 		}
 	}
 	
-	// Static function to commit new lists to the db so Enrichr class doesn't make any db calls
-	static void addList(List list) {
+	// Static function to commit new lists to the user so the Enrichr class doesn't make any db calls
+	static void updateUser(User user) {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = null;
 		try {
@@ -150,7 +150,7 @@ public class Account extends HttpServlet {
 			session = sf.openSession();
 		}
 		session.beginTransaction();
-		session.save(list);
+		session.update(user);
 		session.getTransaction().commit();
 		session.close();
 	}

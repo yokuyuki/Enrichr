@@ -54,7 +54,7 @@ public class List implements Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ownerid")
+	@JoinColumn(name = "ownerid", insertable=false, updatable=false)
 	public User getUser() {
 		return this.user;
 	}
