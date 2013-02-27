@@ -55,17 +55,17 @@ public class Counter extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/plain");                                
-		response.getWriter().print(count);		
-	}   
+		response.setContentType("text/plain");
+		response.getWriter().print(count);
+	}
 	
 	@Override
-	public void destroy() {                                            
+	public void destroy() {
 		super.destroy();  // entirely optional
 
 		// Try to save the accumulated count
 		FileUtils.writeString("/datasets/count", count.toString());
 		FileUtils.writeString("/datasets/share", share.toString());
-	}                                                                  
+	}
 
 }
