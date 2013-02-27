@@ -24,13 +24,15 @@ function validateLogin() {
 		alert('You must specify an email address.');
 		return false;
 	}
-	
+
 	return true;
 }
 
 function validateRegister() {
 	if ($('form#register input[name=email]').val().trim() == '')
 		alert('You must specify an email address.');
+	else if (!$('form#register input[name=email]').val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+"))
+		alert('You must enter a valid email address.');
 	else if ($('form#register input[name=password]').val() != $('form#register input[name=confirm]').val())
 		alert('Passwords don\'t match.');
 	else
