@@ -1,7 +1,18 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Properties;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +30,9 @@ import com.google.gson.GsonBuilder;
 
 import edu.mssm.pharm.maayanlab.HibernateUtil;
 import edu.mssm.pharm.maayanlab.JSONify;
+import edu.mssm.pharm.maayanlab.math.HashFunctions;
 
-@WebServlet(urlPatterns = {"/account", "/login", "/register", "/status", "/logout"})
+@WebServlet(urlPatterns = {"/account", "/login", "/register", "/forgot", "/reset", "/status", "/logout"})
 public class Account extends HttpServlet {
 	
 	private static final long serialVersionUID = 19776535963654466L;
@@ -78,13 +90,23 @@ public class Account extends HttpServlet {
 		boolean success;
 		if (request.getServletPath().equals("/register"))
 			success = register(session, request, response);
+		else if (request.getServletPath().equals("/forgot"))
+			success = forgot(session, request, response);
+		else if (request.getServletPath().equals("/reset"))
+			success = reset(session, request, response);
 		else
 			success = login(session, request, response);
 		
 		session.getTransaction().commit();
 		session.close();
 		
-		if (success)
+		if (request.getServletPath().equals("/forgot") && success) {
+			response.setContentType("text/plain");
+			response.getWriter().print("success");
+		}
+		else if (request.getServletPath().equals("/reset") && success)
+			response.sendRedirect("login.html");
+		else if (success)
 			response.sendRedirect("account.html");
 		else
 			request.getRequestDispatcher("account-error.jsp").forward(request, response);
@@ -138,6 +160,77 @@ public class Account extends HttpServlet {
 				return false;
 			}
 		}
+	}
+	
+	private boolean forgot(Session session, HttpServletRequest request, HttpServletResponse response) {
+		String email = request.getParameter("email");
+		Criteria criteria = session.createCriteria(User.class)
+				.add(Restrictions.eq("email", email).ignoreCase());
+		User user = (User) criteria.uniqueResult();
+		
+		if (user == null) {
+			request.setAttribute("error", "The email you entered does not belong to a registered user.");
+			return false;
+		}
+		
+		// One day token for password reset
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String token = user.getEmail() + user.getSalt() + formatter.format(Calendar.getInstance().getTime());
+		token = HashFunctions.md5(token);
+		
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "mail.maayanlab.net");
+		props.put("mail.smtp.auth", "true");
+		javax.mail.Session mailSession = javax.mail.Session.getInstance(props, new Authenticator() {
+			@Override
+			public PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("amp@maayanlab.net", "1amp1");
+			}
+		});
+		
+		MimeMessage message = new MimeMessage(mailSession);
+		try {
+			message.setFrom(new InternetAddress("Enrichr@amp.pharm.mssm.edu"));
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+			message.setSubject("Enrichr Password Reset");
+			message.setSentDate(new Date());
+			message.setText("Reset your password at http://amp.pharm.mssm.edu/Enrichr/reset.html?user=" + email + "&token=" + token + ".\n\nIf you did not request this password request, please ignore this email.");
+			Transport.send(message);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		
+		return true;
+	}
+	
+	private boolean reset(Session session, HttpServletRequest request, HttpServletResponse response) {
+		String email = request.getParameter("email");
+		Criteria criteria = session.createCriteria(User.class)
+				.add(Restrictions.eq("email", email).ignoreCase());
+		User user = (User) criteria.uniqueResult();
+		
+		if (user == null) {
+			request.setAttribute("error", "The email you entered does not belong to a registered user.");
+			return false;
+		}
+		
+		// Generate today and yesterday's tokens
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		String today = user.getEmail() + user.getSalt() + formatter.format(calendar.getTime());
+		calendar.add(Calendar.DATE, -1);
+		String yesterday = user.getEmail() + user.getSalt() + formatter.format(calendar.getTime());
+		
+		String token = request.getParameter("token");		
+		if (!token.equalsIgnoreCase(HashFunctions.md5(today)) && !token.equalsIgnoreCase(HashFunctions.md5(yesterday))) {
+			request.setAttribute("error", "Your reset token has expired. Please visit the Forgot Your Password? page again to request a new one.");
+			return false;
+		}
+		
+		user.updatePassword(request.getParameter("password"));
+		session.update(user);
+		
+		return true;
 	}
 	
 	// Static function to commit new lists to the user so the Enrichr class doesn't make any db calls

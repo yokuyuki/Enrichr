@@ -6,8 +6,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.HashSet;
@@ -28,6 +26,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+import edu.mssm.pharm.maayanlab.math.HashFunctions;
 
 @Entity
 @Table(name = "users", catalog = "enrichr", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -58,8 +58,7 @@ public class User implements Serializable {
 
 	public User(String email, String password, String first, String last, String institute, Set<List> lists) {
 		this.setEmail(email);
-		this.setSalt(generateSalt());
-		this.setPassword(hash(this.salt + password));
+		updatePassword(password);
 		this.setFirst(first);
 		this.setLast(last);
 		this.setInstitute(institute);
@@ -113,23 +112,14 @@ public class User implements Serializable {
 	}
 	
 	public boolean checkPassword(String password) {
-		return this.password.equals(hash(this.salt + password)); 
+		return this.password.equals(HashFunctions.md5(this.salt + password)); 
 	}
 	
-	private String hash(String saltedPassword) {
-		String hash = null;
-		
-		try {
-			MessageDigest digest = MessageDigest.getInstance("MD5");
-			digest.update(saltedPassword.getBytes());
-			hash = new BigInteger(1, digest.digest()).toString(16);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		
-		return hash;
+	public void updatePassword(String password) {
+		this.setSalt(generateSalt());
+		this.setPassword(HashFunctions.md5(this.salt + password));
 	}
-
+	
 	@Column(name = "first", length = 50)
 	public String getFirst() {
 		return this.first;
