@@ -41,6 +41,32 @@ function validateRegister() {
 	return false;
 }
 
+function validateForgot() {
+	if ($('form#forgot input[name=email]').val().trim() == '')
+		alert('You must specify an email address.');
+	else if (!$('form#forgot input[name=email]').val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+"))
+		alert('You must enter a valid email address.');
+	else
+		return true;
+
+	return false;
+}
+
+function submitForgot() {
+	if (validateForgot()) {
+		$.ajax({
+			type: 'POST',
+			url: 'forgot',
+			data: { email: $('form#forgot input[name=email]').val() },
+			success: function() {
+				$('form#forgot #reset-feedback').fadeIn();
+			}
+		});
+	}
+
+	return false;
+}
+
 function hashcheck(onload) {
 	var transitionSpeed = (typeof onload !== 'boolean') ? 'slow' : 0;
 
@@ -126,10 +152,5 @@ $(document).ready(function () {
 		}
 	})
 
-	// // Bind query-gene button to javascript
-	// $('#find-gene').submit(function() {
-	// 	var gene = $('#query-gene').val()
-	// 	window.location.hash = '!gene=' + gene;
-	// 	return false;
-	// });
+	$('#forgot').submit(submitForgot);
 });

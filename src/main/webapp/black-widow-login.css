@@ -62,3 +62,10 @@ div.errormsg {
 	position: absolute;
 	color: #D90000;
 }
+
+div#reset-feedback {
+	color: #D90000;
+	font-weight: bold;
+	margin-top: 1.5em;
+	float: left;
+}
