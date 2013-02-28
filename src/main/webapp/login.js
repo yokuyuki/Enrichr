@@ -59,7 +59,7 @@ function submitForgot() {
 			url: 'forgot',
 			data: { email: $('form#forgot input[name=email]').val() },
 			success: function() {
-				$('form#forgot #reset-feedback').fadeIn();
+				$('form#forgot div.feedback').fadeIn();
 			}
 		});
 	}

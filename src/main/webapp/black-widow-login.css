@@ -63,7 +63,7 @@ div.errormsg {
 	color: #D90000;
 }
 
-div#reset-feedback {
+div.feedback {
 	color: #D90000;
 	font-weight: bold;
 	margin-top: 1.5em;
