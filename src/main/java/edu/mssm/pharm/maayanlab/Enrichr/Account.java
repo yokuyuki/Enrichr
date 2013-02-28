@@ -194,7 +194,7 @@ public class Account extends HttpServlet {
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
 			message.setSubject("Enrichr Password Reset");
 			message.setSentDate(new Date());
-			message.setText("Reset your password at http://amp.pharm.mssm.edu/Enrichr/reset.html?user=" + email + "&token=" + token + ".\n\nIf you did not request this password request, please ignore this email.");
+			message.setText("Reset your password at http://amp.pharm.mssm.edu/Enrichr/reset.html?user=" + email + "&token=" + token + ".\n\nIf you did not request this password reset, please ignore this email.");
 			Transport.send(message);
 		} catch (MessagingException e) {
 			e.printStackTrace();
