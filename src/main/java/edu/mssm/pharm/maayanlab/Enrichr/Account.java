@@ -82,47 +82,41 @@ public class Account extends HttpServlet {
 	
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// All form submissions are ajax and take json responses
+		response.setContentType("application/json");
+		JSONify json = new JSONify();
+		
 		// Create database session
 		SessionFactory sf = HibernateUtil.getSessionFactory();
-		Session session = sf.openSession();
-		session.beginTransaction();
+		Session dbSession = sf.openSession();
+		dbSession.beginTransaction();
 		
-		boolean success;
-		if (request.getServletPath().equals("/register"))
-			success = register(session, request, response);
+		if (request.getServletPath().equals("/login"))
+			login(request, response, dbSession, json);
+		else if (request.getServletPath().equals("/register"))
+			register(request, response, dbSession, json);
 		else if (request.getServletPath().equals("/forgot"))
-			success = forgot(session, request, response);
-		else if (request.getServletPath().equals("/reset"))
-			success = reset(session, request, response);
-		else
-			success = login(session, request, response);
+			forgot(request, response, dbSession, json);
+		else if (request.getServletPath().equals("/reset"))			
+			reset(request, response, dbSession, json);
+		else if (request.getServletPath().equals("/account"))
+			modify(request, response, dbSession, json);
 		
-		session.getTransaction().commit();
-		session.close();
-		
-		if (request.getServletPath().equals("/forgot") && success) {
-			response.setContentType("text/plain");
-			response.getWriter().print("success");
-		}
-		else if (request.getServletPath().equals("/reset") && success)
-			response.sendRedirect("login.html");
-		else if (success)
-			response.sendRedirect("account.html");
-		else
-			request.getRequestDispatcher("account-error.jsp").forward(request, response);
+		// Close database session and write out json
+		dbSession.getTransaction().commit();
+		dbSession.close();		
+		json.write(response.getWriter());
 	}
 	
-	private boolean register(Session session, HttpServletRequest request, HttpServletResponse response) {
-		String email = request.getParameter("email");
-		
+	private void register(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
 		// Check for existing email
-		Criteria criteria = session.createCriteria(User.class)
+		String email = request.getParameter("email");
+		Criteria criteria = dbSession.createCriteria(User.class)
 				.add(Restrictions.eq("email", email).ignoreCase());
 		User user = (User) criteria.uniqueResult();
 		
 		if (user != null) {	// If exists, throw error
-			request.setAttribute("error", "The email you entered is already registered.");
-			return false;
+			json.add("message", "The email you entered is already registered.");
 		}
 		else {	// Else, create user
 			User newUser = new User(email, 
@@ -130,107 +124,123 @@ public class Account extends HttpServlet {
 									request.getParameter("firstname"), 
 									request.getParameter("lastname"), 
 									request.getParameter("institution"));
-			session.save(newUser);				
+			dbSession.save(newUser);
 			request.getSession().setAttribute("user", newUser);
-			return true;
+			json.add("redirect", "index.html");
 		}
 	}
 	
-	private boolean login(Session session, HttpServletRequest request, HttpServletResponse response) {
+	private void login(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		Criteria criteria = session.createCriteria(User.class)
+		Criteria criteria = dbSession.createCriteria(User.class)
 				.add(Restrictions.eq("email", email).ignoreCase());
 		User user = (User) criteria.uniqueResult();
 		
 		if (user == null) {
-			request.setAttribute("error", "The email you entered does not belong to a registered user.");
-			return false;
+			json.add("message", "The email you entered does not belong to a registered user.");
+		}
+		else if (user.checkPassword(password)) {
+			user.updateAccessed();
+			dbSession.update(user);
+			request.getSession().setAttribute("user", user);
+			json.add("redirect", "account.html");
 		}
 		else {
-			if (user.checkPassword(password)) {
-				user.updateAccessed();
-				session.update(user);
-				request.getSession().setAttribute("user", user);
-				return true;
+			json.add("message", "The password you entered is incorrect.");
+		}
+	}
+	
+	private void forgot(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
+		String email = request.getParameter("email");
+		Criteria criteria = dbSession.createCriteria(User.class)
+				.add(Restrictions.eq("email", email).ignoreCase());
+		User user = (User) criteria.uniqueResult();
+		
+		if (user == null) {
+			json.add("message", "The email you entered does not belong to a registered user.");
+		}
+		else {
+			// One day token for password reset
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			String token = user.getEmail() + user.getSalt() + formatter.format(Calendar.getInstance().getTime());
+			token = HashFunctions.md5(token);
+			
+			Properties props = new Properties();
+			props.put("mail.smtp.host", "mail.maayanlab.net");
+			props.put("mail.smtp.auth", "true");
+			javax.mail.Session mailSession = javax.mail.Session.getInstance(props, new Authenticator() {
+				@Override
+				public PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication("amp@maayanlab.net", "1amp1");
+				}
+			});
+			
+			MimeMessage message = new MimeMessage(mailSession);
+			try {
+				message.setFrom(new InternetAddress("Enrichr@amp.pharm.mssm.edu"));
+				message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+				message.setSubject("Enrichr Password Reset");
+				message.setSentDate(new Date());
+				message.setText("Reset your password at http://amp.pharm.mssm.edu/Enrichr/reset.html?user=" + email + "&token=" + token + ".\n\nIf you did not request this password reset, please ignore this email.");
+				Transport.send(message);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+			
+			json.add("message", "Password reset request sent! Check your email for a reset link.");
+		}
+	}
+	
+	private void reset(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
+		String email = request.getParameter("email");
+		Criteria criteria = dbSession.createCriteria(User.class)
+				.add(Restrictions.eq("email", email).ignoreCase());
+		User user = (User) criteria.uniqueResult();
+		
+		if (user == null) {
+			json.add("message", "The email you entered does not belong to a registered user.");			
+		}
+		else {
+			// Generate today and yesterday's tokens
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar calendar = Calendar.getInstance();
+			String today = user.getEmail() + user.getSalt() + formatter.format(calendar.getTime());
+			calendar.add(Calendar.DATE, -1);
+			String yesterday = user.getEmail() + user.getSalt() + formatter.format(calendar.getTime());
+			
+			String token = request.getParameter("token");		
+			if (!token.equalsIgnoreCase(HashFunctions.md5(today)) && !token.equalsIgnoreCase(HashFunctions.md5(yesterday))) {
+				json.add("message", "Your reset token has expired. Please request a new one.");
 			}
 			else {
-				request.setAttribute("error", "The password you entered is incorrect.");
-				return false;
+				user.updatePassword(request.getParameter("password"));
+				dbSession.update(user);
+				json.add("redirect", "login.html");
 			}
 		}
 	}
 	
-	private boolean forgot(Session session, HttpServletRequest request, HttpServletResponse response) {
-		String email = request.getParameter("email");
-		Criteria criteria = session.createCriteria(User.class)
-				.add(Restrictions.eq("email", email).ignoreCase());
-		User user = (User) criteria.uniqueResult();
+	private void modify(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {		
+		User user = (User) request.getSession().getAttribute("user");
+		String password = request.getParameter("password");
 		
 		if (user == null) {
-			request.setAttribute("error", "The email you entered does not belong to a registered user.");
-			return false;
+			json.add("redirect", "login.html");
 		}
-		
-		// One day token for password reset
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String token = user.getEmail() + user.getSalt() + formatter.format(Calendar.getInstance().getTime());
-		token = HashFunctions.md5(token);
-		
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "mail.maayanlab.net");
-		props.put("mail.smtp.auth", "true");
-		javax.mail.Session mailSession = javax.mail.Session.getInstance(props, new Authenticator() {
-			@Override
-			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("amp@maayanlab.net", "1amp1");
-			}
-		});
-		
-		MimeMessage message = new MimeMessage(mailSession);
-		try {
-			message.setFrom(new InternetAddress("Enrichr@amp.pharm.mssm.edu"));
-			message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-			message.setSubject("Enrichr Password Reset");
-			message.setSentDate(new Date());
-			message.setText("Reset your password at http://amp.pharm.mssm.edu/Enrichr/reset.html?user=" + email + "&token=" + token + ".\n\nIf you did not request this password reset, please ignore this email.");
-			Transport.send(message);
-		} catch (MessagingException e) {
-			e.printStackTrace();
+		else if (user.checkPassword(password)) {
+			user.updateUser(request.getParameter("email"), 
+							request.getParameter("new-password"), 
+							request.getParameter("first"), 
+							request.getParameter("last"),
+							request.getParameter("institute"));
+			dbSession.update(user);
+			json.add("message", "Changes saved.");
 		}
-		
-		return true;
-	}
-	
-	private boolean reset(Session session, HttpServletRequest request, HttpServletResponse response) {
-		String email = request.getParameter("email");
-		Criteria criteria = session.createCriteria(User.class)
-				.add(Restrictions.eq("email", email).ignoreCase());
-		User user = (User) criteria.uniqueResult();
-		
-		if (user == null) {
-			request.setAttribute("error", "The email you entered does not belong to a registered user.");
-			return false;
+		else {
+			json.add("message", "The password you entered is incorrect.");
 		}
-		
-		// Generate today and yesterday's tokens
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar calendar = Calendar.getInstance();
-		String today = user.getEmail() + user.getSalt() + formatter.format(calendar.getTime());
-		calendar.add(Calendar.DATE, -1);
-		String yesterday = user.getEmail() + user.getSalt() + formatter.format(calendar.getTime());
-		
-		String token = request.getParameter("token");		
-		if (!token.equalsIgnoreCase(HashFunctions.md5(today)) && !token.equalsIgnoreCase(HashFunctions.md5(yesterday))) {
-			request.setAttribute("error", "Your reset token has expired. Please visit the Forgot Your Password? page again to request a new one.");
-			return false;
-		}
-		
-		user.updatePassword(request.getParameter("password"));
-		session.update(user);
-		
-		return true;
 	}
 	
 	// Static function to commit new lists to the user so the Enrichr class doesn't make any db calls

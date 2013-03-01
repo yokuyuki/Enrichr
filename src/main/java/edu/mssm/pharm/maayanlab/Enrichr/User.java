@@ -57,12 +57,21 @@ public class User implements Serializable {
 	}
 
 	public User(String email, String password, String first, String last, String institute, Set<List> lists) {
-		this.setEmail(email);
-		updatePassword(password);
-		this.setFirst(first);
-		this.setLast(last);
-		this.setInstitute(institute);
+		updateUser(email, password, first, last, institute);
 		this.lists = lists;
+	}
+	
+	public void updateUser(String email, String password, String first, String last, String institute) {
+		if (email != null && !email.trim().isEmpty())
+			this.email = email;
+		if (password != null && !password.trim().isEmpty())
+			updatePassword(password);
+		if (first != null && !first.trim().isEmpty())
+			this.first = first;
+		if (last != null && !last.trim().isEmpty())
+			this.last = last;
+		if (institute != null && !institute.trim().isEmpty())
+			this.institute = institute;
 	}
 	
 	@Id
@@ -126,8 +135,7 @@ public class User implements Serializable {
 	}
 
 	public void setFirst(String first) {		
-		if (first !=null && !first.isEmpty())
-			this.first = first;
+		this.first = first;
 	}
 
 	@Column(name = "last", length = 200)
@@ -136,8 +144,7 @@ public class User implements Serializable {
 	}
 
 	public void setLast(String last) {
-		if (last != null && !last.isEmpty())
-			this.last = last;
+		this.last = last;
 	}
 
 	@Column(name = "institute", length = 200)
@@ -146,8 +153,7 @@ public class User implements Serializable {
 	}
 
 	public void setInstitute(String institute) {
-		if (institute != null && !institute.isEmpty())
-			this.institute = institute;
+		this.institute = institute;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
