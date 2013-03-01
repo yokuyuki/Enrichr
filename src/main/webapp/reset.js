@@ -12,6 +12,31 @@ function validateReset() {
 	return false;
 }
 
+function submitReset() {
+	if (validateReset()) {
+		$.ajax({
+			type: 'POST',
+			url: 'reset',
+			dataType: 'json',
+			data: { 
+				email: $('form#reset input[name=email]').val(),
+				token: $('form#reset input[name=token]').val(),
+				password: $('form#reset input[name=token]').val()
+			},
+			success: function(json) {
+				if (json.message) {
+					$('form#reset div.feedback').text(json.message).fadeIn();
+				}
+				else if (json.redirect) {
+					window.location.replace(json.redirect);
+				}
+			}
+		});
+	}
+
+	return false;
+}
+
 function queryString(search_for) {
 	var query = window.location.search.substring(1);
 	var parms = query.split('&');
@@ -69,4 +94,6 @@ $(document).ready(function () {
 	if (auth) {
 		$('form#reset input[name=token]').val(auth).next('span.placeholder-text').hide();
 	}
+
+	$('#reset').submit(submitReset);
 });

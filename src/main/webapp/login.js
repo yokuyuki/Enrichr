@@ -28,6 +28,30 @@ function validateLogin() {
 	return true;
 }
 
+function submitLogin() {
+	if (validateLogin()) {
+		$.ajax({
+			type: 'POST',
+			url: 'login',
+			dataType: 'json',
+			data: { 
+				email: $('form#login input[name=email]').val(),
+				password: $('form#login input[name=password]').val()
+			},
+			success: function(json) {
+				if (json.message) {
+					$('form#login div.feedback').text(json.message).fadeIn();
+				}
+				else if (json.redirect) {
+					window.location.replace(json.redirect);
+				}
+			}
+		});
+	}
+
+	return false;
+}
+
 function validateRegister() {
 	if ($('form#register input[name=email]').val().trim() == '')
 		alert('You must specify an email address.');
@@ -37,6 +61,33 @@ function validateRegister() {
 		alert('Passwords don\'t match.');
 	else
 		return true;
+
+	return false;
+}
+
+function submitRegister() {
+	if (validateRegister()) {
+		$.ajax({
+			type: 'POST',
+			url: 'register',
+			dataType: 'json',
+			data: { 
+				email: $('form#register input[name=email]').val(),
+				password: $('form#register input[name=password]').val(),
+				firstname: $('form#register input[name=firstname]').val(),
+				lastname: $('form#register input[name=lastname]').val(),
+				institution: $('form#register input[name=institution]').val()
+			},
+			success: function(json) {
+				if (json.message) {
+					$('form#register div.feedback').text(json.message).fadeIn();
+				}
+				else if (json.redirect) {
+					window.location.replace(json.redirect);
+				}
+			}
+		});
+	}
 
 	return false;
 }
@@ -57,9 +108,12 @@ function submitForgot() {
 		$.ajax({
 			type: 'POST',
 			url: 'forgot',
+			dataType: 'json',
 			data: { email: $('form#forgot input[name=email]').val() },
-			success: function() {
-				$('form#forgot div.feedback').fadeIn();
+			success: function(json) {
+				if (json.message) {
+					$('form#forgot div.feedback').text(json.message).fadeIn();
+				}
 			}
 		});
 	}
@@ -152,5 +206,7 @@ $(document).ready(function () {
 		}
 	})
 
+	$('#login').submit(submitLogin);
+	$('#register').submit(submitRegister);
 	$('#forgot').submit(submitForgot);
 });

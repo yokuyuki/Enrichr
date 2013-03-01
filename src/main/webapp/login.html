@@ -38,7 +38,7 @@
 	<div id="content" class="beveled">
 		<div class="selected">
 			<div class="title">Login</div>
-			<form id="login" action="login" method="post" onsubmit="return validateLogin();">
+			<form id="login">
 				<fieldset>
 					<legend>
 						<strong>Email</strong>
@@ -58,6 +58,7 @@
 					</label>
 				</fieldset>
 				<div class="clear"></div>
+				<div class="hidden feedback"></div>
 				<div class="next-step">
 					<input type="image" src="images/navigate-up-icon.png" width="64" height="64" title="Register"/>
 				</div>
@@ -66,7 +67,7 @@
 		</div>
 		<div class="hidden">			
 			<div class="title">Register</div>
-			<form id="register" action="register" method="post" onsubmit="return validateRegister();">
+			<form id="register">
 				<fieldset>
 					<legend>
 						<strong>Email</strong>
@@ -117,6 +118,7 @@
 					</label>
 				</fieldset>
 				<div class="clear"></div>
+				<div class="hidden feedback"></div>
 				<div class="next-step">
 					<input type="image" src="images/navigate-up-icon.png" width="64" height="64" title="Register"/>
 				</div>
@@ -125,7 +127,7 @@
 		</div>
 		<div class="hidden">
 			<div class="title">Password Reset</div>
-			<form id="forgot" action="" method="post">
+			<form id="forgot">
 				<fieldset>
 					<legend>
 						<strong>Email</strong>
@@ -137,7 +139,7 @@
 					</label>
 				</fieldset>
 				<div class="clear"></div>
-				<div class="hidden feedback">Password reset request sent! Check your email for a reset link.</div>
+				<div class="hidden feedback"></div>
 				<div class="next-step">
 					<input type="image" src="images/navigate-up-icon.png" width="64" height="64" title="Reset"/>
 				</div>
