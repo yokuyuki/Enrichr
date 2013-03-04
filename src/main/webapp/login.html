@@ -31,7 +31,7 @@
 				</td>
 				<td>
 					<a href="#" onclick="getTab('forgot'); return false;">Forgot Your Password?</a>
-				</td>				
+				</td>
 			</tr>
 		</table>
 	</div>
@@ -73,7 +73,7 @@
 						<strong>Email</strong>
 					</legend>
 					<label id="email">
-						<input class="required has-placeholder" type="text" name="email" />
+						<input class="required has-placeholder" type="text" name="email" tabindex="1" />
 						<span class="placeholder-text">name@domain.com</span>
 						<div class="errormsg">You can't leave this empty.</div>
 					</label>
@@ -83,7 +83,7 @@
 						<strong>Create a password</strong>
 					</legend>
 					<label id="password">
-						<input type="password" name="password" />
+						<input type="password" name="password" tabindex="5" />
 					</label>
 				</fieldset>
 				<fieldset>
@@ -91,11 +91,11 @@
 						<strong>Name</strong>
 					</legend>
 					<label id="firstname" class="doublefield">
-						<input class="has-placeholder" type="text" name="firstname" />
+						<input class="has-placeholder" type="text" name="firstname" tabindex="2" />
 						<span class="placeholder-text">First</span>
 					</label>
 					<label id="lastname" class="doublefield">
-						<input class="has-placeholder" type="text" name="lastname" />
+						<input class="has-placeholder" type="text" name="lastname" tabindex="3" />
 						<span class="placeholder-text">Last</span>
 					</label>
 				</fieldset>
@@ -104,16 +104,16 @@
 						<strong>Confirm your password</strong>
 					</legend>
 					<label id="confirm">
-						<input type="password" name="confirm" />
+						<input type="password" name="confirm" tabindex="6" />
 						<div class="errormsg">These passwords don't match.</div>
 					</label>
-				</fieldset>				
+				</fieldset>
 				<fieldset>
 					<legend>
 						<strong>Institution</strong>
 					</legend>
 					<label id="institution">
-						<input class="has-placeholder" type="text" name="institution" />
+						<input class="has-placeholder" type="text" name="institution" tabindex="4" />
 						<span class="placeholder-text">University, company, etc.</span>
 					</label>
 				</fieldset>
