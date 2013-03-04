@@ -15,6 +15,7 @@ public class ListAdapter implements JsonSerializer<List> {
 		jsonObject.addProperty("list_id", Shortener.encode(list.getListid()));
 		jsonObject.addProperty("description", list.getDescription());
 		jsonObject.addProperty("passkey", list.getPasskey());
+		jsonObject.add("created", jsc.serialize(list.getCreated()));
 		return jsonObject;
 	}
 

@@ -40,20 +40,25 @@ function createTable(dataArray, container) {
 	$(container).dataTable({
 		"aaData": dataArray,
 		"aoColumns": [
-			{	"mData": "list_id"	},
 			{
 				"mData": "description",
 				"sTitle": "Description",
 				"sClass": "left",
+				"sWidth": "75%",
 				"mRender": function(data, type, full) {
 					return '<a href="' + 'enrich?dataset=' + full["list_id"] + '">' + data + '</a>';
 				}
-			}			
+			},
+			{
+				"mData": "created",
+				"sTitle": "Created On",
+				"sClass": "left"
+			}
 		],
 		"aoColumnDefs": [
-			{ "bSearchable": false, "bVisible": false, "aTargets": [0]}
+			{ "bSearchable": false, "aTargets": [1]}
 		],
-		"aaSorting": [[0, "desc"]]
+		"aaSorting": [[1, "desc"]]
 	});	
 }
 

@@ -23,7 +23,7 @@ public class ContextFinalizer implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		HibernateUtil.getSessionFactory(); // Just call the static initializer of that class
 		
-		JSONify.setConverter(new GsonBuilder().registerTypeAdapter(List.class, new ListAdapter()).create());
+		JSONify.setConverter(new GsonBuilder().registerTypeAdapter(List.class, new ListAdapter()).setDateFormat("yyyy/MM/dd HH:mm:ss").create());
 	}       
 
 	@SuppressWarnings("deprecation")
