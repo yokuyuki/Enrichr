@@ -16,6 +16,6 @@ public class HibernateListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {         
-		HibernateUtil.getSessionFactory().close(); // Free all resources     
+		HibernateUtil.getSessionFactory().close(); // Free all resources
 	}
 }
