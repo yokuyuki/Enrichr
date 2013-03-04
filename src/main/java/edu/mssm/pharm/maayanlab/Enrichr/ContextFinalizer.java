@@ -9,7 +9,10 @@ import javax.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.GsonBuilder;
+
 import edu.mssm.pharm.maayanlab.HibernateUtil;
+import edu.mssm.pharm.maayanlab.JSONify;
 
 @WebListener
 public class ContextFinalizer implements ServletContextListener {
@@ -17,13 +20,17 @@ public class ContextFinalizer implements ServletContextListener {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContextFinalizer.class);
 	
 	@Override
-	public void contextInitialized(ServletContextEvent event) {         
-		HibernateUtil.getSessionFactory(); // Just call the static initializer of that class        
+	public void contextInitialized(ServletContextEvent event) {
+		HibernateUtil.getSessionFactory(); // Just call the static initializer of that class
+		
+		JSONify.setConverter(new GsonBuilder().registerTypeAdapter(List.class, new ListAdapter()).create());
 	}       
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {         
 		HibernateUtil.getSessionFactory().close(); // Free all resources
+		JSONify.destroyConverter();
 		
 		Set<Thread> threadSet = Thread.getAllStackTraces().keySet();        
 		for (Thread t : threadSet) {

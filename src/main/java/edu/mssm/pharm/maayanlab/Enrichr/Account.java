@@ -26,8 +26,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
-import com.google.gson.GsonBuilder;
-
 import edu.mssm.pharm.maayanlab.HibernateUtil;
 import edu.mssm.pharm.maayanlab.JSONify;
 import edu.mssm.pharm.maayanlab.math.HashFunctions;
@@ -40,7 +38,7 @@ public class Account extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
-		JSONify json = new JSONify(new GsonBuilder().registerTypeAdapter(List.class, new ListAdapter()).create());
+		JSONify json = new JSONify();
 		
 		HttpSession httpSession = request.getSession();
 		
