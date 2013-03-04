@@ -21,7 +21,7 @@ function submitReset() {
 			data: { 
 				email: $('form#reset input[name=email]').val(),
 				token: $('form#reset input[name=token]').val(),
-				password: $('form#reset input[name=token]').val()
+				password: $('form#reset input[name=password]').val()
 			},
 			success: function(json) {
 				if (json.message) {
