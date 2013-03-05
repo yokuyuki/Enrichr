@@ -1,11 +1,27 @@
 /* Form data handling */
 function validateReset() {
-	if ($('form#reset input[name=email]').val().trim() == '')
+	var email = $('form#reset input[name=email]');
+	var password = $('form#reset input[name=password]');
+	var confirm = $('form#reset input[name=confirm]');
+	var token = $('form#reset input[name=token]');
+
+	if (email.val().trim() == '') {
 		alert('You must specify an email address.');
-	else if (!$('form#reset input[name=email]').val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+"))
+		email.addClass('error');
+	}
+	else if (!email.val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+")) {
 		alert('You must enter a valid email address.');
-	else if ($('form#reset input[name=password]').val() != $('form#reset input[name=confirm]').val())
+		email.addClass('error');
+	}
+	else if (token.val().trim() == '') {
+		alert('You must enter a valid token.');
+		token.addClass('error');
+	}
+	else if (password.val() != confirm.val()) {
 		alert('Passwords don\'t match.');
+		password.addClass('error');
+		confirm.addClass('error');
+	}
 	else
 		return true;
 

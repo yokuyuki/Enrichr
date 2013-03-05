@@ -20,12 +20,17 @@ function getTab(name) {
 
 /* Form data handling */
 function validateLogin() {
-	if ($('form#login input[name=email]').val().trim() == '') {
-		alert('You must specify an email address.');
-		return false;
-	}
+	var email = $('form#login input[name=email]');
 
-	return true;
+	if (email.val().trim() == '')
+		alert('You must specify an email address.');
+	else if (!email.val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+"))
+		alert('You must enter a valid email address.');
+	else
+		return true;
+
+	email.addClass('error');
+	return false;
 }
 
 function submitLogin() {
@@ -53,12 +58,23 @@ function submitLogin() {
 }
 
 function validateRegister() {
-	if ($('form#register input[name=email]').val().trim() == '')
+	var email = $('form#register input[name=email]');
+	var password = $('form#register input[name=password]');
+	var confirm = $('form#register input[name=confirm]');
+
+	if (email.val().trim() == '') {
 		alert('You must specify an email address.');
-	else if (!$('form#register input[name=email]').val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+"))
+		email.addClass('error');
+	}
+	else if (!email.val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+")) {
 		alert('You must enter a valid email address.');
-	else if ($('form#register input[name=password]').val() != $('form#register input[name=confirm]').val())
+		email.addClass('error');
+	}
+	else if (password.val() != confirm.val()) {
 		alert('Passwords don\'t match.');
+		password.addClass('error');
+		confirm.addClass('error');
+	}
 	else
 		return true;
 
@@ -93,13 +109,16 @@ function submitRegister() {
 }
 
 function validateForgot() {
-	if ($('form#forgot input[name=email]').val().trim() == '')
+	var email = $('form#forgot input[name=email]');
+
+	if (email.val().trim() == '')
 		alert('You must specify an email address.');
-	else if (!$('form#forgot input[name=email]').val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+"))
+	else if (!email.val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+"))
 		alert('You must enter a valid email address.');
 	else
 		return true;
 
+	email.addClass('error');
 	return false;
 }
 
