@@ -26,10 +26,14 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import edu.mssm.pharm.maayanlab.math.HashFunctions;
 
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name = "users", catalog = "enrichr", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User implements Serializable {
 
