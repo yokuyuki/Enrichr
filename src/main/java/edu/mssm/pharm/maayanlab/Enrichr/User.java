@@ -65,17 +65,31 @@ public class User implements Serializable {
 		this.lists = lists;
 	}
 	
-	public void updateUser(String email, String password, String first, String last, String institute) {
-		if (email != null && !email.trim().isEmpty())
+	public boolean updateUser(String email, String password, String first, String last, String institute) {
+		boolean changed = false;
+		
+		if (!email.equals(this.email) && !email.trim().isEmpty()) {
 			this.email = email;
-		if (password != null && !password.trim().isEmpty())
+			changed |= true;
+		}
+		if (!password.trim().isEmpty()) {
 			updatePassword(password);
-		if (first != null && !first.trim().isEmpty())
+			changed |= true;
+		}
+		if (!first.equals(this.first) && !first.trim().isEmpty()) {
 			this.first = first;
-		if (last != null && !last.trim().isEmpty())
+			changed |= true;
+		}
+		if (!last.equals(this.last) && !last.trim().isEmpty()) {
 			this.last = last;
-		if (institute != null && !institute.trim().isEmpty())
+			changed |= true;
+		}
+		if (!institute.equals(this.institute) && !institute.trim().isEmpty()) {
 			this.institute = institute;
+			changed |= true;
+		}
+		
+		return changed;
 	}
 	
 	@Id

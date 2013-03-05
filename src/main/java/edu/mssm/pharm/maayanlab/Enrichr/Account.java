@@ -231,13 +231,16 @@ public class Account extends HttpServlet {
 			json.add("redirect", "login.html");
 		}
 		else if (user.checkPassword(password)) {
-			user.updateUser(request.getParameter("email"), 
+			boolean changed = user.updateUser(request.getParameter("email"), 
 							request.getParameter("newpassword"), 
 							request.getParameter("firstname"), 
 							request.getParameter("lastname"),
 							request.getParameter("institution"));
 			dbSession.update(user);
-			json.add("message", "Changes saved.");
+			if (changed)
+				json.add("message", "Changes saved.");
+			else
+				json.add("message", "No changes found.");
 		}
 		else {
 			json.add("message", "The password you entered is incorrect.");
