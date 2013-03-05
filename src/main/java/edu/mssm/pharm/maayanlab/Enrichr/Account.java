@@ -236,11 +236,13 @@ public class Account extends HttpServlet {
 							request.getParameter("firstname"), 
 							request.getParameter("lastname"),
 							request.getParameter("institution"));
-			dbSession.update(user);
-			if (changed)
+			if (changed) {
+				dbSession.update(user);
 				json.add("message", "Changes saved.");
-			else
+			}
+			else {
 				json.add("message", "No changes found.");
+			}
 		}
 		else {
 			json.add("message", "The password you entered is incorrect.");
