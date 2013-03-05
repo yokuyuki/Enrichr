@@ -17,6 +17,10 @@ function validateReset() {
 		alert('You must enter a valid token.');
 		token.addClass('error');
 	}
+	else if (password.val() == '') {
+		alert('You must enter a password.');
+		password.addClass('error');
+	}
 	else if (password.val() != confirm.val()) {
 		alert('Passwords don\'t match.');
 		password.addClass('error');

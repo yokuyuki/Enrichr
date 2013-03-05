@@ -21,15 +21,23 @@ function getTab(name) {
 /* Form data handling */
 function validateLogin() {
 	var email = $('form#login input[name=email]');
+	var password = $('form#login input[name=password]');
 
-	if (email.val().trim() == '')
+	if (email.val().trim() == '') {
 		alert('You must specify an email address.');
-	else if (!email.val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+"))
+		email.addClass('error');
+	}
+	else if (!email.val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+")) {
 		alert('You must enter a valid email address.');
+		email.addClass('error');
+	}
+	else if (password.val() == '') {
+		alert('You must enter a password.');
+		password.addClass('error');
+	}
 	else
 		return true;
-
-	email.addClass('error');
+	
 	return false;
 }
 
@@ -69,6 +77,10 @@ function validateRegister() {
 	else if (!email.val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+")) {
 		alert('You must enter a valid email address.');
 		email.addClass('error');
+	}
+	else if (password.val() == '') {
+		alert('You must enter a password.');
+		password.addClass('error');
 	}
 	else if (password.val() != confirm.val()) {
 		alert('Passwords don\'t match.');
