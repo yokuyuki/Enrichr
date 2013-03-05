@@ -19,18 +19,59 @@ function getTab(name) {
 }
 
 /* Form data handling */
-function validateLogin() {
-	if ($('form#register input[name=email]').val().trim() == '')
-		alert('You must specify an email address.');
-}
+function validateModify() {
+	var email = $('form#modify input[name=email]');
+	var password = $('form#modify input[name=password]');
+	var newpassword = $('form#modify input[name=newpassword]');
+	var confirm = $('form#modify input[name=confirm]');
 
-function validateRegister() {
-	if ($('form#register input[name=email]').val().trim() == '')
+	if (email.val().trim() == '') {
 		alert('You must specify an email address.');
-	else if ($('form#register input[name=password]').val() != $('form#register input[name=confirm]').val())
+		email.addClass('error');
+	}
+	else if (!email.val().trim().match("^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+\\.[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+")) {
+		alert('You must enter a valid email address.');
+		email.addClass('error');
+	}
+	else if (password.val() == '') {
+		alert('You must enter a password.');
+		password.addClass('error');
+	}
+	else if (newpassword.val() != confirm.val()) {
 		alert('Passwords don\'t match.');
+		newpassword.addClass('error');
+		confirm.addClass('error');
+	}
 	else
 		return true;
+
+	return false;
+}
+
+function submitModify() {
+	if (validateModify()) {
+		$.ajax({
+			type: 'POST',
+			url: 'account',
+			dataType: 'json',
+			data: { 
+				email: $('form#modify input[name=email]').val(),
+				password: $('form#modify input[name=password]').val(),
+				newpassword: $('form#modify input[name=newpassword]').val(),
+				firstname: $('form#modify input[name=firstname]').val(),
+				lastname: $('form#modify input[name=lastname]').val(),
+				institution: $('form#modify input[name=institution]').val()
+			},
+			success: function(json) {
+				if (json.message) {
+					$('form#modify div.feedback').text(json.message).fadeIn();
+				}
+				else if (json.redirect) {
+					window.location.replace(json.redirect);
+				}
+			}
+		});
+	}
 
 	return false;
 }
@@ -38,27 +79,31 @@ function validateRegister() {
 // Create tables
 function createTable(dataArray, container) {
 	$(container).dataTable({
-		"aaData": dataArray,
-		"aoColumns": [
+		'aaData': dataArray,
+		'aoColumns': [
 			{
-				"mData": "description",
-				"sTitle": "Description",
-				"sClass": "left",
-				"sWidth": "75%",
-				"mRender": function(data, type, full) {
-					return '<a href="' + 'enrich?dataset=' + full["list_id"] + '">' + data + '</a>';
+				'mData': 'description',
+				'sTitle': 'Description',
+				'sClass': 'left',
+				'sWidth': '75%',
+				'mRender': function(data, type, full) {
+					return '<a href="' + 'enrich?dataset=' + full['list_id'] + '">' + data + '</a>';
 				}
 			},
 			{
-				"mData": "created",
-				"sTitle": "Created On",
-				"sClass": "left"
+				'mData': 'created',
+				'sTitle': 'Created On',
+				'sClass': 'left',
+				'sDefaultContent': 'Now',
+				'bSearchable': false
+			},
+			{ 
+				'mData': 'list_id',
+				'bSearchable': false,
+				'bVisible': false
 			}
 		],
-		"aoColumnDefs": [
-			{ "bSearchable": false, "aTargets": [1]}
-		],
-		"aaSorting": [[1, "desc"]]
+		'aaSorting': [[1, 'desc'], [2, 'desc']]
 	});	
 }
 
@@ -119,16 +164,29 @@ $(document).ready(function () {
 			window.location.replace("/Enrichr");
 		}
 		else {
-			$('a#account-name').text(json.user)
+			if (json.firstname)
+				$('a#account-name').text(json.firstname);
+			else
+				$('a#account-name').text(json.user)
 			$('div#login-status').fadeIn('slow');
 			$('img.loader').remove();
 			createTable(json.lists, '#list_table');
+
+			populateFields = function(name, value) {
+				if (value)
+					$('form#modify input[name=' + name + ']').val(value).focus();
+			}
+
+			populateFields('email', json.user);
+			populateFields('firstname', json.firstname);
+			populateFields('lastname', json.lastname);
+			populateFields('institution', json.institution);
 		}
 	});
 
 	// Enable placeholders and error messages for required fields
 	$('input.has-placeholder:text[value=""]').next('span.placeholder-text').show();
-	$('input.has-placeholder').focus(function() {
+	$('input.has-placeholder, input.required').focus(function() {
 		var input = $(this);
 		input.next('span.placeholder-text').hide();
 		if (input.hasClass('required')) {
@@ -147,15 +205,17 @@ $(document).ready(function () {
 	});	
 
 	// Error messages for password checking
-	$('form#register input[type=password]').focus(function() {
-		$('form#register label#confirm div.errormsg').hide();
-		$('form#register input[type=password]').removeClass('error');
+	$('form#modify input[type=password]:not(input[name=password])').focus(function() {
+		$('form#modify label#confirm div.errormsg').hide();
+		$('form#modify input[type=password]:not(input[name=password])').removeClass('error');
 	})
-	$('form#register input[name=confirm]').blur(function() {
+	$('form#modify input[name=confirm]').blur(function() {
 		var input = $(this);
-		if ($('form#register input[name=password]').val() != input.val()) {
+		if ($('form#modify input[name=newpassword]').val() != input.val()) {
 			input.siblings('div.errormsg').show();
-			$('form#register input[type=password]').addClass('error');
+			$('form#modify input[type=password]:not(input[name=password])').addClass('error');
 		}
-	})	
+	})
+
+	$('#modify').submit(submitModify);
 });

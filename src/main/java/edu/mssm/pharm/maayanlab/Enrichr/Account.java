@@ -54,7 +54,8 @@ public class Account extends HttpServlet {
 			json.add("user", "");
 		}
 		else {
-			json.add("user", (user.getFirst() != null) ? user.getFirst() : user.getEmail());	// Display name
+			json.add("user", user.getEmail());
+			json.add("firstname", user.getFirst());
 			
 			// Get user lists
 			if (request.getServletPath().equals("/account")) {
@@ -66,8 +67,10 @@ public class Account extends HttpServlet {
 					session = sf.openSession();
 				}
 				session.beginTransaction();
-				
 				session.update(user);
+				
+				json.add("lastname", user.getLast());
+				json.add("institution", user.getInstitute());
 				json.add("lists", user.getLists());
 				
 				session.getTransaction().commit();
@@ -229,10 +232,10 @@ public class Account extends HttpServlet {
 		}
 		else if (user.checkPassword(password)) {
 			user.updateUser(request.getParameter("email"), 
-							request.getParameter("new-password"), 
-							request.getParameter("first"), 
-							request.getParameter("last"),
-							request.getParameter("institute"));
+							request.getParameter("newpassword"), 
+							request.getParameter("firstname"), 
+							request.getParameter("lastname"),
+							request.getParameter("institution"));
 			dbSession.update(user);
 			json.add("message", "Changes saved.");
 		}

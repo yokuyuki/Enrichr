@@ -46,8 +46,74 @@
 			<table id="list_table"></table>
 			<div class="clear"></div>
 		</div>
-		<div class="hidden">			
+		<div class="hidden">
 			<div class="title">Account Settings</div>
+			<form id="modify">
+				<fieldset>
+					<legend>
+						<strong>Email</strong>
+					</legend>
+					<label id="email">
+						<input class="required has-placeholder" type="text" name="email" tabindex="1" />
+						<span class="placeholder-text">name@domain.com</span>
+						<div class="errormsg">You can't leave this empty.</div>
+					</label>
+				</fieldset>
+				<fieldset>
+					<legend>
+						<strong>Enter your current password</strong>
+					</legend>
+					<label id="password">
+						<input class="required" type="password" name="password" tabindex="5" />
+						<div class="errormsg">You can't leave this empty.</div>
+					</label>
+				</fieldset>
+				<fieldset>
+					<legend>
+						<strong>Name</strong>
+					</legend>
+					<label id="firstname" class="doublefield">
+						<input class="has-placeholder" type="text" name="firstname" tabindex="2" />
+						<span class="placeholder-text">First</span>
+					</label>
+					<label id="lastname" class="doublefield">
+						<input class="has-placeholder" type="text" name="lastname" tabindex="3" />
+						<span class="placeholder-text">Last</span>
+					</label>
+				</fieldset>
+				<fieldset>
+					<legend>
+						<strong>Create a new password</strong>
+					</legend>
+					<label id="password">
+						<input type="password" name="newpassword" tabindex="6" />
+					</label>
+				</fieldset>
+				<fieldset>
+					<legend>
+						<strong>Institution</strong>
+					</legend>
+					<label id="institution">
+						<input class="has-placeholder" type="text" name="institution" tabindex="4" />
+						<span class="placeholder-text">University, company, etc.</span>
+					</label>
+				</fieldset>
+				<fieldset>
+					<legend>
+						<strong>Confirm your new password</strong>
+					</legend>
+					<label id="confirm">
+						<input type="password" name="confirm" tabindex="7" />
+						<div class="errormsg">These passwords don't match.</div>
+					</label>
+				</fieldset>
+				<div class="clear"></div>
+				<div class="hidden feedback"></div>
+				<div class="next-step">
+					<input type="image" src="images/navigate-up-icon.png" width="64" height="64" title="Register"/>
+				</div>
+				<div class="clear"></div>
+			</form>
 		</div>
 	</div>
 </body>

@@ -271,7 +271,10 @@ $(document).ready(function () {
 			$('div#login-prompt').fadeIn('slow');
 		}
 		else {
-			$('a#account-name').text(json.user)
+			if (json.firstname)
+				$('a#account-name').text(json.firstname);
+			else
+				$('a#account-name').text(json.user)
 			$('div#login-status').fadeIn('slow');
 		}
 	});
