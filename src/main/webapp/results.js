@@ -68,15 +68,15 @@ var Base64 = {
 
 // Extension to jquery to add a data-type that allows sorting of scientific notation
 jQuery.extend( jQuery.fn.dataTableExt.oSort, {
-	"scientific-pre": function ( a ) {
+	'scientific-pre': function ( a ) {
 		return parseFloat(a);
 	},
 
-	"scientific-asc": function ( a, b ) {
+	'scientific-asc': function ( a, b ) {
 		return ((a < b) ? -1 : ((a > b) ? 1 : 0));
 	},
 
-	"scientific-desc": function ( a, b ) {
+	'scientific-desc': function ( a, b ) {
 		return ((a < b) ? 1 : ((a > b) ? -1 : 0));
 	}
 });
@@ -84,74 +84,80 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 // Create tables
 function createTable(id, dataArray, container) {
 	$(container).dataTable({
-		"aaData": dataArray,
-		"fnDrawCallback": function ( oSettings ) {
+		'aaData': dataArray,
+		'fnDrawCallback': function ( oSettings ) {
 			var that = this;
 
 			if ( oSettings.bSorted && !$('div.active div.dataTables_filter input').val())				
 			{
-				this.$('td:first-child', {"filter":"applied"}).each( function (i) {
+				this.$('td:first-child', {'filter':'applied'}).each( function (i) {
 					that.fnUpdate( i+1, this.parentNode, 0, false, false );
 				} );
 			}
 
-			$(container + " tr[title]").aToolTip({toolTipClass: 'defaultTheme gene-overlap'});
+			$(container + ' tr[title]').aToolTip({toolTipClass: 'defaultTheme gene-overlap'});
 		},
-		"fnCreatedRow": function( nRow, aData, iDataIndex ) {
+		'fnCreatedRow': function( nRow, aData, iDataIndex ) {
 			$(nRow).attr('title', aData[5].join(', '));
 		},
-		"aoColumns": [
-			{ "sTitle" : "Index", "sClass": "center", "sWidth": "5%"},
+		'aoColumns': [
 			{ 
-				"sTitle": "Name", 
-				"sClass": "left",
-				"fnRender": function(oObj, sVal) {
+				'sTitle' : 'Index', 
+				'sClass': 'center', 
+				'sWidth': '5%',
+				'bSortable': false,
+				'bSearchable': false
+			},
+			{ 
+				'sTitle': 'Name', 
+				'sClass': 'left',				
+				'mRender': function(data) {
 					if (id in globals.linkMap) {
 						var linkArray = globals.linkMap[id];
-						var match = (new RegExp(linkArray[0])).exec(sVal);
+						var match = (new RegExp(linkArray[0])).exec(data);
 						var termId = match[linkArray[1]].toLowerCase();						
 
-						if (sVal) {
-							return '<a href="' + linkArray[2] + termId + '" target="_blank">' + sVal + '</a>';
+						if (data) {
+							return '<a href="' + linkArray[2] + termId + '" target="_blank">' + data + '</a>';
 						}
 					}
 					
-					return sVal;					
+					return data;					
 				}
 			},
 			{ 
-				"sTitle": "P-value",
-				"sClass": "right",
-				"sWidth": "15%",
-				"sType": "scientific",
-				"asSorting": ["asc"],
-				"fnRender": function(obj) {
-					return obj.aData[obj.iDataColumn].toPrecision(4);
+				'sTitle': 'P-value',
+				'sClass': 'right',
+				'sWidth': '15%',
+				'sType': 'scientific',
+				'asSorting': ['asc'],
+				'bSearchable': false,
+				'mRender': function(data) {
+					return data.toPrecision(4);
 				}
 			},
 			{ 
-				"sTitle": "Z-score", 
-				"sClass": "right",
-				"sWidth": "15%",
-				"asSorting": ["asc"],
-				"fnRender": function(obj) {
-					return obj.aData[obj.iDataColumn].toFixed(2);
+				'sTitle': 'Z-score', 
+				'sClass': 'right',
+				'sWidth': '15%',
+				'asSorting': ['asc'],
+				'bSearchable': false,
+				'mRender': function(data) {
+					return data.toFixed(2);
 				}
 			},
 			{ 
-				"sTitle": "Combined Score", 
-				"sClass": "right",
-				"sWidth": "15%",
-				"asSorting": ["desc"],
-				"fnRender": function(obj) {
-					return obj.aData[obj.iDataColumn].toFixed(2);
+				'sTitle': 'Combined Score', 
+				'sClass': 'right',
+				'sWidth': '15%',
+				'asSorting': ['desc'],
+				'bSearchable': false,
+				'mRender': function(data) {
+					return data.toFixed(2);
 				}
 			}
-		],
-		"aoColumnDefs": [
-			{ "bSortable": false, "aTargets": [ 0 ] }
-		],
-		"aaSorting": [[4, "desc"]]
+		],		
+		'aaSorting': [[4, 'desc']]
 	});	
 }
 

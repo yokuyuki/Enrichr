@@ -65,39 +65,43 @@ function createStats() {
 		$.getJSON('json/dataset_statistics.json', function(json) {
 			$('#stats').addClass('done');
 			$('#stats').dataTable({
-				"aaData": json,
-				"aoColumns": [
+				'aaData': json,
+				'aoColumns': [
 					{ 
-						"sTitle": "Gene-set Library",
-						"fnRender": function(oObj, sVal) {
-							return '<a href="' + oObj.aData[4] + '" target="_blank">' + sVal + '</a>';
+						'sTitle': 'Gene-set Library',
+						'mRender': function(data, type, full) {
+							return '<a href="' + full[4] + '" target="_blank">' + data + '</a>';
 						}
 					},
 					{ 
-						"sTitle": "Terms",
-						"sClass": "right",
-						"asSorting": ["desc", "asc"]
+						'sTitle': 'Terms',
+						'sClass': 'right',
+						'asSorting': ['desc', 'asc'],
+						'bSearchable': false
 					},
 					{ 
-						"sTitle": "Gene Coverage",
-						"sClass": "right",
-						"asSorting": ["desc", "asc"]
+						'sTitle': 'Gene Coverage',
+						'sClass': 'right',
+						'asSorting': ['desc', 'asc'],
+						'bSearchable': false
 					},
 					{ 
-						"sTitle": "Mean Genes per Term",
-						"sClass": "right",
-						"asSorting": ["desc", "asc"],
-						"fnRender": function(obj) {
-							return obj.aData[obj.iDataColumn].toFixed(4);
+						'sTitle': 'Mean Genes per Term',
+						'sClass': 'right',
+						'asSorting': ['desc', 'asc'],
+						'bSearchable': false,
+						'mRender': function(data, type, full) {
+							return data.toFixed(4);
 						}
 					},
 					{
-						"bVisible": false
+						'bVisible': false,
+						'bSearchable': false
 					}
 				],
-				"aaSorting": [[1, "desc"]],
-				"bPaginate": false,
-				"sDom": '<t>'
+				'aaSorting': [[1, 'desc']],
+				'bPaginate': false,
+				'sDom': '<t>'
 			});
 		});
 	}

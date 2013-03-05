@@ -54,7 +54,7 @@
 	<script type="text/javascript" src="http://d3js.org/d3.v2.min.js" defer="defer"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" defer="defer"></script>
 	<script type="text/javascript" src="jquery.mobile.touch.min.js" defer="defer"></script>
-	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/jquery.dataTables.min.js" defer="defer"></script>
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js" defer="defer"></script>
 	<script type="text/javascript" src="jquery.atooltip.pack.js" defer="defer"></script>
 	<script type="text/javascript" src="results.js" defer="defer"></script>
 	<script type="text/javascript" src="d3.barGraph.js" defer="defer"></script>
