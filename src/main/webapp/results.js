@@ -115,7 +115,7 @@ function createTable(id, dataArray, container) {
 					if (id in globals.linkMap) {
 						var linkArray = globals.linkMap[id];
 						var match = (new RegExp(linkArray[0])).exec(data);
-						var termId = match[linkArray[1]].toLowerCase();						
+						var termId = match[linkArray[1]]
 
 						if (data) {
 							return '<a href="' + linkArray[2] + termId + '" target="_blank">' + data + '</a>';
