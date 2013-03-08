@@ -198,9 +198,10 @@ function enrich(options) {
 			<div class="question">How can I use Enrichr to easily analyze RNA-seq data?</div>
 			<div class="answer">
 				<p>We have provided a simple python script to take the cuffdiff output from Cufflinks, find the significant genes of all the comparisons, and run it through Enrichr.</p>
-				<p>To run this script, you have to have <a href="http://www.python.org/download/" target="_blank">Python 2.7.3</a> installed and <a href="http://pypi.python.org/pypi/poster/" target="_blank">Python library, poster</a>. The library can also be easily installed using <a href="http://packages.python.org/distribute/easy_install.html" target="_blank">easy_install</a>.</p>
+				<p>To run this script, you have to have <a href="http://www.python.org/download/" target="_blank">Python 2.7.3</a> installed and Python library, <a href="http://pypi.python.org/pypi/poster/" target="_blank">poster</a>. The library can also be easily installed using <a href="http://packages.python.org/distribute/easy_install.html" target="_blank">easy_install</a>.</p>
 				<p>To run the script on the <a href="download/example.diff">example file</a>, open command line and go to the directory where the <a href="download/cuffdiff2links.py">script</a> is stored and type <code>python cuffdiff2links.py example.diff</code>. Press Enter to run the script.</p>
 				<p>After successfully running the script, two files, <code>updown.txt</code> and <code>enrichrLinks.txt</code>, will be generated. <code>updown.txt</code> contains the significant genes of all the comparisons and <code>enrichrLinks.txt</code> contain the links to Enrichr that you can copy and paste into your browser to see the result.</p>
+				<p>For an in-depth guide, please download the <a href="download/cuffdiff2links_User_Guide.pdf" target="_blank">user manual</a>.</p>
 			</div>
 		</div>
 	</div>		

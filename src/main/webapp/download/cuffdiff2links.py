@@ -2,6 +2,7 @@ import re
 import cookielib, urllib2, urllib
 import poster
 import sys
+import os
 
 def EnrichrLink(genesStr,clusterInfo=''):
     #post a gene list to enrichr server and get the link.
@@ -15,16 +16,32 @@ def EnrichrLink(genesStr,clusterInfo=''):
     request = urllib2.Request(url, datagen,headers)
     urllib2.urlopen(request)
 
-    x = urllib2.urlopen("http://amp.pharm.mssm.edu/Enrichr/enrich?share=true")
+
+    x = urllib2.urlopen("http://amp.pharm.mssm.edu/Enrichr/share")
     responseStr = x.read()
-    #print(responseStr)
     splitPhrases = responseStr.split('"')
     linkID = splitPhrases[3]
     shareUrlHead = "http://amp.pharm.mssm.edu/Enrichr/enrich?dataset="
     enrichrLink = shareUrlHead + linkID
     return enrichrLink
 
-def readdiff(path):
+def readperdiff(path):
+    #ignore empty file
+    if os.path.getsize(path) < 1000:
+        print 'Empty file:'+path+'\n'
+        return
+
+    print 'Processing:'+path
+    
+    baseName = os.path.basename(path);
+    fileName = os.path.splitext(baseName)[0];
+    dirName = os.path.dirname(path);
+    if dirName == '':
+        dirName = os.getcwd()
+    writeDir = dirName +'\\'+'EnrichrLinks';
+    if not os.path.exists(writeDir):
+        os.makedirs(writeDir)
+
     f = open(path)
     content = f.read()
     f.close()
@@ -72,7 +89,7 @@ def readdiff(path):
                           for perComparisonDat in comparisonsDat]
 
     #extract genes in each subgroup
-    geneMetaIdx = header.index('test_id')
+    geneMetaIdx = header.index('gene')
     comparisonsUpGenes = [ [row[geneMetaIdx] for row in perComparisonUpDat]
                            for perComparisonUpDat in comparisonsUpDat]
     comparisonsDownGenes = [[row[geneMetaIdx] for row in perComparisonDownDat]
@@ -87,18 +104,34 @@ def readdiff(path):
         if len(comparisonsUpGenes[i])==0:
             upLink = ''
         else:
+            for j in range(len(comparisonsUpGenes[i])):
+                perGene = comparisonsUpGenes[i][j]
+                match = re.search(r'[\w\-@./]+',perGene)
+                if match.group(0) is not perGene:
+                    print '"' + perGene + '"' + ' is not a valid gene symbol and converted to ' + '"' + match.group(0) + '"'
+                    comparisonsUpGenes[i][j] = match.group(0)
+                    
             upLink = EnrichrLink('\n'.join(comparisonsUpGenes[i]), upInfo)
         
         downInfo = comparisons[i][0]+','+comparisons[i][1]+'\tDown Genes'
         if len(comparisonsDownGenes[i]) == 0:
             downLink = ''
         else:
+            for j in range(len(comparisonsDownGenes[i])):
+                perGene = comparisonsDownGenes[i][j]
+               
+                match = re.search(r'[\w\-@./]+',perGene)
+                if match.group(0) is not perGene:
+                    
+                    print '"' + perGene + '"' + ' is not a valid gene symbol and converted to ' + '"' + match.group(0)+ '"'
+                    comparisonsDownGenes[i][j] = match.group(0)
+                    
             downLink = EnrichrLink('\n'.join(comparisonsDownGenes[i]), downInfo)
         
         wStr = wStr + upInfo+'\t'+ upLink +'\n'
         wStr = wStr + downInfo+ '\t' + downLink+'\n'
                 
-    f = open('enrichrLinks.txt','w')
+    f = open(writeDir+'\\'+fileName+'_enrichrLinks.txt','w')
     f.write(wStr)
     f.close()
 
@@ -139,9 +172,21 @@ def readdiff(path):
         wStr.rstrip('\t')
         wStr =wStr + '\n'
 
-    f = open('updown.txt','w')
+    f = open(writeDir+'\\'+fileName+'_updown.txt','w')
     f.write(wStr)
     f.close()
+    print '\n'
+    
+def readdiff(path):
+    print '\n'
+    if os.path.isfile(path):
+         readperdiff(path)
+    else:
+        for directory, dirnames,filenames in os.walk(path):
+            [readperdiff(directory+'\\'+perFile) for perFile in filenames
+             if os.path.splitext(perFile)[1] == '.diff']
 
 arg = sys.argv
+if len(arg) == 1:
+    arg.append(os.getcwd())
 readdiff(arg[1])
