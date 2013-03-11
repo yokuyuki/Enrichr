@@ -45,6 +45,8 @@ public class Enrichment implements SettingsChanger {
 	public static final String KEGG = "KEGG";
 	public static final String MGI_MP = "MGI_Mammalian_Phenotype";
 	public static final String MICRORNA = "microRNA";
+	public static final String MSIGDB_COMPUTATIONAL = "MSigDB_Computational";
+	public static final String MSIGDB_ONCOGENIC_SIGNATURES = "MSigDB_Oncogenic_Signatures";
 	public static final String MOUSE_GENE_ATLAS = "Mouse_Gene_Atlas";
 	public static final String NCI60 = "NCI-60_Cancer_Cell_Lines";
 	public static final String OMIM_DISEASE = "OMIM_Disease";
@@ -98,7 +100,9 @@ public class Enrichment implements SettingsChanger {
 			Enrichment.GENESIGDB,
 			Enrichment.OMIM_DISEASE,
 			Enrichment.OMIM_EXPANDED,
-			Enrichment.VIRUSMINT	
+			Enrichment.VIRUSMINT,
+			Enrichment.MSIGDB_COMPUTATIONAL,
+			Enrichment.MSIGDB_ONCOGENIC_SIGNATURES
 		},
 		{	// Cell Types
 			Enrichment.HUMAN_GENE_ATLAS,

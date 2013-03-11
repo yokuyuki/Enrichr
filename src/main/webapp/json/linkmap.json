@@ -9,6 +9,8 @@
 	"Histone_Modifications_ChIP-seq": ["^(H\\w+) ", 1, "http://www.histome.net/ptm_sp.php?ptm_sp="],
 	"HMDB_Metabolites": ["\\((HMDB\\d+)\\)", 1, "http://www.hmdb.ca/metabolites/"],
 	"MGI_Mammalian_Phenotype": ["^MP(\\d+)_", 1, "http://www.informatics.jax.org/searches/Phat.cgi?id=MP:"],
+	"MSigDB_Computational": ["(^[\\w\\-]+$)", 1, "http://www.broadinstitute.org/gsea/msigdb/cards/"],
+	"MSigDB_Oncogenic_Signatures": ["(^[\\w\\.]+$)", 1, "http://www.broadinstitute.org/gsea/msigdb/cards/"],
 	"microRNA": ["^[TCGA]+,((?:MIR-[\\w\\-]+)|(?:LET-\\w+))", 1, "http://www.microrna.org/microrna/getTargets.do?matureName=hsa-"],
 	"WikiPathways": ["(WP\\d+)", 1, "http://wikipathways.org/index.php/Pathway:"],
 	"KEGG": ["^HSA(\\d+)", 1, "http://www.genome.jp/kegg-bin/show_pathway?hsa"]

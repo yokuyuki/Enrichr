@@ -26,6 +26,8 @@
 	add("KEGG");
 	add("MGI_Mammalian_Phenotype");
 	add("microRNA");
+	// add("MSigDB_Computational");
+	// add("MSigDB_Oncogenic_Signatures");
 	add("Mouse_Gene_Atlas");
 	add("NCI-60_Cancer_Cell_Lines");
 	add("OMIM_Disease");
