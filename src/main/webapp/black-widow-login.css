@@ -9,6 +9,28 @@ a.help {
 	color: #F38630;
 }
 
+/* Form message */
+div.form-message {
+	float: left;
+	width: 250px;
+	margin-right: 5em;
+	margin-bottom: 10em;
+}
+
+div.form-message p {
+	font-weight: bold;
+}
+
+div.form-message ul {
+	margin: 1em 0em;
+}
+
+div.form-message li {
+	list-style: square;
+	margin-left: 3em;
+	margin-bottom: 0.5em;
+}
+
 /* Form styling */
 fieldset {
 	margin-bottom: 2.5em;
@@ -19,6 +41,14 @@ fieldset {
 
 fieldset label {
 	position: relative;
+}
+
+span.asterisk {
+	color: #D90000;
+	font-weight: normal;
+	font-size: 1em;
+	vertical-align: top;
+	padding-left: 0.1em;
 }
 
 legend {

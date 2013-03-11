@@ -68,9 +68,19 @@
 		<div class="hidden">			
 			<div class="title">Register</div>
 			<form id="register">
+				<div class="form-message">
+					<p>You don't need an account to use Enrichr, so why register?</p>
+					<ul>
+						<li>To save your lists permanently.</li>
+						<li>To change your descriptions (coming soon).</li>
+						<li>To make your lists private (coming soon).</li>
+						<li>To help us improve Enrichr.</li>
+						<li>Lastly, registration is free!</li>
+					</ul>
+				</div>
 				<fieldset>
 					<legend>
-						<strong>Email</strong>
+						<strong>Email<span class="asterisk">*</span></strong>
 					</legend>
 					<label id="email">
 						<input class="required has-placeholder" type="text" name="email" tabindex="1" />
@@ -80,7 +90,7 @@
 				</fieldset>
 				<fieldset>
 					<legend>
-						<strong>Create a password</strong>
+						<strong>Create a password<span class="asterisk">*</span></strong>
 					</legend>
 					<label id="password">
 						<input type="password" name="password" tabindex="5" />
@@ -101,7 +111,7 @@
 				</fieldset>
 				<fieldset>
 					<legend>
-						<strong>Confirm your password</strong>
+						<strong>Confirm your password<span class="asterisk">*</span></strong>
 					</legend>
 					<label id="confirm">
 						<input type="password" name="confirm" tabindex="6" />
