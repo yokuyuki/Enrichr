@@ -10,6 +10,8 @@
 		<!-- Set username/password in hibernate.properties on classpath -->
 		<!-- <property name="hibernate.connection.username"></property> -->
 		<!-- <property name="hibernate.connection.password"></property> -->
+		<property name="hibernate.tomcatJdbcPool.validationQuery">SELECT 1</property>
+		<property name="hibernate.tomcatJdbcPool.testOnBorrow">true</property>
 		<property name="show_sql">true</property>
 		<mapping class="edu.mssm.pharm.maayanlab.Enrichr.User"/>
 		<mapping class="edu.mssm.pharm.maayanlab.Enrichr.List"/>
