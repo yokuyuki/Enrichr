@@ -292,4 +292,8 @@ $(document).ready(function () {
 		window.location.hash = '!gene=' + gene;
 		return false;
 	});
+
+	// Bind tutorial image enlarge
+	$('div.answer img').click(function() { $(this).toggleClass('large'); })
+	.attr('title', 'Click to enlarge');
 });

@@ -150,6 +150,7 @@ div.question, div.answer, div.answer p, div.answer pre {
 
 div.question {
 	font-weight: bold;
+	clear: both;
 }
 
 div.answer pre {
@@ -160,4 +161,46 @@ div.answer pre {
 div.answer code {
 	font-size: 1.2em;
 	font-family: monospace;
+}
+
+div.answer img {
+	float: left;
+	margin: 0em 1em 1em 0em;
+	width: 346px;
+	height: 292px;
+	transition: width 0.5s, height 0.5s;
+	-moz-transition: width 0.5s, height 0.5s;
+	-webkit-transition: width 0.5s, height 0.5s;
+	-o-transition: width 0.5s, height 0.5s;
+}
+
+div.answer img.large {
+	width: 708px;
+	height: 597px;
+	transition: width 0.5s, height 0.5s;
+	-moz-transition: width 0.5s, height 0.5s;
+	-webkit-transition: width 0.5s, height 0.5s;
+	-o-transition: width 0.5s, height 0.5s;
+}
+
+@media print {
+	body {
+		width: 100%;
+	}
+
+	div#header, div#navbar {
+		display: none;
+	}
+
+	div#content {
+		margin: 0px;
+		border: 0px;
+		padding: 5px 10px;
+	}
+
+	div.answer img {
+		float: none;
+		width: 708px;
+		height: 597px;
+	}
 }
