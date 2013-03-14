@@ -390,7 +390,11 @@ function getResult(id) {
 						highlightFunction: function(c) {
 							var highlightSelection = d3.selectAll(c);
 
-							highlightSelection.attr('title', function(d) { return d[1] + '<br/>' + d[4]; })
+							highlightSelection.attr('title', function(d) {
+								var currentSelection = d3.select(this);
+
+								return currentSelection.attr('label') + '<br/>' + currentSelection.attr('highlightValue'); 
+							})
 							.selectAll('title').remove();
 							$(c).aToolTip({ fixed: true, xOffset: 4, yOffset: 1} );
 						},

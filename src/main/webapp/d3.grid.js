@@ -54,8 +54,21 @@ d3.grid = {
 				.domain([0, d3.max(json.map(function(d) { return d[1]; }))])
 				.range(['#000000', options.maxColor]);
 
-			d3.grid.drawCanvas(json, container, options);
-			d3.grid.drawHighlights(results.filter(function(d, i) { return i < options.highlightCount; }), container, options);
+			var highlights = results.filter(function(d, i) { return i < options.highlightCount; });
+			if (options.highlightValue) {
+				var maxValue = d3.max(highlights.map(function(d) { return options.highlightValue(d); }))
+				options.highlightOpacity = d3.scale.linear()
+					.domain([0, maxValue])
+					.interpolate(d3.interpolateNumber)
+					.range([0.25, 1]);
+				options.altColor = d3.scale.linear()
+					.domain([0, maxValue])
+					.interpolate(d3.interpolateRgb)
+					.range(['#000000', options.maxColor]);
+			}
+
+			d3.grid.drawCanvas(json, highlights, container, options);
+			d3.grid.drawAltHighlights(container);
 			if (options.clusterFunction)
 				d3.grid.calcClustering(container, options);
 
@@ -70,7 +83,13 @@ d3.grid = {
 			});
 		});	
 	},
-	drawCanvas: function(nodes, container, options) {
+	drawCanvas: function(nodes, highlights, container, options) {
+		// Create set out of highlights
+		var highlightsSet = {};
+		for (var i = 0; i < highlights.length; i++) {
+			highlightsSet[options.highlightName(highlights[i])] = (options.highlightValue) ? options.highlightValue(highlights[i]) : false;
+		}
+
 		var canvas = d3.select(container)
 					.append('svg:svg')
 					.datum(options)
@@ -79,69 +98,69 @@ d3.grid = {
 					.attr('width', options.canvasSize)
 					.attr('height', options.canvasSize);
 
+		// Create grid squares
 		canvas.append('svg:g').classed('rect', true)
 			.selectAll('rect')
 			.data(nodes)
 			.enter()
 			.append('svg:rect')
+			.classed('highlight', function(d) { return d[0] in highlightsSet; })
+			.attr('highlightValue', function(d) { return highlightsSet[d[0]]; })
 			.attr('x', function(d, i) { return i % options.width * options.pixels; })
 			.attr('y', function(d, i) { return Math.floor(i / options.width) * options.pixels; })
 			.attr('width', options.pixels)
 			.attr('height', options.pixels)
-			.attr('fill', function(d) { return options.color(d[1]); })
 			.attr('label', function(d) { return d[0]; })
 			.append('title')
 			.text(function(d) { return d[0]; });
 
-		canvas.append('svg:g').classed('circle', true).attr('opacity', 1)
+		// Create highlight circles
+		canvas.append('svg:g').classed('circle', true).attr('opacity', 0)
 			.selectAll('circle')
 			.data(nodes)
 			.enter()
 			.append('svg:circle')
+			.classed('highlight', function(d) { return d[0] in highlightsSet; })
+			.attr('highlightValue', function(d) { return highlightsSet[d[0]]; })
 			.attr('cx', function(d, i) { return i % options.width * options.pixels + options.pixels/2; })
 			.attr('cy', function(d, i) { return Math.floor(i / options.width) * options.pixels + options.pixels/2; })
 			.attr('fill', options.highlightColor)
-			.attr('fill-opacity', 0)
+			.attr('fill-opacity', function(d) { 
+				var value =  highlightsSet[d[0]];
+				if (value) {
+					return options.highlightOpacity(value);
+				}
+				else if (value === false) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			})
 			.attr('r', Math.floor(options.pixels/3))
 			.attr('label', function(d) { return d[0]; })
 			.append('title')
 			.text(function(d) { return d[0]; });
-	},
-	drawHighlights: function(elementList, container, options) {
-		if (options.highlightValue) {
-			var maxValue = d3.max(elementList.map(function(d) { return options.highlightValue(d); }))
-			options.highlightColor = d3.scale.linear()
-				.domain([0, maxValue])
-				.interpolate(d3.interpolateNumber)
-				.range([0.25, 1]);
-			options.altColor = d3.scale.linear()
-				.domain([0, maxValue])
-				.interpolate(d3.interpolateRgb)
-				.range(['#000000', options.maxColor]);
-		}
-
-		for (e in elementList) {
-			d3.selectAll(container + ' circle[label="' + options.highlightName(elementList[e]) + '"]')
-				.datum(function() { return elementList[e]; })
-				.attr('fill-opacity', function(d) {
-					return (options.highlightColor) ? options.highlightColor(options.highlightValue(d)) : 1;
-				})
-				.classed('highlight', true);
-			d3.selectAll(container + ' rect[label="' + options.highlightName(elementList[e]) + '"]')
-				.classed('highlight', true);
-		}
 
 		if (options.highlightFunction)
 			options.highlightFunction(container + ' circle.highlight');
+	},
+	drawHighlights: function(container) {
+		var canvas = d3.select(container +  ' svg');
+		var color = canvas.datum().color;
+		
+		canvas.selectAll('rect').transition().duration(400).attr('fill', function(d) { return color(d[1]); });
+		
 	},
 	drawAltHighlights: function(container) {
 		var canvas = d3.select(container +  ' svg');
 		var options = canvas.datum();
 
 		canvas.selectAll('rect').transition().duration(500).attr('fill', function(d, i) {
-			if (d3.select(this).classed('highlight')) {
-				var value = options.highlightValue(d3.select(container + ' svg g.circle > :nth-child(' + (i+1) + ')').datum());
-				return (options.highlightValue) ? options.altColor(value) : options.maxColor;
+			var currentRect = d3.select(this);
+			if (currentRect.classed('highlight')) {
+				var value = currentRect.attr('highlightValue');
+				return (options.highlightValue && value) ? options.altColor(value) : options.maxColor;
 			}
 			else
 				return '#000000';
@@ -149,14 +168,17 @@ d3.grid = {
 	},
 	recolor: function(container, newColor) {
 		var canvas = d3.select(container + ' svg');
-		canvas.datum().maxColor = newColor;
-		var color = canvas.datum().color.range(['#000000', newColor]);
-		canvas.datum().altColor.range(['#000000', newColor]);
+		var options = canvas.datum();
+
+		options.maxColor = newColor;
+		options.color.range(['#000000', newColor]);
+		if (options.highlightValue)
+			options.altColor.range(['#000000', newColor]);
 
 		if (canvas.select('g.circle').attr('opacity') == 0)
 			d3.grid.drawAltHighlights(container);
 		else
-			canvas.selectAll('rect').transition().duration(400).attr('fill', function(d) { return color(d[1]); });
+			d3.grid.drawHighlights(container);
 	},	
 	calcClustering: function(container, options) {
 		var mean = 0.6291 * Math.pow(options.highlightCount / Math.pow(options.width, 2), -0.503301);
