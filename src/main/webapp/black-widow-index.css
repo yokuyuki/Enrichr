@@ -144,6 +144,32 @@ label[for="query-gene"] {
 }
 
 /* Help Page*/
+div#toc {
+	margin-bottom: 1em;
+	font-size: 0.9em;
+	display: inline-block;
+	padding: 0.5em;
+	border: 1px solid #aaa;
+	background: #f9f9f9;
+}
+
+div#toc a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+div#toc div {
+	text-align: center;	
+}
+
+div#toc div span {
+	font-size: 0.8em
+}
+
+div#toc li li {
+	margin-left: 2em;
+}
+
 div.question, div.answer, div.answer p, div.answer pre {
 	margin-top: 1em;
 }
