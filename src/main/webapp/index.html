@@ -184,18 +184,21 @@
 					<a onclick="$(document.body).animate({'scrollTop': $('#faq').offset().top}, 500);">2 FAQs</a>
 					<ul>
 						<li>
-							<a onclick="$(document.body).animate({'scrollTop': $('#faq1').offset().top}, 500);">2.1 Something broke! What do I do?</a></li>
+							<a onclick="$(document.body).animate({'scrollTop': $('#faq6').offset().top}, 500);">2.1 What is the difference between all the scoring methods?</a></li>
 						<li>
-							<a onclick="$(document.body).animate({'scrollTop': $('#faq2').offset().top}, 500);">2.2 I have a great feature for you to add. How do I suggest it to you?</a>
+						<li>
+							<a onclick="$(document.body).animate({'scrollTop': $('#faq1').offset().top}, 500);">2.2 Something broke! What do I do?</a></li>
+						<li>
+							<a onclick="$(document.body).animate({'scrollTop': $('#faq2').offset().top}, 500);">2.3 I have a great feature for you to add. How do I suggest it to you?</a>
 						</li>
 						<li>
-							<a onclick="$(document.body).animate({'scrollTop': $('#faq3').offset().top}, 500);">2.3 Why is my browser not supported?</a>
+							<a onclick="$(document.body).animate({'scrollTop': $('#faq3').offset().top}, 500);">2.4 Why is my browser not supported?</a>
 						</li>
 						<li>
-							<a onclick="$(document.body).animate({'scrollTop': $('#faq4').offset().top}, 500);">2.4 How can I use Enrichr on my own site?</a>
+							<a onclick="$(document.body).animate({'scrollTop': $('#faq4').offset().top}, 500);">2.5 How can I use Enrichr on my own site?</a>
 						</li>
 						<li>
-							<a onclick="$(document.body).animate({'scrollTop': $('#faq5').offset().top}, 500);">2.5 How can I use Enrichr to easily analyze RNA-seq data?</a>
+							<a onclick="$(document.body).animate({'scrollTop': $('#faq5').offset().top}, 500);">2.6 How can I use Enrichr to easily analyze RNA-seq data?</a>
 						</li>
 					</ul>
 				</li>
@@ -268,6 +271,12 @@
 			</div>
 			<div class="question"><!-- spacer hack --></div>
 			<div class="title" id="faq">FAQs</div>
+			<div class="question" id="faq6">What is the difference between all the scoring methods?</div>
+			<div class="answer">
+				<p>Enrichr implements three approaches to compute enrichment. The first one is a standard method implemented within most enrichment analysis tools: the Fisher exact test. This is a proportion test that assumes a binomial distribution and independence for probability of any gene belonging to any set. The second test is a correction to the Fisher exact test that we developed based on intuition. We first compute enrichment using the Fisher exact test for many random gene sets in order to compute a mean rank and standard deviation from the expected rank for each term in the gene-set library. Then using a lookup table of expected ranks with their variances, we compute a z-score for deviation from this expected rank, this can be a new corrected score for ranking terms. Alternatively, we combined the p-value computed using the Fisher exact test with the z-score of the deviation from the expected rank by multiplying these two numbers as follows:</p>
+				<pre>c = log(p) &#215; z</pre>
+				<p>Where c is the combined score, p is the p-value computed using the Fisher exact test, and z is the z-score computed to assess the deviation from the expected rank. Enrichr provides all three options for sorting enriched terms. In the results section, we show how we evaluated the quality of each of these three enrichment methods by examining how the methods rank terms that we know should be highly ranked.</p>
+			</div>
 			<div class="question" id="faq1">Something broke! What do I do?</div>
 			<div class="answer">
 				<p>Enrichr is in active development so it is possible that something can break during our updates. If it is a cosmetic bug, please try refreshing your browser (by pressing Ctrl+F5/Shift+F5/Command+F5). If that does not fix the problem, please send us your input file and how you reproduced the bug to help us fix the problem. When reporting a bug, please also include screenshots and the browser that you used. You can find our contact email on the about page.</p>
