@@ -116,6 +116,12 @@ div.bar-graph div.method span {
 	font-weight: bold;
 }
 
+div.method-desc {
+	max-width: 400px;
+	font-size: 0.7em;
+	text-align: justify;
+}
+
 /* Grid properties */
 div.grid div.svg-container {
 	text-align: center;

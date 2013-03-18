@@ -158,7 +158,11 @@ function createTable(id, dataArray, container) {
 			}
 		],		
 		'aaSorting': [[4, 'desc']]
-	});	
+	});
+	$(container + ' th').eq(2).attr('title', globals.modeDescriptions[1]);
+	$(container + ' th').eq(3).attr('title', globals.modeDescriptions[2]);
+	$(container + ' th').eq(4).attr('title', globals.modeDescriptions[0]);
+	$(container + ' th[title]').aToolTip({toolTipClass: 'defaultTheme method-desc'});
 }
 
 // Creates the color wheel for changing the color of the bar graph, grid, and network
@@ -371,13 +375,25 @@ function getResult(id) {
 							var mode = options.modeDisplays.shift();
 							options.modeDisplays.push(mode);
 							mode = options.modeDisplays[0];
-
 							$(idTag + ' div.bar-graph div.method span').text(mode);
+
+							var modeDesc = options.modeDescriptions.shift();
+							options.modeDescriptions.push(modeDesc);
+							modeDesc = options.modeDescriptions[0];
+							$(idTag + ' div.bar-graph div.method span').aToolTip({
+								tipContent: modeDesc, 
+								toolTipClass: 'defaultTheme method-desc'
+							});
 						},
-						modeDisplays: ['combined score', 'p-value', 'rank']
+						modeDisplays: ['combined score ranking', 'p-value ranking', 'rank based ranking'],
+						modeDescriptions: globals.modeDescriptions.slice(0)
 					}
 				);
 				$(idTag + ' div.bar-graph div.method').fadeIn('slow');
+				$(idTag + ' div.bar-graph div.method span').aToolTip({
+					tipContent: globals.modeDescriptions[0],
+					toolTipClass: 'defaultTheme method-desc'
+				});
 
 				createTable(id, json[id], idTag + ' .results_table');
 
@@ -513,6 +529,7 @@ $(document).ready(function () {
 	globals = {};	// Stores global vars
 	globals.changingCategory = false;	// Prevent changing category too fast
 	globals.changingTabs = false;	// Prevent changing tabs too fast
+	globals.modeDescriptions = ['Combined score is computed by taking the log of the p-value from the Fisher exact test and multiplying that by the z-score of the deviation from the expected rank.', 'The p-value is computed from the Fisher exact test which is a proportion test that assumes a binomial distribution and independence for probability of any gene belonging to any set.', 'The rank based ranking is derived from running the Fisher exact test for many random gene sets in order to compute a mean rank and standard deviation from the expected rank for each term in the gene-set library and finally calculating a z-score to assess the deviation from the expected rank.'];
 
 	// Touch gestures
 	$.event.special.swipe.durationThreshold = 200;
