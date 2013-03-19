@@ -214,7 +214,7 @@ div.answer img.large {
 		width: 100%;
 	}
 
-	div#header, div#navbar {
+	div#header, div#navbar, div#toc {
 		display: none;
 	}
 
