@@ -257,31 +257,31 @@ public class Enrichment implements SettingsChanger {
 		
 		// Sort by p-value
 		Collections.sort(termList);
+		Collections.reverse(termList);	// Reverse to do Benjamini-Hochberg
 		
 		// Calculate adjusted p-value
-		int i = 1;
-		for (Term term : termList)
-			term.setAdjustedPValue(i++, termList.size());
+		int rank = termList.size();		
+		double previousValue = 1;	// Prevent adjusted p-value to be > 1
+		for (Term term : termList) {
+			double adjustedpvalue = Math.min(previousValue, term.getPValue() * termList.size() / rank);	// Ensure monotonicity
+			previousValue = adjustedpvalue;
+			term.setAdjustedPValue(adjustedpvalue);
+			if (rankLines != null)
+				term.computeScore(rank--);	// Count current rank and compute z-score			
+		}
 		
-		if (rankLines != null) {
-			// Count current rank and compute z-score
-			int counter = 1;
-			for (Term term : termList)
-				term.computeScore(counter++);
-			
-			if (settings.get(SORT_BY).equals(COMBINED_SCORE)) {
-				Collections.sort(termList, new Comparator<Term>() {
-					@Override
-					public int compare(Term o1, Term o2) {
-						if (o1.getCombinedScore() < o2.getCombinedScore())				
-							return 1;
-						else if (o1.getCombinedScore() > o2.getCombinedScore())
-							return -1;
-						else
-							return 0;
-					}
-				});
-			}
+		if (rankLines != null && settings.get(SORT_BY).equals(COMBINED_SCORE)) {
+			Collections.sort(termList, new Comparator<Term>() {
+				@Override
+				public int compare(Term o1, Term o2) {
+					if (o1.getCombinedScore() < o2.getCombinedScore())				
+						return 1;
+					else if (o1.getCombinedScore() > o2.getCombinedScore())
+						return -1;
+					else
+						return 0;
+				}
+			});
 		}
 		
 		return termList;

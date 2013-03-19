@@ -58,8 +58,8 @@ public class Term implements Comparable<Term> {
 		this.pvalue = pvalue;
 	}
 	
-	public void setAdjustedPValue(int rank, int comparisons) {
-		this.adjustedpvalue = this.pvalue * comparisons / rank;
+	public void setAdjustedPValue(double adjustedpvalue) {
+		this.adjustedpvalue = adjustedpvalue;
 	}
 	
 	public void setEnrichedTargets(HashSet<String> enrichedTargets) {
