@@ -149,12 +149,12 @@ $(document).ready(function () {
 	// Touch gestures
 	$.event.special.swipe.durationThreshold = 200;
 	$('body').swipeleft(function() {
-			var dest = ($('div.selected').index() - 1 + globals.tabList.length) % globals.tabList.length;
+			var dest = ($('div.selected').index() + 1) % globals.tabList.length;
 			getTab(globals.tabList[dest]);
 		}
 	);
 	$('body').swiperight(function() {
-			var dest = ($('div.selected').index() + 1) % globals.tabList.length;
+			var dest = ($('div.selected').index() - 1 + globals.tabList.length) % globals.tabList.length;
 			getTab(globals.tabList[dest]);
 		}
 	);

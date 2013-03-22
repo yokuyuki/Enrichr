@@ -19,10 +19,10 @@ function geneCount() {
 
 /* Navigation */
 function navigateTo(index, transitionSpeed) {
-	if (_changingCategory || $('div.selected').index() == index)
+	if (globals.changingCategory || $('div.selected').index() == index)
 		return;
 	else
-		_changingCategory = true;
+		globals.changingCategory = true;
 	if (index == 1) { createStats(); }
 	if (index == 2) { createAutocomplete(); }
 	transitionSpeed = (typeof transitionSpeed === 'undefined') ? 'slow' : transitionSpeed;
@@ -31,7 +31,7 @@ function navigateTo(index, transitionSpeed) {
 		$('#navbar td').eq(index).addClass('selected');
 		$('#content > div').eq(index).addClass('selected');
 		$('#content div.selected').fadeToggle(transitionSpeed);
-		_changingCategory = false;
+		globals.changingCategory = false;
 	});
 }
 
@@ -220,8 +220,8 @@ function hashcheck(onload) {
 	var hash = window.location.hash.substring(1);
 	if (hash[0] == '!') {
 		// Not on find tab
-		if (tabList[$('div.selected').index()] != 'find') {
-			navigateTo(tabList.indexOf('find'), transitionSpeed);
+		if (globals.tabList[$('div.selected').index()] != 'find') {
+			navigateTo(globals.tabList.indexOf('find'), transitionSpeed);
 			if (!onload)
 				return;
 		}
@@ -233,15 +233,15 @@ function hashcheck(onload) {
 			queryGene(parms[1]);
 	}
 	else {
-		navigateTo(tabList.indexOf(hash), transitionSpeed);
+		navigateTo(globals.tabList.indexOf(hash), transitionSpeed);
 	}
 }
 
 $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	globals = {};	// Stores global vars
-	_changingCategory = false;	// Prevent changing category too fast
-	tabList = ['', 'stats', 'find', 'about', 'help'];
+	globals.changingCategory = false;	// Prevent changing category too fast
+	globals.tabList = ['', 'stats', 'find', 'about', 'help'];
 
 	// Onload hash check
 	hashcheck(true);
@@ -256,13 +256,13 @@ $(document).ready(function () {
 	// Touch gestures
 	$.event.special.swipe.durationThreshold = 200;
 	$('body').swipeleft(function() {
-			var dest = ($('div.selected').index() - 1 + tabList.length) % tabList.length;
-			getTab(tabList[dest]);
+			var dest = ($('div.selected').index() + 1) % globals.tabList.length;
+			getTab(globals.tabList[dest]);
 		}
 	);
 	$('body').swiperight(function() {
-			var dest = ($('div.selected').index() + 1) % tabList.length;
-			getTab(tabList[dest]);
+			var dest = ($('div.selected').index() - 1 + globals.tabList.length) % globals.tabList.length;
+			getTab(globals.tabList[dest]);
 		}
 	);
 
