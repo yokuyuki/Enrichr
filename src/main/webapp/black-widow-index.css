@@ -209,6 +209,70 @@ div.answer img.large {
 	-o-transition: width 0.5s, height 0.5s;
 }
 
+div.api {
+	margin: 1em 0em 1em 0em;
+}
+
+div.api div.http-type {
+	color: #fff;
+	background: #D90000;
+	border: 1px solid #D90000;
+	font-weight: bold;
+	text-align: center;
+	padding: 0.25em;
+	margin-right: 0.5em;		
+	width: 40px;
+	float: left;
+}
+
+div.api div.api-details {
+	padding: 0.25em;
+	border: 1px solid #000;
+	border-left: 0px;
+}
+
+div.api span.url {
+	text-align: left;
+}
+
+div.api span.return {
+	float: right;
+}
+
+div.api div.parameters {
+	clear: both;
+	padding: 1em;
+	border: 1px solid #000;
+	border-top: 0px;
+}
+
+div.api div.parameters span {
+	color: #D90000;
+	font-weight: bold;
+}
+
+div.api div.parameters table {
+	margin-top: 1em;
+}
+
+div.api div.parameters th {
+	color: #999;
+	border-bottom: 1px solid #999;
+	padding: 0em 1em 0em 0.25em;
+}
+
+div.api div.parameters td {
+	padding: 0.25em 1em 0.25em 0.25em;
+}
+
+div.api div.parameters tr.required {
+	font-weight: bold;
+}
+
+div.api div.parameters td textarea, div.api div.parameters td input {
+	font-weight: normal;
+}
+
 @media print {
 	body {
 		width: 100%;

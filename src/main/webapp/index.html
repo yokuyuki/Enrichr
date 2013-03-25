@@ -200,7 +200,10 @@
 							<a onclick="$('html, body').animate({'scrollTop': $('#faq4').offset().top}, 500);">2.5 How can I use Enrichr on my own site?</a>
 						</li>
 						<li>
-							<a onclick="$('html, body').animate({'scrollTop': $('#faq5').offset().top}, 500);">2.6 How can I use Enrichr to easily analyze RNA-seq data?</a>
+							<a onclick="$('html, body').animate({'scrollTop': $('#faq7').offset().top}, 500);">2.6 How can I use Enrichr programmatically with its API?</a>
+						</li>
+						<li>
+							<a onclick="$('html, body').animate({'scrollTop': $('#faq5').offset().top}, 500);">2.7 How can I use Enrichr to easily analyze RNA-seq data?</a>
 						</li>
 					</ul>
 				</li>
@@ -332,6 +335,84 @@ function enrich(options) {
 	document.body.removeChild(form);
 }				</pre>
 				<p>To use it, simply call <code>enrich({list: genes})</code> in your JavaScript and pass in <code>genes</code> as a list of Entrez Gene symbols separated by newlines. You can include a description for the list by using <code>enrich({list: genes, description: descString})</code>. To have the results pop up in a new window, use <code>enrich({list: genes, popup: true})</code>.</p>
+			</div>
+			<div class="question" id="faq7">How can I use Enrichr programmatically with its API?</div>
+			<div class="answer">
+				<div class="api">
+					<div class="http-type">POST</div>
+					<div class="api-details">
+						<span class="url">/enrich (multipart)</span>
+						<span class="return">Returns an HTTP 200 status code</span>
+					</div>
+					<div class="parameters">
+						<span>Parameters</span>
+						<table>
+							<tr>
+								<th>Parameter</th>
+								<th>Example</th>
+								<th>Description</th>
+							</tr>
+							<tr class="required">
+								<td>list</td>
+								<td>
+									<textarea rows="5">KLF4&#13;&#10;SOX2&#13;&#10;OCT4&#13;&#10;MYC&#13;&#10;NANOG&#13;&#10;LIN28&#13;&#10;GLIS1</textarea>
+								</td>
+								<td>List of gene symbols to enrich, separated by new lines</td>
+							</tr>
+							<tr>
+								<td>description</td>
+								<td>
+									<input type="text" value="This is a description"/>
+								</td>
+								<td>String describing what the gene symbols represent</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="api">
+					<div class="http-type">GET</div>
+					<div class="api-details">
+						<span class="url">/enrich</span>
+						<span class="return">Returns JSON for the enrichment analysis for a particular gene-set library</span>
+					</div>
+					<div class="parameters">
+						<span>Parameters</span>
+						<table>
+							<tr>
+								<th>Parameter</th>
+								<th>Example</th>
+								<th>Description</th>
+							</tr>
+							<tr class="required">
+								<td>backgroundType</td>
+								<td>
+									<input type="text" value="GO_Biological_Process"/>
+								</td>
+								<td>String describing the gene-set library you want to enrich with</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="api">
+					<div class="http-type">GET</div>
+					<div class="api-details">
+						<span class="url">/share</span>
+						<span class="return">Returns shared dataset id</span>
+					</div>
+					<div class="parameters">
+						<span>No parameters</span>
+					</div>
+				</div>
+				<div class="api">
+					<div class="http-type">GET</div>
+					<div class="api-details">
+						<span class="url">/export</span>
+						<span class="return">Returns a download for the enrichment analysis table in tab-delimited format</span>
+					</div>
+					<div class="parameters">
+						<span>No parameters</span>
+					</div>
+				</div>
 			</div>
 			<div class="question" id="faq5">How can I use Enrichr to easily analyze RNA-seq data?</div>
 			<div class="answer">
