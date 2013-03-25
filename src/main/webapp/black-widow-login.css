@@ -51,11 +51,11 @@ span.asterisk {
 	padding-left: 0.1em;
 }
 
-legend {
+form legend {
 	margin-bottom: 0.25em;
 }
 
-label {
+form label {
 	display: inline-block;
 	width: 220px;
 }
@@ -68,7 +68,7 @@ label#firstname {
 	margin-right: 6px;
 }
 
-label input {
+form label input {
 	width: 100%;
 }
 

@@ -103,7 +103,11 @@ function createTable(dataArray, container) {
 				'bVisible': false
 			}
 		],
-		'aaSorting': [[1, 'desc'], [2, 'desc']]
+		'aaSorting': [[1, 'desc'], [2, 'desc']],
+		'oLanguage': {
+			'sLengthMenu': '_MENU_ lists per page',
+			'sInfo': 'Showing _START_ to _END_ of _TOTAL_ lists'
+		}
 	});	
 }
 

@@ -157,7 +157,10 @@ function createTable(id, dataArray, container) {
 				}
 			}
 		],		
-		'aaSorting': [[4, 'desc']]
+		'aaSorting': [[4, 'desc']],
+		'oLanguage': {
+			'sLengthMenu': '_MENU_ entries per page'
+		}
 	});
 	$(container + ' th').eq(2).attr('title', globals.modeDescriptions[1]);
 	$(container + ' th').eq(3).attr('title', globals.modeDescriptions[2]);

@@ -51,7 +51,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'/>		
 	<link rel="stylesheet" type="text/css" href="black-widow.css"/>
 	<link rel="stylesheet" type="text/css" href="black-widow-results.css"/>
-	<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/css/jquery.dataTables.css"/>
+	<link rel="stylesheet" type="text/css" href="jquery.dataTables.css"/>
 	<link rel="stylesheet" type="text/css" href="atooltip.css"/>
 	<script type="text/javascript" src="http://d3js.org/d3.v2.min.js" defer="defer"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" defer="defer"></script>
