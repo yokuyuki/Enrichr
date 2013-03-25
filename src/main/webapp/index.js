@@ -86,7 +86,7 @@ function createStats() {
 						'bSearchable': false
 					},
 					{ 
-						'sTitle': 'Mean Genes per Term',
+						'sTitle': 'Genes per Term',
 						'sClass': 'right',
 						'asSorting': ['desc', 'asc'],
 						'bSearchable': false,
