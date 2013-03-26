@@ -178,7 +178,10 @@
 							<div class="method">Hover each row to see the overlapping genes.</div>
 							<table class="results_table"></table>
 							<div class="clear"></div>
-							<div class="export-box"><a href="#" onclick="tsvExport('<%=type%>_table', '<%=type%>')" title="Table contains additional details like associated genes">Export to Table</a></div>
+							<div class="export">
+								<strong>&nbsp;|</strong>
+								<a href="#" onclick="tsvExport('<%=type%>_table', '<%=type%>')">Export entries to table</a>
+							</div>
 						</div>
 						<% if (gridAvailable.contains(type)) { %>
 							<div class="grid hidden">

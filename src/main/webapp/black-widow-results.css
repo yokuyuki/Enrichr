@@ -65,19 +65,14 @@ div.table div.method {
 	margin-bottom: 0.5em;
 }
 
-div.export-box {
-	margin-top: 0.5em;
+div.export {
+	margin-top: 1em;
+	font-size: 14px;
+	float: left;
 }
 
-div.export-box a {
-	font-weight: bold;
-	color: #000;
-}
-
-div.export-box a:hover {
-	border: 1px solid #D90000;
-	color: #fff;
-	background-color: #D90000;
+div.export a:hover {
+	text-decoration: underline;
 }
 
 div.gene-overlap {

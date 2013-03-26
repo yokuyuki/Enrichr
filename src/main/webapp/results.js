@@ -83,7 +83,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 
 // Create tables
 function createTable(id, dataArray, container) {
-	$(container).dataTable({
+	$(container + ' table.results_table').dataTable({
 		'aaData': dataArray,
 		'fnDrawCallback': function ( oSettings ) {
 			var that = this;
@@ -162,6 +162,7 @@ function createTable(id, dataArray, container) {
 			'sLengthMenu': '_MENU_ entries per page'
 		}
 	});
+	$(container + ' div.dataTables_info').after($(container + ' div.export'));
 	$(container + ' th').eq(2).attr('title', globals.modeDescriptions[1]);
 	$(container + ' th').eq(3).attr('title', globals.modeDescriptions[2]);
 	$(container + ' th').eq(4).attr('title', globals.modeDescriptions[0]);
@@ -398,7 +399,7 @@ function getResult(id) {
 					toolTipClass: 'defaultTheme method-desc'
 				});
 
-				createTable(id, json[id], idTag + ' .results_table');
+				createTable(id, json[id], idTag + ' div.table');
 
 				d3.grid.createGrid('json/' + id + '.json', json[id], 
 					idTag + ' div.grid', 
