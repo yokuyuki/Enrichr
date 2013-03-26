@@ -342,7 +342,7 @@ function enrich(options) {
 					<div class="http-type">POST</div>
 					<div class="api-details">
 						<span class="url">/enrich (multipart)</span>
-						<span class="return">Returns an HTTP 200 status code</span>
+						<span class="return">Returns an HTTP 200 status code if successful</span>
 					</div>
 					<div class="parameters">
 						<span>Parameters</span>
@@ -410,7 +410,28 @@ function enrich(options) {
 						<span class="return">Returns a download for the enrichment analysis table in tab-delimited format</span>
 					</div>
 					<div class="parameters">
-						<span>No parameters</span>
+						<span>Parameters</span>
+						<table>
+							<tr>
+								<th>Parameter</th>
+								<th>Example</th>
+								<th>Description</th>
+							</tr>
+							<tr class="required">
+								<td>filename</td>
+								<td>
+									<input type="text" value="GO_Biological_Process_table.txt"/>
+								</td>
+								<td>String describing the filename you want to save to</td>
+							</tr>
+							<tr class="required">
+								<td>backgroundType</td>
+								<td>
+									<input type="text" value="GO_Biological_Process"/>
+								</td>
+								<td>String describing the gene-set library you want to enrich with</td>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</div>
