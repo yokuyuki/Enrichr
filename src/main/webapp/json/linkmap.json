@@ -1,6 +1,6 @@
 {
 	"Cancer_Cell_Line_Encyclopedia": ["(^\\w+$)", 1, "http://www.broadinstitute.org/ccle/cell%20lines/"],
-	"ChEA": ["^[\\w-]+\\-(\\d+)(?:_ESC)? \\([a-z]+\\)$", 1,"http://amp.pharm.mssm.edu/chea/pmid.php?pmid="],
+	"ChEA": ["^[\\w-]+\\-(\\d+)(?:_ESC)? \\([a-z]+\\)$", 1,"http://www.ncbi.nlm.nih.gov/pubmed/"],
 	"Chromosome_Location": ["^chr(\\w+)$", 1, "http://genome.ucsc.edu/cgi-bin/hgTracks?hgHubConnect.destUrl=..%2Fcgi-bin%2FhgTracks&clade=mammal&org=Human&db=hg19&position="],
 	"GeneSigDB": ["(^\\d+-[\\w\\-\\.]+)$", 1, "http://compbio.dfci.harvard.edu/genesigdb/signaturedetail.jsp?signatureId="],
 	"GO_Biological_Process": ["\\((GO:\\d+)\\)", 1, "http://amigo.geneontology.org/cgi-bin/amigo/term_details?term="],
@@ -8,10 +8,11 @@
 	"GO_Molecular_Function": ["\\((GO:\\d+)\\)", 1, "http://amigo.geneontology.org/cgi-bin/amigo/term_details?term="],
 	"Histone_Modifications_ChIP-seq": ["^(H\\w+) ", 1, "http://www.histome.net/ptm_sp.php?ptm_sp="],
 	"HMDB_Metabolites": ["\\((HMDB\\d+)\\)", 1, "http://www.hmdb.ca/metabolites/"],
+	"KEA": ["(^\\w+$)", 1, "http://www.ncbi.nlm.nih.gov/gene/?term="],
 	"MGI_Mammalian_Phenotype": ["^MP(\\d+)_", 1, "http://www.informatics.jax.org/searches/Phat.cgi?id=MP:"],
 	"MSigDB_Computational": ["(^[\\w\\-]+$)", 1, "http://www.broadinstitute.org/gsea/msigdb/cards/"],
 	"MSigDB_Oncogenic_Signatures": ["(^[\\w\\.]+$)", 1, "http://www.broadinstitute.org/gsea/msigdb/cards/"],
-	"microRNA": ["^[TCGA]+,((?:MIR-[\\w\\-]+)|(?:LET-\\w+))", 1, "http://www.microrna.org/microrna/getTargets.do?matureName=hsa-"],
+	"microRNA": ["^[TCGA]+,((?:MIR-[\\w\\-]+)|(?:LET-\\w+))", 1, "http://www.microrna.org/microrna/getTargets.do?organism=9606&matureName=hsa-"],
 	"WikiPathways": ["(WP\\d+)", 1, "http://wikipathways.org/index.php/Pathway:"],
 	"KEGG": ["^HSA(\\d+)", 1, "http://www.genome.jp/kegg-bin/show_pathway?hsa"]
 }
