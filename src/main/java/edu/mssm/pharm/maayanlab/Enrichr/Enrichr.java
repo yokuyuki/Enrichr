@@ -67,7 +67,9 @@ public class Enrichr extends HttpServlet {
 			// Write gene count
 			session.setAttribute("length", Integer.toString(inputList.size()));
 			
-			Enrichment app = new Enrichment(inputList, true);
+			boolean validate = ("true".equals(request.getParameter("validate"))) ? true : false;
+			
+			Enrichment app = new Enrichment(inputList, validate);
 			session.setAttribute("process", app);			
 			request.getRequestDispatcher("results.jsp").forward(request, response);
 		}  catch (ParseException e) {
