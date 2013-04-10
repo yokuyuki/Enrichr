@@ -565,6 +565,11 @@ $(document).ready(function () {
 		}
 	);
 
+	// Populate shared link if from shared link
+	if (queryString('dataset')) {
+		$('#share-link input').val(window.location.href);
+	}
+
 	$.getJSON('json/linkmap.json', function(json) {
 		globals.linkMap = json;
 	});
