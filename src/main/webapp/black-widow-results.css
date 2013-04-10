@@ -151,6 +151,15 @@ div.grid-network div.svg-container {
 	vertical-align: middle;
 }
 
+#save.saved {
+	background: #ccc !important;
+	border-color: #ccc !important;
+}
+
+#save.saved a {
+	cursor: default;
+}
+
 #blanket {
 	background-color: #111;
 	filter: alpha(opacity=65);

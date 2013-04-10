@@ -456,7 +456,7 @@ function saveResult(popup) {
 	$.getJSON(dataUrl, function(json) {
 		if (json.expired) {
 			$('#session-warning').slideDown('fast', function() {
-				toggleClose();				
+				toggleClose();
 			});
 		}
 		else {
@@ -465,6 +465,8 @@ function saveResult(popup) {
 			if (popup) {
 				sharePopup();
 			}
+			$('#save').addClass('saved');
+			$('#save a')[0].onclick = null;
 		}
 	});
 }
