@@ -118,7 +118,7 @@
 				</td>
 			<% } %>
 			<td id="share">
-				<!-- Per CC Attribution 2.5, the share icon is attributed to Matt Brett from Share Icon Project -->
+				<!-- Share designed by Share Icon Project from The Noun Project -->
 				<a href="#" onclick="shareResult(); return false;" title="Share this result">
 					<img src="images/share.png"/>
 				</a>
