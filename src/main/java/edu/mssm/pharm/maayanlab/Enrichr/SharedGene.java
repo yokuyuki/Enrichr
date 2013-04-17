@@ -47,7 +47,7 @@ public class SharedGene implements Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "listid", insertable=false, updatable=false)
+	@JoinColumn(name = "listid", nullable = false)
 	public SharedList getSharedList() {
 		return this.sharedList;
 	}

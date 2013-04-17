@@ -102,9 +102,8 @@ public class SharedList implements Serializable {
 		this.shared = shared;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sharedList")
 	@Cascade({CascadeType.ALL})
-	@JoinColumn(name = "listid")
 	public Set<SharedGene> getSharedGenes() {
 		return this.sharedGenes;
 	}
