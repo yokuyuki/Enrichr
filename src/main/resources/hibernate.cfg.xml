@@ -15,5 +15,7 @@
 		<property name="show_sql">true</property>
 		<mapping class="edu.mssm.pharm.maayanlab.Enrichr.User"/>
 		<mapping class="edu.mssm.pharm.maayanlab.Enrichr.List"/>
+		<mapping class="edu.mssm.pharm.maayanlab.Enrichr.SharedList"/>
+		<mapping class="edu.mssm.pharm.maayanlab.Enrichr.SharedGene"/>
 	</session-factory>
 </hibernate-configuration>

@@ -1,10 +1,13 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -26,11 +29,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
+import edu.mssm.pharm.maayanlab.FileUtils;
 import edu.mssm.pharm.maayanlab.HibernateUtil;
 import edu.mssm.pharm.maayanlab.JSONify;
 import edu.mssm.pharm.maayanlab.math.HashFunctions;
 
-@WebServlet(urlPatterns = {"/account", "/login", "/register", "/forgot", "/reset", "/status", "/logout"})
+@WebServlet(urlPatterns = {"/account", "/login", "/register", "/forgot", "/reset", "/status", "/logout", "/contribute"})
 public class Account extends HttpServlet {
 	
 	private static final long serialVersionUID = 19776535963654466L;
@@ -102,6 +106,8 @@ public class Account extends HttpServlet {
 			reset(request, response, dbSession, json);
 		else if (request.getServletPath().equals("/account"))
 			modify(request, response, dbSession, json);
+		else if (request.getServletPath().equals("/contribute"))
+			contribute(request, response, dbSession, json);
 		
 		// Close database session and write out json
 		dbSession.getTransaction().commit();
@@ -247,6 +253,50 @@ public class Account extends HttpServlet {
 		else {
 			json.add("message", "The password you entered is incorrect.");
 		}
+	}
+	
+	private void contribute(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
+		HttpSession httpSession = request.getSession();		
+		User user = (User) httpSession.getAttribute("user");		
+		dbSession.update(user);
+		
+		// Make sure the user does own the list
+		String sharedListEncodedId = request.getParameter("list-id");
+		int sharedListId = Shortener.decode(sharedListEncodedId);
+		Set<List> userLists = user.getLists();
+		boolean ownership = false;
+		for (List userList : userLists) {
+			if (userList.getListid() == sharedListId) {
+				ownership = true;
+				break;
+			}
+		}
+		
+		if (!ownership)
+			return;
+		
+		SharedList sharedList = new SharedList(sharedListId, 
+				user, 
+				request.getParameter("description"), 
+				Boolean.parseBoolean(request.getParameter("privacy")));
+		
+		String resourceUrl = Enrichr.RESOURCE_PATH + sharedListEncodedId + ".txt";
+		if (!(new File(resourceUrl)).isFile()) {
+			return;
+		}
+		
+		ArrayList<String> input = FileUtils.readResource(resourceUrl);
+		if (input.get(0).startsWith("#"))	// If input line starts with comment
+			input.remove(0).replaceFirst("#", "");
+		
+		Set<SharedGene> sharedGenes = sharedList.getSharedGenes();
+		for (String gene : input) {
+			sharedGenes.add(new SharedGene(sharedList, gene));
+		}
+		
+		dbSession.save(sharedList);
+		
+		json.add("message", sharedListEncodedId);
 	}
 	
 	// Static function to commit new lists to the user so the Enrichr class doesn't make any db calls

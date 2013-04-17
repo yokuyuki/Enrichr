@@ -35,6 +35,8 @@ public class Enrichr extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 3310803710142519430L;
+	
+	protected static final String RESOURCE_PATH = "/datasets/";
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -87,7 +89,7 @@ public class Enrichr extends HttpServlet {
 		// Redirect to post if reading from file
 		String dataset = request.getParameter("dataset");
 		if (dataset != null) {
-			String resourceUrl = "/datasets/" + dataset + ".txt";
+			String resourceUrl = RESOURCE_PATH + dataset + ".txt";
 			if ((new File(resourceUrl)).isFile()) {
 				ArrayList<String> input = FileUtils.readResource(resourceUrl);
 				if (input.get(0).startsWith("#"))	// If input line starts with comment
