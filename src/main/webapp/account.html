@@ -39,6 +39,47 @@
 			</tr>
 		</table>
 	</div>
+	<div id="blanket" onclick="disableAllPopup();"></div>
+	<div class="popup beveled" id="share-link">
+		<div id="advice">Use Ctrl+C or Option+C to copy the link below.</div>
+		<input type="text" />
+	</div>
+	<div class="popup beveled" id="contribute-form">
+		<form id="contribute">
+			<input type="hidden" name="listId" />
+			<fieldset>
+				<legend>
+					<strong>Brief Description</strong>
+				</legend>
+				<label id="short-desc">
+					<input type="text" disabled name="shortDescription" />
+				</label>
+			</fieldset>
+			<fieldset>
+				<legend>
+					<strong>Full Description</strong>
+				</legend>
+				<label id="long-desc">
+					<textarea class="required has-placeholder" rows="5" name="description"></textarea>
+					<span class="placeholder-text">A more complete description of the list including details about the experiment and the sample</span>
+					<div class="errormsg">You can't leave this empty.</div>
+				</label>
+			</fieldset>
+			<fieldset>
+				<legend>
+					<strong>Privacy</strong>
+				</legend>
+				<label id="privacy">
+					<input type="checkbox" name="privacy" />Others can contact me for further details regarding my contributed list.
+				</label>
+			</fieldset>
+			<div class="clear"></div>
+			<div class="next-step">
+				<input type="image" src="images/navigate-up-icon.png" width="64" height="64" title="Contribute"/>
+			</div>
+			<div class="clear"></div>
+		</form>
+	</div>
 	<div id="content" class="beveled">
 		<div class="selected">
 			<div class="title">My Lists</div>

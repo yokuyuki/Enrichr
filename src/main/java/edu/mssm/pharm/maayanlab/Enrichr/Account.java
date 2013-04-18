@@ -257,11 +257,16 @@ public class Account extends HttpServlet {
 	
 	private void contribute(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
 		HttpSession httpSession = request.getSession();		
-		User user = (User) httpSession.getAttribute("user");		
+		User user = (User) httpSession.getAttribute("user");
+		
+		if (user == null) {
+			json.add("redirect", "login.html");
+			return;
+		}
 		dbSession.update(user);
 		
 		// Make sure the user does own the list
-		String sharedListEncodedId = request.getParameter("list-id");
+		String sharedListEncodedId = request.getParameter("listId");
 		int sharedListId = Shortener.decode(sharedListEncodedId);
 		Set<List> userLists = user.getLists();
 		boolean ownership = false;
@@ -272,8 +277,10 @@ public class Account extends HttpServlet {
 			}
 		}
 		
-		if (!ownership)
+		if (!ownership) {
+			json.add("message", "The list doesn't belong to you.");
 			return;
+		}
 		
 		SharedList sharedList = new SharedList(sharedListId, 
 				user, 
@@ -296,7 +303,7 @@ public class Account extends HttpServlet {
 		
 		dbSession.save(sharedList);
 		
-		json.add("message", sharedListEncodedId);
+		json.add("listId", sharedListEncodedId);
 	}
 	
 	// Static function to commit new lists to the user so the Enrichr class doesn't make any db calls

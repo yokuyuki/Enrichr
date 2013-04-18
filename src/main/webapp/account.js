@@ -76,23 +76,49 @@ function submitModify() {
 	return false;
 }
 
+function validateContribute() {
+	var description = $('form#contribute textarea[name=description]');
+
+	if (description.val().trim() == '') {
+		alert('You must enter some kind of description for the list.');
+		description.addClass('error');
+	}
+	else
+		return true;
+
+	return false;
+}
+
+function submitContribute() {
+	if (validateContribute()) {
+		$.ajax({
+			type: 'POST',
+			url: 'contribute',
+			dataType: 'json',
+			data: {
+				listId: $('form#contribute input[name=listId]').val(),
+				description: $('form#contribute textarea[name=description]').val(),
+				privacy: !$('form#contribute input[name=privacy]').prop('checked')
+			},
+			success: function(json) {
+				alert('Thanks for contributing and making Enrichr better!');
+				disableAllPopup();
+			}
+		});
+	}	
+
+	return false;
+}
+
 // Create tables
 function createTable(dataArray, container) {
 	$(container).dataTable({
 		'aaData': dataArray,
 		'aoColumns': [
 			{
-				'mData': 'description',
-				'sTitle': 'Description',
-				'sClass': 'left',
-				'sWidth': '75%',
-				'mRender': function(data, type, full) {
-					return '<a href="' + 'enrich?dataset=' + full['list_id'] + '">' + data + '</a>';
-				}
-			},
-			{
 				'mData': 'created',
 				'sTitle': 'Created On',
+				'sWidth': '25%',
 				'sClass': 'left',
 				'sDefaultContent': 'Now',
 				'bSearchable': false
@@ -101,9 +127,28 @@ function createTable(dataArray, container) {
 				'mData': 'list_id',
 				'bSearchable': false,
 				'bVisible': false
+			},
+			{
+				'mData': 'description',
+				'sTitle': 'Description',
+				'sClass': 'left',
+				'mRender': function(data, type, full) {
+					return '<a href="' + 'enrich?dataset=' + full['list_id'] + '">' + data + '</a>';
+				}
+			},
+			{
+				'mData': 'list_id',
+				'sTitle': 'Actions',
+				'sClass': 'left',
+				'sWidth': '10%',
+				'bSearchable': false,
+				'bSortable': false,
+				'mRender': function(data, type, full) {
+					return '<a href="#" onclick="contributePopup(\'' + full['description'] + '\', \'' + data + '\');" class="action"><img src="images/contribute.png" title="Contribute this list to a crowdsourced gene-set library"/></a>&nbsp;<a href="#" onclick="sharePopup(\'' + data + '\');" class="action"><img src="images/share_black.png" title="Share this list to collaborators"/></a>';
+				}
 			}
 		],
-		'aaSorting': [[1, 'desc'], [2, 'desc']],
+		'aaSorting': [[0, 'desc'], [1, 'desc']],
 		'oLanguage': {
 			'sLengthMenu': '_MENU_ lists per page',
 			'sInfo': 'Showing _START_ to _END_ of _TOTAL_ lists'
@@ -111,27 +156,60 @@ function createTable(dataArray, container) {
 	});	
 }
 
+function contributePopup(description, listId) {
+	var popup = $('#contribute-form');
+	var blanket = $('#blanket');
+
+	centerPopup(popup);
+	loadPopup(popup, blanket);
+	popup.find('#short-desc input[name=shortDescription]').val(description);
+	popup.find('input[name=listId]').val(listId);
+
+	return false;
+}
+
+function sharePopup(listId) {
+	var popup = $('#share-link');
+	var blanket = $('#blanket');
+
+	centerPopup(popup);
+	loadPopup(popup, blanket);
+	var shareText = popup.find('input');
+	shareText.val(window.location.protocol + '//' + window.location.host + '/Enrichr/enrich?dataset=' + listId);
+	shareText.select();
+
+	return false;
+}
+
+function loadPopup(popup, blanket) {
+	blanket.css({'opacity': '0.65'});
+	blanket.fadeIn();
+	popup.fadeIn();
+}
+
+function disableAllPopup() {
+	$('#blanket').fadeOut();
+	$('.popup').fadeOut();
+}
+
+function centerPopup(popup) {
+	//request data for centering
+	var windowWidth = document.documentElement.clientWidth;
+	var windowHeight = document.documentElement.clientHeight;
+	var popupHeight = popup.height();
+	var popupWidth = popup.width();
+	//centering
+	popup.css({		
+		'margin-top': -1*popupHeight/2,
+		'margin-left': -1*popupWidth/2
+	});
+}
+
 function hashcheck(onload) {
 	var transitionSpeed = (typeof onload !== 'boolean') ? 'slow' : 0;
 
 	var hash = window.location.hash.substring(1);
-	if (hash[0] == '!') {
-		// Not on find tab
-		if (globals.tabList[$('div.selected').index()] != 'find') {
-			navigateTo(globals.tabList.indexOf('find'), transitionSpeed);
-			if (!onload)
-				return;
-		}
-
-		// Query gene
-		hash = hash.substring(1);
-		var parms = hash.split('=');
-		if (parms[0] == 'gene')
-			queryGene(parms[1]);
-	}
-	else {
-		navigateTo(globals.tabList.indexOf(hash), transitionSpeed);
-	}
+	navigateTo(globals.tabList.indexOf(hash), transitionSpeed);
 }
 
 $(document).ready(function () {
@@ -139,6 +217,11 @@ $(document).ready(function () {
 	globals = {};	// Stores global vars
 	globals.changingCategory = false;	// Prevent changing category too fast
 	globals.tabList = ['', 'settings'];
+
+	// Define new selector for empty input fields
+	$.expr[':'].emptyValue = function (elem) {
+		return $(elem).is(":input") && $(elem).val() === "";
+	};
 
 	// Onload hash check
 	hashcheck(true);
@@ -185,12 +268,12 @@ $(document).ready(function () {
 			populateFields('firstname', json.firstname);
 			populateFields('lastname', json.lastname);
 			populateFields('institution', json.institution);
+			$('.has-placeholder:emptyValue').next('span.placeholder-text').show();
 		}
 	});
 
 	// Enable placeholders and error messages for required fields
-	$('input.has-placeholder:text[value=""]').next('span.placeholder-text').show();
-	$('input.has-placeholder, input.required').focus(function() {
+	$('.has-placeholder, .required').focus(function() {
 		var input = $(this);
 		input.next('span.placeholder-text').hide();
 		if (input.hasClass('required')) {
@@ -222,4 +305,5 @@ $(document).ready(function () {
 	})
 
 	$('#modify').submit(submitModify);
+	$('#contribute').submit(submitContribute);
 });
