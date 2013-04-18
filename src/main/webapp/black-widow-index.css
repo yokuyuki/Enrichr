@@ -32,7 +32,7 @@ table#data-input td {
 }
 
 table#data-input tr#genes p {
-	margin-bottom: 1em;
+	margin-bottom: 0.5em;
 }
 
 a#example-input:hover, div.answer a:hover {
@@ -44,7 +44,8 @@ textarea {
 }
 
 div#gene-count {
-	font-style: italic;	
+	font-size: 14px;
+	text-align: right;
 }
 
 tr#description td {
@@ -52,6 +53,7 @@ tr#description td {
 }
 
 tr#description input {
+	margin-top: 0.5em;
 	width: 100%;
 }
 
