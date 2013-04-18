@@ -156,23 +156,7 @@ function hashcheck(onload) {
 	var transitionSpeed = (typeof onload !== 'boolean') ? 'slow' : 0;
 
 	var hash = window.location.hash.substring(1);
-	if (hash[0] == '!') {
-		// Not on find tab
-		if (globals.tabList[$('div.selected').index()] != 'find') {
-			navigateTo(globals.tabList.indexOf('find'), transitionSpeed);
-			if (!onload)
-				return;
-		}
-
-		// Query gene
-		hash = hash.substring(1);
-		var parms = hash.split('=');
-		if (parms[0] == 'gene')
-			queryGene(parms[1]);
-	}
-	else {
-		navigateTo(globals.tabList.indexOf(hash), transitionSpeed);
-	}
+	navigateTo(globals.tabList.indexOf(hash), transitionSpeed);
 }
 
 $(document).ready(function () {
@@ -205,7 +189,10 @@ $(document).ready(function () {
 	);
 
 	// Enable placeholders and error messages for required fields
-	$('input.has-placeholder:text[value=""]').next('span.placeholder-text').show();
+	$.expr[':'].emptyValue = function (elem) {
+		return $(elem).is(":input") && $(elem).val() === "";
+	};
+	$('input.has-placeholder:emptyValue').next('span.placeholder-text').show();
 	$('input.has-placeholder').focus(function() {
 		var input = $(this);
 		input.next('span.placeholder-text').hide();

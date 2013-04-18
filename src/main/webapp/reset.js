@@ -73,8 +73,21 @@ $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	globals = {};	// Stores global vars
 
+	// Fill values based on link
+	var email = queryString('user');
+	if (email) {
+		$('form#reset input[name=email]').val(email).next('span.placeholder-text').hide();
+	}
+	var auth = queryString('token');
+	if (auth) {
+		$('form#reset input[name=token]').val(auth).next('span.placeholder-text').hide();
+	}
+
 	// Enable placeholders and error messages for required fields
-	$('input.has-placeholder:text[value=""]').next('span.placeholder-text').show();
+	$.expr[':'].emptyValue = function (elem) {
+		return $(elem).is(":input") && $(elem).val() === "";
+	};
+	$('input.has-placeholder:emptyValue').next('span.placeholder-text').show();
 	$('input.has-placeholder').focus(function() {
 		var input = $(this);
 		input.next('span.placeholder-text').hide();
@@ -105,15 +118,6 @@ $(document).ready(function () {
 			$('form#reset input[type=password]').addClass('error');
 		}
 	})
-
-	var email = queryString('user');
-	if (email) {
-		$('form#reset input[name=email]').val(email).next('span.placeholder-text').hide();
-	}
-	var auth = queryString('token');
-	if (auth) {
-		$('form#reset input[name=token]').val(auth).next('span.placeholder-text').hide();
-	}
 
 	$('#reset').submit(submitReset);
 });
