@@ -101,7 +101,15 @@ function submitContribute() {
 				privacy: !$('form#contribute input[name=privacy]').prop('checked')
 			},
 			success: function(json) {
-				alert('Thanks for contributing and making Enrichr better!');
+				if (json.message) {
+					alert(json.message);
+				}
+				else if (json.redirect) {
+					window.location.replace(json.redirect);
+				}
+				else if (json.listId) {
+					alert('Thanks for contributing and making Enrichr better!');
+				}				
 				disableAllPopup();
 			}
 		});
