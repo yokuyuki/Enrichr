@@ -17,7 +17,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -190,9 +189,8 @@ public class User implements Serializable {
 		this.accessed = null;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
-	@JoinColumn(name = "ownerid")
 	public Set<List> getLists() {
 		return this.lists;
 	}
