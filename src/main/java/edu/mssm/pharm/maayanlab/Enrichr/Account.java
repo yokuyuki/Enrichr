@@ -265,12 +265,16 @@ public class Account extends HttpServlet {
 		}
 		dbSession.update(user);
 		
-		// Make sure the user does own the list
+		// Make sure the user does own the list and list isn't already shared
 		String sharedListEncodedId = request.getParameter("listId");
 		int sharedListId = Shortener.decode(sharedListEncodedId);
 		List list = (List) dbSession.get(List.class, sharedListId);
-		if (list != null && list.getUser().equals(user)) {
-			SharedList sharedList = new SharedList(sharedListId, 
+		SharedList sharedList = (SharedList) dbSession.get(SharedList.class, sharedListId);
+		if (sharedList != null) {
+			json.add("message", "You've already contributed that list.");
+		}
+		else if (list != null && list.getUser().equals(user)) {
+			sharedList = new SharedList(sharedListId, 
 					user, 
 					request.getParameter("description"), 
 					Boolean.parseBoolean(request.getParameter("privacy")));
