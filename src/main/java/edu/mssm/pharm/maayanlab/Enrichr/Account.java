@@ -34,7 +34,7 @@ import edu.mssm.pharm.maayanlab.HibernateUtil;
 import edu.mssm.pharm.maayanlab.JSONify;
 import edu.mssm.pharm.maayanlab.math.HashFunctions;
 
-@WebServlet(urlPatterns = {"/account", "/login", "/register", "/forgot", "/reset", "/status", "/logout", "/contribute"})
+@WebServlet(urlPatterns = {"/account", "/login", "/register", "/forgot", "/reset", "/status", "/logout", "/contribute", "/delete"})
 public class Account extends HttpServlet {
 	
 	private static final long serialVersionUID = 19776535963654466L;
@@ -268,42 +268,55 @@ public class Account extends HttpServlet {
 		// Make sure the user does own the list
 		String sharedListEncodedId = request.getParameter("listId");
 		int sharedListId = Shortener.decode(sharedListEncodedId);
-		Set<List> userLists = user.getLists();
-		boolean ownership = false;
-		for (List userList : userLists) {
-			if (userList.getListid() == sharedListId) {
-				ownership = true;
-				break;
+		List list = (List) dbSession.get(List.class, sharedListId);
+		if (list != null && list.getUser().equals(user)) {
+			SharedList sharedList = new SharedList(sharedListId, 
+					user, 
+					request.getParameter("description"), 
+					Boolean.parseBoolean(request.getParameter("privacy")));
+			
+			// Look for list on path
+			String resourceUrl = Enrichr.RESOURCE_PATH + sharedListEncodedId + ".txt";
+			if (!(new File(resourceUrl)).isFile()) {
+				return;
 			}
+			
+			// Read file
+			ArrayList<String> input = FileUtils.readResource(resourceUrl);
+			if (input.get(0).startsWith("#"))	// If input line starts with comment
+				input.remove(0).replaceFirst("#", "");
+			
+			// Add each gene in list
+			Set<SharedGene> sharedGenes = sharedList.getSharedGenes();
+			for (String gene : input) {
+				sharedGenes.add(new SharedGene(sharedList, gene));
+			}
+			
+			dbSession.save(sharedList);		
+			json.add("listId", sharedListEncodedId);
 		}
+		else {
+			json.add("message", "The list doesn't belong to you.");			
+		}
+	}
+	
+	private void delete(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
+		HttpSession httpSession = request.getSession();		
+		User user = (User) httpSession.getAttribute("user");
 		
-		if (!ownership) {
-			json.add("message", "The list doesn't belong to you.");
+		if (user == null) {
+			json.add("redirect", "login.html");
 			return;
 		}
+		dbSession.update(user);
 		
-		SharedList sharedList = new SharedList(sharedListId, 
-				user, 
-				request.getParameter("description"), 
-				Boolean.parseBoolean(request.getParameter("privacy")));
-		
-		String resourceUrl = Enrichr.RESOURCE_PATH + sharedListEncodedId + ".txt";
-		if (!(new File(resourceUrl)).isFile()) {
-			return;
+		List list = (List) dbSession.get(List.class, Shortener.decode(request.getParameter("listId")));
+		if (list != null) {
+			user.getLists().remove(list);
+			dbSession.update(user);
 		}
 		
-		ArrayList<String> input = FileUtils.readResource(resourceUrl);
-		if (input.get(0).startsWith("#"))	// If input line starts with comment
-			input.remove(0).replaceFirst("#", "");
-		
-		Set<SharedGene> sharedGenes = sharedList.getSharedGenes();
-		for (String gene : input) {
-			sharedGenes.add(new SharedGene(sharedList, gene));
-		}
-		
-		dbSession.save(sharedList);
-		
-		json.add("listId", sharedListEncodedId);
+		json.add("redirect", "account.html");
 	}
 	
 	// Static function to commit new lists to the user so the Enrichr class doesn't make any db calls
