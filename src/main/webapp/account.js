@@ -118,6 +118,26 @@ function submitContribute() {
 	return false;
 }
 
+function submitDelete() {
+	$.ajax({
+		type: 'POST',
+		url: 'delete',
+		dataType: 'json',
+		data: {
+			listId: $('form#delete input[name=listId]').val(),
+		},
+		success: function(json) {
+			if (json.message) {
+				alert(json.message);
+			}
+			else if (json.redirect) {
+				window.location.replace(json.redirect);
+			}
+			disableAllPopup();
+		}
+	});
+}
+
 // Create tables
 function createTable(dataArray, container) {
 	$(container).dataTable({
@@ -152,7 +172,7 @@ function createTable(dataArray, container) {
 				'bSearchable': false,
 				'bSortable': false,
 				'mRender': function(data, type, full) {
-					return '<a href="#" onclick="contributePopup(\'' + full['description'] + '\', \'' + data + '\');" class="action"><img src="images/contribute.png" title="Contribute this list to a crowdsourced gene-set library"/></a>&nbsp;<a href="#" onclick="sharePopup(\'' + data + '\');" class="action"><img src="images/share_black.png" title="Share this list to collaborators"/></a>';
+					return '<a href="#" onclick="contributePopup(\'' + full['description'] + '\', \'' + data + '\');" class="action"><img src="images/contribute.png" title="Contribute this list to a crowdsourced gene-set library"/></a>&nbsp;<a href="#" onclick="sharePopup(\'' + data + '\');" class="action"><img src="images/share_black.png" title="Share this list to collaborators"/></a>&nbsp;<a href="#" onclick="deletePopup(\'' + data + '\');" class="action"><img src="images/delete.png" title="Delete this list"/></a>';
 				}
 			}
 		],
@@ -162,6 +182,17 @@ function createTable(dataArray, container) {
 			'sInfo': 'Showing _START_ to _END_ of _TOTAL_ lists'
 		}
 	});	
+}
+
+function deletePopup(listId) {
+	var popup = $('#delete-form');
+	var blanket = $('#blanket');
+
+	centerPopup(popup);
+	loadPopup(popup, blanket);
+	popup.find('input[name=listId]').val(listId);
+
+	return false;
 }
 
 function contributePopup(description, listId) {
@@ -314,4 +345,5 @@ $(document).ready(function () {
 
 	$('#modify').submit(submitModify);
 	$('#contribute').submit(submitContribute);
+	$('#delete').submit(submitDelete);
 });

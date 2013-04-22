@@ -134,7 +134,7 @@ div.popup {
 	outline: none;
 }
 
-#contribute-form, textarea[name="description"] {
+#contribute-form, #delete-form, textarea[name="description"] {
 	width: 220px;
 }
 
@@ -145,4 +145,15 @@ div.popup {
 
 #short-desc input {
 	background: #fff;
+}
+
+#delete-buttons {
+	text-align: center;
+}
+
+#delete-buttons input {
+	margin-top: 0.5em;
+	margin: 0.5em 0.1em 0em 0.1em;
+	padding: 4px;
+	width: 36px;
 }

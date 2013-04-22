@@ -108,6 +108,8 @@ public class Account extends HttpServlet {
 			modify(request, response, dbSession, json);
 		else if (request.getServletPath().equals("/contribute"))
 			contribute(request, response, dbSession, json);
+		else if (request.getServletPath().equals("/delete"))
+			delete(request, response, dbSession, json);
 		
 		// Close database session and write out json
 		dbSession.getTransaction().commit();
@@ -282,7 +284,7 @@ public class Account extends HttpServlet {
 			// Look for list on path
 			String resourceUrl = Enrichr.RESOURCE_PATH + sharedListEncodedId + ".txt";
 			if (!(new File(resourceUrl)).isFile()) {
-				return;
+				throw new IOException("List doesn't exist");
 			}
 			
 			// Read file
@@ -314,10 +316,17 @@ public class Account extends HttpServlet {
 		}
 		dbSession.update(user);
 		
-		List list = (List) dbSession.get(List.class, Shortener.decode(request.getParameter("listId")));
-		if (list != null) {
+		String listEncodedId = request.getParameter("listId");
+		List list = (List) dbSession.get(List.class, Shortener.decode(listEncodedId));
+		if (list != null && list.getUser().equals(user)) {
 			user.getLists().remove(list);
 			dbSession.update(user);
+			
+			String resourceUrl = Enrichr.RESOURCE_PATH + listEncodedId + ".txt";
+			File file = new File(resourceUrl);
+			if (!file.delete()) {
+				throw new IOException("Delete failed");
+			}
 		}
 		
 		json.add("redirect", "account.html");
