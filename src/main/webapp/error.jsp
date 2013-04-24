@@ -17,21 +17,6 @@
 		<a href="index.html"><img src="images/enrichr-icon.png"/><span>En</span><span class="red">rich</span><span>r</span></a>
 	</div>
 	<div class="clear"></div>
-	<div id="navbar" class="nav">
-		<table>
-			<tr>
-				<td>
-					<a href="login.html">Login</a>
-				</td>
-				<td>
-					<a href="login.html#register">Register</a>
-				</td>
-				<td>
-					<a href="login.html#forgot">Forgot Your Password?</a>
-				</td>				
-			</tr>
-		</table>
-	</div>
 	<div id="content" class="beveled">
 		<div class="title">Error</div>
 		<div>
@@ -39,7 +24,7 @@
 			<% if (error != null) { %>
 				<%= error %>
 			<% } else { %>
-				<% response.sendRedirect("login.html"); %>
+				<% response.sendRedirect("index.html"); %>
 			<% } %>
 		</div>
 	</div>

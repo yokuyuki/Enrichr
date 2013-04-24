@@ -99,7 +99,8 @@ public class Enrichr extends HttpServlet {
 				postResult(request, response, input);
 			}
 			else {
-				//TODO: Add error message
+				request.setAttribute("error", "This dataset doesn't exist.");
+				request.getRequestDispatcher("error.jsp").forward(request, response);
 			}
 			
 			return;
