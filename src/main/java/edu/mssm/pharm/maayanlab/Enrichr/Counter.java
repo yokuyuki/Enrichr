@@ -12,7 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 import edu.mssm.pharm.maayanlab.FileUtils;
+import edu.mssm.pharm.maayanlab.HibernateUtil;
 
 @WebServlet(urlPatterns = {"/count"}, loadOnStartup=1)
 public class Counter extends HttpServlet {
@@ -22,8 +27,8 @@ public class Counter extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -682732829814620653L;
 
-	private AtomicInteger count = new AtomicInteger(0);
-	private AtomicInteger share = new AtomicInteger(0);
+	private static AtomicInteger count = new AtomicInteger(0);
+	private static AtomicInteger share = new AtomicInteger(0);
 
 	@Override
 	public void init() throws ServletException {
@@ -68,4 +73,17 @@ public class Counter extends HttpServlet {
 		FileUtils.writeString("/datasets/share", share.toString());
 	}
 
+//	static void increment(String name, AtomicInteger value) {
+//		SessionFactory sf = HibernateUtil.getSessionFactory();
+//		Session session = null;
+//		try {
+//			session = sf.getCurrentSession();
+//		} catch (HibernateException he) {
+//			session = sf.openSession();
+//		}
+//		session.beginTransaction();
+//		session.update(user);
+//		session.getTransaction().commit();
+//		session.close();
+//	}
 }
