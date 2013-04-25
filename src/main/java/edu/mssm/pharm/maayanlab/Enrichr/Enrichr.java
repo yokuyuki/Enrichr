@@ -76,9 +76,10 @@ public class Enrichr extends HttpServlet {
 			request.getRequestDispatcher("results.jsp").forward(request, response);
 		}  catch (ParseException e) {
 			if (e.getErrorOffset() == -1)
-				response.getWriter().println("Invalid input: Input list is empty.");
+				request.setAttribute("error", "Invalid input: Input list is empty.");
 			else
-				response.getWriter().println("Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
+				request.setAttribute("error", "Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 	}
 	
