@@ -77,10 +77,9 @@ public class Enrichr extends HttpServlet {
 			request.getRequestDispatcher("results.jsp").forward(request, response);
 		}  catch (ParseException e) {
 			if (e.getErrorOffset() == -1)
-				request.setAttribute("error", "Invalid input: Input list is empty.");
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input: Input list is empty.");
 			else
-				request.setAttribute("error", "Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
-			request.getRequestDispatcher("error.jsp").forward(request, response);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
 		}
 	}
 	
@@ -101,8 +100,7 @@ public class Enrichr extends HttpServlet {
 				postResult(request, response, input);
 			}
 			else {
-				request.setAttribute("error", "This dataset doesn't exist.");
-				request.getRequestDispatcher("error.jsp").forward(request, response);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "This dataset doesn't exist.");
 			}
 			
 			return;

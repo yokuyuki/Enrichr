@@ -20,12 +20,7 @@
 	<div id="content" class="beveled">
 		<div class="title">Error</div>
 		<div>
-			<% String error = (String) request.getAttribute("error"); %>
-			<% if (error != null) { %>
-				<%= error %>
-			<% } else { %>
-				<% response.sendRedirect("index.html"); %>
-			<% } %>
+			<%= request.getAttribute("javax.servlet.error.message") %> (<%= request.getAttribute("javax.servlet.error.status_code") %>)
 		</div>
 	</div>
 </body>
