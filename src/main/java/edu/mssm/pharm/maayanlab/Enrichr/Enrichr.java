@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -57,7 +56,9 @@ public class Enrichr extends HttpServlet {
 			request.getSession().removeAttribute("description");
 		
 		// Increment count
-		((AtomicInteger) getServletContext().getAttribute("EnrichrCount")).incrementAndGet();
+		Counter count = (Counter) getServletContext().getAttribute("enrichment_count");
+		count.incrementAndGet();
+		Counters.updateCounter(count);
 		
 		postResult(request, response, inputList);
 	}
@@ -155,7 +156,9 @@ public class Enrichr extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		int listNumber = ((AtomicInteger) getServletContext().getAttribute("ShareCount")).getAndIncrement();		
+		Counter share = (Counter) getServletContext().getAttribute("share_count");
+		int listNumber = share.getAndIncrement();
+		Counters.updateCounter(share);
 		String fileId = Shortener.encode(listNumber);
 		
 		String description = (String) session.getAttribute("description");

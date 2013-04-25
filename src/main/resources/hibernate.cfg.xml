@@ -17,5 +17,6 @@
 		<mapping class="edu.mssm.pharm.maayanlab.Enrichr.List"/>
 		<mapping class="edu.mssm.pharm.maayanlab.Enrichr.SharedList"/>
 		<mapping class="edu.mssm.pharm.maayanlab.Enrichr.SharedGene"/>
+		<mapping class="edu.mssm.pharm.maayanlab.Enrichr.Counter"/>
 	</session-factory>
 </hibernate-configuration>
