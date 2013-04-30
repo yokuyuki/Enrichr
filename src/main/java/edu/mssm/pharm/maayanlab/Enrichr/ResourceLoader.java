@@ -1,3 +1,10 @@
+/**
+ * Parses XML describing the structure of the gene set libraries.
+ * 
+ * @author		Edward Y. Chen
+ * @since		4/30/2013 
+ */
+
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.InputStream;
@@ -11,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.gson.Gson;
 
-public class ResourceLoader {	// Parses XML describing the structure of the gene set libraries
+public class ResourceLoader {
 
 	private static final ResourceLoader instance; // Singleton
 	private static EnrichmentCategory[] categories;	// Data structure storing java representation of the XML
