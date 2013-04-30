@@ -1,3 +1,10 @@
+/**
+ * Initializes Hibernate and JSONify when servlet context is created and then destroys them when it is destroyed.
+ * 
+ * @author		Edward Y. Chen
+ * @since		03/01/2013
+ */
+
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.util.Set;
@@ -22,7 +29,7 @@ public class ContextFinalizer implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		HibernateUtil.getSessionFactory(); // Just call the static initializer of that class
-		
+		// Register type adapter with JSONify to serialize List object properly
 		JSONify.setConverter(new GsonBuilder().registerTypeAdapter(List.class, new ListAdapter()).setDateFormat("yyyy/MM/dd HH:mm:ss").create());
 	}       
 

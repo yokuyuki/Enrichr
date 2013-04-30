@@ -1,3 +1,10 @@
+/**
+ * Shortener encodes numbers to base 36 to create a shortened link like flic.kr.
+ * 
+ * @author		Edward Y. Chen
+ * @since		01/16/2013 
+ */
+
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 public class Shortener {
@@ -8,6 +15,7 @@ public class Shortener {
 	public static String encode(int number) {
 		StringBuilder linkId = new StringBuilder();
 		
+		// Convert base 10 to base 36 from least significant digit to most significant
 		do {
 			int remainder = (int) (number % base);
 			linkId.append(alphabet.charAt(remainder));
