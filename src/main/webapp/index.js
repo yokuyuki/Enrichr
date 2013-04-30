@@ -133,8 +133,6 @@ function queryGene(gene) {
 	$.getJSON('genemap', getParams, function(json) {
 		if (typeof globals.categories === 'undefined') {
 			globals.categories = json.categories
-			globals.backgroundTypes = json.backgroundTypes
-			globals.formats = json.formats
 		}
 
 		if (json.gene == null) {
@@ -148,18 +146,19 @@ function queryGene(gene) {
 
 		for (var i = 0; i < globals.categories.length; i++) {
 			var category = globals.categories[i];
+			var categoryName = category.name;
 
 			// Pulled in front to edit category to be id friendly
-			var categoryText = document.createTextNode(category);
-			category = category.replace(/[ //]/g, '-');
+			var categoryText = document.createTextNode(categoryName);
+			categoryName = categoryName.replace(/[ //]/g, '-');
 
 			var categoryDiv = document.createElement('div');
 			categoryDiv.className = 'category';
-			categoryDiv.id = category;
+			categoryDiv.id = categoryName;
 			
 			var categoryToggleDiv = document.createElement('div');
 			categoryToggleDiv.className = 'toggleIcon';
-			categoryToggleDiv.onclick = toggleFunc(category);
+			categoryToggleDiv.onclick = toggleFunc(categoryName);
 			categoryDiv.appendChild(categoryToggleDiv);
 			
 			categoryDiv.appendChild(categoryText);
@@ -170,22 +169,23 @@ function queryGene(gene) {
 
 			mainDiv.appendChild(categoryDiv);
 
-			for (var j = 0; j < globals.backgroundTypes[i].length; j++) {
-				var backgroundType = globals.backgroundTypes[i][j]
+			for (var j = 0; j < category.libraries.length; j++) {
+				var library = category.libraries[j];
+				var libraryName = library.name;
 
-				if (!(backgroundType in json.gene))
+				if (!(libraryName in json.gene))
 					continue;
 
 				var typeDiv = document.createElement('div');
 				typeDiv.className = 'background-type';
-				typeDiv.id = backgroundType;
+				typeDiv.id = libraryName;
 
 				var typeToggleDiv = document.createElement('div');
 				typeToggleDiv.className = 'toggleIcon';
-				typeToggleDiv.onclick = toggleFunc(backgroundType);
+				typeToggleDiv.onclick = toggleFunc(libraryName);
 				typeDiv.appendChild(typeToggleDiv);
 
-				var typeText = document.createTextNode(globals.backgroundTypes[i][j].replace(/_/g, ' '));
+				var typeText = document.createTextNode(libraryName.replace(/_/g, ' '));
 				typeDiv.appendChild(typeText);
 
 				var resultsDiv = document.createElement('div');
@@ -194,8 +194,8 @@ function queryGene(gene) {
 
 				backgroundTypesDiv.appendChild(typeDiv);
 
-				var terms = json.gene[backgroundType];
-				var formatString = globals.formats[backgroundType]
+				var terms = json.gene[libraryName];
+				var formatString = library.format
 				var formattedTerms = [];
 				for (var k in terms) {
 					formattedTerms.push(formatString.format('<span class="gene">' + gene + '</span>', '<span class="term">' + terms[k] + '</span>'));
