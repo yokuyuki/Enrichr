@@ -1,46 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<%@ page import="java.util.HashSet" %>
-<%@ page import="edu.mssm.pharm.maayanlab.Enrichr.Enrichment" %>
 <%@ page import="edu.mssm.pharm.maayanlab.Enrichr.User" %>
-<%! private String[][] enrichmentTypes = Enrichment.categorizedEnrichmentTypes; %>
-<%! private String[] categories = Enrichment.categories; %>
-<%! private HashSet<String> gridAvailable = new HashSet<String>() {{
-	add("BioCarta");
-	add("Cancer_Cell_Line_Encyclopedia");
-	add("ChEA");
-	// add("Chromosome_Location");
-	add("CORUM");
-	add("Down-regulated_CMAP");
-	add("ENCODE_TF_ChIP-seq");
-	add("GeneSigDB");
-	add("Genome_Browser_PWMs");
-	add("GO_Biological_Process");
-	add("GO_Cellular_Component");
-	add("GO_Molecular_Function");
-	add("Histone_Modifications_ChIP-seq");
-	add("HMDB_Metabolites");
-	add("Human_Endogenous_Complexome");
-	add("Human_Gene_Atlas");
-	add("KEA");
-	add("KEGG");
-	add("MGI_Mammalian_Phenotype");
-	add("microRNA");
-	// add("MSigDB_Computational");
-	// add("MSigDB_Oncogenic_Signatures");
-	add("Mouse_Gene_Atlas");
-	add("NCI-60_Cancer_Cell_Lines");
-	add("OMIM_Disease");
-	add("OMIM_Expanded");
-	add("Pfam_InterPro_Domains"); 
-	add("PPI_Hub_Proteins");
-	add("Reactome");
-	add("SILAC_Phosphoproteomics");
-	add("TRANSFAC_and_JASPAR_PWMs");
-	add("Up-regulated_CMAP");
-	add("VirusMINT");
-	add("WikiPathways");
-}}; %>
+<%@ page import="edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader" %>
+<%@ page import="edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory" %>
+<%@ page import="edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.GeneSetLibrary" %>
+<%! private EnrichmentCategory[] categories = ResourceLoader.getInstance().getCategories(); %>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 	<meta name="author" content="Edward Y. Chen"/>
@@ -87,7 +51,7 @@
 			<tr>
 				<% for (int i = 0; i < categories.length; i++) { %>
 				<td <%=(i==0) ? "class=\"shown\"" : ""%>>
-					<a href="#" onclick="showCategory(<%=i%>); return false;"><%=categories[i]%></a>
+					<a href="#" onclick="showCategory(<%=i%>); return false;"><%=categories[i].getName() %></a>
 				</td>
 				<% } %>
 			</tr>
@@ -133,7 +97,8 @@
 	</a>
 	<% for (int i = 0; i < categories.length; i++) { %>
 		<div class="<%=(i==0) ? "shown" : "hidden"%> category">
-			<% for (String type : enrichmentTypes[i]) { %>
+			<% for (GeneSetLibrary library : categories[i].getLibraries()) { %>
+				<% String type = library.getName(); %>
 				<% String name = type.replaceAll("_", " "); %>
 				<div class="beveled" id="<%=type%>">
 					<div class="header">
@@ -146,7 +111,7 @@
 								<td>
 									<a href="#" onclick="navigateTo(1, '#<%=type%>'); return false;">Table</a>
 								</td>
-								<% if (gridAvailable.contains(type)) { %>
+								<% if (library.hasGrid()) { %>
 									<td>
 										<a href="#" onclick="navigateTo(2, '#<%=type%>'); return false;">Grid</a>
 									</td>
@@ -183,7 +148,7 @@
 								<a href="#" onclick="tsvExport('<%=type%>_table', '<%=type%>')">Export entries to table</a>
 							</div>
 						</div>
-						<% if (gridAvailable.contains(type)) { %>
+						<% if (library.hasGrid()) { %>
 							<div class="grid hidden">
 								<table>
 									<tr>
