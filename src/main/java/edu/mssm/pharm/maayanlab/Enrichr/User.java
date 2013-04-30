@@ -1,7 +1,5 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
-// Generated Dec 13, 2012 12:26:26 PM by Hibernate Tools 4.0.0
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;

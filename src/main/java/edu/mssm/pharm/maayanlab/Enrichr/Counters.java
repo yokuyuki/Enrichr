@@ -1,3 +1,10 @@
+/**
+ * Initializes, saves, and responds to requests to retrieve or update the counter for number of lists enriched and shared.
+ * 
+ * @author		Edward Y. Chen
+ * @since		09/12/2012 
+ */
+
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.BufferedReader;

@@ -30,9 +30,6 @@ import edu.mssm.pharm.maayanlab.PartReader;
 @MultipartConfig
 public class Enrichr extends HttpServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3310803710142519430L;
 	
 	protected static final String RESOURCE_PATH = "/datasets/";

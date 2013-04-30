@@ -1,3 +1,10 @@
+/**
+ * Handles user accounts.
+ * 
+ * @author		Edward Y. Chen
+ * @since		02/08/2013 
+ */
+
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.File;
