@@ -1,6 +1,8 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import edu.mssm.pharm.maayanlab.FileUtils;
+import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory;
+import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.GeneSetLibrary;
 
 public class GenerateRegressionFiles {
 
@@ -9,9 +11,9 @@ public class GenerateRegressionFiles {
 	 */
 	public static void main(String[] args) {
 		Enrichment app = new Enrichment(FileUtils.readResource("test_list.txt"));
-		for (int i = 0; i < Enrichment.categories.length; i++)
-			for (String bgType : Enrichment.categorizedEnrichmentTypes[i])
-				FileUtils.writeFile("test_list." + bgType + "_table.txt", Enrichment.HEADER, app.enrich(bgType));
+		for (EnrichmentCategory category : ResourceLoader.getInstance().getCategories())
+			for (GeneSetLibrary library : category.getLibraries())
+				FileUtils.writeFile("test_list." + library.getName() + "_table.txt", Enrichment.HEADER, app.enrich(library.getName()));
 	}
 
 }

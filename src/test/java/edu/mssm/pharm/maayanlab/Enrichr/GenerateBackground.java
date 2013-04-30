@@ -9,6 +9,8 @@ import java.util.Random;
 
 import edu.mssm.pharm.maayanlab.FileUtils;
 import edu.mssm.pharm.maayanlab.Statistics;
+import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory;
+import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.GeneSetLibrary;
 
 public class GenerateBackground {
 	
@@ -22,7 +24,7 @@ public class GenerateBackground {
 	
 	public static void main(String[] args) {
 //		generateBackgrounds();
-		generateBackground(Enrichment.CORUM);
+		generateBackground("CORUM");
 	}
 	
 	private static Collection<String> generateRandomSample(ArrayList<String> list, int samples) {
@@ -46,9 +48,9 @@ public class GenerateBackground {
 	private static void generateBackgrounds() {
 		long startTime = System.currentTimeMillis();
 		
-		for (int i = 0; i < Enrichment.categories.length; i++)
-			for (String bgType : Enrichment.categorizedEnrichmentTypes[i])
-			generateBackground(bgType);
+		for (EnrichmentCategory category : ResourceLoader.getInstance().getCategories())
+			for (GeneSetLibrary library : category.getLibraries())
+				generateBackground(library.getName());
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("Elapsed time: " + (endTime - startTime)/1000.0 + " seconds");
