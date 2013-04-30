@@ -11,10 +11,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.gson.Gson;
 
-public class ResourceLoader {
+public class ResourceLoader {	// Parses XML describing the structure of the gene set libraries
 
 	private static final ResourceLoader instance; // Singleton
-	private static EnrichmentCategory[] categories;
+	private static EnrichmentCategory[] categories;	// Data structure storing java representation of the XML
 
 	public static void main(String args[]) {
 		ResourceLoader loader = ResourceLoader.getInstance();
@@ -33,11 +33,10 @@ public class ResourceLoader {
 		InputStream is = ResourceLoader.class.getClassLoader()
 				.getResourceAsStream("gene_set_libraries.xml");
 		try {
-			JAXBContext jaxbContext = JAXBContext
-					.newInstance(EnrichmentCategories.class);
+			// Use JAXB to parse XML
+			JAXBContext jaxbContext = JAXBContext.newInstance(EnrichmentCategories.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			EnrichmentCategories root = (EnrichmentCategories) jaxbUnmarshaller
-					.unmarshal(is);
+			EnrichmentCategories root = (EnrichmentCategories) jaxbUnmarshaller.unmarshal(is);
 			categories = root.getCategories();
 		} catch (JAXBException e) {
 			e.printStackTrace();
