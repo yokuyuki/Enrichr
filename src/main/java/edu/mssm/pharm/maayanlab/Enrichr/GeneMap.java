@@ -1,3 +1,9 @@
+/**
+ * Maps genes to a dictionary that maps libraries to terms to find what terms a gene is associated with.
+ * 
+ * @author		Edward Y. Chen
+ * @since		11/08/2012
+ */
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.IOException;
@@ -43,7 +49,6 @@ public class GeneMap extends HttpServlet {
 			query(request.getParameter("gene"), (request.getParameter("setup") == null) ? false : true, response);
 	}
 
-	// Maps genes to a dictionary that maps libraries to terms
 	private void constructMap() {
 		for (EnrichmentCategory category : categories) {
 			for (GeneSetLibrary library : category.getLibraries()) {
