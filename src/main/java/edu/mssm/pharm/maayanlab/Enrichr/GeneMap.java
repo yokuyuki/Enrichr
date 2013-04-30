@@ -37,41 +37,39 @@ public class GeneMap extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getParameter("json") == null)
+		if (request.getParameter("json") == null)	// Search engine query via _escaped_fragment_ doesn't use json parameter
 			searchQuery(request.getParameter("gene"), response);
 		else
-			query(request.getParameter("gene"),
-					(request.getParameter("setup") == null) ? false : true,
-					response);
+			query(request.getParameter("gene"), (request.getParameter("setup") == null) ? false : true, response);
 	}
 
+	// Maps genes to a dictionary that maps libraries to terms
 	private void constructMap() {
 		for (EnrichmentCategory category : categories) {
 			for (GeneSetLibrary library : category.getLibraries()) {
-				String backgroundType = library.getName();
+				String libraryName = library.getName();
 				
-				// Read background list and ranks
-				Collection<String> backgroundLines = FileUtils
-						.readResource(backgroundType + ".gmt");
+				// Read gene set library
+				Collection<String> libraryLines = FileUtils.readResource(libraryName + ".gmt");
 
-				for (String line : backgroundLines) {
+				for (String line : libraryLines) {
 					String[] splitLine = line.split("\t");
 					String termName = splitLine[0];
 
+					// Parse gmt file
 					for (int i = 2; i < splitLine.length; i++) {
 						String gene = splitLine[i].toUpperCase();
-						if (!geneMap.containsKey(gene))
-							geneMap.put(gene,
-									new HashMap<String, ArrayList<String>>());
-						if (!geneMap.get(gene).containsKey(backgroundType))
-							geneMap.get(gene).put(backgroundType,
-									new ArrayList<String>());
-						geneMap.get(gene).get(backgroundType).add(termName);
+						if (!geneMap.containsKey(gene))	// If gene doesn't exist in outer map, create dictionary
+							geneMap.put(gene, new HashMap<String, ArrayList<String>>());
+						if (!geneMap.get(gene).containsKey(libraryName))	// If library doesn't exist in inner map, create term list
+							geneMap.get(gene).put(libraryName, new ArrayList<String>());
+						geneMap.get(gene).get(libraryName).add(termName);
 					}
 				}
 			}
 		}
 		
+		// Remove gene from map if gene is associated with less than 3 libraries aka the gene name is uncommon 
 		for (Iterator<String> geneItr = geneMap.keySet().iterator(); geneItr.hasNext();) {
 			String gene = geneItr.next();
 			if (geneMap.get(gene).size() < 3)
@@ -79,6 +77,7 @@ public class GeneMap extends HttpServlet {
 		}
 	}
 
+	// Normal AJAX query
 	private void query(String gene, boolean outputSetupVariables, HttpServletResponse response) throws IOException {
 		JSONify json = new JSONify();
 		response.setContentType("application/json");
@@ -86,13 +85,14 @@ public class GeneMap extends HttpServlet {
 
 		json.add("gene", geneMap.get(gene));
 
-		if (outputSetupVariables) {
+		if (outputSetupVariables) {	// Output categories data structure because searching for first time
 			json.addRaw("categories", categoriesJSON);
 		}
 
 		json.write(response.getWriter());
 	}
 
+	// Search engine query
 	private void searchQuery(String gene, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -111,10 +111,7 @@ public class GeneMap extends HttpServlet {
 						String format = library.getFormat();
 
 						for (String termName : backgrounds.get(libraryName)) {
-							String ans = MessageFormat.format(format,
-									"<span class=\"gene\">" + gene + "</span>",
-									"<span class=\"term\">" + termName
-											+ "</span>");
+							String ans = MessageFormat.format(format, "<span class=\"gene\">" + gene + "</span>", "<span class=\"term\">" + termName + "</span>");
 							out.print(ans);
 							out.println("<br>");
 						}
