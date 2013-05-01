@@ -21,6 +21,15 @@ a.help {
 	color: #F38630;
 }
 
+#citation {
+	padding: 0.5em;
+	font-size: 0.7em;
+	float: left;
+	width: 85%;
+	margin-top: 0.5em;
+
+}
+
 /* Analyze Page */
 table#data-input {
 	width: 100%;
