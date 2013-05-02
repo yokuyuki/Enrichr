@@ -36,10 +36,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
-import edu.mssm.pharm.maayanlab.FileUtils;
-import edu.mssm.pharm.maayanlab.HibernateUtil;
-import edu.mssm.pharm.maayanlab.JSONify;
-import edu.mssm.pharm.maayanlab.math.HashFunctions;
+import edu.mssm.pharm.maayanlab.common.core.FileUtils;
+import edu.mssm.pharm.maayanlab.common.web.HibernateUtil;
+import edu.mssm.pharm.maayanlab.common.web.JSONify;
+import edu.mssm.pharm.maayanlab.common.math.HashFunctions;
 
 @WebServlet(urlPatterns = {"/account", "/login", "/register", "/forgot", "/reset", "/status", "/logout", "/contribute", "/delete"})
 public class Account extends HttpServlet {

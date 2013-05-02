@@ -26,7 +26,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import edu.mssm.pharm.maayanlab.math.HashFunctions;
+import edu.mssm.pharm.maayanlab.common.math.HashFunctions;
 
 @Entity
 @DynamicInsert

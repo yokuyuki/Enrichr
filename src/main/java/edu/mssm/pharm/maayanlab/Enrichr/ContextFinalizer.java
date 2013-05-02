@@ -18,8 +18,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.GsonBuilder;
 
-import edu.mssm.pharm.maayanlab.HibernateUtil;
-import edu.mssm.pharm.maayanlab.JSONify;
+import edu.mssm.pharm.maayanlab.common.web.HibernateUtil;
+import edu.mssm.pharm.maayanlab.common.web.JSONify;
 
 @WebListener
 public class ContextFinalizer implements ServletContextListener {

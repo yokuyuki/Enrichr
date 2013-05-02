@@ -24,8 +24,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
-import edu.mssm.pharm.maayanlab.FileUtils;
-import edu.mssm.pharm.maayanlab.HibernateUtil;
+import edu.mssm.pharm.maayanlab.common.core.FileUtils;
+import edu.mssm.pharm.maayanlab.common.web.HibernateUtil;
 
 @WebServlet(urlPatterns = {"/count"}, loadOnStartup=1)
 public class Counters extends HttpServlet {

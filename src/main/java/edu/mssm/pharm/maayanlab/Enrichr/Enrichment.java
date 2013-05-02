@@ -17,9 +17,9 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 import pal.statistics.FisherExact;
-import edu.mssm.pharm.maayanlab.FileUtils;
-import edu.mssm.pharm.maayanlab.Settings;
-import edu.mssm.pharm.maayanlab.SettingsChanger;
+import edu.mssm.pharm.maayanlab.common.core.FileUtils;
+import edu.mssm.pharm.maayanlab.common.core.Settings;
+import edu.mssm.pharm.maayanlab.common.core.SettingsChanger;
 
 public class Enrichment implements SettingsChanger {
 	
