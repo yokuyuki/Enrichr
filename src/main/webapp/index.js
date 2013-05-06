@@ -23,8 +23,8 @@ function navigateTo(index, transitionSpeed) {
 		return;
 	else
 		globals.changingCategory = true;
-	if (index == 1) { createStats(); }
-	if (index == 2) { createAutocomplete(); }
+	if (index == globals.tabList.indexOf('stats')) { createStats(); }
+	if (index == globals.tabList.indexOf('find')) { createAutocomplete(); }
 	transitionSpeed = (typeof transitionSpeed === 'undefined') ? 'slow' : transitionSpeed;
 	$('#content div.selected').fadeToggle(transitionSpeed, function() {
 		$('.selected').removeClass('selected');
