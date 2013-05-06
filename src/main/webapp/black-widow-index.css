@@ -30,6 +30,19 @@ a.help {
 
 }
 
+/* What's New */
+div.feature-title {
+	font-weight: bold;
+}
+
+div.feature-desc {
+	margin: 0.5em 0em 1.5em 1.5em;
+}
+
+div.feature-desc img {
+	vertical-align: bottom;
+}
+
 /* Analyze Page */
 table#data-input {
 	width: 100%;

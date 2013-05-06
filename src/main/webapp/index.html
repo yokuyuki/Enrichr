@@ -61,19 +61,22 @@
 		<table>
 			<tr>
 				<td class="selected">
-					<a href="#" onclick="getTab(''); return false;">Analyze</a>
+					<a href="#" onclick="return getTab('');">Analyze</a>
 				</td>
 				<td>
-					<a href="#" onclick="getTab('stats'); return false;">Dataset Statistics</a>
+					<a href="#" onclick="return getTab('new');">What's New?</a>
 				</td>
 				<td>
-					<a href="#" onclick="getTab('find'); return false;">Find A Gene</a>
+					<a href="#" onclick="return getTab('stats');">Dataset Statistics</a>
 				</td>
 				<td>
-					<a href="#" onclick="getTab('about'); return false;">About</a>
+					<a href="#" onclick="return getTab('find');">Find A Gene</a>
 				</td>
 				<td>
-					<a href="#" onclick="getTab('help'); return false;">?</a>
+					<a href="#" onclick="return getTab('about');">About</a>
+				</td>
+				<td>
+					<a href="#" onclick="return getTab('help');">?</a>
 				</td>
 			</tr>
 		</table>
@@ -89,7 +92,7 @@
 							<input type="file" name="file" id="file-chooser"/>
 						</td>
 						<td id="textbox">
-							<p>Or paste in a list of gene symbols separated by a new line. <a href="#"	onclick="insertExample(); return false;" id="example-input">Try an example!</a></p>
+							<p>Or paste in a list of gene symbols separated by a new line. <a href="#"	onclick="return insertExample();" id="example-input">Try an example!</a></p>
 							<textarea name="list" rows="10" id="text-area" onkeyup="geneCount()" onchange="geneCount()" onfocus="geneCount()"></textarea>
 							<div id="gene-count"><span id="gene-count">0</span> gene(s) entered</div>
 						</td>
@@ -109,6 +112,21 @@
 				</div>
 				<div class="clear"></div>
 			</form>
+		</div>
+		<div class="hidden">
+			<div class="title">What's New?</div>
+			<div class="feature">
+				<div class="feature-title">Deleting lists</div>
+				<div class="feature-desc">If you have an account, you can now delete your saved lists by clicking on the <img src="images/delete.png"/> button in the My Lists table.</div>
+			</div>
+			<div class="feature">
+				<div class="feature-title">Contributing to the crowdsourced gene set library</div>
+				<div class="feature-desc">If you have an account, you can now contribute your existing lists to the crowdsourced gene set library by clicking on the <img src="images/share_black.png"/> button in the My Lists table. By contributing your list, you can help us build a gene set library built from your experiments so others can find people with similar results. You can choose to allow others to contact you regarding your list or remain private.</div>
+			</div>
+			<div class="feature">
+				<div class="feature-title">Squashed bugs</div>
+				<div class="feature-desc">Corrected inconsistencies in the styling</div>
+			</div>
 		</div>
 		<div class="hidden">
 			<div class="title">Dataset statistics</div>

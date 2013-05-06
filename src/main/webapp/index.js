@@ -37,6 +37,7 @@ function navigateTo(index, transitionSpeed) {
 
 function getTab(name) {
 	window.location.hash = name;
+	return false;
 }
 
 /* Form data handling */
@@ -56,7 +57,8 @@ function insertExample() {
 		$('textarea#text-area').val(data);
 		geneCount();
 		$('#description input').val("Sample gene list");
-	});	
+	});
+	return false;
 }
 
 /* Data Statistics Page */
@@ -241,7 +243,7 @@ $(document).ready(function () {
 	$.ajaxSetup({ cache: false });	// Prevent IE from caching GET requests
 	globals = {};	// Stores global vars
 	globals.changingCategory = false;	// Prevent changing category too fast
-	globals.tabList = ['', 'stats', 'find', 'about', 'help'];
+	globals.tabList = ['', 'new', 'stats', 'find', 'about', 'help'];
 
 	// Onload hash check
 	hashcheck(true);
