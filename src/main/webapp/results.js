@@ -353,7 +353,7 @@ function openResult(id) {
 }
 
 function getResult(id) {
-	var idTag = '#' + id;	
+	var idTag = '#' + id;
 
 	if(!$(idTag + ' div.content').hasClass('done')) {
 		var dataUrl = queryString('q');
@@ -399,6 +399,7 @@ function getResult(id) {
 					toolTipClass: 'defaultTheme method-desc'
 				});
 
+				$(idTag + ' div.downloadbox').fadeIn('slow');
 				createTable(id, json[id], idTag + ' div.table');
 
 				d3.grid.createGrid('json/' + id + '.json', json[id], 
@@ -439,8 +440,7 @@ function getResult(id) {
 						cache: false
 					}
 				);
-
-				$(idTag + ' div.downloadbox').fadeIn('slow');
+				
 				createColorWheel(10, idTag, '#ff6666');
 			}
 		});
