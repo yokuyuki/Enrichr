@@ -1,3 +1,10 @@
+/**
+ * Data structure to represent a gene-set library.
+ * 
+ * @author		Edward Y. Chen
+ * @since		5/14/2013 
+ */
+
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.util.Collection;
@@ -47,5 +54,9 @@ public class GeneSetLibrary {
 
 	public int getNumOfBackgroundGenes() {
 		return numOfBackgroundGenes;
-	}	
+	}
+	
+	public boolean inGeneSetLibrary(String gene) {
+		return backgroundGenes.contains(gene);
+	}
 }
