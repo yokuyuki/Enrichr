@@ -7,7 +7,7 @@ public class Term {
 	private String name;
 	
 	private HashSet<String> geneSet;
-	private int numOfTargetBgGenes;
+	private int numOfTermGenes;
 	
 	private double mean;
 	private double standardDeviation;
@@ -15,7 +15,7 @@ public class Term {
 	public Term(String name, HashSet<String> geneSet) {
 		this.name = name;
 		this.geneSet = geneSet;
-		this.numOfTargetBgGenes = geneSet.size();
+		this.numOfTermGenes = geneSet.size();
 	}
 	
 	public String getName() {
@@ -26,8 +26,8 @@ public class Term {
 		return this.geneSet;
 	}
 	
-	public int getNumOfTargetBgGenes() {
-		return this.numOfTargetBgGenes;
+	public int getNumOfTermGenes() {
+		return this.numOfTermGenes;
 	}
 	
 	public double getMean() {

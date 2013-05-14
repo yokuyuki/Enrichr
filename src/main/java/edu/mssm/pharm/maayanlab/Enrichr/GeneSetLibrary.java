@@ -56,6 +56,10 @@ public class GeneSetLibrary {
 		}
 	}
 
+	public Collection<Term> getTerms() {
+		return terms.values();
+	}
+	
 	public int getNumOfBackgroundGenes() {
 		return numOfBackgroundGenes;
 	}
