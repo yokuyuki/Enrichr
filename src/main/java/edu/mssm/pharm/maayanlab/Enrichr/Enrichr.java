@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -175,7 +174,7 @@ public class Enrichr extends HttpServlet {
 	
 	private void getJSONResult(HttpServletRequest request, HttpServletResponse response, Enrichment app) throws IOException {
 		String backgroundType = request.getParameter("backgroundType");
-		LinkedList<EnrichedTerm> results = app.enrich(backgroundType);
+		ArrayList<EnrichedTerm> results = app.enrich(backgroundType);
 		
 		JSONify json = new JSONify();
 		response.setContentType("application/json");
@@ -188,7 +187,7 @@ public class Enrichr extends HttpServlet {
 	private void getFileResult(HttpServletRequest request, HttpServletResponse response, Enrichment app) throws IOException {
 		String filename = request.getParameter("filename");
 		String backgroundType = request.getParameter("backgroundType");
-		LinkedList<EnrichedTerm> results = app.enrich(backgroundType);
+		ArrayList<EnrichedTerm> results = app.enrich(backgroundType);
 		
 		response.setHeader("Pragma", "public");
 		response.setHeader("Expires", "0");
@@ -200,7 +199,7 @@ public class Enrichr extends HttpServlet {
 		FileUtils.write(response.getWriter(), Enrichment.HEADER, results);
 	}
 	
-	private Object[][] flattenResults(LinkedList<EnrichedTerm> results) {
+	private Object[][] flattenResults(ArrayList<EnrichedTerm> results) {
 		Object[][] resultsMatrix = new Object[results.size()][6];
 		
 		int i = 0;
@@ -210,7 +209,7 @@ public class Enrichr extends HttpServlet {
 			resultsMatrix[i][2] = enrichedTerm.getAdjustedPValue();
 			resultsMatrix[i][3] = enrichedTerm.getZScore();
 			resultsMatrix[i][4] = enrichedTerm.getCombinedScore();
-			resultsMatrix[i][5] = enrichedTerm.getTargets();
+			resultsMatrix[i][5] = enrichedTerm.getOverlap();
 			i++;
 		}
 		

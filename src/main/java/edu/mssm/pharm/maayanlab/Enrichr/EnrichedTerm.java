@@ -4,94 +4,74 @@ import java.util.HashSet;
 
 public class EnrichedTerm implements Comparable<EnrichedTerm> {
 
-	private String name;
-	private int numOfTargetInputGenes;
-	private int numOfTargetBgGenes;
+	private Term associatedTerm;
+
+	private HashSet<String> overlap;
+	private int numOfOverlappingGenes;
 	
-	private double mean;
-	private double standardDeviation;
-	
-	private double pvalue;
-	private double adjustedpvalue;
-	private double zscore;
+	private double pValue;
+	private double adjustedPValue;
+	private double zScore;
 	private double combinedScore;
 	
-	private HashSet<String> targets;
-	
-	public EnrichedTerm(String name, HashSet<String> targets) {
-		this.name = name;
-		this.targets = targets;
-		this.numOfTargetBgGenes = targets.size();
+	public EnrichedTerm(Term associatedTerm, HashSet<String> overlap, double pValue) {
+		this.associatedTerm = associatedTerm;
+		this.overlap = overlap;
+		this.numOfOverlappingGenes = overlap.size();
+		this.pValue = (pValue == 0) ? Double.MIN_VALUE : pValue;
 	}
 	
 	public String getName() {
-		return this.name;
+		return associatedTerm.getName();
 	}
 	
 	public double getPValue() {
-		return this.pvalue;
+		return this.pValue;
 	}
 	
 	public double getAdjustedPValue() {
-		return this.adjustedpvalue;
+		return this.adjustedPValue;
 	}
 	
 	public double getZScore() {
-		return this.zscore;
+		return this.zScore;
 	}
 	
 	public double getCombinedScore() {
 		return this.combinedScore;
 	}
 	
-	public HashSet<String> getTargets() {
-		return this.targets;
-	}
-	
-	public int getNumOfTargetBgGenes() {
-		return this.numOfTargetBgGenes;
-	}
-	
-	public void setPValue(double pvalue) {
-		if (pvalue == 0)
-			pvalue = Double.MIN_VALUE;
-		this.pvalue = pvalue;
+	public HashSet<String> getOverlap() {
+		return this.overlap;
 	}
 	
 	public void setAdjustedPValue(double adjustedpvalue) {
-		this.adjustedpvalue = adjustedpvalue;
-	}
-	
-	public void setEnrichedTargets(HashSet<String> enrichedTargets) {
-		this.targets = enrichedTargets;
-		this.numOfTargetInputGenes = enrichedTargets.size();
-	}
-	
-	public void setRankStats(double mean, double standardDeviation) {
-		this.mean = mean;
-		this.standardDeviation = standardDeviation;
+		this.adjustedPValue = adjustedpvalue;
 	}
 	
 	public void computeScore(int currentRank) {
+		double mean = associatedTerm.getMean();
+		double standardDeviation = associatedTerm.getStandardDeviation();
+		
 		if (mean == 0 && standardDeviation == 0)
-			zscore = 0;
+			zScore = 0;
 		else
-			zscore = (currentRank - mean)/standardDeviation;
-		combinedScore = Math.log(adjustedpvalue)*zscore;
+			zScore = (currentRank - mean)/standardDeviation;
+		combinedScore = Math.log(adjustedPValue)*zScore;
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder outputString = new StringBuilder();
-		outputString.append(name).append("\t");
-		outputString.append(numOfTargetInputGenes).append("/").append(numOfTargetBgGenes).append("\t");
-		outputString.append(pvalue).append("\t");
-		outputString.append(adjustedpvalue).append("\t");
-		outputString.append(zscore).append("\t");
+		outputString.append(associatedTerm.getName()).append("\t");
+		outputString.append(numOfOverlappingGenes).append("/").append(associatedTerm.getNumOfTermGenes()).append("\t");
+		outputString.append(pValue).append("\t");
+		outputString.append(adjustedPValue).append("\t");
+		outputString.append(zScore).append("\t");
 		outputString.append(combinedScore).append("\t");
 		
 		boolean firstTarget = true;
-		for (String target : targets) {
+		for (String target : overlap) {
 			if (firstTarget) {
 				outputString.append(target);
 				firstTarget = false;
@@ -105,9 +85,9 @@ public class EnrichedTerm implements Comparable<EnrichedTerm> {
 	
 	@Override
 	public int compareTo(EnrichedTerm o) {
-		if (this.pvalue > o.pvalue)
+		if (this.pValue > o.pValue)
 			return 1;
-		else if (this.pvalue < o.pvalue)
+		else if (this.pValue < o.pValue)
 			return -1;
 		else
 			return 0;
