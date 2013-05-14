@@ -13,9 +13,10 @@ import java.util.HashSet;
 
 public class GeneSetLibrary {
 
-	private HashMap<String, Term> terms = new HashMap<String, Term>();
-	private HashSet<String> backgroundGenes = new HashSet<String>();
+	private final HashMap<String, Term> terms = new HashMap<String, Term>();
+	private final HashSet<String> backgroundGenes = new HashSet<String>();	
 	private int numOfBackgroundGenes;
+	private boolean isRanked = false;
 	
 	public GeneSetLibrary(Collection<String> libraryLines) {
 		constructTerms(libraryLines);
@@ -25,6 +26,7 @@ public class GeneSetLibrary {
 	public GeneSetLibrary(Collection<String> libraryLines, Collection<String> rankLines) {
 		this(libraryLines);
 		constructRanks(rankLines);
+		isRanked = true;
 	}
 	
 	private void constructTerms(Collection<String> libraryLines) {
@@ -56,7 +58,11 @@ public class GeneSetLibrary {
 		return numOfBackgroundGenes;
 	}
 	
-	public boolean inGeneSetLibrary(String gene) {
+	public boolean contains(String gene) {
 		return backgroundGenes.contains(gene);
+	}
+
+	public boolean isRanked() {
+		return isRanked;
 	}
 }
