@@ -26,7 +26,7 @@ public class GeneSetLibrary {
 	public GeneSetLibrary(Collection<String> libraryLines, Collection<String> rankLines) {
 		this(libraryLines);
 		constructRanks(rankLines);
-		isRanked = true;
+		this.isRanked = true;
 	}
 	
 	private void constructTerms(Collection<String> libraryLines) {
@@ -50,7 +50,9 @@ public class GeneSetLibrary {
 	private void constructRanks(Collection<String> rankLines) {
 		for (String line : rankLines) {
 			String[] splitLine = line.split("\\t");	// Splits into 3 columns: name, average, std
-			terms.get(splitLine[0]).setRankStats(Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]));
+			Term term = terms.get(splitLine[0]);
+			term.setMean(Double.parseDouble(splitLine[1]));
+			term.setStandardDeviation(Double.parseDouble(splitLine[2]));
 		}
 	}
 
