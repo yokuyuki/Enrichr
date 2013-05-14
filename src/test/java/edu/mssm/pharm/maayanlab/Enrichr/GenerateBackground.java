@@ -63,13 +63,13 @@ public class GenerateBackground {
 		for (int i = 0; i < REPS; i++) {
 			Enrichment app = new Enrichment(generateRandomSample(genes, LENGTH));
 			app.setSetting(Enrichment.SORT_BY, Enrichment.PVALUE);
-			LinkedList<Term> terms = app.enrich(FileUtils.readResource(backgroundType + ".gmt"), null);
+			LinkedList<EnrichedTerm> enrichedTerms = app.enrich(FileUtils.readResource(backgroundType + ".gmt"), null);
 			
 			int counter = 1;
-			for (Term term : terms) {
-				if (!ranks.containsKey(term.getName()))
-					ranks.put(term.getName(), new ArrayList<Integer>());
-				ranks.get(term.getName()).add(counter);
+			for (EnrichedTerm enrichedTerm : enrichedTerms) {
+				if (!ranks.containsKey(enrichedTerm.getName()))
+					ranks.put(enrichedTerm.getName(), new ArrayList<Integer>());
+				ranks.get(enrichedTerm.getName()).add(counter);
 				counter++;
 			}
 			

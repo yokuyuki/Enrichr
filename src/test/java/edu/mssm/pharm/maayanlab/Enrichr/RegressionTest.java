@@ -35,15 +35,15 @@ public class RegressionTest extends TestCase {
 		
 	}
 	
-	private void assertEquivalentOutput(Collection<Term> terms, String expectedFile) {
-		Iterator<Term> term = terms.iterator();
+	private void assertEquivalentOutput(Collection<EnrichedTerm> enrichedTerms, String expectedFile) {
+		Iterator<EnrichedTerm> enrichedTerm = enrichedTerms.iterator();
 		Collection<String> testResults = FileUtils.readResource(expectedFile);
 		Iterator<String> result = testResults.iterator();
 		
-		assertEquals(testResults.size(), terms.size()+1);
+		assertEquals(testResults.size(), enrichedTerms.size()+1);
 		assertEquals(result.next(), Enrichment.HEADER);
 		
-		while (term.hasNext())
-			assertEquals(result.next(), term.next().toString());
+		while (enrichedTerm.hasNext())
+			assertEquals(result.next(), enrichedTerm.next().toString());
 	}
 }

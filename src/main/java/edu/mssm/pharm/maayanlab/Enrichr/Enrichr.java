@@ -175,7 +175,7 @@ public class Enrichr extends HttpServlet {
 	
 	private void getJSONResult(HttpServletRequest request, HttpServletResponse response, Enrichment app) throws IOException {
 		String backgroundType = request.getParameter("backgroundType");
-		LinkedList<Term> results = app.enrich(backgroundType);
+		LinkedList<EnrichedTerm> results = app.enrich(backgroundType);
 		
 		JSONify json = new JSONify();
 		response.setContentType("application/json");
@@ -188,7 +188,7 @@ public class Enrichr extends HttpServlet {
 	private void getFileResult(HttpServletRequest request, HttpServletResponse response, Enrichment app) throws IOException {
 		String filename = request.getParameter("filename");
 		String backgroundType = request.getParameter("backgroundType");
-		LinkedList<Term> results = app.enrich(backgroundType);
+		LinkedList<EnrichedTerm> results = app.enrich(backgroundType);
 		
 		response.setHeader("Pragma", "public");
 		response.setHeader("Expires", "0");
@@ -200,17 +200,17 @@ public class Enrichr extends HttpServlet {
 		FileUtils.write(response.getWriter(), Enrichment.HEADER, results);
 	}
 	
-	private Object[][] flattenResults(LinkedList<Term> results) {
+	private Object[][] flattenResults(LinkedList<EnrichedTerm> results) {
 		Object[][] resultsMatrix = new Object[results.size()][6];
 		
 		int i = 0;
-		for (Term term : results) {
+		for (EnrichedTerm enrichedTerm : results) {
 			resultsMatrix[i][0] = i+1;
-			resultsMatrix[i][1] = term.getName();
-			resultsMatrix[i][2] = term.getAdjustedPValue();
-			resultsMatrix[i][3] = term.getZScore();
-			resultsMatrix[i][4] = term.getCombinedScore();
-			resultsMatrix[i][5] = term.getTargets();
+			resultsMatrix[i][1] = enrichedTerm.getName();
+			resultsMatrix[i][2] = enrichedTerm.getAdjustedPValue();
+			resultsMatrix[i][3] = enrichedTerm.getZScore();
+			resultsMatrix[i][4] = enrichedTerm.getCombinedScore();
+			resultsMatrix[i][5] = enrichedTerm.getTargets();
 			i++;
 		}
 		
