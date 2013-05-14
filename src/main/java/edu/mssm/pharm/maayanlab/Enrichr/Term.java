@@ -2,115 +2,47 @@ package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.util.HashSet;
 
-public class Term implements Comparable<Term> {
+public class Term {
 
 	private String name;
-	private int numOfTargetInputGenes;
+	
+	private HashSet<String> geneSet;
 	private int numOfTargetBgGenes;
 	
 	private double mean;
 	private double standardDeviation;
 	
-	private double pvalue;
-	private double adjustedpvalue;
-	private double zscore;
-	private double combinedScore;
-	
-	private HashSet<String> targets;
-	
-	public Term(String name, HashSet<String> targets) {
+	public Term(String name, HashSet<String> geneSet) {
 		this.name = name;
-		this.targets = targets;
-		this.numOfTargetBgGenes = targets.size();
+		this.geneSet = geneSet;
+		this.numOfTargetBgGenes = geneSet.size();
 	}
 	
 	public String getName() {
 		return this.name;
 	}
 	
-	public double getPValue() {
-		return this.pvalue;
-	}
-	
-	public double getAdjustedPValue() {
-		return this.adjustedpvalue;
-	}
-	
-	public double getZScore() {
-		return this.zscore;
-	}
-	
-	public double getCombinedScore() {
-		return this.combinedScore;
-	}
-	
-	public HashSet<String> getTargets() {
-		return this.targets;
+	public HashSet<String> getGeneSet() {
+		return this.geneSet;
 	}
 	
 	public int getNumOfTargetBgGenes() {
 		return this.numOfTargetBgGenes;
 	}
 	
-	public void setPValue(double pvalue) {
-		if (pvalue == 0)
-			pvalue = Double.MIN_VALUE;
-		this.pvalue = pvalue;
+	public double getMean() {
+		return mean;
 	}
-	
-	public void setAdjustedPValue(double adjustedpvalue) {
-		this.adjustedpvalue = adjustedpvalue;
-	}
-	
-	public void setEnrichedTargets(HashSet<String> enrichedTargets) {
-		this.targets = enrichedTargets;
-		this.numOfTargetInputGenes = enrichedTargets.size();
-	}
-	
-	public void setRankStats(double mean, double standardDeviation) {
+
+	public void setMean(double mean) {
 		this.mean = mean;
+	}
+
+	public double getStandardDeviation() {
+		return standardDeviation;
+	}
+
+	public void setStandardDeviation(double standardDeviation) {
 		this.standardDeviation = standardDeviation;
 	}
-	
-	public void computeScore(int currentRank) {
-		if (mean == 0 && standardDeviation == 0)
-			zscore = 0;
-		else
-			zscore = (currentRank - mean)/standardDeviation;
-		combinedScore = Math.log(adjustedpvalue)*zscore;
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder outputString = new StringBuilder();
-		outputString.append(name).append("\t");
-		outputString.append(numOfTargetInputGenes).append("/").append(numOfTargetBgGenes).append("\t");
-		outputString.append(pvalue).append("\t");
-		outputString.append(adjustedpvalue).append("\t");
-		outputString.append(zscore).append("\t");
-		outputString.append(combinedScore).append("\t");
-		
-		boolean firstTarget = true;
-		for (String target : targets) {
-			if (firstTarget) {
-				outputString.append(target);
-				firstTarget = false;
-			}
-			else
-				outputString.append(";").append(target);
-		}
-		
-		return outputString.toString();
-	}
-	
-	@Override
-	public int compareTo(Term o) {
-		if (this.pvalue > o.pvalue)
-			return 1;
-		else if (this.pvalue < o.pvalue)
-			return -1;
-		else
-			return 0;
-	}
-	
 }
