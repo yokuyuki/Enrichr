@@ -63,7 +63,7 @@ public class GenerateBackground {
 		for (int i = 0; i < REPS; i++) {
 			Enrichment app = new Enrichment(generateRandomSample(genes, LENGTH));
 			app.setSetting(Enrichment.SORT_BY, Enrichment.PVALUE);
-			LinkedList<EnrichedTerm> enrichedTerms = app.enrich(FileUtils.readResource(backgroundType + ".gmt"), null);
+			ArrayList<EnrichedTerm> enrichedTerms = app.enrich(backgroundType, false);
 			
 			int counter = 1;
 			for (EnrichedTerm enrichedTerm : enrichedTerms) {
