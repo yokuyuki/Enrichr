@@ -57,7 +57,7 @@ public class EnrichedTerm implements Comparable<EnrichedTerm> {
 			zScore = 0;
 		else
 			zScore = (currentRank - mean)/standardDeviation;
-		combinedScore = Math.log(adjustedPValue)*zScore;
+		combinedScore = zScore*Math.log(adjustedPValue);
 	}
 	
 	@Override
