@@ -1,29 +1,37 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
-import java.util.HashSet;
+import java.util.Set;
 
 public class Term {
 
 	private String name;
 	
-	private HashSet<String> geneSet;
-	private int numOfTermGenes;
+	private Set<String> geneSet;
+	protected int numOfTermGenes;
 	
 	private double mean;
 	private double standardDeviation;
 	
-	public Term(String name, HashSet<String> geneSet) {
+	public Term(String name) {
 		this.name = name;
-		this.geneSet = geneSet;
-		this.numOfTermGenes = geneSet.size();
+	}
+	
+	public Term(String name, Set<String> geneSet) {
+		this.name = name;
+		setGeneSet(geneSet);
 	}
 	
 	public String getName() {
 		return this.name;
 	}
 	
-	public HashSet<String> getGeneSet() {
+	public Set<String> getGeneSet() {
 		return this.geneSet;
+	}
+	
+	public void setGeneSet(Set<String> geneSet) {
+		this.geneSet = geneSet;
+		this.numOfTermGenes = geneSet.size();
 	}
 	
 	public int getNumOfTermGenes() {

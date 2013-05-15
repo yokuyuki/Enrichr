@@ -13,10 +13,12 @@ import java.util.HashSet;
 
 public class GeneSetLibrary {
 
-	private final HashMap<String, Term> terms = new HashMap<String, Term>();
-	private final HashSet<String> backgroundGenes = new HashSet<String>();	
-	private int numOfBackgroundGenes;
-	private boolean isRanked = false;
+	protected final HashMap<String, Term> terms = new HashMap<String, Term>();
+	protected final HashSet<String> backgroundGenes = new HashSet<String>();	
+	protected int numOfBackgroundGenes;
+	protected boolean isRanked = false;
+	
+	protected GeneSetLibrary() {}
 	
 	public GeneSetLibrary(Collection<String> libraryLines) {
 		constructTerms(libraryLines);
@@ -26,10 +28,9 @@ public class GeneSetLibrary {
 	public GeneSetLibrary(Collection<String> libraryLines, Collection<String> rankLines) {
 		this(libraryLines);
 		constructRanks(rankLines);
-		this.isRanked = true;
 	}
 	
-	private void constructTerms(Collection<String> libraryLines) {
+	protected void constructTerms(Collection<String> libraryLines) {
 		for (String line : libraryLines) {
 			// In gmt file, 1st column is key, 2nd column is irrelevant, and the rest are the values
 			String[] splitLine = line.split("\\t");
@@ -47,13 +48,14 @@ public class GeneSetLibrary {
 		}
 	}
 	
-	private void constructRanks(Collection<String> rankLines) {
+	protected void constructRanks(Collection<String> rankLines) {
 		for (String line : rankLines) {
 			String[] splitLine = line.split("\\t");	// Splits into 3 columns: name, average, std
 			Term term = terms.get(splitLine[0]);
 			term.setMean(Double.parseDouble(splitLine[1]));
 			term.setStandardDeviation(Double.parseDouble(splitLine[2]));
 		}
+		this.isRanked = true;
 	}
 
 	public Collection<Term> getTerms() {
@@ -70,5 +72,5 @@ public class GeneSetLibrary {
 
 	public boolean isRanked() {
 		return isRanked;
-	}
+	}	
 }
