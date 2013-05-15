@@ -1,12 +1,12 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
-import java.util.HashSet;
+import java.util.Set;
 
 public class EnrichedTerm implements Comparable<EnrichedTerm> {
 
 	private Term associatedTerm;
 
-	private HashSet<String> overlap;
+	private Set<String> overlap;
 	private int numOfOverlappingGenes;
 	
 	private double pValue;
@@ -14,7 +14,7 @@ public class EnrichedTerm implements Comparable<EnrichedTerm> {
 	private double zScore;
 	private double combinedScore;
 	
-	public EnrichedTerm(Term associatedTerm, HashSet<String> overlap, double pValue) {
+	public EnrichedTerm(Term associatedTerm, Set<String> overlap, double pValue) {
 		this.associatedTerm = associatedTerm;
 		this.overlap = overlap;
 		this.numOfOverlappingGenes = overlap.size();
@@ -41,7 +41,7 @@ public class EnrichedTerm implements Comparable<EnrichedTerm> {
 		return this.combinedScore;
 	}
 	
-	public HashSet<String> getOverlap() {
+	public Set<String> getOverlap() {
 		return this.overlap;
 	}
 	
