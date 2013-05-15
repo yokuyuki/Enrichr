@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Set;
 
 import pal.statistics.FisherExact;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
@@ -94,7 +95,7 @@ public class Enrichment implements SettingsChanger {
 		ArrayList<EnrichedTerm> enrichedTerms = new ArrayList<EnrichedTerm>();
 		for (Term currentTerm : geneSetLibrary.getTerms()) {
 			// Intersection of term's gene set and input genes
-			HashSet<String> overlap = SetOps.intersection(currentTerm.getGeneSet(), inputGenes); 
+			Set<String> overlap = SetOps.intersection(currentTerm.getGeneSet(), inputGenes); 
 			
 			int numOfTermGenes = currentTerm.getNumOfTermGenes();
 			int numOfBgGenes = geneSetLibrary.getNumOfBackgroundGenes();
