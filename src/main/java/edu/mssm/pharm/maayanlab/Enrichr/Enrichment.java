@@ -119,17 +119,16 @@ public class Enrichment implements SettingsChanger {
 		
 		// Sort by p-value
 		Collections.sort(enrichedTerms);
-		Collections.reverse(enrichedTerms);	// Reverse to do Benjamini-Hochberg
 		
-		// Calculate adjusted p-value
-		int rank = enrichedTerms.size();
+		// Calculate adjusted p-value via Benjamini-Hochberg
 		double previousValue = 1;	// Prevent adjusted p-value to be > 1
-		for (EnrichedTerm enrichedTerm : enrichedTerms) {
+		for (int rank = enrichedTerms.size(); rank > 0; rank--) {
+			EnrichedTerm enrichedTerm = enrichedTerms.get(rank-1);
 			double adjustedPValue = Math.min(previousValue, enrichedTerm.getPValue() * enrichedTerms.size() / rank);	// Ensure monotonicity
 			previousValue = adjustedPValue;
 			enrichedTerm.setAdjustedPValue(adjustedPValue);
 			if (geneSetLibrary.isRanked())
-				enrichedTerm.computeScore(rank--);	// Count current rank and compute z-score			
+				enrichedTerm.computeScore(rank);			
 		}
 		
 		if (geneSetLibrary.isRanked() && settings.get(SORT_BY).equals(COMBINED_SCORE)) {
