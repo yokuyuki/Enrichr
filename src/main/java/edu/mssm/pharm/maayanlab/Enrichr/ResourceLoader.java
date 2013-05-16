@@ -20,16 +20,12 @@ import com.google.gson.Gson;
 
 public class ResourceLoader {
 
-	private static final ResourceLoader instance; // Singleton
+	private static final ResourceLoader instance = new ResourceLoader(); // Singleton
 	private static EnrichmentCategory[] categories;	// Data structure storing java representation of the XML
 
 	public static void main(String args[]) {
 		ResourceLoader loader = ResourceLoader.getInstance();
 		System.out.println(new Gson().toJson(loader.getCategories()));
-	}
-
-	static {
-		instance = new ResourceLoader();
 	}
 
 	public static ResourceLoader getInstance() {
