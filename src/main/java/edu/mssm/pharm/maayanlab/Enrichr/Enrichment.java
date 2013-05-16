@@ -12,10 +12,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+
+import pal.statistics.FisherExact;
 
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 import edu.mssm.pharm.maayanlab.common.core.Settings;
 import edu.mssm.pharm.maayanlab.common.core.SettingsChanger;
+import edu.mssm.pharm.maayanlab.common.math.SetOps;
 
 public class Enrichment implements SettingsChanger {
 	
@@ -86,11 +91,42 @@ public class Enrichment implements SettingsChanger {
 	}
 	
 	public ArrayList<EnrichedTerm> enrich(GeneSetLibrary geneSetLibrary) {
-		ArrayList<EnrichedTerm> enrichedTerms = geneSetLibrary.getEnrichedTerms(geneList);
+		HashSet<String> inputGenes = filterInputGenes(geneSetLibrary);
+		
+		ArrayList<EnrichedTerm> enrichedTerms = new ArrayList<EnrichedTerm>();
+		for (Term currentTerm : geneSetLibrary.getTerms()) {
+			// Intersection of term's gene set and input genes
+			Set<String> overlap = SetOps.intersection(currentTerm.getGeneSet(), inputGenes); 
+			
+			int numOfTermGenes = currentTerm.getNumOfTermGenes();
+			int numOfBgGenes = geneSetLibrary.getNumOfBackgroundGenes();
+			int numOfInputGenes = inputGenes.size();
+			int numOfOverlappingGenes = overlap.size();
+			
+			// Don't bother if there are no target input genes
+			if (numOfOverlappingGenes > 0) {
+				FisherExact fisherTest = new FisherExact(numOfInputGenes + numOfBgGenes);				
+				double pValue = fisherTest.getRightTailedP(numOfOverlappingGenes, numOfInputGenes - numOfOverlappingGenes, numOfTermGenes, numOfBgGenes - numOfTermGenes);
+								
+				enrichedTerms.add(new EnrichedTerm(currentTerm, overlap, pValue));
+			}
+		}
 		
 		sortEnrichedTerms(geneSetLibrary, enrichedTerms);
 		
 		return enrichedTerms;
+	}
+	
+	// Filter genes from the input list that are not in the gene-set library
+	private HashSet<String> filterInputGenes(GeneSetLibrary geneSetLibrary) {
+		HashSet<String> inputGenes = new HashSet<String>();
+		for (String gene : geneList) {
+			gene = gene.toUpperCase();
+			if (geneSetLibrary.contains(gene))
+				inputGenes.add(gene);
+		}
+		
+		return inputGenes;
 	}
 	
 	// Sort enriched terms
