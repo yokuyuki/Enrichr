@@ -2,6 +2,10 @@ package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.util.Set;
 
+import pal.statistics.FisherExact;
+
+import edu.mssm.pharm.maayanlab.common.math.SetOps;
+
 public class Term {
 
 	private String name;
@@ -54,5 +58,27 @@ public class Term {
 
 	public void setStandardDeviation(double standardDeviation) {
 		this.standardDeviation = standardDeviation;
+	}
+	
+	public EnrichedTerm getEnrichedTerm(Set<String> inputGenes) {
+		EnrichedTerm enrichedTerm = null;
+		
+		// Intersection of term's gene set and input genes
+		Set<String> overlap = SetOps.intersection(this.getGeneSet(), inputGenes); 
+		
+		int numOfTermGenes = this.getNumOfTermGenes();
+		int numOfBgGenes = geneSetLibrary.getNumOfBackgroundGenes();
+		int numOfInputGenes = inputGenes.size();
+		int numOfOverlappingGenes = overlap.size();
+		
+		// Don't bother if there are no target input genes
+		if (numOfOverlappingGenes > 0) {
+			FisherExact fisherTest = new FisherExact(numOfInputGenes + numOfBgGenes);				
+			double pValue = fisherTest.getRightTailedP(numOfOverlappingGenes, numOfInputGenes - numOfOverlappingGenes, numOfTermGenes, numOfBgGenes - numOfTermGenes);
+							
+			return new EnrichedTerm(this, overlap, pValue);
+		}
+				
+		return enrichedTerm;
 	}
 }

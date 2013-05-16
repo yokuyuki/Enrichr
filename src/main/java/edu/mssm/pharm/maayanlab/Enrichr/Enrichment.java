@@ -95,21 +95,10 @@ public class Enrichment implements SettingsChanger {
 		
 		ArrayList<EnrichedTerm> enrichedTerms = new ArrayList<EnrichedTerm>();
 		for (Term currentTerm : geneSetLibrary.getTerms()) {
-			// Intersection of term's gene set and input genes
-			Set<String> overlap = SetOps.intersection(currentTerm.getGeneSet(), inputGenes); 
-			
-			int numOfTermGenes = currentTerm.getNumOfTermGenes();
-			int numOfBgGenes = geneSetLibrary.getNumOfBackgroundGenes();
-			int numOfInputGenes = inputGenes.size();
-			int numOfOverlappingGenes = overlap.size();
-			
-			// Don't bother if there are no target input genes
-			if (numOfOverlappingGenes > 0) {
-				FisherExact fisherTest = new FisherExact(numOfInputGenes + numOfBgGenes);				
-				double pValue = fisherTest.getRightTailedP(numOfOverlappingGenes, numOfInputGenes - numOfOverlappingGenes, numOfTermGenes, numOfBgGenes - numOfTermGenes);
+			EnrichedTerm enrichedTerm = currentTerm.getEnrichedTerm(inputGenes);
 								
-				enrichedTerms.add(new EnrichedTerm(currentTerm, overlap, pValue));
-			}
+			if (enrichedTerm != null)
+				enrichedTerms.add(enrichedTerm);		
 		}
 		
 		sortEnrichedTerms(geneSetLibrary, enrichedTerms);
