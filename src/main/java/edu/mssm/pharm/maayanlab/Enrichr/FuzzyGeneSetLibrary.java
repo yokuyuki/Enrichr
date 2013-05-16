@@ -1,20 +1,16 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class FuzzyGeneSetLibrary extends GeneSetLibrary {
 
 	public FuzzyGeneSetLibrary(Collection<String> libraryLines) {
-		super();
-		constructTerms(libraryLines);
+		super(libraryLines);
 	}
 	
 	public FuzzyGeneSetLibrary(Collection<String> libraryLines, Collection<String> rankLines) {
-		this(libraryLines);
-		constructRanks(rankLines);
+		super(libraryLines, rankLines);
 	}
 
 	@Override

@@ -23,8 +23,6 @@ public class GeneSetLibrary {
 	protected int numOfBackgroundGenes;
 	protected boolean isRanked = false;
 	
-	protected GeneSetLibrary() {}
-	
 	public GeneSetLibrary(Collection<String> libraryLines) {
 		constructTerms(libraryLines);
 		numOfBackgroundGenes = backgroundGenes.size();
