@@ -28,7 +28,7 @@ public class FuzzyGeneSetLibrary extends GeneSetLibrary {
 				geneSet.put(gene, Double.parseDouble(genePair[1]));
 			}
 			
-			FuzzyTerm term = new FuzzyTerm(termName, geneSet);
+			FuzzyTerm term = new FuzzyTerm(termName, this, geneSet);
 			terms.put(termName, term);
 		}
 	}

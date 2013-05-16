@@ -41,7 +41,7 @@ public class GeneSetLibrary {
 				targets.add(gene);
 			}
 			
-			Term term = new Term(termName, targets);
+			Term term = new Term(termName, this, targets);
 			terms.put(termName, term);
 		}
 	}

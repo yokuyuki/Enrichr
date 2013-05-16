@@ -5,6 +5,7 @@ import java.util.Set;
 public class Term {
 
 	private String name;
+	protected GeneSetLibrary geneSetLibrary;
 	
 	private Set<String> geneSet;
 	protected int numOfTermGenes;
@@ -12,12 +13,13 @@ public class Term {
 	private double mean;
 	private double standardDeviation;
 	
-	public Term(String name) {
+	public Term(String name, GeneSetLibrary geneSetLibrary) {
 		this.name = name;
+		this.geneSetLibrary = geneSetLibrary;
 	}
 	
-	public Term(String name, Set<String> geneSet) {
-		this.name = name;
+	public Term(String name, GeneSetLibrary geneSetLibrary, Set<String> geneSet) {
+		this(name, geneSetLibrary);
 		setGeneSet(geneSet);
 	}
 	

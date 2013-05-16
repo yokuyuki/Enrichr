@@ -7,12 +7,12 @@ public class FuzzyTerm extends Term {
 
 	private Map<String, Double> geneSet;
 	
-	public FuzzyTerm(String name) {
-		super(name);
+	public FuzzyTerm(String name, FuzzyGeneSetLibrary geneSetLibrary) {
+		super(name, geneSetLibrary);
 	}
 	
-	public FuzzyTerm(String name, Map<String, Double> geneSet) {
-		super(name);
+	public FuzzyTerm(String name, FuzzyGeneSetLibrary geneSetLibrary, Map<String, Double> geneSet) {
+		this(name, geneSetLibrary);
 		setGeneSet(geneSet);
 	}
 	
