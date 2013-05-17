@@ -19,7 +19,8 @@ public class FuzzyGeneSetLibrary extends GeneSetLibrary {
 			// In gmt file, 1st column is key, 2nd column is irrelevant, and the rest are the values
 			String[] splitLine = line.split("\\t");
 			String termName = splitLine[0];
-			HashMap<String, Double> geneSet = new HashMap<String, Double>((int) Math.ceil((splitLine.length-2)*0.75));
+			// Initialize HashMap to the rounded up to nearest integer of (splitLine.length-2)/0.75 to make one of sufficient size
+			HashMap<String, Double> geneSet = new HashMap<String, Double>(((splitLine.length-2)*4+2)/3); 
 			
 			for (int i = 2; i < splitLine.length; i++) {
 				String[] genePair = splitLine[i].split(",");				
