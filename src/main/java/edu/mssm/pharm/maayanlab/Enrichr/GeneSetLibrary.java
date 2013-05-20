@@ -55,6 +55,10 @@ public class GeneSetLibrary {
 		}
 		this.isRanked = true;
 	}
+	
+	public Term getTerm(String termName) {
+		return terms.get(termName);
+	}
 
 	public Collection<Term> getTerms() {
 		return terms.values();
