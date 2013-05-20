@@ -13,7 +13,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Enrichr</name>
-	<url>http://www.maayanlab.net</url>
+	<url>http://amp.pharm.mssm.edu/Enrichr</url>
 	<dependencies>
 		<!-- JUnit dependencies for testing -->
 		<dependency>
@@ -28,7 +28,6 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
 			<scope>provided</scope>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.tuckey</groupId>
@@ -41,14 +40,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.22</version>
 			<scope>provided</scope>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
 			<version>7.0.35</version>
 			<scope>provided</scope>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -72,19 +69,16 @@
 			<groupId>edu.mssm.pharm.maayanlab.common</groupId>
 			<artifactId>common-core</artifactId>
 			<version>1.0-SNAPSHOT</version>
-			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>edu.mssm.pharm.maayanlab.common</groupId>
 			<artifactId>common-web</artifactId>
 			<version>1.1-SNAPSHOT</version>
-			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>edu.mssm.pharm.maayanlab.common</groupId>
 			<artifactId>common-math</artifactId>
 			<version>1.0-SNAPSHOT</version>
-			<optional>false</optional>
 		</dependency>
 	</dependencies>
 	<build>
@@ -118,41 +112,7 @@
 			<id>development</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-							<plugin>
-						<artifactId>maven-assembly-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>create-executable-jar</id>
-								<phase>package</phase>
-								<goals>
-									<goal>single</goal>
-								</goals>
-								<configuration>
-									<descriptorRefs>
-										<descriptorRef>jar-with-dependencies</descriptorRef>
-									</descriptorRefs>
-									<archive>
-										<manifest>
-											<mainClass>edu.mssm.pharm.maayanlab.LaunchPad</mainClass>
-										</manifest>
-									</archive>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<configuration>
-							<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
-							<!-- <warSourceExcludes>**/*.py</warSourceExcludes> -->
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
+			</activation>			
 		</profile>
 		<profile>
 			<id>production</id>
