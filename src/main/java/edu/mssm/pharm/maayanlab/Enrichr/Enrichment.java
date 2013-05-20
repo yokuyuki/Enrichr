@@ -13,14 +13,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Set;
-
-import pal.statistics.FisherExact;
 
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 import edu.mssm.pharm.maayanlab.common.core.Settings;
 import edu.mssm.pharm.maayanlab.common.core.SettingsChanger;
-import edu.mssm.pharm.maayanlab.common.math.SetOps;
 
 public class Enrichment implements SettingsChanger {
 	
