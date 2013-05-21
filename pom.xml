@@ -77,7 +77,7 @@
 		</dependency>
 		<dependency>
 			<groupId>edu.mssm.pharm.maayanlab.common</groupId>
-			<artifactId>common-math</artifactId>
+			<artifactId>common-bio</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

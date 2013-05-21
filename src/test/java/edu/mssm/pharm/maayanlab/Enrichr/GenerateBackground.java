@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Random;
 
-import edu.mssm.pharm.maayanlab.common.core.FileUtils;
-import edu.mssm.pharm.maayanlab.common.math.Statistics;
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory;
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.GeneSetLibrary;
+import edu.mssm.pharm.maayanlab.common.bio.EnrichedTerm;
+import edu.mssm.pharm.maayanlab.common.core.FileUtils;
+import edu.mssm.pharm.maayanlab.common.math.Statistics;
 
 public class GenerateBackground {
 	

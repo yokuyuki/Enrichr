@@ -14,6 +14,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 
+import edu.mssm.pharm.maayanlab.common.bio.EnrichedTerm;
+import edu.mssm.pharm.maayanlab.common.bio.GeneSetLibrary;
+import edu.mssm.pharm.maayanlab.common.bio.Term;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 import edu.mssm.pharm.maayanlab.common.core.Settings;
 import edu.mssm.pharm.maayanlab.common.core.SettingsChanger;
