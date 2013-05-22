@@ -14,6 +14,9 @@
 	<packaging>war</packaging>
 	<name>Enrichr</name>
 	<url>http://amp.pharm.mssm.edu/Enrichr</url>
+	<properties>
+		<common.version>1.7-SNAPSHOT</common.version>
+	</properties>
 	<dependencies>
 		<!-- JUnit dependencies for testing -->
 		<dependency>
@@ -68,17 +71,17 @@
 		<dependency>
 			<groupId>edu.mssm.pharm.maayanlab.common</groupId>
 			<artifactId>common-core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${common.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.mssm.pharm.maayanlab.common</groupId>
 			<artifactId>common-web</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>${common.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.mssm.pharm.maayanlab.common</groupId>
 			<artifactId>common-bio</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${common.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
