@@ -16,31 +16,37 @@ import javax.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.mssm.pharm.maayanlab.common.web.HibernateUtil;
 import edu.mssm.pharm.maayanlab.common.web.JSONify;
 
 @WebListener
-public class ContextFinalizer implements ServletContextListener {
+public class EnrichrContext implements ServletContextListener {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ContextFinalizer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EnrichrContext.class);
+	private static Gson gson;
+	
+	public static JSONify getJSONConverter() {
+		return new JSONify(gson);
+	}
 	
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		HibernateUtil.getSessionFactory(); // Just call the static initializer of that class
+		
 		// Register type adapter with JSONify to serialize List object properly
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(List.class, new ListAdapter());
 		gsonBuilder.setDateFormat("yyyy/MM/dd HH:mm:ss");
-		JSONify.setConverter(gsonBuilder.create());
+		EnrichrContext.gson = gsonBuilder.create();
 	}       
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {         
 		HibernateUtil.getSessionFactory().close(); // Free all resources
-		JSONify.destroyConverter();
 		
 		Set<Thread> threadSet = Thread.getAllStackTraces().keySet();        
 		for (Thread t : threadSet) {
