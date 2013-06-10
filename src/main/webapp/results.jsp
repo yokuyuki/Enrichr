@@ -3,7 +3,7 @@
 <%@ page import="edu.mssm.pharm.maayanlab.Enrichr.User" %>
 <%@ page import="edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader" %>
 <%@ page import="edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory" %>
-<%@ page import="edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.GeneSetLibrary" %>
+<%@ page import="edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentLibrary" %>
 <%! private EnrichmentCategory[] categories = ResourceLoader.getInstance().getCategories(); %>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
@@ -97,7 +97,7 @@
 	</a>
 	<% for (int i = 0; i < categories.length; i++) { %>
 		<div class="<%=(i==0) ? "shown" : "hidden"%> category">
-			<% for (GeneSetLibrary library : categories[i].getLibraries()) { %>
+			<% for (EnrichmentLibrary library : categories[i].getLibraries()) { %>
 				<% String type = library.getName(); %>
 				<% String name = type.replaceAll("_", " "); %>
 				<div class="beveled" id="<%=type%>">

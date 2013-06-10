@@ -7,7 +7,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory;
-import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.GeneSetLibrary;
+import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentLibrary;
 import edu.mssm.pharm.maayanlab.common.bio.EnrichedTerm;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 
@@ -31,7 +31,7 @@ public class RegressionTest extends TestCase {
 
 	public void testAll() {
 		for (EnrichmentCategory category : ResourceLoader.getInstance().getCategories())
-			for (GeneSetLibrary library : category.getLibraries())
+			for (EnrichmentLibrary library : category.getLibraries())
 				assertEquivalentOutput(app.enrich(library.getName()), "test_list." + library.getName() + "_table.txt");
 		
 	}

@@ -25,7 +25,7 @@ import com.google.gson.Gson;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 import edu.mssm.pharm.maayanlab.common.web.JSONify;
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory;
-import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.GeneSetLibrary;
+import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentLibrary;
 
 @WebServlet(urlPatterns = {"/genemap"}, loadOnStartup=1)
 public class GeneMap extends HttpServlet {
@@ -51,7 +51,7 @@ public class GeneMap extends HttpServlet {
 
 	private void constructMap() {
 		for (EnrichmentCategory category : categories) {
-			for (GeneSetLibrary library : category.getLibraries()) {
+			for (EnrichmentLibrary library : category.getLibraries()) {
 				String libraryName = library.getName();
 				
 				// Read gene set library
@@ -109,7 +109,7 @@ public class GeneMap extends HttpServlet {
 		} 
 		else {
 			for (EnrichmentCategory category : categories) {
-				for (GeneSetLibrary library : category.getLibraries()) {
+				for (EnrichmentLibrary library : category.getLibraries()) {
 					String libraryName = library.getName();
 
 					if (backgrounds.containsKey(libraryName)) {
