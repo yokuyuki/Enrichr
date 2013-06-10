@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory;
-import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.GeneSetLibrary;
+import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentLibrary;
 import edu.mssm.pharm.maayanlab.common.bio.EnrichedTerm;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 import edu.mssm.pharm.maayanlab.common.math.Statistics;
@@ -49,7 +49,7 @@ public class GenerateBackground {
 		long startTime = System.currentTimeMillis();
 		
 		for (EnrichmentCategory category : ResourceLoader.getInstance().getCategories())
-			for (GeneSetLibrary library : category.getLibraries())
+			for (EnrichmentLibrary library : category.getLibraries())
 				generateBackground(library.getName());
 		
 		long endTime = System.currentTimeMillis();
@@ -63,7 +63,7 @@ public class GenerateBackground {
 		for (int i = 0; i < REPS; i++) {
 			Enrichment app = new Enrichment(generateRandomSample(genes, LENGTH));
 			app.setSetting(Enrichment.SORT_BY, Enrichment.PVALUE);
-			ArrayList<EnrichedTerm> enrichedTerms = app.enrich(backgroundType, false);
+			ArrayList<EnrichedTerm> enrichedTerms = app.enrich(backgroundType);
 			
 			int counter = 1;
 			for (EnrichedTerm enrichedTerm : enrichedTerms) {

@@ -72,21 +72,7 @@ public class Enrichment implements SettingsChanger {
 	}
 	
 	public ArrayList<EnrichedTerm> enrich(String backgroundType) {
-		return enrich(backgroundType, true);
-	}
-	
-	public ArrayList<EnrichedTerm> enrich(String backgroundType, boolean useRanks) {
-		// Read background list and ranks
-		Collection<String> backgroundLines = FileUtils.readResource(backgroundType + ".gmt");
-		if (useRanks) {
-			Collection<String> rankLines = FileUtils.readResource(backgroundType + "_ranks.txt");
-			return enrich(new GeneSetLibrary(backgroundLines, rankLines));
-			
-		}
-		else {
-			return enrich(new GeneSetLibrary(backgroundLines));
-		}
-		
+		return enrich(ResourceLoader.getInstance().getLibrary(backgroundType));
 	}
 	
 	public ArrayList<EnrichedTerm> enrich(GeneSetLibrary geneSetLibrary) {

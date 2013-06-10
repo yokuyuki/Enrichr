@@ -8,6 +8,8 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.HashMap;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -18,10 +20,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.gson.Gson;
 
+import edu.mssm.pharm.maayanlab.common.bio.GeneSetLibrary;
+import edu.mssm.pharm.maayanlab.common.core.FileUtils;
+
 public class ResourceLoader {
 
 	private static final ResourceLoader instance = new ResourceLoader(); // Singleton
 	private EnrichmentCategory[] categories;	// Data structure storing java representation of the XML
+	private HashMap<String, GeneSetLibrary> geneSetLibraries = new HashMap<String, GeneSetLibrary>();
 
 	public static void main(String args[]) {
 		ResourceLoader loader = ResourceLoader.getInstance();
@@ -41,9 +47,31 @@ public class ResourceLoader {
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			EnrichmentCategories root = (EnrichmentCategories) jaxbUnmarshaller.unmarshal(is);
 			categories = root.getCategories();
+			loadLibraries();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void loadLibraries() {
+		for (EnrichmentCategory category : categories) {
+			for (EnrichmentLibrary library : category.getLibraries()) {
+				String libraryName = library.getName();
+				Collection<String> backgroundLines = FileUtils.readResource(libraryName + ".gmt");
+				
+				if (FileUtils.resourceExists(libraryName + "_ranks.txt")) {
+					Collection<String> rankLines = FileUtils.readResource(libraryName + "_ranks.txt");
+					geneSetLibraries.put(libraryName, new GeneSetLibrary(backgroundLines, rankLines));
+				}
+				else {
+					geneSetLibraries.put(libraryName, new GeneSetLibrary(backgroundLines));
+				}
+			}
+		}
+	}
+	
+	public GeneSetLibrary getLibrary(String libraryName) {
+		return geneSetLibraries.get(libraryName);
 	}
 
 	public EnrichmentCategory[] getCategories() {
@@ -59,7 +87,6 @@ public class ResourceLoader {
 		public EnrichmentCategory[] getCategories() {
 			return categories;
 		}
-
 	}
 
 	@XmlRootElement(name = "category")
@@ -69,19 +96,19 @@ public class ResourceLoader {
 		private String name;
 
 		@XmlElement(name = "library")
-		private GeneSetLibrary[] libraries;
+		private EnrichmentLibrary[] libraries;
 
 		public String getName() {
 			return name;
 		}
 
-		public GeneSetLibrary[] getLibraries() {
+		public EnrichmentLibrary[] getLibraries() {
 			return libraries;
 		}
 	}
 
 	@XmlRootElement(name = "library")
-	public static class GeneSetLibrary {
+	public static class EnrichmentLibrary {
 
 		@XmlAttribute
 		private String name;
