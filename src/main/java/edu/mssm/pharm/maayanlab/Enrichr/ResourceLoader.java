@@ -56,6 +56,7 @@ public class ResourceLoader {
 	private void loadLibraries() {
 		for (EnrichmentCategory category : categories) {
 			for (EnrichmentLibrary library : category.getLibraries()) {
+				// TODO: parallelize loading using new threads
 				String libraryName = library.getName();
 				Collection<String> backgroundLines = FileUtils.readResource(libraryName + ".gmt");
 				
