@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.gson.Gson;
 
+import edu.mssm.pharm.maayanlab.common.bio.FuzzyGeneSetLibrary;
 import edu.mssm.pharm.maayanlab.common.bio.GeneSetLibrary;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 
@@ -58,15 +59,27 @@ public class ResourceLoader {
 			for (EnrichmentLibrary library : category.getLibraries()) {
 				// TODO: parallelize loading using new threads
 				String libraryName = library.getName();
-				Collection<String> backgroundLines = FileUtils.readResource(libraryName + ".gmt");
+				Collection<String> backgroundLines = FileUtils.readResource(libraryName + ".gmt");				
 				
+				GeneSetLibrary newLibrary;
 				if (FileUtils.resourceExists(libraryName + "_ranks.txt")) {
 					Collection<String> rankLines = FileUtils.readResource(libraryName + "_ranks.txt");
-					geneSetLibraries.put(libraryName, new GeneSetLibrary(backgroundLines, rankLines));
+					if (library.isFuzzy()) {
+						newLibrary = new FuzzyGeneSetLibrary(backgroundLines, rankLines);
+					}
+					else {
+						newLibrary = new GeneSetLibrary(backgroundLines, rankLines);
+					}					
 				}
 				else {
-					geneSetLibraries.put(libraryName, new GeneSetLibrary(backgroundLines));
+					if (library.isFuzzy()) {
+						newLibrary = new FuzzyGeneSetLibrary(backgroundLines);
+					}
+					else {
+						newLibrary = new GeneSetLibrary(backgroundLines);
+					}
 				}
+				geneSetLibraries.put(libraryName, newLibrary);
 			}
 		}
 	}
@@ -119,6 +132,9 @@ public class ResourceLoader {
 
 		@XmlAttribute
 		private boolean hasGrid;
+		
+		@XmlAttribute
+		private boolean isFuzzy;
 
 		public String getName() {
 			return name;
@@ -130,6 +146,10 @@ public class ResourceLoader {
 
 		public boolean hasGrid() {
 			return hasGrid;
+		}
+		
+		public boolean isFuzzy() {
+			return isFuzzy;
 		}
 	}
 
