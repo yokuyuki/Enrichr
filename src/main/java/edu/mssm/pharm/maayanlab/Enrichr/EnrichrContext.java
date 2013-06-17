@@ -48,6 +48,7 @@ public class EnrichrContext implements ServletContextListener {
 	public void contextDestroyed(ServletContextEvent event) {         
 		HibernateUtil.getSessionFactory().close(); // Free all resources
 		
+		//TODO: find memory leak that requires server to be restarted after hot deploying several (3?) times
 		Set<Thread> threadSet = Thread.getAllStackTraces().keySet();        
 		for (Thread t : threadSet) {
 			if (t.getName().contains("Abandoned connection cleanup thread")) {
