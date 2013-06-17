@@ -85,20 +85,14 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 function createTable(id, dataArray, container) {
 	$(container + ' table.results_table').dataTable({
 		'aaData': dataArray,
-		'fnDrawCallback': function ( oSettings ) {
-			var that = this;
-
-			if ( oSettings.bSorted && !$('div.active div.dataTables_filter input').val())				
-			{
-				this.$('td:first-child', {'filter':'applied'}).each( function (i) {
-					that.fnUpdate( i+1, this.parentNode, 0, false, false );
-				} );
-			}
-
-			$(container + ' tr[title]').aToolTip({toolTipClass: 'defaultTheme gene-overlap'});
-		},
 		'fnCreatedRow': function( nRow, aData, iDataIndex ) {
 			$(nRow).attr('title', aData[5].join(', '));
+		},
+		'fnRowCallback': function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+			if (this.fnSettings().oPreviousSearch.sSearch == '') {
+				$('td:first-child', nRow).html(iDisplayIndexFull+1);
+			}
+			$(nRow).aToolTip({toolTipClass: 'defaultTheme gene-overlap'});
 		},
 		'aoColumns': [
 			{ 
@@ -110,7 +104,7 @@ function createTable(id, dataArray, container) {
 			},
 			{ 
 				'sTitle': 'Name', 
-				'sClass': 'left',				
+				'sClass': 'left',
 				'mRender': function(data) {
 					if (id in globals.linkMap) {
 						var linkArray = globals.linkMap[id];
