@@ -12,14 +12,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import edu.mssm.pharm.maayanlab.common.bio.EnrichedTerm;
 import edu.mssm.pharm.maayanlab.common.bio.GeneSetLibrary;
+import edu.mssm.pharm.maayanlab.common.bio.InputGenes;
 import edu.mssm.pharm.maayanlab.common.bio.Term;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 import edu.mssm.pharm.maayanlab.common.core.Settings;
 import edu.mssm.pharm.maayanlab.common.core.SettingsChanger;
+import edu.mssm.pharm.maayanlab.common.math.NumberUtils;
 
 public class Enrichment implements SettingsChanger {
 	
@@ -38,7 +41,8 @@ public class Enrichment implements SettingsChanger {
 	
 	public static final String HEADER = "Term\tOverlap\tP-value\tAdjusted P-value\tZ-score\tCombined Score\tGenes";
 	
-	private Collection<String> geneList; 
+	private Collection<String> geneList;
+	private boolean isFuzzy = false;
 	
 	public static void main(String[] args) {		
 		try {
@@ -53,12 +57,17 @@ public class Enrichment implements SettingsChanger {
 	}
 	
 	public Enrichment(Collection<String> geneList) {
+		this.isFuzzy = InputGenes.isFuzzy(geneList);
 		this.geneList = geneList;
 	}
 	
 	public Enrichment(Collection<String> geneList, boolean validate) throws ParseException {
+		this.isFuzzy = InputGenes.isFuzzy(geneList);
 		if (validate)	// Check if input list is valid
-			FileUtils.validateList(geneList);
+			if (isFuzzy)
+				InputGenes.validateFuzzyInputGenes(geneList);
+			else				
+				InputGenes.validateInputGenes(geneList);
 		this.geneList = geneList;
 	}
 	
@@ -76,7 +85,26 @@ public class Enrichment implements SettingsChanger {
 	}
 	
 	public ArrayList<EnrichedTerm> enrich(GeneSetLibrary geneSetLibrary) {
+		if (isFuzzy)
+			return fuzzyEnrich(geneSetLibrary);
+		
 		HashSet<String> inputGenes = filterInputGenes(geneSetLibrary);
+		
+		ArrayList<EnrichedTerm> enrichedTerms = new ArrayList<EnrichedTerm>();
+		for (Term currentTerm : geneSetLibrary.getTerms()) {
+			EnrichedTerm enrichedTerm = currentTerm.getEnrichedTerm(inputGenes);
+								
+			if (enrichedTerm != null)
+				enrichedTerms.add(enrichedTerm);		
+		}
+		
+		sortEnrichedTerms(geneSetLibrary, enrichedTerms);
+		
+		return enrichedTerms;
+	}
+	
+	public ArrayList<EnrichedTerm> fuzzyEnrich(GeneSetLibrary geneSetLibrary) {
+		HashMap<String, Double> inputGenes = filterFuzzyInputGenes(geneSetLibrary);
 		
 		ArrayList<EnrichedTerm> enrichedTerms = new ArrayList<EnrichedTerm>();
 		for (Term currentTerm : geneSetLibrary.getTerms()) {
@@ -101,6 +129,23 @@ public class Enrichment implements SettingsChanger {
 		}
 		
 		return inputGenes;
+	}
+	
+	private HashMap<String, Double> filterFuzzyInputGenes(GeneSetLibrary geneSetLibrary) {
+		HashMap<String, Double> fuzzyInputGenes = new HashMap<String, Double>(NumberUtils.roundUpDivision((geneList.size())*4, 3));
+		for (String genePair : geneList) {
+			String[] splitLine = genePair.split(",");
+			String gene = splitLine[0].toUpperCase();
+			if (geneSetLibrary.contains(gene)) {
+				try {
+					fuzzyInputGenes.put(gene, Double.parseDouble(splitLine[1]));
+				} catch (NumberFormatException nfe) {
+					fuzzyInputGenes.put(gene, 0.0);
+				}
+			}
+		}
+		
+		return fuzzyInputGenes;
 	}
 	
 	// Sort enriched terms
