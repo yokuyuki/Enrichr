@@ -28,7 +28,7 @@ public class ResourceLoader {
 
 	private static final ResourceLoader instance = new ResourceLoader(); // Singleton
 	private EnrichmentCategory[] categories;	// Data structure storing java representation of the XML
-	private HashMap<String, GeneSetLibrary> geneSetLibraries = new HashMap<String, GeneSetLibrary>();
+	private HashMap<String, GeneSetLibrary> geneSetLibraries = new HashMap<String, GeneSetLibrary>();	// Dictionary to keep gene set libraries in memory
 
 	public static void main(String args[]) {
 		ResourceLoader loader = ResourceLoader.getInstance();
@@ -61,6 +61,7 @@ public class ResourceLoader {
 				String libraryName = library.getName();
 				Collection<String> backgroundLines = FileUtils.readResource(libraryName + ".gmt");				
 				
+				// Use correct constructor depending on existence of ranks file and whether gene set library is fuzzy or not
 				GeneSetLibrary newLibrary;
 				if (FileUtils.resourceExists(libraryName + "_ranks.txt")) {
 					Collection<String> rankLines = FileUtils.readResource(libraryName + "_ranks.txt");
