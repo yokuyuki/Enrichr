@@ -32,7 +32,7 @@ public class Enrichr extends HttpServlet {
 
 	private static final long serialVersionUID = 3310803710142519430L;
 	
-	protected static final String RESOURCE_PATH = "/datasets/";
+	protected static final String RESOURCE_PATH = "/datasets/";	// Where to look for stored lists
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,6 +60,7 @@ public class Enrichr extends HttpServlet {
 		postResult(request, response, inputList);
 	}
 	
+	// Handle submitting a list either from input or saved list
 	private void postResult(HttpServletRequest request, HttpServletResponse response, ArrayList<String> inputList) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
@@ -67,12 +68,12 @@ public class Enrichr extends HttpServlet {
 			// Write gene count
 			session.setAttribute("length", Integer.toString(inputList.size()));
 			
-			boolean validate = ("true".equals(request.getParameter("validate"))) ? true : false;
+			boolean validate = ("true".equals(request.getParameter("validate"))) ? true : false;	// Only submission page validates
 			
 			Enrichment app = new Enrichment(inputList, validate);
-			session.setAttribute("process", app);			
-			request.getRequestDispatcher("results.jsp").forward(request, response);
-		}  catch (ParseException e) {
+			session.setAttribute("process", app);	// Save the enrichment object as session variable
+			request.getRequestDispatcher("results.jsp").forward(request, response);	// Maintain /enrich URL instead of showing results.jsp
+		}  catch (ParseException e) {	// Send to custom error page if list can't be parsed
 			if (e.getErrorOffset() == -1)
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input: Input list is empty.");
 			else
@@ -96,7 +97,7 @@ public class Enrichr extends HttpServlet {
 					session.removeAttribute("description");
 				postResult(request, response, input);
 			}
-			else {
+			else {	// Send error if list doesn't exist
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "This dataset doesn't exist.");
 			}
 			
@@ -109,6 +110,7 @@ public class Enrichr extends HttpServlet {
 			return;
 		}
 		
+		// TODO: doesn't share too much code, can probably turn RESTful
 		if (request.getServletPath().equals("/enrich")) {	// Support legacy paths
 			// TODO: remove legacy
 			if (request.getParameter("share") == null) {	// If not sharing result
@@ -135,15 +137,17 @@ public class Enrichr extends HttpServlet {
 		}
 	}
 	
+	// Handles expired sessions
 	private void getExpired(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		JSONify json = new JSONify();
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		
-		json.add("expired", true);
+		json.add("expired", true);	// Front-end will deal with this
 		json.write(response.getWriter());
 	}
 	
+	// Handle share requests
 	private void getShared(HttpServletRequest request, HttpServletResponse response, Enrichment app) throws IOException {
 		JSONify json = new JSONify();
 		response.setContentType("application/json");
@@ -151,6 +155,7 @@ public class Enrichr extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
+		// Use share counter to generate unique link id
 		Counter share = (Counter) getServletContext().getAttribute("share_count");
 		int listNumber = share.getAndIncrement();
 		Counters.updateCounter(share);
@@ -158,21 +163,24 @@ public class Enrichr extends HttpServlet {
 		
 		String description = (String) session.getAttribute("description");
 		
+		// Write shared file
 		if (description != null)
 			FileUtils.writeFile("/datasets/" + fileId + ".txt", "#" + description, app.getInput());
 		else
 			FileUtils.writeFile("/datasets/" + fileId + ".txt", app.getInput());
 		
+		// Add list to the user
 		User user = (User) session.getAttribute("user");
 		if (user != null) {
 			user.getLists().add(new List(listNumber, user, description));
 			Account.updateUser(user);
 		}
 		
-		json.add("link_id", fileId);
+		json.add("link_id", fileId);	// Return the link for front-end to display
 		json.write(response.getWriter());
 	}
 	
+	// Handle displaying result in JSON and JavaScript
 	private void getJSONResult(HttpServletRequest request, HttpServletResponse response, Enrichment app) throws IOException {
 		String backgroundType = request.getParameter("backgroundType");
 		ArrayList<EnrichedTerm> results = app.enrich(backgroundType);
@@ -185,11 +193,13 @@ public class Enrichr extends HttpServlet {
 		json.write(response.getWriter());
 	}
 	
+	// Handle displaying result in downloadable file
 	private void getFileResult(HttpServletRequest request, HttpServletResponse response, Enrichment app) throws IOException {
 		String filename = request.getParameter("filename");
 		String backgroundType = request.getParameter("backgroundType");
 		ArrayList<EnrichedTerm> results = app.enrich(backgroundType);
 		
+		// Headers needed to trigger a download instead of opening in browser
 		response.setHeader("Pragma", "public");
 		response.setHeader("Expires", "0");
 		response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
@@ -200,6 +210,7 @@ public class Enrichr extends HttpServlet {
 		FileUtils.write(response.getWriter(), Enrichment.HEADER, results);
 	}
 	
+	// Flatten enrichment results so it can be converted to JSON easily
 	private Object[][] flattenResults(ArrayList<EnrichedTerm> results) {
 		Object[][] resultsMatrix = new Object[results.size()][6];
 		
