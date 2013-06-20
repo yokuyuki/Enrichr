@@ -1,3 +1,10 @@
+/**
+ * Model for storing crowdsourced lists
+ * 
+ * @author		Edward Y. Chen
+ * @since		04/17/2013 
+ */
+
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.Serializable;
