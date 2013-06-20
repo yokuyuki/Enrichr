@@ -1,3 +1,10 @@
+/**
+ * Model for storing users
+ * 
+ * @author		Edward Y. Chen
+ * @since		12/13/2012 
+ */
+
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -65,7 +72,7 @@ public class User implements Serializable {
 	public boolean updateUser(String email, String password, String first, String last, String institute) {
 		boolean changed = false;
 		
-		if (!email.equals(this.email) && !email.trim().isEmpty()) {
+		if (!email.equals(this.email) && !email.trim().isEmpty()) {	// Do not update user if field is same or empty
 			this.email = email;
 			changed |= true;
 		}
@@ -187,7 +194,7 @@ public class User implements Serializable {
 		this.accessed = null;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)	// Lists can be removed and propagated here
 	@Cascade({CascadeType.ALL})
 	public Set<List> getLists() {
 		return this.lists;
@@ -198,7 +205,7 @@ public class User implements Serializable {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString() {	// For testing purposes
 		StringBuilder output = new StringBuilder();
 		output.append("userid: ").append(userid).append(", ")
 			  .append("email: ").append(email).append(", ")
