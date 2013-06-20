@@ -49,7 +49,7 @@ public class Account extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
-		JSONify json = EnrichrContext.getJSONConverter();
+		JSONify json = EnrichrContext.getJSONConverter();	// Get special JSON converter to handle serialization of List model
 		
 		HttpSession httpSession = request.getSession();
 		
@@ -57,15 +57,15 @@ public class Account extends HttpServlet {
 		
 		if (request.getServletPath().equals("/logout")) {
 			httpSession.removeAttribute("user");
-			response.sendRedirect("");
+			response.sendRedirect("");	// Redirect to home page
 			return;
 		}
 		
 		if (user == null) {
-			json.add("user", "");
+			json.add("user", "");	// Front-end will deal with empty user
 		}
 		else {
-			json.add("user", user.getEmail());
+			json.add("user", user.getEmail());	// Common info shared between any GET
 			json.add("firstname", user.getFirst());
 			
 			// Get user lists
@@ -80,7 +80,7 @@ public class Account extends HttpServlet {
 				session.beginTransaction();
 				session.update(user);
 				
-				json.add("lastname", user.getLast());
+				json.add("lastname", user.getLast());	// Additional info on account page
 				json.add("institution", user.getInstitute());
 				json.add("lists", user.getLists());
 				
@@ -103,6 +103,7 @@ public class Account extends HttpServlet {
 		Session dbSession = sf.openSession();
 		dbSession.beginTransaction();
 		
+		// All these tasks require db
 		if (request.getServletPath().equals("/login"))
 			login(request, response, dbSession, json);
 		else if (request.getServletPath().equals("/register"))
@@ -124,6 +125,7 @@ public class Account extends HttpServlet {
 		json.write(response.getWriter());
 	}
 	
+	// Handle account registration
 	private void register(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
 		// Check for existing email
 		String email = request.getParameter("email");
@@ -131,7 +133,7 @@ public class Account extends HttpServlet {
 				.add(Restrictions.eq("email", email).ignoreCase());
 		User user = (User) criteria.uniqueResult();
 		
-		if (user != null) {	// If exists, throw error
+		if (user != null) {	// If exists, display error
 			json.add("message", "The email you entered is already registered.");
 		}
 		else {	// Else, create user
@@ -146,6 +148,7 @@ public class Account extends HttpServlet {
 		}
 	}
 	
+	// Handle account login
 	private void login(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -154,27 +157,28 @@ public class Account extends HttpServlet {
 				.add(Restrictions.eq("email", email).ignoreCase());
 		User user = (User) criteria.uniqueResult();
 		
-		if (user == null) {
+		if (user == null) {	// If user doesn't exist, display error
 			json.add("message", "The email you entered does not belong to a registered user.");
 		}
 		else if (user.checkPassword(password)) {
-			user.updateAccessed();
+			user.updateAccessed();	// Sets accessed field to NULL so db can auto-update it based on access timestamp
 			dbSession.update(user);
 			request.getSession().setAttribute("user", user);
-			json.add("redirect", "account.html");
+			json.add("redirect", "account.html");	// Login successful, redirect
 		}
-		else {
+		else {	// If password is incorrect, display error
 			json.add("message", "The password you entered is incorrect.");
 		}
 	}
 	
+	// Handle password reset request
 	private void forgot(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
 		String email = request.getParameter("email");
 		Criteria criteria = dbSession.createCriteria(User.class)
 				.add(Restrictions.eq("email", email).ignoreCase());
 		User user = (User) criteria.uniqueResult();
 		
-		if (user == null) {
+		if (user == null) {	// If user doesn't exist, display error
 			json.add("message", "The email you entered does not belong to a registered user.");
 		}
 		else {
@@ -189,10 +193,12 @@ public class Account extends HttpServlet {
 			javax.mail.Session mailSession = javax.mail.Session.getInstance(props, new Authenticator() {
 				@Override
 				public PasswordAuthentication getPasswordAuthentication() {
+					// TODO: pull this out to a settings file so not hardcoded
 					return new PasswordAuthentication("amp@maayanlab.net", "1amp1");
 				}
 			});
 			
+			// Web app has no concept of domain so link is hardcoded
 			MimeMessage message = new MimeMessage(mailSession);
 			try {
 				message.setFrom(new InternetAddress("Enrichr@amp.pharm.mssm.edu"));
@@ -209,17 +215,18 @@ public class Account extends HttpServlet {
 		}
 	}
 	
+	// Handle password reset
 	private void reset(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
 		String email = request.getParameter("email");
 		Criteria criteria = dbSession.createCriteria(User.class)
 				.add(Restrictions.eq("email", email).ignoreCase());
 		User user = (User) criteria.uniqueResult();
 		
-		if (user == null) {
+		if (user == null) {	// If user doesn't exist, display error
 			json.add("message", "The email you entered does not belong to a registered user.");			
 		}
 		else {
-			// Generate today and yesterday's tokens
+			// Generate today and yesterday's tokens just in case they generate close to midnight
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar calendar = Calendar.getInstance();
 			String today = user.getEmail() + user.getSalt() + formatter.format(calendar.getTime());
@@ -233,25 +240,26 @@ public class Account extends HttpServlet {
 			else {
 				user.updatePassword(request.getParameter("password"));
 				dbSession.update(user);
-				json.add("redirect", "login.html");
+				json.add("redirect", "login.html");	// Direct them to login
 			}
 		}
 	}
 	
+	// Handle modification of account info
 	private void modify(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {		
 		User user = (User) request.getSession().getAttribute("user");
 		String password = request.getParameter("password");
 		
-		if (user == null) {
+		if (user == null) {	// If idled to logout, redirect them to login
 			json.add("redirect", "login.html");
 		}
-		else if (user.checkPassword(password)) {
+		else if (user.checkPassword(password)) {	// Check password in order to change
 			boolean changed = user.updateUser(request.getParameter("email"), 
 							request.getParameter("newpassword"), 
 							request.getParameter("firstname"), 
 							request.getParameter("lastname"),
 							request.getParameter("institution"));
-			if (changed) {
+			if (changed) {	// Don't update unless necessary, save db write
 				dbSession.update(user);
 				json.add("message", "Changes saved.");
 			}
@@ -264,11 +272,12 @@ public class Account extends HttpServlet {
 		}
 	}
 	
+	// Handle contributing list to crowdsourced lists
 	private void contribute(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
 		HttpSession httpSession = request.getSession();		
 		User user = (User) httpSession.getAttribute("user");
 		
-		if (user == null) {
+		if (user == null) {	// If idled to logout, redirect them to login
 			json.add("redirect", "login.html");
 			return;
 		}
@@ -291,7 +300,7 @@ public class Account extends HttpServlet {
 			// Look for list on path
 			String resourceUrl = Enrichr.RESOURCE_PATH + sharedListEncodedId + ".txt";
 			if (!(new File(resourceUrl)).isFile()) {
-				throw new IOException("List doesn't exist");
+				throw new IOException("List doesn't exist");	// Somehow file is missing?
 			}
 			
 			// Read file
@@ -313,11 +322,12 @@ public class Account extends HttpServlet {
 		}
 	}
 	
+	// Handle deleting of lists
 	private void delete(HttpServletRequest request, HttpServletResponse response, Session dbSession, JSONify json) throws IOException {
 		HttpSession httpSession = request.getSession();		
 		User user = (User) httpSession.getAttribute("user");
 		
-		if (user == null) {
+		if (user == null) {	// If idled to logout, redirect them to login
 			json.add("redirect", "login.html");
 			return;
 		}
@@ -325,7 +335,7 @@ public class Account extends HttpServlet {
 		
 		String listEncodedId = request.getParameter("listId");
 		List list = (List) dbSession.get(List.class, Shortener.decode(listEncodedId));
-		if (list != null && list.getUser().equals(user)) {
+		if (list != null && list.getUser().equals(user)) {	// Make sure list exists and owner owns the list
 			user.getLists().remove(list);
 			dbSession.update(user);
 			
@@ -336,7 +346,7 @@ public class Account extends HttpServlet {
 			}
 		}
 		
-		json.add("redirect", "account.html");
+		json.add("redirect", "account.html");	// Refresh account page
 	}
 	
 	// Static function to commit new lists to the user so the Enrichr class doesn't make any db calls
