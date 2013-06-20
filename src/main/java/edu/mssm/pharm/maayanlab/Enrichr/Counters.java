@@ -30,9 +30,6 @@ import edu.mssm.pharm.maayanlab.common.web.HibernateUtil;
 @WebServlet(urlPatterns = {"/count"}, loadOnStartup=1)
 public class Counters extends HttpServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -682732829814620653L;
 
 	private static Counter count;
@@ -90,6 +87,7 @@ public class Counters extends HttpServlet {
 			catch (IOException ignored) { }
 		}
 		
+		// Save counters to servlet counter
 		getServletContext().setAttribute("enrichment_count", count);
 		getServletContext().setAttribute("share_count", share);
 	}
