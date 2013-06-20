@@ -1,3 +1,10 @@
+/**
+ * Model for storing lists
+ * 
+ * @author		Edward Y. Chen
+ * @since		04/25/2013 
+ */
+
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.Serializable;
@@ -17,8 +24,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@DynamicInsert
-@DynamicUpdate
+@DynamicInsert	// Don't need to include all fields in insert, don't know why not on by default
+@DynamicUpdate	// Don't need to update all fields in update, don't know why not on by default
 @Table(name = "lists", catalog = "enrichr")
 public class List implements Serializable {
 
