@@ -31,7 +31,7 @@ public class Counter implements Serializable {
 	
 	private int id;
 	private String name;
-	private AtomicInteger count;
+	private AtomicInteger count;	// So that the count is thread-safe
 
 	public Counter() {
 		this.count = new AtomicInteger();
