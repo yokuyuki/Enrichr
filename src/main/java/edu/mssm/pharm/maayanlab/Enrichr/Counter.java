@@ -1,3 +1,10 @@
+/**
+ * Model for storing web app counts
+ * 
+ * @author		Edward Y. Chen
+ * @since		04/25/2013 
+ */
+
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.io.Serializable;
@@ -69,7 +76,7 @@ public class Counter implements Serializable {
 	}
 
 	@Transient
-	public int getAndIncrement() {
+	public int getAndIncrement() {	// Transient so Hibernate doesn't look for the AndIncrement field
 		return this.count.getAndIncrement();
 	}
 }
