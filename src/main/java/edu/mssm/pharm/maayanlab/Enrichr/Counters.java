@@ -87,7 +87,7 @@ public class Counters extends HttpServlet {
 			catch (IOException ignored) { }
 		}
 		
-		// Save counters to servlet counter
+		// Save counters to be available servlet wide
 		getServletContext().setAttribute("enrichment_count", count);
 		getServletContext().setAttribute("share_count", share);
 	}
