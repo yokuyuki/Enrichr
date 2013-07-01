@@ -83,6 +83,11 @@
 			<artifactId>common-bio</artifactId>
 			<version>${common.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>edu.mssm.pharm.maayanlab.common</groupId>
+			<artifactId>common-swing</artifactId>
+			<version>${common.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
