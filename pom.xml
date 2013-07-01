@@ -120,7 +120,41 @@
 			<id>development</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
-			</activation>			
+			</activation>
+			<build>
+				<plugins>
+							<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>create-executable-jar</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<descriptorRefs>
+										<descriptorRef>jar-with-dependencies</descriptorRef>
+									</descriptorRefs>
+									<archive>
+										<manifest>
+											<mainClass>edu.mssm.pharm.maayanlab.common.swing.LaunchPad</mainClass>
+										</manifest>
+									</archive>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+							<!-- <warSourceExcludes>**/*.py</warSourceExcludes> -->
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<id>production</id>
