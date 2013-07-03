@@ -15,6 +15,7 @@ import javax.swing.SwingWorker;
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory;
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentLibrary;
 import edu.mssm.pharm.maayanlab.common.bio.EnrichedTerm;
+import edu.mssm.pharm.maayanlab.common.bio.GeneSetLibrary;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 import edu.mssm.pharm.maayanlab.common.core.Settings;
 import edu.mssm.pharm.maayanlab.common.core.SettingsChanger;
@@ -59,15 +60,12 @@ public class EnrichrBatcher implements SettingsChanger {
 			eb.run(args[0]);
 			eb.writeFile(args[1]);
 		}
-		else if (args.length > 2) {
-			String[] bgFiles = new String[args.length-2];
-			System.arraycopy(args, 1, bgFiles, 0, args.length-2);
+		else if (args.length == 3) {
 			EnrichrBatcher eb = new EnrichrBatcher();
-			eb.run(args[0], bgFiles);
-			eb.writeFile(args[args.length-1]);
+			eb.run(args[0], args[1], args[2]);
 		}
 		else
-			log.warning("Usage: java -jar L2N.jar gene_list [background_file...] output");
+			log.warning("Usage: java -jar Enrichr.jar gene_list [background_file...] output");
 	}
 	
 	// By default, load settings from file
@@ -152,26 +150,23 @@ public class EnrichrBatcher implements SettingsChanger {
 	}
 	
 	// Run from cli with custom database
-	public void run(String geneList, String[] backgroundFiles) {
-//		log.info("Running with custom database");
-//		ArrayList<String> inputList = FileUtils.readFile(geneList);
-//		
-//		try {
-//			if (FileUtils.validateList(inputList)) {
-//				HashMap<String, String> bgList = new HashMap<String, String>();
-//				for (String backgroundFile : backgroundFiles)
-//					bgList.put((new File(backgroundFile)).getName().replaceFirst("\\.\\w+$", ""), backgroundFile);
-//				computeEnrichment(bgList, inputList);
-//			}
-//		} catch (ParseException e) {
-//			if (e.getErrorOffset() == -1)
-//				log.warning("Invalid input: Input list is empty.");
-//			else
-//				log.warning("Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
-//			System.exit(-1);	
-//		} catch (InterruptedException e) {
-//			log.severe("CLI should never throw this error due to lack of progress bar");
-//		}
+	public void run(String geneList, String backgroundFile, String outputFile) {
+		log.info("Running with custom database");
+		ArrayList<String> inputList = FileUtils.readFile(geneList);
+		
+		try {
+			if (FileUtils.validateList(inputList)) {
+				Enrichment app = new Enrichment(FileUtils.readFile(geneList));
+				GeneSetLibrary crisp = new GeneSetLibrary(FileUtils.readFile(backgroundFile));
+				FileUtils.writeFile(outputFile, Enrichment.HEADER, app.enrich(crisp));
+			}
+		} catch (ParseException e) {
+			if (e.getErrorOffset() == -1)
+				log.warning("Invalid input: Input list is empty.");
+			else
+				log.warning("Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
+			System.exit(-1);
+		}
 	}
 	
 	// Run for file names
