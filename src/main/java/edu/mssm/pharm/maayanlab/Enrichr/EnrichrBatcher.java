@@ -15,6 +15,7 @@ import javax.swing.SwingWorker;
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory;
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentLibrary;
 import edu.mssm.pharm.maayanlab.common.bio.EnrichedTerm;
+import edu.mssm.pharm.maayanlab.common.bio.FuzzyGeneSetLibrary;
 import edu.mssm.pharm.maayanlab.common.bio.GeneSetLibrary;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 import edu.mssm.pharm.maayanlab.common.core.Settings;
@@ -62,10 +63,14 @@ public class EnrichrBatcher implements SettingsChanger {
 		}
 		else if (args.length == 3) {
 			EnrichrBatcher eb = new EnrichrBatcher();
-			eb.run(args[0], args[1], args[2]);
+			eb.run(args[0], args[1], false, args[2]);
+		}
+		else if (args.length == 4) {
+			EnrichrBatcher eb = new EnrichrBatcher();
+			eb.run(args[0], args[1], Boolean.parseBoolean(args[2]), args[3]);
 		}
 		else
-			log.warning("Usage: java -jar Enrichr.jar gene_list [background_file...] output");
+			log.warning("Usage: java -jar Enrichr.jar gene_list [background_file is_fuzzy] output");
 	}
 	
 	// By default, load settings from file
@@ -150,15 +155,20 @@ public class EnrichrBatcher implements SettingsChanger {
 	}
 	
 	// Run from cli with custom database
-	public void run(String geneList, String backgroundFile, String outputFile) {
+	public void run(String geneList, String backgroundFile, boolean isFuzzy, String outputFile) {
+		GeneSetLibrary geneSetLibrary;
+		
 		log.info("Running with custom database");
 		ArrayList<String> inputList = FileUtils.readFile(geneList);
 		
 		try {
 			if (FileUtils.validateList(inputList)) {
 				Enrichment app = new Enrichment(FileUtils.readFile(geneList));
-				GeneSetLibrary crisp = new GeneSetLibrary(FileUtils.readFile(backgroundFile));
-				FileUtils.writeFile(outputFile, Enrichment.HEADER, app.enrich(crisp));
+				if (isFuzzy)
+					geneSetLibrary = new FuzzyGeneSetLibrary(FileUtils.readFile(backgroundFile));
+				else
+					geneSetLibrary = new GeneSetLibrary(FileUtils.readFile(backgroundFile));
+				FileUtils.writeFile(outputFile, Enrichment.HEADER, app.enrich(geneSetLibrary));
 			}
 		} catch (ParseException e) {
 			if (e.getErrorOffset() == -1)
