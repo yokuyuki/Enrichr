@@ -4,9 +4,9 @@
 		<library name="ChEA" format="{1} binds to the promoter region of {0}." hasGrid="true"/>
 		<library name="TRANSFAC_and_JASPAR_PWMs" format="{1} has a binding site at the promoter of {0}." hasGrid="true"/>
 		<library name="Genome_Browser_PWMs" format="{1} binds to the promoter region of {0}." hasGrid="true"/>
-		<library name="Histone_Modifications_ChIP-seq" format="{0} is associated with the histone modification, {1}." hasGrid="true"/>
+		<library name="Histone_Modifications_ChIP-seq" format="{0} is associated with the histone modification, {1}." hasGrid="true" isFuzzy="true"/>
 		<library name="microRNA" format="{0} is the predicted target of {1}." hasGrid="true"/>
-		<library name="ENCODE_TF_ChIP-seq" format="{1} binds to the promoter region of {0}." hasGrid="true"/>
+		<library name="ENCODE_TF_ChIP-seq" format="{1} binds to the promoter region of {0}." hasGrid="true" isFuzzy="true"/>
 	</category>
 	<category name="Pathways">
 		<library name="KEGG" format="{0} is a member of the {1} pathway." hasGrid="true"/>
