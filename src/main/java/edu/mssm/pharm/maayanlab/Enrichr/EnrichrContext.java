@@ -34,7 +34,9 @@ public class EnrichrContext implements ServletContextListener {
 	
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
-		HibernateUtil.getSessionFactory(); // Just call the static initializer of that class
+		// Just call the static initializer of that class
+		HibernateUtil.getSessionFactory();
+		ResourceLoader.getInstance();
 		
 		// Register type adapter with JSONify to serialize List object properly
 		GsonBuilder gsonBuilder = new GsonBuilder();

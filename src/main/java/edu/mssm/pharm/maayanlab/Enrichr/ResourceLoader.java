@@ -25,8 +25,7 @@ import edu.mssm.pharm.maayanlab.common.bio.GeneSetLibrary;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 
 public class ResourceLoader {
-
-	private static final ResourceLoader instance = new ResourceLoader(); // Singleton
+	
 	private EnrichmentCategory[] categories;	// Data structure storing java representation of the XML
 	private HashMap<String, GeneSetLibrary> geneSetLibraries = new HashMap<String, GeneSetLibrary>();	// Dictionary to keep gene set libraries in memory
 
@@ -34,9 +33,13 @@ public class ResourceLoader {
 		ResourceLoader loader = ResourceLoader.getInstance();
 		System.out.println(new Gson().toJson(loader.getCategories()));
 	}
+	
+	private static class SingletonHolder {
+		public static final ResourceLoader INSTANCE = new ResourceLoader(); // Singleton
+	}
 
 	public static ResourceLoader getInstance() {
-		return instance;
+		return SingletonHolder.INSTANCE;
 	}
 
 	private ResourceLoader() {
