@@ -184,8 +184,7 @@ public class EnrichrBatcher implements SettingsChanger {
 		ArrayList<String> inputList = FileUtils.readFile(geneList);
 		
 		try {
-			if (FileUtils.validateList(inputList))
-				run(inputList);
+			run(inputList);
 		} catch (ParseException e) {
 			if (e.getErrorOffset() == -1)
 				log.warning("Invalid input: Input list is empty.");
@@ -196,7 +195,7 @@ public class EnrichrBatcher implements SettingsChanger {
 	}
 	
 	// Run for calling from other methods and pass in collection
-	public void run(Collection<String> geneList) {
+	public void run(Collection<String> geneList) throws ParseException {
 		LinkedList<String> bgList = new LinkedList<String>();
 		
 		for (EnrichmentCategory category : ResourceLoader.getInstance().getCategories()) {
@@ -218,11 +217,11 @@ public class EnrichrBatcher implements SettingsChanger {
 		}
 	}
 
-	public void computeEnrichment(LinkedList<String> backgroundList, Collection<String> geneList) throws InterruptedException {
+	public void computeEnrichment(LinkedList<String> backgroundList, Collection<String> geneList) throws InterruptedException, ParseException {
 		int iteration = 0;
 		int increment = 80 / backgroundList.size();
 		
-		Enrichment app = new Enrichment(geneList);
+		Enrichment app = new Enrichment(geneList, true);
 		
 		for (String bgType : backgroundList) {
 			try {
