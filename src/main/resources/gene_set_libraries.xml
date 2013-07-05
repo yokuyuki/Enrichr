@@ -36,8 +36,8 @@
 		<library name="MSigDB_Oncogenic_Signatures" format="{0} is found in the {1} oncogenic signature."/>
 	</category>
 	<category name="Cell Types">
-		<library name="Human_Gene_Atlas" format="{0} is up-regulated in {1} cells." hasGrid="true"/>
-		<library name="Mouse_Gene_Atlas" format="{0} is up-regulated in {1} cells." hasGrid="true"/>
+		<library name="Human_Gene_Atlas" format="{0} is up-regulated in {1} cells." hasGrid="true" isFuzzy="true"/>
+		<library name="Mouse_Gene_Atlas" format="{0} is up-regulated in {1} cells." hasGrid="true" isFuzzy="true"/>
 		<library name="Cancer_Cell_Line_Encyclopedia" format="{0} is up-regulated in {1} cells." hasGrid="true"/>
 		<library name="NCI-60_Cancer_Cell_Lines" format="{0} is up-regulated in {1} cells." hasGrid="true"/>
 	</category>
