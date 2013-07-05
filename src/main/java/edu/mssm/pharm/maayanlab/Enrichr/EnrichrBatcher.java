@@ -159,17 +159,14 @@ public class EnrichrBatcher implements SettingsChanger {
 		GeneSetLibrary geneSetLibrary;
 		
 		log.info("Running with custom database");
-		ArrayList<String> inputList = FileUtils.readFile(geneList);
 		
 		try {
-			if (FileUtils.validateList(inputList)) {
-				Enrichment app = new Enrichment(FileUtils.readFile(geneList));
-				if (isFuzzy)
-					geneSetLibrary = new FuzzyGeneSetLibrary(FileUtils.readFile(backgroundFile));
-				else
-					geneSetLibrary = new GeneSetLibrary(FileUtils.readFile(backgroundFile));
-				FileUtils.writeFile(outputFile, Enrichment.HEADER, app.enrich(geneSetLibrary));
-			}
+			Enrichment app = new Enrichment(FileUtils.readFile(geneList), true);
+			if (isFuzzy)
+				geneSetLibrary = new FuzzyGeneSetLibrary(FileUtils.readFile(backgroundFile));
+			else
+				geneSetLibrary = new GeneSetLibrary(FileUtils.readFile(backgroundFile));
+			FileUtils.writeFile(outputFile, Enrichment.HEADER, app.enrich(geneSetLibrary));
 		} catch (ParseException e) {
 			if (e.getErrorOffset() == -1)
 				log.warning("Invalid input: Input list is empty.");
