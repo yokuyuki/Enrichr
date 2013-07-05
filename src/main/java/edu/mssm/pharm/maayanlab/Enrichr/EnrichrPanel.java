@@ -213,51 +213,44 @@ public class EnrichrPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				output = savePath.getText();
 				
-				try {
-					if (!output.equals("") && FileUtils.validateList(UIUtils.getTextAreaText(inputTextArea))) {
-						app = new EnrichrBatcher();
-						setSettings(app);
-						
-						DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Currently running enrichment analysis... please wait.");
-						DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
-						tree.setModel(treeModel);
-						tree.setRootVisible(true);
-						
-						progressMonitor = new ProgressMonitor(panel, "Running Enrichment Analaysis", "", 0, 100);
-						progressMonitor.setMillisToDecideToPopup(0);
-						progressMonitor.setProgress(0);
-						
-						final Task task = new Task();
-						app.setTask(task);
-						task.addPropertyChangeListener(new PropertyChangeListener() {
-							@Override
-							public void propertyChange(PropertyChangeEvent evt) {
-								if ("progress" == evt.getPropertyName()) {
-									int progress = (Integer) evt.getNewValue();
-									progressMonitor.setProgress(progress);								
-								}
-								else if ("note" == evt.getPropertyName()) {
-									String message = (String) evt.getNewValue();
-									progressMonitor.setNote(message);
-								}
-								
-								if (progressMonitor.isCanceled()) {
-									task.cancel(true);
-									app.cancel();
-								}
+				if (!output.equals("")) {
+					app = new EnrichrBatcher();
+					setSettings(app);
+					
+					DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Currently running enrichment analysis... please wait.");
+					DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
+					tree.setModel(treeModel);
+					tree.setRootVisible(true);
+					
+					progressMonitor = new ProgressMonitor(panel, "Running Enrichment Analaysis", "", 0, 100);
+					progressMonitor.setMillisToDecideToPopup(0);
+					progressMonitor.setProgress(0);
+					
+					final Task task = new Task();
+					app.setTask(task);
+					task.addPropertyChangeListener(new PropertyChangeListener() {
+						@Override
+						public void propertyChange(PropertyChangeEvent evt) {
+							if ("progress" == evt.getPropertyName()) {
+								int progress = (Integer) evt.getNewValue();
+								progressMonitor.setProgress(progress);								
 							}
-						});
-						task.execute();
-						runButton.setEnabled(false);
-					}
-					else {
-						JOptionPane.showMessageDialog(panel, "No save location specified.", "No Save Location", JOptionPane.WARNING_MESSAGE);
-					}
-				} catch (ParseException e1) {
-					if (e1.getErrorOffset() == -1)
-						JOptionPane.showMessageDialog(panel, "Input list is empty.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
-					else
-						JOptionPane.showMessageDialog(panel, e1.getMessage() + " at line " + (e1.getErrorOffset() + 1) +" is not a valid Entrez Gene Symbol.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+							else if ("note" == evt.getPropertyName()) {
+								String message = (String) evt.getNewValue();
+								progressMonitor.setNote(message);
+							}
+							
+							if (progressMonitor.isCanceled()) {
+								task.cancel(true);
+								app.cancel();
+							}
+						}
+					});
+					task.execute();
+					runButton.setEnabled(false);
+				}
+				else {
+					JOptionPane.showMessageDialog(panel, "No save location specified.", "No Save Location", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 			
@@ -372,7 +365,14 @@ public class EnrichrPanel extends JPanel {
 	class Task extends SwingWorker<Void, Void> {
 		@Override
 		protected Void doInBackground() throws Exception {
-			app.run(UIUtils.getTextAreaText(inputTextArea));
+			try {
+				app.run(UIUtils.getTextAreaText(inputTextArea));
+			} catch (ParseException e1) {
+				if (e1.getErrorOffset() == -1)
+					JOptionPane.showMessageDialog(panel, "Input list is empty.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+				else
+					JOptionPane.showMessageDialog(panel, e1.getMessage() + " at line " + (e1.getErrorOffset() + 1) +" is not a valid Entrez Gene Symbol.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+			}
 			
 			try {
 				Thread.sleep(500);
