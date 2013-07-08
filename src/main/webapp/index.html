@@ -88,11 +88,11 @@
 				<table id="data-input">
 					<tr id="genes">
 						<td>
-							<p>Choose an input file to upload. Separate each gene symbol with a new line. For a fuzzy set, add a comma and the level of membership of that gene after each gene symbol.</p>
+							<p>Choose an input file to upload. Separate each gene symbol with a new line. For a quantitative set, add a comma and the level of membership of that gene between 0 and 1 after each gene symbol.</p>
 							<input type="file" name="file" id="file-chooser"/>
 						</td>
 						<td id="textbox">
-							<p>Or paste in a list of gene symbols with optional levels of membership separated by a new line. Try <a href="#" onclick="return insertExample();" id="example-input">a regular example</a> or <a href="#" onclick="return insertFuzzyExample();" id="example-input">an example of a fuzzy set</a>.</p>
+							<p>Or paste in a list of gene symbols optionally followed by a comma and levels of membership between 0 and 1 with each gene separated by a new line. Try <a href="#" onclick="return insertExample();" id="example-input">a regular example</a> or <a href="#" onclick="return insertFuzzyExample();" id="example-input">a example of a quantitative set</a>.</p>
 							<textarea name="list" rows="10" id="text-area" onkeyup="geneCount()" onchange="geneCount()" onfocus="geneCount()"></textarea>
 							<div id="gene-count"><span id="gene-count">0</span> gene(s) entered</div>
 						</td>
@@ -118,9 +118,9 @@
 			<div class="feature">
 				<div class="feature-title">More Accurate Enrichment Analysis with Fuzzy Sets</div>
 				<div class="feature-desc">
-					<p>Enrichr now supports a more accurate enrichment analysis method that takes into account the levels of the differentially expressed genes or proteins. Instead of treating the input list of genes as a set where every gene has the same membership level, genes can now have a degree of membership between 0 and 1. Hence, Enrichr now supports fuzzy sets.</p>
-					<p>To use a fuzzy gene set as an input, add a comma and the level of membership of that gene after the gene symbol, e.g., “BRCA1, 0.9” (try the full example on the front/input page of Enrichr). This number can represent the fold change in expression, or the negative log of the p-value of the significance of the change.</p>
-					<p>In addition, the Histone Modification, ENCODE, and the Human and Mouse Gene Atlases gene-set libraries have been converted to fuzzy gene-set libraries. This should improve the accuracy of the enrichment results with these libraries. The user input can still be regular gene lists (without graded membership) to benefit from the fuzzy enrichment improvement with these libraries.</p>
+					<p>Enrichr now supports a more accurate enrichment analysis method that takes into account the levels of the differentially expressed genes or proteins. Instead of treating the input list of genes as a set where every gene has the same membership level, genes can now an associated number between 0 and 1 that represents its degree of membership in the input gene list.</p>
+					<p>To use a quantitative input list as an input, add a comma and the level of membership of that gene after the gene symbol, e.g., "BRCA1, 0.9". (Try the full example on the front page of Enrichr.) This number can represent the fold change in expression or the negative log of the p-value of the significance of the change.</p>
+					<p>In addition, the Histone Modification, ENCODE, and the Human and Mouse Gene Atlases gene-set libraries have been converted to quantitative gene-set libraries so this should improve the accuracy of the enrichment results with these libraries. Enrichr still supports input of gene lists without graded membership levels so it is completely backwards compatible.</p>
 				</div>
 			</div>
 			<div class="feature">
