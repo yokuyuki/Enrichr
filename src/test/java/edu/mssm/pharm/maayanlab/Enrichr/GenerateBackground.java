@@ -1,37 +1,23 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
 
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentCategory;
 import edu.mssm.pharm.maayanlab.Enrichr.ResourceLoader.EnrichmentLibrary;
 import edu.mssm.pharm.maayanlab.common.bio.EnrichedTerm;
+import edu.mssm.pharm.maayanlab.common.core.ApprovedSymbols;
 import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 import edu.mssm.pharm.maayanlab.common.math.Statistics;
 
 public class GenerateBackground {
 	
-	private final static String approvedSymbols = "src/test/resources/approved_symbols.txt";
-	private final static ArrayList<String> genes = FileUtils.readFile(approvedSymbols);
-	
 	private final static int REPS = 5000;
 	private final static int LENGTH = 300;
 	
-	private final static Random rng = new Random();
-	
 	public static void main(String[] args) {
 //		generateBackgrounds();
-		generateBackground("CORUM");
-	}
-	
-	private static Collection<String> generateRandomSample(ArrayList<String> list, int samples) {
-		HashSet<String> sampleList = new HashSet<String>();
-		while (sampleList.size() < samples)
-			sampleList.add(list.get(rng.nextInt(list.size())));
-		return sampleList;
+		generateBackground("Mouse_Gene_Atlas");
 	}
 	
 	private static ArrayList<String> generateOutputRanks(HashMap<String, ArrayList<Integer>> ranks) {
@@ -61,7 +47,7 @@ public class GenerateBackground {
 		
 		HashMap<String, ArrayList<Integer>> ranks = new HashMap<String, ArrayList<Integer>>();
 		for (int i = 0; i < REPS; i++) {
-			Enrichment app = new Enrichment(generateRandomSample(genes, LENGTH));
+			Enrichment app = new Enrichment(ApprovedSymbols.getInstance().randomSample(LENGTH));
 			app.setSetting(Enrichment.SORT_BY, Enrichment.PVALUE);
 			ArrayList<EnrichedTerm> enrichedTerms = app.enrich(backgroundType);
 			
