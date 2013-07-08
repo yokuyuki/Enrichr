@@ -218,7 +218,7 @@ public class Enrichr extends HttpServlet {
 		for (EnrichedTerm enrichedTerm : results) {
 			resultsMatrix[i][0] = i+1;
 			resultsMatrix[i][1] = enrichedTerm.getName();
-			resultsMatrix[i][2] = enrichedTerm.getAdjustedPValue();
+			resultsMatrix[i][2] = enrichedTerm.getPValue();
 			resultsMatrix[i][3] = enrichedTerm.getZScore();
 			resultsMatrix[i][4] = enrichedTerm.getCombinedScore();
 			resultsMatrix[i][5] = enrichedTerm.getOverlap();
