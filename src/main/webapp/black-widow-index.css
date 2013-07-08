@@ -27,7 +27,6 @@ a.help {
 	float: left;
 	width: 85%;
 	margin-top: 0.5em;
-
 }
 
 /* What's New */
@@ -43,6 +42,10 @@ div.feature-desc img {
 	vertical-align: bottom;
 }
 
+div.feature-desc p {
+	margin-bottom: 0.5em;
+}
+
 /* Analyze Page */
 table#data-input {
 	width: 100%;
@@ -51,6 +54,7 @@ table#data-input {
 table#data-input td {
 	padding: 0.5em;
 	vertical-align: top;
+	width: 50%;
 }
 
 table#data-input tr#genes p {

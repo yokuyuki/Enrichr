@@ -61,6 +61,15 @@ function insertExample() {
 	return false;
 }
 
+function insertFuzzyExample() {
+	$.get('fuzzy_example_list.txt', function(data) {
+		$('textarea#text-area').val(data);
+		geneCount();
+		$('#description input').val("Sample fuzzy gene list");
+	});
+	return false;
+}
+
 /* Data Statistics Page */
 function createStats() {
 	if (!$('#stats').hasClass('done')) {
