@@ -49,10 +49,7 @@ public class Enrichment implements SettingsChanger {
 			Enrichment app = new Enrichment(FileUtils.readFile(args[1]), true);
 			FileUtils.writeFile(args[2], HEADER, app.enrich(args[0]));
 		} catch (ParseException e) {
-			if (e.getErrorOffset() == -1)
-				System.err.println("Invalid input: Input list is empty.");
-			else
-				System.err.println("Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
+			System.err.println(e.getMessage());
 		}
 	}
 	

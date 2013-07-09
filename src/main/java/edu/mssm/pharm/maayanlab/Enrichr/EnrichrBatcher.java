@@ -168,10 +168,7 @@ public class EnrichrBatcher implements SettingsChanger {
 				geneSetLibrary = new GeneSetLibrary(FileUtils.readFile(backgroundFile));
 			FileUtils.writeFile(outputFile, Enrichment.HEADER, app.enrich(geneSetLibrary));
 		} catch (ParseException e) {
-			if (e.getErrorOffset() == -1)
-				log.warning("Invalid input: Input list is empty.");
-			else
-				log.warning("Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
+			log.warning(e.getMessage());
 			System.exit(-1);
 		}
 	}
@@ -183,11 +180,7 @@ public class EnrichrBatcher implements SettingsChanger {
 		try {
 			run(inputList);
 		} catch (ParseException e) {
-			if (e.getErrorOffset() == -1)
-				log.warning("Invalid input: Input list is empty.");
-			else
-				log.warning("Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
-			System.exit(-1);
+			log.warning(e.getMessage());
 		}
 	}
 	

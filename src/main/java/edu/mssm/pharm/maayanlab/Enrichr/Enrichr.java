@@ -74,10 +74,7 @@ public class Enrichr extends HttpServlet {
 			session.setAttribute("process", app);	// Save the enrichment object as session variable
 			request.getRequestDispatcher("results.jsp").forward(request, response);	// Maintain /enrich URL instead of showing results.jsp
 		}  catch (ParseException e) {	// Send to custom error page if list can't be parsed
-			if (e.getErrorOffset() == -1)
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input: Input list is empty.");
-			else
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input: " + e.getMessage() + " at line " + (e.getErrorOffset() + 1) + " is not a valid Entrez Gene Symbol.");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		}
 	}
 	

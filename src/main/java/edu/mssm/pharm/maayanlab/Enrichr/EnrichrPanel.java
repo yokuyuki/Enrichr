@@ -129,7 +129,7 @@ public class EnrichrPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				File file = openChooser.getSelectedFile();
-				if (file.canRead() && e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
+				if (file != null && file.canRead() && e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
 					setupIO(file);
 			}
 		});
@@ -368,10 +368,7 @@ public class EnrichrPanel extends JPanel {
 			try {
 				app.run(UIUtils.getTextAreaText(inputTextArea));
 			} catch (ParseException e1) {
-				if (e1.getErrorOffset() == -1)
-					JOptionPane.showMessageDialog(panel, "Input list is empty.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
-				else
-					JOptionPane.showMessageDialog(panel, e1.getMessage() + " at line " + (e1.getErrorOffset() + 1) +" is not a valid Entrez Gene Symbol.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(panel, e1.getMessage().replace("Invalid Input", ""), "Invalid Input", JOptionPane.WARNING_MESSAGE);
 			}
 			
 			try {
