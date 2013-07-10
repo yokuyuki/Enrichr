@@ -1,5 +1,6 @@
 package edu.mssm.pharm.maayanlab.Enrichr;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -58,8 +59,23 @@ public class EnrichrBatcher implements SettingsChanger {
 		
 		if (args.length == 2) {
 			EnrichrBatcher eb = new EnrichrBatcher();
-			eb.run(args[0]);
-			eb.writeFile(args[1]);
+			File inputDir = new File(args[0]);
+			File outputDir = new File(args[1]);
+			if (inputDir.isDirectory()) {
+				for (File child : inputDir.listFiles()) {
+					eb.run(child.getAbsolutePath());
+					if (outputDir.isDirectory()) {
+						eb.writeFile(new File(outputDir, FileUtils.stripFileExtension(child.getName()) + ".enrichment.xml").getAbsolutePath());
+					}
+					else {
+						eb.writeFile(new File(outputDir.getParent(), FileUtils.stripFileExtension(child.getName()) + "." + outputDir.getName()).getAbsolutePath());
+					}
+				}
+			}
+			else {
+				eb.run(args[0]);
+				eb.writeFile(args[1]);
+			}			
 		}
 		else if (args.length == 3) {
 			EnrichrBatcher eb = new EnrichrBatcher();
