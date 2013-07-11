@@ -7,10 +7,9 @@
 
 package edu.mssm.pharm.maayanlab.Enrichr;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,13 +17,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 
-import edu.mssm.pharm.maayanlab.common.core.FileUtils;
 import edu.mssm.pharm.maayanlab.common.web.HibernateUtil;
 
 @WebServlet(urlPatterns = {"/count"}, loadOnStartup=1)
@@ -32,82 +29,22 @@ public class Counters extends HttpServlet {
 
 	private static final long serialVersionUID = -682732829814620653L;
 
-	private static Counter count;
-	private static Counter share;
-
+	public static final String ENRICHMENT = "enrichment";
+	public static final String SHARE = "share";
+	
 	@Override
 	public void init() throws ServletException {
-		// Read counters from SQL
-		SessionFactory sf = HibernateUtil.getSessionFactory();
-		Session session = null;
-		try {
-			session = sf.getCurrentSession();
-		} catch (HibernateException he) {
-			session = sf.openSession();
-		}
-		session.beginTransaction();
-		
-		Criteria criteria = session.createCriteria(Counter.class)
-				.add(Restrictions.eq("name", "enrichment"));
-		count = (Counter) criteria.uniqueResult();
-		
-		criteria = session.createCriteria(Counter.class)
-				.add(Restrictions.eq("name", "share"));
-		share = (Counter) criteria.uniqueResult();
-		
-		session.getTransaction().commit();
-		session.close();
-				
-		// Try to load the initial count from our saved persistent state
-		BufferedReader bufferedReader = null;
-		try {
-			bufferedReader = new BufferedReader(new FileReader("/datasets/count"));
-			int value = Integer.parseInt(bufferedReader.readLine());
-			if (value > count.getCount())
-				count.setCount(value);
-			bufferedReader.close();
-			
-			bufferedReader = new BufferedReader(new FileReader("/datasets/share"));
-			value = Integer.parseInt(bufferedReader.readLine());
-			if (value > share.getCount())
-				share.setCount(value);
-			
-			Counters.updateCounter(count);
-			Counters.updateCounter(share);
-		}
-		catch (FileNotFoundException ignored) { }  // no saved state
-		catch (IOException ignored) { }            // problem during read
-		catch (NumberFormatException ignored) { }  // corrupt saved state
-		finally {
-			// Make sure to close the file
-			try {
-				if (bufferedReader != null)
-					bufferedReader.close();
-			}
-			catch (IOException ignored) { }
-		}
-		
-		// Save counters to be available servlet wide
-		getServletContext().setAttribute("enrichment_count", count);
-		getServletContext().setAttribute("share_count", share);
+		// Read counter from SQL, only need to keep enrichment count in memory
+		getServletContext().setAttribute("enrichment_count", getCounter(ENRICHMENT));
 	}
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/plain");
-		response.getWriter().print(count.getCount());
+		response.getWriter().print(getServletContext().getAttribute("enrichment_count"));
 	}
 	
-	@Override
-	public void destroy() {
-		super.destroy();  // entirely optional
-
-		// Try to save the accumulated count
-		FileUtils.writeString("/datasets/count", Integer.toString(count.getCount()));
-		FileUtils.writeString("/datasets/share", Integer.toString(share.getCount()));
-	}
-	
-	static void updateCounter(Counter counter) {
+	public static int getCounter(String counterName) {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = null;
 		try {
@@ -116,8 +53,36 @@ public class Counters extends HttpServlet {
 			session = sf.openSession();
 		}
 		session.beginTransaction();
-		session.update(counter);
+		
+		Query query = session.createSQLQuery("SELECT count FROM enrichr.counters where name = :counter").setParameter("counter", counterName);
+		List<?> data  = query.list();
+		
+		Integer counterValue = (Integer) data.get(0);
+		
 		session.getTransaction().commit();
 		session.close();
+		
+		return counterValue.intValue();
 	}
+	
+	public static int incrementCounter(String counterName) {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = null;
+		try {
+			session = sf.getCurrentSession();
+		} catch (HibernateException he) {
+			session = sf.openSession();
+		}
+		session.beginTransaction();
+		
+		Query query = session.createSQLQuery("CALL enrichr.IncrementCounter(:counter)").setParameter("counter", counterName);
+		List<?> data  = query.list();
+		
+		BigInteger counterValue = (BigInteger) data.get(0);
+		
+		session.getTransaction().commit();
+		session.close();
+		
+		return counterValue.intValue();
+	}	
 }

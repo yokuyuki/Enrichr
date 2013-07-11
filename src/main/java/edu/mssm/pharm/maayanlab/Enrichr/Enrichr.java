@@ -53,9 +53,12 @@ public class Enrichr extends HttpServlet {
 			request.getSession().removeAttribute("description");
 		
 		// Increment count
-		Counter count = (Counter) getServletContext().getAttribute("enrichment_count");
-		count.incrementAndGet();
-		Counters.updateCounter(count);
+		int count = Counters.incrementCounter(Counters.ENRICHMENT);
+		synchronized (this) {
+			Integer storedCount = (Integer) getServletContext().getAttribute("enrichment_count");
+			if (storedCount < count)
+				getServletContext().setAttribute("enrichment_count", count);
+		}
 		
 		postResult(request, response, inputList);
 	}
@@ -153,9 +156,7 @@ public class Enrichr extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		// Use share counter to generate unique link id
-		Counter share = (Counter) getServletContext().getAttribute("share_count");
-		int listNumber = share.getAndIncrement();
-		Counters.updateCounter(share);
+		int listNumber = Counters.incrementCounter(Counters.SHARE);
 		String fileId = Shortener.encode(listNumber);
 		
 		String description = (String) session.getAttribute("description");
