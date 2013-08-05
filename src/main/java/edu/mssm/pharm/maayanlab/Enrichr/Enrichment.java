@@ -149,7 +149,7 @@ public class Enrichment implements SettingsChanger {
 	private void sortEnrichedTerms(GeneSetLibrary geneSetLibrary, ArrayList<EnrichedTerm> enrichedTerms) {
 		// Sort by p-value
 		Collections.sort(enrichedTerms);
-		
+			
 		// Calculate adjusted p-value via Benjamini-Hochberg
 		double previousValue = 1;	// Prevent adjusted p-value to be > 1
 		for (int rank = enrichedTerms.size(); rank > 0; rank--) {
@@ -157,22 +157,43 @@ public class Enrichment implements SettingsChanger {
 			double adjustedPValue = Math.min(previousValue, enrichedTerm.getPValue() * enrichedTerms.size() / rank);	// Ensure monotonicity
 			previousValue = adjustedPValue;
 			enrichedTerm.setAdjustedPValue(adjustedPValue);
-			if (geneSetLibrary.isRanked())
-				enrichedTerm.computeScore(rank);			
+			if (geneSetLibrary.isRanked()) {
+				enrichedTerm.computeZScore(rank);
+			}
 		}
 		
-		if (geneSetLibrary.isRanked() && settings.get(SORT_BY).equals(COMBINED_SCORE)) {
-			Collections.sort(enrichedTerms, new Comparator<EnrichedTerm>() {
-				@Override
-				public int compare(EnrichedTerm o1, EnrichedTerm o2) {
-					if (o1.getCombinedScore() < o2.getCombinedScore())				
-						return 1;
-					else if (o1.getCombinedScore() > o2.getCombinedScore())
-						return -1;
-					else
-						return 0;
+		// Check if should calculate unadjusted score instead
+		boolean unadjusted = false;
+		for (int i = 0; i < Math.min(10, enrichedTerms.size()); i++) {
+			if (Math.log(enrichedTerms.get(i).getAdjustedPValue()) >= 0) {
+				unadjusted = true;
+				break;
+			}
+		}
+		
+		if (geneSetLibrary.isRanked()) {
+			for (EnrichedTerm enrichedTerm : enrichedTerms) {
+				if (unadjusted) {
+					enrichedTerm.computeUnadjustedScore();
 				}
-			});
+				else {
+					enrichedTerm.computeScore();
+				}
+			}
+			
+			if (settings.get(SORT_BY).equals(COMBINED_SCORE)) {
+				Collections.sort(enrichedTerms, new Comparator<EnrichedTerm>() {
+					@Override
+					public int compare(EnrichedTerm o1, EnrichedTerm o2) {
+						if (o1.getCombinedScore() < o2.getCombinedScore())				
+							return 1;
+						else if (o1.getCombinedScore() > o2.getCombinedScore())
+							return -1;
+						else
+							return 0;
+					}
+				});
+			}
 		}
 	}
 }
